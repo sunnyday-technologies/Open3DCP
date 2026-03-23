@@ -16,6 +16,23 @@ A flat database schema for 3D-printable concrete (3DCP) mix design data. Open3DC
 
 ---
 
+## Units Convention
+
+All values in Open3DCP are stored in **SI/metric units**. This is consistent with international research practice and simplifies ML training (no mixed-unit columns). For US users accustomed to imperial units, a conversion reference:
+
+| Metric (stored) | US Equivalent | Conversion |
+|-----------------|---------------|------------|
+| MPa | psi | 1 MPa = 145.04 psi |
+| mm | inches | 25.4 mm = 1 inch |
+| kg/m3 | lb/yd3 | 1 kg/m3 = 1.686 lb/yd3 |
+| bar | psi | 1 bar = 14.504 psi |
+| meters | feet | 1 m = 3.281 ft |
+| C | F | F = C × 9/5 + 32 |
+| m/s | mph | 1 m/s = 2.237 mph |
+| Pa | psi | 1 Pa = 0.000145 psi |
+
+---
+
 ## Main Table: `mix_designs`
 
 ### Identity & Versioning
@@ -35,10 +52,13 @@ Cements are classified by ASTM C150 / EN 197-1 type. SCMs follow their respectiv
 
 | Column | Type | Description | Standard |
 |--------|------|-------------|----------|
-| `cement_type_1` | real | OPC / CEM I 42.5 N (general purpose Portland) | ASTM C150 Type I |
-| `cement_type_1l` | real | CEM II/A-L (Portland-limestone, 6-20% limestone) | EN 197-1 |
-| `cement_type_3` | real | CEM I 52.5 R (rapid hardening / high early strength) | ASTM C150 Type III |
-| `cement_type_4` | real | Low-heat Portland cement | ASTM C150 Type IV |
+| `cement_type_1` | real | General purpose Portland cement | ASTM C150 Type I |
+| `cement_type_1_2` | real | General purpose / moderate sulfate resistance (most commonly sold cement in the US) | ASTM C150 Type I/II |
+| `cement_type_1l` | real | Portland-limestone cement (6-20% limestone) | ASTM C595 / EN 197-1 CEM II/A-L |
+| `cement_type_2` | real | Moderate sulfate resistance, moderate heat of hydration | ASTM C150 Type II |
+| `cement_type_3` | real | High early strength / rapid hardening | ASTM C150 Type III |
+| `cement_type_4` | real | Low heat of hydration (rarely manufactured) | ASTM C150 Type IV |
+| `cement_type_5` | real | High sulfate resistance (required in sulfate-rich soils, common in western US) | ASTM C150 Type V |
 | `cac` | real | Calcium aluminate cement (Ciment Fondu) | EN 14647 |
 | `csa_cement` | real | Calcium sulfoaluminate cement | -- |
 | `fly_ash` | real | Fly ash (class not specified in source) | -- |
@@ -54,18 +74,16 @@ Cements are classified by ASTM C150 / EN 197-1 type. SCMs follow their respectiv
 
 ### Aggregate Materials (mass-% of total wet mix)
 
-Sand columns use fineness modulus (FM) subdivisions adapted from ASTM C33 grading principles for 3DCP aggregate sizing. Note: ASTM C33 defines fine aggregate as FM 2.3-3.1 without further subdivision; the fine/medium/coarse sand categories below are Open3DCP conventions for finer-grained 3DCP mixes. Coarse aggregates by nominal max size.
+Sand is classified using US industry ordering terms. Fineness modulus (FM) ranges are adapted from ASTM C33 grading principles; note that ASTM C33 defines fine aggregate as FM 2.3-3.1 without further subdivision. Coarse aggregates are limited to pumpable sizes for 3DCP (ASTM C33 Size #8 and #89). Larger aggregates (Size #7 and above) are omitted as they cannot be pumped by standard 3DCP equipment; contact us for custom large-aggregate schema extensions.
 
-| Column | Type | Description | FM / Size |
-|--------|------|-------------|-----------|
-| `fine_sand` | real | Fine sand | FM 1.6-2.2 |
-| `medium_sand` | real | Medium sand | FM 2.3-3.0 |
-| `coarse_sand` | real | Coarse sand | FM 3.1-3.7 |
-| `agg_4mm` | real | Fine aggregate, nominal max 4 mm | 4.75 mm sieve |
-| `agg_6mm` | real | Coarse aggregate, 4-6 mm | -- |
-| `agg_10mm` | real | Coarse aggregate, 6-10 mm | -- |
-| `agg_14mm` | real | Coarse aggregate, 10-14 mm | -- |
-| `agg_20mm` | real | Coarse aggregate, 14-20 mm | -- |
+| Column | Type | Description | ASTM C33 / FM | Typical US Order Name |
+|--------|------|-------------|---------------|----------------------|
+| `mason_sand` | real | Very fine sand, high fines content | FM 1.0-1.8 | Mason sand / plaster sand |
+| `fine_sand` | real | Fine concrete sand | FM 1.6-2.2 | Fine sand |
+| `concrete_sand` | real | Standard concrete sand (most common in US 3DCP) | FM 2.3-3.0 | Concrete sand / C33 sand |
+| `coarse_sand` | real | Coarse washed sand | FM 3.1-3.7 | Coarse sand / torpedo sand |
+| `agg_size_8` | real | Fine pea gravel (3/8" - #8 sieve, 9.5-2.36 mm) | ASTM C33 Size #8 | Pea gravel / #8 stone |
+| `agg_size_89` | real | Very fine gravel (3/8" - #16 sieve, 9.5-1.18 mm) | ASTM C33 Size #89 | #89 stone |
 
 ### Fiber Reinforcement (mass-% of total wet mix)
 
@@ -79,13 +97,18 @@ Sand columns use fineness modulus (FM) subdivisions adapted from ASTM C33 gradin
 | `basalt_fiber` | real | Basalt fiber |
 | `nylon_fiber` | real | Nylon fiber |
 | `aramid_fiber` | real | Aramid fiber (Kevlar) |
-| `fiber_length_mm` | real | Dominant fiber length in mm |
+| `fiber_length_mm` | real | Fiber length (mm). Industry example: Dramix 3D 65/35 = 35 mm |
+| `fiber_diameter_mm` | real | Fiber diameter (mm). Required to calculate aspect ratio |
+| `fiber_aspect_ratio` | real | Length-to-diameter ratio (L/d). THE key fiber performance parameter. Example: Dramix 65/35 has L/d = 65 |
+| `fiber_tensile_strength_mpa` | real | Fiber tensile strength as specified by supplier |
 
 ### Chemical Admixtures (mass-% of total wet mix)
 
+**Important:** Admixture values in this schema represent **solids content by mass-%** of total wet mix. Most commercial admixtures are sold as liquid solutions (typically 20-40% solids by weight). When recording data from a liquid product, convert to solids content using the manufacturer's technical data sheet. For example, a PCE superplasticizer dosed at 1.0% liquid with 30% solids content should be recorded as 0.3% in this schema.
+
 | Column | Type | Description |
 |--------|------|-------------|
-| `superplasticizer` | real | High-range water reducer (PCE, SNF, SMF) -- ASTM C494 Type F/G |
+| `superplasticizer` | real | High-range water reducer (PCE, SNF, SMF) -- ASTM C494 Type F/G. Record as solids content. |
 | `water_reducer` | real | Mid/normal-range water reducer -- ASTM C494 Type A |
 | `accelerator` | real | Set/strength accelerator -- ASTM C494 Type C/E |
 | `calcium_formate` | real | Organic salt accelerator (Ca(HCOO)2), promotes early C3S hydration. Used as set accelerator; not formally classified under ASTM C494 |
@@ -121,9 +144,10 @@ Specialized rheology modifiers for 3DCP thixotropy and shape retention.
 
 | Column | Type | Description |
 |--------|------|-------------|
+| `design_strength_mpa` | real | Specified/target compressive strength (f'c) the mix is designed to achieve. This is the number on a concrete order ticket. |
 | `test_age_days` | integer | Age at testing (default: 28) |
 | `specimen_prep` | varchar | Specimen preparation method |
-| `specimen_geometry` | varchar | Specimen shape (cube, cylinder, prism, dog-bone) |
+| `specimen_geometry` | varchar | Specimen shape (see standard geometries below) |
 | `specimen_length_mm` | real | Specimen dimension L |
 | `specimen_width_mm` | real | Specimen dimension W |
 | `specimen_height_mm` | real | Specimen dimension H |
@@ -136,6 +160,22 @@ Specialized rheology modifiers for 3DCP thixotropy and shape retention.
 | `curing_temperature_c` | real | Curing temperature (C) |
 | `curing_humidity_pct` | real | Curing relative humidity (%) |
 | `curing_duration_days` | real | Curing duration in days |
+
+**Standard specimen geometries:** 3DCP research commonly uses mortar-scale specimens (smaller than standard concrete specimens due to printable mix proportions and nozzle constraints). Both standard concrete and mortar geometries are listed below.
+
+| Geometry | Dimensions (mm) | Dimensions (in) | Test | Standard |
+|----------|-----------------|-----------------|------|----------|
+| **Mortar specimens (common in 3DCP)** | | | | |
+| Mortar cube | 50 × 50 × 50 | 2" × 2" × 2" | Compressive | ASTM C109 |
+| Mortar prism | 40 × 40 × 160 | 1.6" × 1.6" × 6.3" | Flexural / Compressive | EN 196-1 |
+| Mini cylinder | 50 dia × 100 | 2" dia × 4" | Compressive | -- |
+| Dog-bone (uniaxial tension) | varies | varies | Direct tensile | -- |
+| **Standard concrete specimens** | | | | |
+| Cylinder (small) | 100 dia × 200 | 4" dia × 8" | Compressive | ASTM C39 |
+| Cylinder (standard) | 150 dia × 300 | 6" dia × 12" | Compressive | ASTM C39 |
+| Cube | 150 × 150 × 150 | 6" × 6" × 6" | Compressive | EN 12390-3 |
+| Beam | 150 × 150 × 500 | 6" × 6" × 20" | Flexural | ASTM C78 |
+| Split cylinder | 150 dia × 300 | 6" dia × 12" | Splitting tensile | ASTM C496 |
 
 ### 3DCP Process Parameters
 
