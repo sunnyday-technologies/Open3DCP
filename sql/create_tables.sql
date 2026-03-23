@@ -417,4 +417,44 @@ VALUES
     ('CARBONATION',     'CO2 Curing',           'Accelerated carbonation curing', 23, 50, 'accelerated')
 ON CONFLICT (code) DO NOTHING;
 
+-- ===========================================
+-- 6. standard_test_ages (reference schedule)
+--
+-- Recommended testing ages for 3DCP. Hourly resolution
+-- in the first 24 hours captures early green strength
+-- development critical for handling and shipping decisions.
+-- ===========================================
+CREATE TABLE IF NOT EXISTS standard_test_ages (
+    days            REAL PRIMARY KEY,
+    description     VARCHAR(100),
+    is_standard     BOOLEAN DEFAULT true,
+    notes           TEXT
+);
+
+INSERT INTO standard_test_ages (days, description, is_standard, notes)
+VALUES
+    -- Hourly (first 24 hours) — green strength / handling time
+    (0.042, '1 hour',    true, 'Early green strength — can the piece hold its own weight?'),
+    (0.083, '2 hours',   true, 'Early green strength'),
+    (0.125, '3 hours',   true, 'Early green strength'),
+    (0.167, '4 hours',   true, 'Typical earliest handling time for fast-set 3DCP'),
+    (0.25,  '6 hours',   true, 'Common earliest safe-to-move time'),
+    (0.333, '8 hours',   true, 'Overnight print assessment'),
+    (0.5,   '12 hours',  true, 'Half-day strength check'),
+    (0.75,  '18 hours',  true, 'Pre-demold check'),
+    (1.0,   '24 hours',  true, 'One-day strength — common shipping threshold'),
+    -- Daily (days 1-7) — early strength development
+    (2,  '2 days',  true, 'Early strength'),
+    (3,  '3 days',  true, 'ASTM C39 optional early age'),
+    (5,  '5 days',  true, 'Mid-week check'),
+    (7,  '7 days',  true, 'Standard early age per ASTM C39'),
+    -- Standard ages (days 14-365) — design verification
+    (14, '14 days',  true, 'Intermediate'),
+    (21, '21 days',  true, 'Pre-28 day verification'),
+    (28, '28 days',  true, 'Standard design age per ACI 318'),
+    (56, '56 days',  true, 'Extended curing — mixes with SCMs'),
+    (91, '91 days',  true, 'Long-term strength (13 weeks)'),
+    (365, '1 year',  true, 'Annual verification')
+ON CONFLICT (days) DO NOTHING;
+
 COMMIT;
