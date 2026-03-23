@@ -29,9 +29,12 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- COMPOSITION — Binder Materials (mass-%)
     -- -----------------------------------------
     cement_type_1               REAL DEFAULT 0,     -- OPC, ASTM C150 Type I
-    cement_type_1l              REAL DEFAULT 0,     -- Portland-limestone, EN 197-1 CEM II/A-L
-    cement_type_3               REAL DEFAULT 0,     -- Rapid hardening, ASTM C150 Type III
-    cement_type_4               REAL DEFAULT 0,     -- Low-heat, ASTM C150 Type IV
+    cement_type_1_2             REAL DEFAULT 0,     -- General purpose / moderate sulfate, ASTM C150 Type I/II
+    cement_type_1l              REAL DEFAULT 0,     -- Portland-limestone, ASTM C595 / EN 197-1 CEM II/A-L
+    cement_type_2               REAL DEFAULT 0,     -- Moderate sulfate / moderate heat, ASTM C150 Type II
+    cement_type_3               REAL DEFAULT 0,     -- High early strength / rapid hardening, ASTM C150 Type III
+    cement_type_4               REAL DEFAULT 0,     -- Low-heat, ASTM C150 Type IV (rarely manufactured)
+    cement_type_5               REAL DEFAULT 0,     -- High sulfate resistance, ASTM C150 Type V
     cac                         REAL DEFAULT 0,     -- Calcium aluminate cement, EN 14647
     csa_cement                  REAL DEFAULT 0,     -- Calcium sulfoaluminate cement
     fly_ash                     REAL DEFAULT 0,     -- Fly ash (class not specified)
@@ -45,15 +48,27 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     pumice                      REAL DEFAULT 0,     -- Natural pozzolan, ASTM C618 Class N
     bottom_ash                  REAL DEFAULT 0,     -- Coal bottom ash
 
-    -- Aggregate Materials (mass-%, FM-graded for sand)
-    fine_sand                   REAL DEFAULT 0,     -- FM 1.6-2.2 (Open3DCP convention)
-    medium_sand                 REAL DEFAULT 0,     -- FM 2.3-3.0 (Open3DCP convention)
-    coarse_sand                 REAL DEFAULT 0,     -- FM 3.1-3.7 (Open3DCP convention)
-    agg_4mm                     REAL DEFAULT 0,     -- Nominal max 4 mm
-    agg_6mm                     REAL DEFAULT 0,     -- 4-6 mm
-    agg_10mm                    REAL DEFAULT 0,     -- 6-10 mm
-    agg_14mm                    REAL DEFAULT 0,     -- 10-14 mm
-    agg_20mm                    REAL DEFAULT 0,     -- 14-20 mm
+    -- Aggregate Materials (mass-%)
+    -- Sand: US industry ordering terms, FM ranges adapted from ASTM C33 principles
+    -- ASTM C33 defines fine aggregate as FM 2.3-3.1; subdivisions below are Open3DCP conventions
+    mason_sand                  REAL DEFAULT 0,     -- FM 1.0-1.8 (mason sand / plaster sand)
+    fine_sand                   REAL DEFAULT 0,     -- FM 1.6-2.2
+    concrete_sand               REAL DEFAULT 0,     -- FM 2.3-3.0 (concrete sand / C33 sand)
+    coarse_sand                 REAL DEFAULT 0,     -- FM 3.1-3.7 (torpedo sand)
+    -- Coarse aggregate: ASTM C33 size numbers
+    agg_size_89                 REAL DEFAULT 0,     -- #89: 3/8"-#16 sieve (9.5-1.18 mm)
+    agg_size_8                  REAL DEFAULT 0,     -- #8:  3/8"-#8 sieve (9.5-2.36 mm) — pea gravel, 3DCP limit for most systems
+    agg_size_7                  REAL DEFAULT 0,     -- #7:  1/2"-#4 (12.5-4.75 mm)
+    agg_size_67                 REAL DEFAULT 0,     -- #67: 3/4"-#4 (19-4.75 mm) — common structural
+    agg_size_6                  REAL DEFAULT 0,     -- #6:  3/4"-3/8" (19-9.5 mm)
+    agg_size_57                 REAL DEFAULT 0,     -- #57: 1"-#4 (25-4.75 mm) — most common US concrete aggregate
+    agg_size_5                  REAL DEFAULT 0,     -- #5:  1"-1/2" (25-12.5 mm)
+    agg_size_467                REAL DEFAULT 0,     -- #467: 1.5"-#4 (37.5-4.75 mm) — common ready-mix
+    agg_size_4                  REAL DEFAULT 0,     -- #4:  1.5"-3/4" (37.5-19 mm)
+    agg_size_357                REAL DEFAULT 0,     -- #357: 2"-#4 (50-4.75 mm) — crusher run
+    agg_size_3                  REAL DEFAULT 0,     -- #3:  2"-1" (50-25 mm)
+    agg_size_2                  REAL DEFAULT 0,     -- #2:  2.5"-1.5" (63-37.5 mm)
+    agg_size_1                  REAL DEFAULT 0,     -- #1:  3.5"-1.5" (90-37.5 mm) — large stone
 
     -- Fiber Reinforcement (mass-%)
     steel_fiber                 REAL DEFAULT 0,
@@ -64,18 +79,24 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     basalt_fiber                REAL DEFAULT 0,
     nylon_fiber                 REAL DEFAULT 0,
     aramid_fiber                REAL DEFAULT 0,
-    fiber_length_mm             REAL,               -- Dominant fiber length
+    -- Fiber characterization (dominant fiber in the mix)
+    fiber_length_mm             REAL,               -- Fiber length (e.g., 13 mm)
+    fiber_diameter_mm           REAL,               -- Fiber diameter (e.g., 0.2 mm)
+    fiber_aspect_ratio          REAL,               -- L/d ratio (e.g., 65 for Dramix 3D 65/35)
+    fiber_tensile_strength_mpa  REAL,               -- Supplier-specified fiber tensile strength
 
-    -- Chemical Admixtures (mass-%)
-    superplasticizer            REAL DEFAULT 0,     -- HRWR, ASTM C494 Type F/G
-    water_reducer               REAL DEFAULT 0,     -- MRWR, ASTM C494 Type A
-    accelerator                 REAL DEFAULT 0,     -- ASTM C494 Type C/E
-    calcium_formate             REAL DEFAULT 0,     -- Organic salt accelerator
-    retarder                    REAL DEFAULT 0,     -- ASTM C494 Type B/D
-    air_entrainer               REAL DEFAULT 0,     -- ASTM C260
+    -- Chemical Admixtures (mass-% SOLIDS CONTENT)
+    -- NOTE: Most commercial admixtures are liquid solutions (typically 20-40% solids).
+    -- Convert using manufacturer TDS: e.g., 1.0% liquid at 30% solids = 0.3% in this schema.
+    superplasticizer            REAL DEFAULT 0,     -- HRWR (PCE/SNF/SMF), ASTM C494 Type F/G — solids content
+    water_reducer               REAL DEFAULT 0,     -- MRWR, ASTM C494 Type A — solids content
+    accelerator                 REAL DEFAULT 0,     -- Set/strength accelerator, ASTM C494 Type C/E
+    calcium_formate             REAL DEFAULT 0,     -- Organic salt accelerator (not classified under C494)
+    retarder                    REAL DEFAULT 0,     -- Set retarder, ASTM C494 Type B/D
+    air_entrainer               REAL DEFAULT 0,     -- Air-entraining admixture, ASTM C260
     vma                         REAL DEFAULT 0,     -- Viscosity-modifying admixture
-    shrinkage_reducer           REAL DEFAULT 0,
-    corrosion_inhibitor         REAL DEFAULT 0,
+    shrinkage_reducer           REAL DEFAULT 0,     -- Shrinkage-reducing admixture
+    corrosion_inhibitor         REAL DEFAULT 0,     -- Corrosion-inhibiting admixture
 
     -- Clay / VMA Rheology Modifiers (mass-%)
     hpmc                        REAL DEFAULT 0,     -- Hydroxypropyl methylcellulose
@@ -100,10 +121,14 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- -----------------------------------------
     test_age_days               INTEGER DEFAULT 28,
     specimen_prep               VARCHAR(50),        -- cast | 3d_printed
-    specimen_geometry           VARCHAR(50),        -- cube | cylinder | prism | dog-bone
-    specimen_length_mm          REAL,
-    specimen_width_mm           REAL,
-    specimen_height_mm          REAL,
+    -- Specimen geometry: all dimensions in mm
+    -- Common mortar specimens: 50x50x50 mm cube (2"x2"x2"), 40x40x160 mm prism (ASTM C348/C349)
+    -- Standard concrete specimens: 150x300 mm cylinder (6"x12"), 100x200 mm cylinder (4"x8"),
+    --   150x150x150 mm cube (EN 12390), 100x100x400 mm prism (ASTM C78)
+    specimen_geometry           VARCHAR(50),        -- cube | cylinder | prism | dog-bone | printed_beam
+    specimen_length_mm          REAL,               -- L dimension (or height for cylinders)
+    specimen_width_mm           REAL,               -- W dimension (or diameter for cylinders)
+    specimen_height_mm          REAL,               -- H dimension
     test_orientation            VARCHAR(20),        -- perpendicular | parallel | diagonal | cast
     test_orientation_code       VARCHAR(10),        -- X | Y | Z | XY_45 | CAST
     test_method_code            VARCHAR(50),        -- e.g. ASTM_C39, EN_12390_3
@@ -183,7 +208,8 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- -----------------------------------------
     -- MECHANICAL PROPERTIES (HARDENED)
     -- -----------------------------------------
-    compressive_strength_mpa    REAL,               -- ASTM C39 / EN 12390-3
+    design_strength_mpa         REAL,               -- Target/specified compressive strength (f'c)
+    compressive_strength_mpa    REAL,               -- Measured compressive strength, ASTM C39 / EN 12390-3
     tensile_strength_mpa        REAL,               -- ASTM C496
     splitting_tensile_mpa       REAL,               -- ASTM C496
     flexural_strength_mpa       REAL,               -- ASTM C78
@@ -293,11 +319,21 @@ CREATE INDEX IF NOT EXISTS idx_mix_designs_3d_printed
 
 -- ===========================================
 -- 2. strength_measurements (multi-age data)
+--
+-- test_age_days uses fractional days for hourly resolution:
+--   1 hour  = 0.042 days      6 hours = 0.25 days
+--   2 hours = 0.083 days     12 hours = 0.5 days
+--   4 hours = 0.167 days     24 hours = 1.0 days
+-- Then daily (1-7 days), then standard ages: 14, 21, 28, 56, 91, 365 days.
+--
+-- Hourly resolution is critical for 3DCP: operators need to know when
+-- printed elements can be moved, shipped, or receive the next pour.
+-- Green strength (kPa range) at 1-6 hours determines handling time.
 -- ===========================================
 CREATE TABLE IF NOT EXISTS strength_measurements (
     id                      SERIAL PRIMARY KEY,
     formulation_id          INTEGER NOT NULL REFERENCES mix_designs(id) ON DELETE CASCADE,
-    test_age_days           REAL NOT NULL,
+    test_age_days           REAL NOT NULL,           -- Fractional days (0.042 = 1 hour)
 
     compressive_mpa         REAL,
     tensile_mpa             REAL,
