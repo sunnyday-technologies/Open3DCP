@@ -82,8 +82,21 @@ Sand is classified using US industry ordering terms. Fineness modulus (FM) range
 | `fine_sand` | real | Fine concrete sand | FM 1.6-2.2 | Fine sand |
 | `concrete_sand` | real | Standard concrete sand (most common in US 3DCP) | FM 2.3-3.0 | Concrete sand / C33 sand |
 | `coarse_sand` | real | Coarse washed sand | FM 3.1-3.7 | Coarse sand / torpedo sand |
-| `agg_size_8` | real | Fine pea gravel (3/8" - #8 sieve, 9.5-2.36 mm) | ASTM C33 Size #8 | Pea gravel / #8 stone |
 | `agg_size_89` | real | Very fine gravel (3/8" - #16 sieve, 9.5-1.18 mm) | ASTM C33 Size #89 | #89 stone |
+| `agg_size_8` | real | Fine pea gravel (3/8" - #8 sieve, 9.5-2.36 mm) | ASTM C33 Size #8 | Pea gravel / #8 stone |
+| `agg_size_7` | real | 1/2" - #4 (12.5-4.75 mm) | ASTM C33 Size #7 | #7 stone |
+| `agg_size_67` | real | 3/4" - #4 (19-4.75 mm) | ASTM C33 Size #67 | Common structural |
+| `agg_size_6` | real | 3/4" - 3/8" (19-9.5 mm) | ASTM C33 Size #6 | #6 stone |
+| `agg_size_57` | real | 1" - #4 (25-4.75 mm) | ASTM C33 Size #57 | Most common US concrete |
+| `agg_size_5` | real | 1" - 1/2" (25-12.5 mm) | ASTM C33 Size #5 | #5 stone |
+| `agg_size_467` | real | 1.5" - #4 (37.5-4.75 mm) | ASTM C33 Size #467 | Common ready-mix |
+| `agg_size_4` | real | 1.5" - 3/4" (37.5-19 mm) | ASTM C33 Size #4 | #4 stone |
+| `agg_size_357` | real | 2" - #4 (50-4.75 mm) | ASTM C33 Size #357 | Crusher run |
+| `agg_size_3` | real | 2" - 1" (50-25 mm) | ASTM C33 Size #3 | #3 stone |
+| `agg_size_2` | real | 2.5" - 1.5" (63-37.5 mm) | ASTM C33 Size #2 | #2 stone |
+| `agg_size_1` | real | 3.5" - 1.5" (90-37.5 mm) | ASTM C33 Size #1 | Large stone |
+
+Note: Most 3DCP systems are limited to Size #8 or smaller due to pump and nozzle constraints. Sizes #7 and above are included for large-nozzle systems, conventional concrete compatibility, and completeness as a global standard.
 
 ### Fiber Reinforcement (mass-% of total wet mix)
 
