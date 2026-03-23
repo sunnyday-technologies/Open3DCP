@@ -230,7 +230,7 @@ These columns capture the full extrusion printing process. Null for cast specime
 | `mixing_time_s` | real | Total mixing duration | seconds |
 | `mixing_speed_rpm` | real | Mixer blade speed | rpm |
 | `mixer_type` | varchar | Mixer type (pan, planetary, twin-shaft, continuous) | -- |
-| `shear_rate_s` | real | Applied shear rate during mixing | 1/s |
+| `shear_rate_per_s` | real | Applied shear rate during mixing | 1/s |
 | `admixture_addition_point` | varchar | When admixtures were added (dry, wet, delayed) | -- |
 
 ### Environmental Conditions
