@@ -1,6 +1,14 @@
-# Open3DCP
+<p align="center">
+  <img src="assets/logo.png" alt="Open3DCP" width="200"/>
+</p>
 
-**Open Data Standard for 3D Concrete Printing**
+<h1 align="center">Open3DCP</h1>
+<p align="center"><strong>Open Data Standard for 3D Concrete Printing</strong></p>
+<p align="center">
+  <a href="https://open3dcp.org">open3dcp.org</a> ·
+  <a href="Open3DCP_SCHEMA.md">Schema Reference</a> ·
+  <a href="sql/create_tables.sql">SQL Implementation</a>
+</p>
 
 An open database schema for 3D-printable concrete (3DCP) mix design data, developed by [Sunnyday Technologies](https://sunn3d.com).
 
