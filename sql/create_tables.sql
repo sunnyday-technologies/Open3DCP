@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     mixing_time_s               REAL,
     mixing_speed_rpm            REAL,
     mixer_type                  VARCHAR(50),        -- pan | planetary | twin-shaft | continuous
-    shear_rate_s                REAL,               -- Applied shear rate (1/s)
+    shear_rate_per_s            REAL,               -- Applied shear rate (1/s)
     admixture_addition_point    VARCHAR(50),        -- dry | wet | delayed
 
     -- -----------------------------------------
