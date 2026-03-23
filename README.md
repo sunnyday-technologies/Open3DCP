@@ -26,7 +26,7 @@ Research papers describe mixes as free-text tables with inconsistent naming. One
 
 This makes it nearly impossible to combine datasets from different research groups into a single training corpus for machine learning. Open3DCP solves this by defining a canonical flat schema where every material, process parameter, and test result has exactly one column name, one unit, and one meaning.
 
-The schema follows the **Composition-Processing-Property-Conditions-Provenance** pattern aligned with NIST Materials Data Repository guidelines, RILEM TC 304-ADC recommendations, and Citrine GEMD conventions.
+The schema follows **FAIR data principles** (Findable, Accessible, Interoperable, Reusable) and the **Processing-Structure-Property-Performance** pattern, consistent with the NASA GRC ICME Schema philosophy for materials data management (Hearley & Arnold, 2023). Column organization aligns with NIST Materials Data Repository guidelines, RILEM TC 304-ADC recommendations, and Citrine GEMD conventions.
 
 ---
 
@@ -250,8 +250,9 @@ If you maintain a 3DCP mix design database, you can adopt the Open3DCP schema by
 
 Open3DCP is an agglomeration of the most applicable schema patterns for 3DCP mix design data, drawn from established standards bodies and open-access research:
 
-### Standards Organizations
-- **NIST** -- Materials Data Repository schema patterns (Composition-Processing-Property-Conditions-Provenance)
+### Schema Design Philosophy
+- **NASA GRC ICME Schema** -- Hearley, B.L. and Arnold, S.M. (2023). "NASA GRC ICME Schema for Materials Data Management: An Executive Summary." NASA/TM-20230018337. Open3DCP follows the same FAIR data principles and Processing-Structure-Property-Performance pattern described in this work.
+- **NIST** -- Materials Data Repository schema patterns and Materials Genome Initiative (MGI) guidelines
 - **RILEM TC 304-ADC** -- Assessment of Additively Manufactured Concrete Materials and Structures (interlaboratory test protocols, orientation nomenclature)
 - **ACI 318** -- Building Code Requirements for Structural Concrete (design age conventions, strength classifications)
 - **Citrine Informatics** -- GEMD (Graphical Expression of Materials Data) data model concepts
