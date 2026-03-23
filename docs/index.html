@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open3DCP — Open Data Standard for 3D Concrete Printing</title>
+    <meta name="description" content="Open3DCP is a flat, ML-ready database schema for 3D-printable concrete mix design data. Apache 2.0 licensed.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a2351;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 640px;
+            text-align: center;
+        }
+        .logo {
+            width: 180px;
+            height: auto;
+            margin-bottom: 1.5rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+        h1 span { color: #a3cc2a; }
+        .tagline {
+            font-size: 1.1rem;
+            color: #8899bb;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+        .description {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #c0cde0;
+            margin-bottom: 2.5rem;
+        }
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.85; }
+        .btn-primary {
+            background: #a3cc2a;
+            color: #0a2351;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            text-align: left;
+            margin-bottom: 3rem;
+        }
+        .feature h3 {
+            font-size: 0.95rem;
+            color: #a3cc2a;
+            margin-bottom: 0.3rem;
+        }
+        .feature p {
+            font-size: 0.85rem;
+            color: #8899bb;
+            line-height: 1.5;
+        }
+        .footer {
+            font-size: 0.8rem;
+            color: #556688;
+        }
+        .footer a { color: #8899bb; text-decoration: none; }
+        .footer a:hover { color: #a3cc2a; }
+        @media (max-width: 500px) {
+            .features { grid-template-columns: 1fr; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://raw.githubusercontent.com/sunnyday-technologies/Open3DCP/main/assets/logo.png" alt="Open3DCP" class="logo">
+
+        <h1>Open<span>3DCP</span></h1>
+        <div class="tagline">OPEN DATA STANDARD FOR 3D CONCRETE PRINTING</div>
+
+        <p class="description">
+            A flat, ML-ready database schema for 3DCP mix design data. 175+ columns covering
+            materials, print process, rheology, mechanical properties, durability, and interlayer bond.
+            ASTM/RILEM-aligned. Schema only — your data stays yours.
+        </p>
+
+        <div class="buttons">
+            <a href="https://github.com/sunnyday-technologies/Open3DCP" class="btn btn-primary">View on GitHub</a>
+            <a href="https://github.com/sunnyday-technologies/Open3DCP/blob/main/Open3DCP_SCHEMA.md" class="btn btn-secondary">Schema Reference</a>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <h3>175+ Columns</h3>
+                <p>Materials, process parameters, fresh state, mechanical, durability, interlayer bond, provenance</p>
+            </div>
+            <div class="feature">
+                <h3>Standards-Aligned</h3>
+                <p>ASTM C150, C33, C494, C618, C989. RILEM TC 304-ADC. EN 197-1, EN 12390.</p>
+            </div>
+            <div class="feature">
+                <h3>ML-Ready</h3>
+                <p>Flat table, mass-% basis, no JSON nesting. SELECT and train.</p>
+            </div>
+            <div class="feature">
+                <h3>Apache 2.0</h3>
+                <p>Free to use, extend, and build on. Patent grant included.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Developed by <a href="https://sunn3d.com">Sunnyday Technologies</a> · Appleton, WI</p>
+            <p style="margin-top: 0.5rem">Powering <a href="https://cemforge.ai">CEMFORGE</a></p>
+        </div>
+    </div>
+</body>
+</html>
