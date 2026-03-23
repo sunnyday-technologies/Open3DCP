@@ -51,7 +51,7 @@ Binders are the reactive powders that harden when mixed with water. Portland cem
 | `cement_type_1` | Ordinary Portland cement (OPC), ASTM C150 Type I. The universal baseline. | Primary source of early strength. Most 3DCP mixes use 20-40% by total mass. |
 | `cement_type_1l` | Portland-limestone cement, EN 197-1 CEM II/A-L. Contains 6-20% limestone. | Lower carbon than OPC. Distinct product, not just "cement with limestone filler." |
 | `cement_type_3` | Rapid-hardening cement, ASTM C150 Type III. Finer grind, faster hydration. | Useful when early strength gain is critical for layer-on-layer buildability. |
-| `fly_ash` | Coal combustion byproduct. Class F (low calcium, pozzolanic) or Class C (high calcium, self-cementing). | Improves long-term strength and reduces heat of hydration. Slows early strength, which can be problematic for 3DCP layer timing. |
+| `fly_ash` | Coal combustion byproduct. When class is known, use `fly_ash_type_f` (SiO2+Al2O3+Fe2O3 ≥ 70% per ASTM C618) or `fly_ash_type_c` (≥ 50%). | Improves long-term strength and reduces heat of hydration. Slows early strength, which can be problematic for 3DCP layer timing. |
 | `silica_fume` | Ultra-fine amorphous silica from silicon/ferrosilicon production. Particle size ~0.1 um. | Fills micro-voids between cement grains (packing effect), dramatically increases strength. Typical dosage 5-10%. Increases water demand. |
 | `slag` | Ground granulated blast-furnace slag (GGBFS). Steel industry byproduct. | Improves durability, reduces permeability, contributes to long-term strength. Common at 30-50% replacement in 3DCP. |
 | `metakaolin` | Calcined kaolin clay. High reactivity pozzolan. | Popular in 3DCP for early strength development and thixotropy enhancement. Typical 5-15%. |
@@ -63,7 +63,7 @@ Additional binder columns in the full schema include `pumice` (natural volcanic 
 
 Aggregates provide bulk, dimensional stability, and reduce cost. In conventional concrete, coarse aggregates (10-20 mm) dominate. In 3DCP, aggregates must pass through a pump and nozzle, so maximum particle size is typically limited to 2-4 mm. This makes sand the primary aggregate.
 
-Open3DCP grades sand by fineness modulus (FM) per ASTM C33:
+Open3DCP grades sand by fineness modulus (FM), adapted from ASTM C33 grading principles for finer-grained 3DCP mixes. Note: ASTM C33 defines fine aggregate as FM 2.3-3.1 without further subdivision; the categories below are Open3DCP conventions:
 
 | Column | FM Range | Particle Size | Role in 3DCP |
 |--------|----------|--------------|--------------|
@@ -251,6 +251,16 @@ Schema design was informed by the structure and content of these CC BY-licensed 
 
 ### Technical Reference
 - **Open3DCP_SCHEMA.md** -- Full column-by-column technical reference with types, units, and test method citations
+
+---
+
+## Disclaimers
+
+This document references published standards from ASTM International, CEN (EN), ACI, RILEM, and other organizations for identification and context only. **Open3DCP is not a substitute for any referenced standard.** Users must obtain and comply with the full text of applicable standards through authorized channels. Standard designations are trademarks of their respective organizations; their use here does not imply endorsement or affiliation.
+
+Open3DCP defines a data format, not a dataset, and makes no warranties regarding the accuracy or fitness for purpose of any data stored in this format. **This schema is not intended for structural design, construction specifications, or regulatory compliance.** Mix designs must be independently validated through laboratory testing by qualified professionals before use in construction. Nothing in this document constitutes engineering advice.
+
+See `Open3DCP_SCHEMA.md` for full disclaimer language.
 
 ---
 

@@ -41,9 +41,9 @@ Cements are classified by ASTM C150 / EN 197-1 type. SCMs follow their respectiv
 | `cement_type_4` | real | Low-heat Portland cement | ASTM C150 Type IV |
 | `cac` | real | Calcium aluminate cement (Ciment Fondu) | EN 14647 |
 | `csa_cement` | real | Calcium sulfoaluminate cement | -- |
-| `fly_ash` | real | Fly ash (unclassified) | ASTM C618 |
-| `fly_ash_type_f` | real | Class F fly ash (low calcium, <7% CaO) | ASTM C618 |
-| `fly_ash_type_c` | real | Class C fly ash (high calcium, >20% CaO) | ASTM C618 |
+| `fly_ash` | real | Fly ash (class not specified in source) | -- |
+| `fly_ash_type_f` | real | Class F fly ash (SiO2+Al2O3+Fe2O3 ≥ 70%) | ASTM C618 |
+| `fly_ash_type_c` | real | Class C fly ash (SiO2+Al2O3+Fe2O3 ≥ 50%) | ASTM C618 |
 | `silica_fume` | real | Silica fume / microsilica | ASTM C1240 |
 | `nano_silica` | real | Nano-SiO2 (colloidal or fumed, <100 nm) | -- |
 | `slag` | real | Ground granulated blast furnace slag (GGBS) | ASTM C989 |
@@ -54,7 +54,7 @@ Cements are classified by ASTM C150 / EN 197-1 type. SCMs follow their respectiv
 
 ### Aggregate Materials (mass-% of total wet mix)
 
-Sand columns use ASTM C33 fineness modulus (FM) grading. Coarse aggregates by nominal max size.
+Sand columns use fineness modulus (FM) subdivisions adapted from ASTM C33 grading principles for 3DCP aggregate sizing. Note: ASTM C33 defines fine aggregate as FM 2.3-3.1 without further subdivision; the fine/medium/coarse sand categories below are Open3DCP conventions for finer-grained 3DCP mixes. Coarse aggregates by nominal max size.
 
 | Column | Type | Description | FM / Size |
 |--------|------|-------------|-----------|
@@ -88,7 +88,7 @@ Sand columns use ASTM C33 fineness modulus (FM) grading. Coarse aggregates by no
 | `superplasticizer` | real | High-range water reducer (PCE, SNF, SMF) -- ASTM C494 Type F/G |
 | `water_reducer` | real | Mid/normal-range water reducer -- ASTM C494 Type A |
 | `accelerator` | real | Set/strength accelerator -- ASTM C494 Type C/E |
-| `calcium_formate` | real | Organic accelerator (Ca(HCOO)2), promotes early C3S hydration -- ASTM C494 Type C |
+| `calcium_formate` | real | Organic salt accelerator (Ca(HCOO)2), promotes early C3S hydration. Used as set accelerator; not formally classified under ASTM C494 |
 | `retarder` | real | Set retarder -- ASTM C494 Type B/D |
 | `air_entrainer` | real | Air-entraining admixture -- ASTM C260 |
 | `vma` | real | Viscosity-modifying admixture (generic) |
@@ -342,6 +342,32 @@ This convention was chosen because:
 | `sources` | Publication metadata (DOI, journal, year, license) |
 | `test_methods` | Controlled vocabulary of test standards |
 | `curing_regimes` | Standard curing condition definitions |
+
+---
+
+## Disclaimers
+
+### Standards References
+
+This document references published standards from ASTM International, the European Committee for Standardization (CEN/EN), the American Concrete Institute (ACI), RILEM, and other standards organizations. These references are provided for identification and context only.
+
+**Open3DCP is not a substitute for any referenced standard.** Column names and descriptions reference standard designations (e.g., ASTM C39, EN 12390-3) to indicate the test method or material classification a column is intended to represent. This does not imply endorsement, certification, or affiliation with any standards organization.
+
+Users are responsible for obtaining and complying with the full text of any applicable standard. Standards are copyrighted documents published by their respective organizations and must be purchased or accessed through authorized channels.
+
+### Trademarks
+
+ASTM and ASTM International are trademarks of ASTM International. ACI is a trademark of the American Concrete Institute. RILEM is a trademark of the International Union of Laboratories and Experts in Construction Materials, Systems and Structures. All other trademarks are the property of their respective owners. Use of these names in Open3DCP is for identification purposes only and does not imply endorsement.
+
+### Data Accuracy
+
+Open3DCP defines a data format, not a dataset. Sunnyday Technologies makes no representations or warranties regarding the accuracy, completeness, or fitness for purpose of any data stored in this schema format. Users are solely responsible for validating data quality and suitability for their intended application.
+
+**This schema is not intended for use as a basis for structural design, construction specifications, or regulatory compliance.** Mix designs derived from data stored in this format must be independently validated through laboratory testing by qualified professionals before use in any construction application.
+
+### No Professional Advice
+
+Nothing in this document constitutes engineering advice, materials science consulting, or professional recommendations. Concrete mix design for construction applications requires the involvement of licensed professional engineers and compliance with applicable building codes (IBC, Eurocode, local codes of jurisdiction).
 
 ---
 
