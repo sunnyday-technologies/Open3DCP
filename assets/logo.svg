@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+
+  <!-- Background rounded rectangle — matching CEMFORGE navy -->
+  <rect x="40" y="40" width="432" height="432" rx="48" ry="48" fill="#0a2351"/>
+
+  <!-- Three horizontal layers representing 3DCP printed layers -->
+  <rect x="100" y="330" width="312" height="40" rx="8" ry="8" fill="#ffffff"/>
+  <rect x="115" y="275" width="282" height="40" rx="8" ry="8" fill="#ffffff" opacity="0.85"/>
+  <rect x="130" y="220" width="252" height="40" rx="8" ry="8" fill="#ffffff" opacity="0.7"/>
+
+  <!-- Open3DCP text in green -->
+  <text x="256" y="160" text-anchor="middle" font-family="'Arial Black', 'Helvetica Neue', sans-serif" font-weight="900" font-size="68" fill="#a3cc2a" letter-spacing="-1">Open3DCP</text>
+
+</svg>
