@@ -266,9 +266,9 @@ See `Open3DCP_SCHEMA.md` for full disclaimer language.
 
 ## License
 
-Open3DCP is released under the **Creative Commons Attribution 4.0 International License** ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)).
+Open3DCP is released under the **Apache License, Version 2.0** ([Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)).
 
-You are free to use, adapt, and redistribute this schema for any purpose, including commercial use, provided you give appropriate credit to Sunnyday Technologies.
+You are free to use, adapt, and redistribute this schema for any purpose, including commercial use, provided you give appropriate credit to Sunnyday Technologies. The Apache 2.0 license includes an express grant of patent rights from contributors to users.
 
 ---
 
