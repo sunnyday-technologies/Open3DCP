@@ -48,34 +48,56 @@ Binders are the reactive powders that harden when mixed with water. Portland cem
 
 | Column | What It Is | Why It Matters for 3DCP |
 |--------|------------|------------------------|
-| `cement_type_1` | Ordinary Portland cement (OPC), ASTM C150 Type I. The universal baseline. | Primary source of early strength. Most 3DCP mixes use 20-40% by total mass. |
-| `cement_type_1l` | Portland-limestone cement, EN 197-1 CEM II/A-L. Contains 6-20% limestone. | Lower carbon than OPC. Distinct product, not just "cement with limestone filler." |
-| `cement_type_3` | Rapid-hardening cement, ASTM C150 Type III. Finer grind, faster hydration. | Useful when early strength gain is critical for layer-on-layer buildability. |
+| `cement_type_1` | General purpose Portland cement, ASTM C150 Type I. | Primary source of early strength. Most 3DCP mixes use 20-40% by total mass. |
+| `cement_type_1_2` | General purpose / moderate sulfate resistance, ASTM C150 Type I/II. | The most commonly sold cement in the US. Many suppliers don't stock pure Type I. |
+| `cement_type_1l` | Portland-limestone cement, ASTM C595 / EN 197-1 CEM II/A-L. Contains 6-20% limestone. | Lower carbon than OPC. Distinct product, not just "cement with limestone filler." |
+| `cement_type_2` | Moderate sulfate resistance / moderate heat, ASTM C150 Type II. | Used in environments with moderate sulfate exposure. |
+| `cement_type_3` | High early strength / rapid hardening, ASTM C150 Type III. Finer grind, faster hydration. | Useful when early strength gain is critical for layer-on-layer buildability. |
+| `cement_type_5` | High sulfate resistance, ASTM C150 Type V. | Required in sulfate-rich soils, common in western US. |
 | `fly_ash` | Coal combustion byproduct. When class is known, use `fly_ash_type_f` (SiO2+Al2O3+Fe2O3 ≥ 70% per ASTM C618) or `fly_ash_type_c` (≥ 50%). | Improves long-term strength and reduces heat of hydration. Slows early strength, which can be problematic for 3DCP layer timing. |
-| `silica_fume` | Ultra-fine amorphous silica from silicon/ferrosilicon production. Particle size ~0.1 um. | Fills micro-voids between cement grains (packing effect), dramatically increases strength. Typical dosage 5-10%. Increases water demand. |
-| `slag` | Ground granulated blast-furnace slag (GGBFS). Steel industry byproduct. | Improves durability, reduces permeability, contributes to long-term strength. Common at 30-50% replacement in 3DCP. |
-| `metakaolin` | Calcined kaolin clay. High reactivity pozzolan. | Popular in 3DCP for early strength development and thixotropy enhancement. Typical 5-15%. |
-| `limestone` | Ground limestone powder/filler. Not a binder in the traditional sense. | Provides nucleation sites that accelerate cement hydration. Improves particle packing. Common in European 3DCP mixes at 5-20%. |
+| `silica_fume` | Ultra-fine amorphous silica from silicon/ferrosilicon production. Particle size ~0.1 um. ASTM C1240. | Fills micro-voids between cement grains (packing effect), dramatically increases strength. Typical dosage 5-10%. Increases water demand. |
+| `slag` | Ground granulated blast-furnace slag (GGBFS). Steel industry byproduct. ASTM C989. | Improves durability, reduces permeability, contributes to long-term strength. Common at 30-50% replacement in 3DCP. |
+| `metakaolin` | Calcined kaolin clay. High reactivity pozzolan. ASTM C618 Class N. | Popular in 3DCP for early strength development and thixotropy enhancement. Typical 5-15%. |
+| `limestone` | Ground limestone powder/filler. EN 12620. | Provides nucleation sites that accelerate cement hydration. Improves particle packing. Common in European 3DCP mixes at 5-20%. |
 
-Additional binder columns in the full schema include `pumice` (natural volcanic pozzolan), `cac` (calcium aluminate cement for rapid set), `csa_cement` (calcium sulfoaluminate), `nano_silica`, `bottom_ash`, and classified fly ash variants (`fly_ash_type_f`, `fly_ash_type_c`).
+Additional binder columns in the full schema include `pumice` (natural volcanic pozzolan), `cement_type_4` (low heat, rarely manufactured), `cac` (calcium aluminate cement for rapid set), `csa_cement` (calcium sulfoaluminate), `nano_silica`, `bottom_ash`, and classified fly ash variants (`fly_ash_type_f`, `fly_ash_type_c`).
 
 ### Aggregates -- The Skeleton
 
-Aggregates provide bulk, dimensional stability, and reduce cost. In conventional concrete, coarse aggregates (10-20 mm) dominate. In 3DCP, aggregates must pass through a pump and nozzle, so maximum particle size is typically limited to 2-4 mm. This makes sand the primary aggregate.
+Aggregates provide bulk, dimensional stability, and reduce cost. In conventional concrete, coarse aggregates (10-20 mm) dominate. In 3DCP, aggregates must pass through a pump and nozzle, so maximum particle size is typically limited to 2-4 mm for standard equipment. This makes sand the primary aggregate, though large-nozzle systems (military, infrastructure) can accommodate coarser material.
 
-Open3DCP grades sand by fineness modulus (FM), adapted from ASTM C33 grading principles for finer-grained 3DCP mixes. Note: ASTM C33 defines fine aggregate as FM 2.3-3.1 without further subdivision; the categories below are Open3DCP conventions:
+**Fine aggregates** are classified using US industry ordering terms. FM ranges are adapted from ASTM C33 grading principles; note that ASTM C33 defines fine aggregate as FM 2.3-3.1 without further subdivision:
 
-| Column | FM Range | Particle Size | Role in 3DCP |
-|--------|----------|--------------|--------------|
-| `fine_sand` | 1.6-2.2 | <0.5 mm | Filler, improves pumpability and surface finish |
-| `medium_sand` | 2.3-3.0 | 0.5-2 mm | Primary aggregate in most 3DCP mixes |
-| `coarse_sand` | 3.1-3.7 | 2-4 mm | Larger particle, improves dimensional stability but harder to pump |
+| Column | FM Range | US Order Name | Role in 3DCP |
+|--------|----------|---------------|--------------|
+| `mason_sand` | 1.0-1.8 | Mason sand / plaster sand | Very fine, high fines content. Surface finish. |
+| `fine_sand` | 1.6-2.2 | Fine sand | Filler, improves pumpability |
+| `concrete_sand` | 2.3-3.0 | Concrete sand / C33 sand | Primary aggregate in most 3DCP mixes |
+| `coarse_sand` | 3.1-3.7 | Coarse sand / torpedo sand | Improves dimensional stability, harder to pump |
 
-Coarse aggregates (`agg_4mm` through `agg_20mm`) appear in some large-nozzle 3DCP systems but are uncommon. A typical 3DCP mix is 55-65% sand by total mass.
+**Coarse aggregates** use ASTM C33 size numbers. Most 3DCP uses Size #8 or smaller; larger sizes are included for large-nozzle systems and conventional concrete compatibility:
+
+| Column | ASTM C33 Size | Nominal Range | US Common Name |
+|--------|--------------|---------------|----------------|
+| `agg_size_89` | #89 | 3/8" - #16 sieve | Fine gravel |
+| `agg_size_8` | #8 | 3/8" - #8 sieve | Pea gravel (3DCP limit for most systems) |
+| `agg_size_7` | #7 | 1/2" - #4 | — |
+| `agg_size_67` | #67 | 3/4" - #4 | Common structural |
+| `agg_size_6` | #6 | 3/4" - 3/8" | — |
+| `agg_size_57` | #57 | 1" - #4 | Most common US concrete aggregate |
+| `agg_size_5` | #5 | 1" - 1/2" | — |
+| `agg_size_467` | #467 | 1.5" - #4 | Common ready-mix |
+| `agg_size_4` | #4 | 1.5" - 3/4" | — |
+| `agg_size_357` | #357 | 2" - #4 | Crusher run |
+| `agg_size_3` | #3 | 2" - 1" | — |
+| `agg_size_2` | #2 | 2.5" - 1.5" | — |
+| `agg_size_1` | #1 | 3.5" - 1.5" | Large stone |
+
+A typical 3DCP mix is 55-65% sand by total mass with little or no coarse aggregate.
 
 ### Fibers -- The Reinforcement
 
-Without formwork, printed concrete has no external confinement. Fibers provide ductility, crack control, and post-crack load carrying capacity. Open3DCP tracks eight fiber types by material:
+Without formwork, printed concrete has no external confinement. Fibers provide ductility, crack control, and post-crack load carrying capacity. Open3DCP tracks eight fiber types by material, plus industry-standard fiber characterization:
 
 | Column | Material | Typical Use in 3DCP |
 |--------|----------|---------------------|
@@ -86,13 +108,17 @@ Without formwork, printed concrete has no external confinement. Fibers provide d
 | `basalt_fiber` | Basalt rock | Sustainable, good thermal resistance. Growing 3DCP interest. |
 | `carbon_fiber` | Carbon | Highest tensile strength, highest cost. Rare in 3DCP. |
 
+In addition to mass-%, three characterization columns capture how fiber is actually specified and ordered commercially: `fiber_length_mm`, `fiber_diameter_mm`, and `fiber_aspect_ratio` (L/d — the key performance parameter; e.g., Dramix 3D 65/35 means L/d=65, length=35 mm). `fiber_tensile_strength_mpa` records the supplier-specified fiber tensile strength.
+
 ### Admixtures -- The Tuning Knobs
 
 Admixtures are chemicals added in small quantities (typically 0.1-2% by mass) to modify fresh-state behavior. In 3DCP, they control the narrow window between pumpability and shape retention.
 
+**Important:** All admixture values in Open3DCP represent **solids content** by mass-%. Most commercial admixtures are sold as liquid solutions (typically 20-40% solids by weight). Convert using the manufacturer's technical data sheet — e.g., a PCE dosed at 1.0% liquid with 30% solids = 0.3% in this schema.
+
 | Column | Function | Why It Matters |
 |--------|----------|----------------|
-| `superplasticizer` | High-range water reducer (HRWR). PCE-based polymers that disperse cement particles. ASTM C494 Type F/G. | Allows the mix to flow through the pump at low water content. The most important admixture in 3DCP. |
+| `superplasticizer` | High-range water reducer (HRWR). PCE-based polymers that disperse cement particles. ASTM C494 Type F/G. Record as solids content. | Allows the mix to flow through the pump at low water content. The most important admixture in 3DCP. |
 | `water_reducer` | Mid-range water reducer. ASTM C494 Type A. | Less powerful than superplasticizer. These are chemically distinct products and should not be combined into a single column. |
 | `accelerator` | Speeds up setting and early strength gain. ASTM C494 Type C/E. | Critical for 3DCP: each layer must support the next within minutes. Often sprayed at the nozzle tip. |
 | `retarder` | Slows setting. ASTM C494 Type B/D. | Extends the open time (workable window) for long print jobs. |
