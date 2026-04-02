@@ -269,14 +269,23 @@
       gap: 0.75rem;
     }
 
-    .standard-tag {
+    .standards-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      line-height: 1.6;
+      color: var(--muted);
+      margin: 0 0 1.2rem 0;
+      max-width: 52rem;
+    }
+
+    .standard-ref {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 0.7rem;
       letter-spacing: 0.1em;
-      color: var(--light);
+      color: var(--muted);
       padding: 0.4rem 0.9rem;
       border: 1px solid var(--border);
-      background: rgba(10, 25, 45, 0.6);
+      background: transparent;
     }
 
     /* CTA */
@@ -287,37 +296,46 @@
       padding: 3.5rem;
       border: 1px solid var(--border);
       background: #0b1e33;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
+      text-align: center;
     }
 
-    .cta-text h2 {
+    .cta-headline {
       font-family: Orbitron, sans-serif;
       font-size: 2.5rem;
       letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
+      margin-bottom: 2.5rem;
     }
 
-    .cta-text p {
-      font-size: 0.875rem;
-      color: var(--muted);
-      font-family: 'IBM Plex Mono', monospace;
-      letter-spacing: 0.05em;
-    }
-
-    .cta-buttons {
+    .cta-columns {
       display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .cta-col {
+      flex: 1;
+      max-width: 16rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 1rem;
-      flex-shrink: 0;
+    }
+
+    .cta-col-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.6rem;
       padding: 0.85rem 1.75rem;
+      width: 100%;
       font-family: 'IBM Plex Mono', monospace;
       font-size: 0.72rem;
       letter-spacing: 0.15em;
@@ -433,14 +451,13 @@
       .standards-strip { margin: 0 1.5rem; padding: 2rem 1.5rem; }
 
       .cta-section {
-        flex-direction: column;
         margin: 3rem 1.5rem 4rem;
         padding: 2rem 1.5rem;
-        align-items: flex-start;
       }
 
-      .cta-buttons { flex-direction: column; width: 100%; }
-      .btn { justify-content: center; }
+      .cta-headline { font-size: 1.8rem; margin-bottom: 2rem; }
+      .cta-columns { flex-direction: column; align-items: center; }
+      .cta-col { max-width: 100%; width: 100%; }
 
       footer {
         flex-direction: column;
@@ -545,45 +562,56 @@
     </div>
   </div>
 
-  <!-- STANDARDS ALIGNMENT -->
+  <!-- STANDARDS REFERENCED -->
   <div class="standards-strip">
-    <div class="standards-label">Standards Alignment</div>
+    <div class="standards-label">Standards Referenced</div>
+    <p class="standards-note">
+      Open3DCP schema fields are designed to capture data produced by the following
+      testing standards and frameworks. This project is not certified by, affiliated
+      with, or endorsed by any standards body.
+    </p>
     <div class="standards-list">
-      <span class="standard-tag">ASTM C150</span>
-      <span class="standard-tag">ASTM C618</span>
-      <span class="standard-tag">ASTM C989</span>
-      <span class="standard-tag">ASTM C33</span>
-      <span class="standard-tag">ASTM C39</span>
-      <span class="standard-tag">ASTM C494</span>
-      <span class="standard-tag">EN 12390</span>
-      <span class="standard-tag">EN 197-1</span>
-      <span class="standard-tag">RILEM TC 304-ADC</span>
-      <span class="standard-tag">NIST MGI</span>
-      <span class="standard-tag">NASA GRC ICME</span>
-      <span class="standard-tag">ACI 318</span>
-      <span class="standard-tag">FAIR Principles</span>
+      <span class="standard-ref">ASTM C150</span>
+      <span class="standard-ref">ASTM C618</span>
+      <span class="standard-ref">ASTM C989</span>
+      <span class="standard-ref">ASTM C33</span>
+      <span class="standard-ref">ASTM C39</span>
+      <span class="standard-ref">ASTM C494</span>
+      <span class="standard-ref">EN 12390</span>
+      <span class="standard-ref">EN 197-1</span>
+      <span class="standard-ref">RILEM TC 304-ADC</span>
+      <span class="standard-ref">NIST MGI</span>
+      <span class="standard-ref">NASA GRC ICME</span>
+      <span class="standard-ref">ACI 318</span>
+      <span class="standard-ref">FAIR Principles</span>
     </div>
   </div>
 
   <!-- CTA -->
   <div class="cta-section">
-    <div class="cta-text">
-      <h2>View the Schema</h2>
-      <p>Column reference &middot; Engineering context &middot; Adoption guide</p>
-    </div>
-    <div class="cta-buttons">
-      <a class="btn btn-primary" href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-        </svg>
-        GitHub Repository
-      </a>
-      <a class="btn btn-secondary" href="https://cemforge.ai" target="_blank" rel="noopener">
-        CEMFORGE Platform &rarr;
-      </a>
-      <a class="btn btn-secondary" href="https://m3-crete.com" target="_blank" rel="noopener">
-        M3-CRETE Printer &rarr;
-      </a>
+    <h2 class="cta-headline">Concrete.</h2>
+    <div class="cta-columns">
+      <div class="cta-col">
+        <div class="cta-col-label">Schema</div>
+        <a class="btn btn-primary" href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+          GitHub Repository
+        </a>
+      </div>
+      <div class="cta-col">
+        <div class="cta-col-label">Data</div>
+        <a class="btn btn-secondary" href="https://cemforge.ai" target="_blank" rel="noopener">
+          CEMFORGE Platform &rarr;
+        </a>
+      </div>
+      <div class="cta-col">
+        <div class="cta-col-label">Printed</div>
+        <a class="btn btn-secondary" href="https://m3-crete.com" target="_blank" rel="noopener">
+          M3-CRETE Printer &rarr;
+        </a>
+      </div>
     </div>
   </div>
 
