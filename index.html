@@ -296,34 +296,33 @@
       padding: 3.5rem;
       border: 1px solid var(--border);
       background: #0b1e33;
-      text-align: center;
     }
 
     .cta-headline {
       font-family: Orbitron, sans-serif;
-      font-size: 2.5rem;
-      letter-spacing: 0.05em;
-      margin-bottom: 2.5rem;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: 0.03em;
+      color: var(--white);
+      margin-bottom: 3rem;
     }
 
     .cta-columns {
       display: flex;
-      justify-content: center;
       gap: 2rem;
     }
 
     .cta-col {
       flex: 1;
-      max-width: 16rem;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       gap: 1rem;
     }
 
     .cta-col-label {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
+      font-size: 0.7rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--muted);
@@ -334,10 +333,10 @@
       align-items: center;
       justify-content: center;
       gap: 0.6rem;
-      padding: 0.85rem 1.75rem;
+      padding: 1.1rem 2rem;
       width: 100%;
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.8rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       text-decoration: none;
@@ -455,9 +454,9 @@
         padding: 2rem 1.5rem;
       }
 
-      .cta-headline { font-size: 1.8rem; margin-bottom: 2rem; }
-      .cta-columns { flex-direction: column; align-items: center; }
-      .cta-col { max-width: 100%; width: 100%; }
+      .cta-headline { font-size: clamp(2.5rem, 8vw, 4rem); margin-bottom: 2rem; }
+      .cta-columns { flex-direction: column; }
+      .cta-col { width: 100%; }
 
       footer {
         flex-direction: column;
