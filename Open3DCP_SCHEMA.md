@@ -441,4 +441,4 @@ If you use Open3DCP in your research, please cite:
 ---
 
 *Open3DCP v1.0 -- Last updated: 2026-03-22*
-*Maintained by [Sunnyday Technologies](https://sunn3d.com), Appleton WI*
+*Maintained by [Sunnyday Technologies](https://sunn3d.com), Wisconsin, USA*
