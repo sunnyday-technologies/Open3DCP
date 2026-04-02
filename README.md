@@ -322,4 +322,4 @@ Sunnyday Technologies (2026). Open3DCP: Open Data Standard for
 
 We welcome contributions from the 3DCP research community. If you have suggestions for schema improvements, new columns for emerging test methods, or corrections to existing descriptions, please open an issue or pull request.
 
-Developed and maintained by [Sunnyday Technologies](https://sunn3d.com) | Appleton, WI, USA
+Developed and maintained by [Sunnyday Technologies](https://sunn3d.com) | Wisconsin, USA
