@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" alt="Open3DCP" width="200"/>
+  <img src="assets/logo.svg" alt="Open3DCP" width="200"/>
 </p>
 
 <h1 align="center">Open3DCP</h1>
