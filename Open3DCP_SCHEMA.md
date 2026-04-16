@@ -2,7 +2,7 @@
 
 **Open Data Standard for 3D Concrete Printing**
 
-> **v1.3 (2026-04-16):** ICC 1150-202X compliance. Added `interbead_shear_strength_mpa`, `flame_spread_index`, `smoke_developed_index`, `cellulose_fiber`, `sorptivity_secondary_mm_sqrt_s`. Total: 225 columns covering 100% of ICC 1150 First Draft test requirements.
+> **v1.3 (2026-04-16):** Added `cellulose_fiber` (ASTM D7357) and `sorptivity_secondary_mm_sqrt_s` (ASTM C1585 secondary rate, zero additional test cost). Removed `interbead_shear_strength_mpa` (redundant with `interlayer_shear_mpa` + `test_orientation`), `flame_spread_index`, `smoke_developed_index` (concrete is non-combustible; E84 applies to surface finishes, not the concrete itself). Total: 222 columns.
 >
 > **v1.2 (2026-04-15):** 11 durability/transport columns (ASTM C642, C1202, C666, C157, C1585, C231, interlayer bond). Claude prompt caching for extraction. Relaxed minimum-bar gate: accepts any measurement, not just compressive.
 >
@@ -116,7 +116,7 @@ Note: Most 3DCP systems are limited to Size #8 or smaller due to pump and nozzle
 | `basalt_fiber` | real | Basalt fiber |
 | `nylon_fiber` | real | Nylon fiber |
 | `aramid_fiber` | real | Aramid fiber (Kevlar) |
-| `cellulose_fiber` | real | Natural cellulose fiber per ASTM D7357. ICC 1150 §301.1 |
+| `cellulose_fiber` | real | Natural cellulose fiber per ASTM D7357 |
 | `fiber_length_mm` | real | Fiber length (mm). Industry example: Dramix 3D 65/35 = 35 mm |
 | `fiber_diameter_mm` | real | Fiber diameter (mm). Required to calculate aspect ratio |
 | `fiber_aspect_ratio` | real | Length-to-diameter ratio (L/d). THE key fiber performance parameter. Example: Dramix 65/35 has L/d = 65 |
@@ -296,8 +296,7 @@ These columns capture the full extrusion printing process. Null for cast specime
 | Column | Type | Description | Unit |
 |--------|------|-------------|------|
 | `interlayer_bond_mpa` | real | Tensile bond between printed layers (pull-off) | MPa | ASTM C1583 |
-| `interlayer_shear_mpa` | real | Shear strength at layer interface (layer-to-layer, vertical) | MPa | — |
-| `interbead_shear_strength_mpa` | real | Shear strength between beads within same layer (bead-to-bead, horizontal). ICC 1150 §404.2.1.5 default: 0.55 MPa (80 psi) | MPa | ICC 1150 |
+| `interlayer_shear_mpa` | real | Shear strength at layer interface | MPa | — |
 | `air_content_deposited_pct` | real | Air content in deposited filament | % |
 | `void_area_fraction_pct` | real | Void fraction at interlayer zone | % |
 | `surface_roughness_avg` | real | Surface roughness of printed layer | -- |
@@ -344,8 +343,6 @@ These columns capture the full extrusion printing process. Null for cast specime
 | `specific_heat_j_kg_k` | real | Specific heat capacity | J/(kg.K) |
 | `coeff_thermal_expansion_ue_c` | real | Coefficient of thermal expansion | microstrain/C |
 | `fire_resistance_min` | real | Fire resistance duration (ASTM E119) | minutes | ASTM E119 |
-| `flame_spread_index` | integer | Flame spread index for interior finishes. ICC 1150 §303.4 requires ≤ 25 (Class A) | — | ASTM E84 / UL 723 |
-| `smoke_developed_index` | integer | Smoke developed index. ICC 1150 §303.4 requires ≤ 450 | — | ASTM E84 / UL 723 |
 | `embodied_carbon_kg_co2_m3` | real | Embodied CO2 (cradle-to-gate) | kg CO2/m3 |
 | `embodied_energy_mj_m3` | real | Embodied energy | MJ/m3 |
 

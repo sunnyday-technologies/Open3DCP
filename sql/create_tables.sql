@@ -1,5 +1,5 @@
 -- ====================================================================
--- Open3DCP v1.0 — Reference SQL Implementation
+-- Open3DCP v1.3 — Reference SQL Implementation
 -- https://github.com/sunnyday-technologies/Open3DCP
 --
 -- Apache License 2.0 — Sunnyday Technologies
@@ -79,6 +79,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     basalt_fiber                REAL DEFAULT 0,
     nylon_fiber                 REAL DEFAULT 0,
     aramid_fiber                REAL DEFAULT 0,
+    cellulose_fiber             REAL DEFAULT 0,     -- Natural cellulose fiber, ASTM D7357 / ICC 1150 §301.1
     -- Fiber characterization (dominant fiber in the mix)
     fiber_length_mm             REAL,               -- Fiber length (e.g., 13 mm)
     fiber_diameter_mm           REAL,               -- Fiber diameter (e.g., 0.2 mm)
@@ -256,7 +257,8 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     electrical_resistivity_kohm_cm REAL,            -- ASTM C1876
     porosity_pct                REAL,               -- ASTM C642
     water_absorption_pct        REAL,               -- ASTM C642
-    sorptivity_mm_sqrt_s        REAL,               -- ASTM C1585
+    sorptivity_mm_sqrt_s        REAL,               -- ASTM C1585 (initial rate, first 6 hours)
+    sorptivity_secondary_mm_sqrt_s REAL,            -- ASTM C1585 (secondary rate, day 1-7)
     oxygen_permeability_m2      REAL,
     scaling_resistance_kg_m2    REAL,               -- ASTM C672
     corrosion_rate_ua_cm2       REAL,               -- ASTM C876
@@ -269,7 +271,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     thermal_conductivity_w_mk   REAL,
     specific_heat_j_kg_k        REAL,
     coeff_thermal_expansion_ue_c REAL,
-    fire_resistance_min         REAL,
+    fire_resistance_min         REAL,               -- ASTM E119
     embodied_carbon_kg_co2_m3   REAL,
     embodied_energy_mj_m3      REAL,
 

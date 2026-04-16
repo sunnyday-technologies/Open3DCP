@@ -13,24 +13,19 @@ Schema versioning follows these rules:
 
 ## [1.3.0] - 2026-04-16
 
-### ICC 1150 Compliance
-
-Open3DCP now covers 100% of test methods referenced by ICC 1150-202X (First Draft), the first US consensus standard for 3D-printed concrete walls.
-
 ### Added
-- `interbead_shear_strength_mpa` -- Bead-to-bead shear strength within a single printed layer (ICC 1150 §404.2.1.5). Distinct from `interlayer_shear_mpa` (layer-to-layer vertical shear).
-- `flame_spread_index` -- ASTM E84 / UL 723 flame spread classification (ICC 1150 §303.4).
-- `smoke_developed_index` -- ASTM E84 / UL 723 smoke development (ICC 1150 §303.4).
-- `cellulose_fiber` -- Natural cellulose fiber mass-% per ASTM D7357 (ICC 1150 §301.1).
-- `sorptivity_secondary_mm_sqrt_s` -- ASTM C1585 secondary sorptivity rate (day 1-7), complementing the existing initial rate column.
+- `cellulose_fiber` -- Natural cellulose fiber mass-% per ASTM D7357.
+- `sorptivity_secondary_mm_sqrt_s` -- ASTM C1585 secondary sorptivity rate (day 1-7). Same test specimen and setup as initial rate — zero additional lab cost. Useful for characterizing interlayer zone moisture transport in 3DCP.
+
+### Removed (proposed in earlier draft, not shipped)
+- `interbead_shear_strength_mpa` -- Redundant with `interlayer_shear_mpa` + `test_orientation_code`. Bead-to-bead shear is simply a transverse test direction, already representable in the schema.
+- `flame_spread_index`, `smoke_developed_index` -- ASTM E84 / UL 723 apply to surface finishes and coatings, not to concrete itself. Concrete is non-combustible; these columns would be NULL or trivially zero for every 3DCP record.
 
 ### Changed
-- Schema version bumped from v1.0 to v1.3 in `Open3DCP_SCHEMA.md`.
-- README updated with ICC 1150 compliance mapping table.
+- `sql/create_tables.sql` updated from v1.0 to v1.3 (was 2 versions behind the docs).
 
 ### Notes
-- 6 duplicate column pairs identified during the ICC compliance audit (e.g., `interlayer_bond_mpa` / `interlayer_bond_strength_mpa`). Documented for future consolidation; no columns removed in this release.
-- Total schema size: 225 columns across 10 domains.
+- Total schema size: 222 columns across 10 domains.
 
 ---
 

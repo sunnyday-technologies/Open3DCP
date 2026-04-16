@@ -299,21 +299,21 @@ See `Open3DCP_SCHEMA.md` for full disclaimer language.
 
 ---
 
-## ICC 1150 Compliance (v1.3)
+## ICC 1150 Compatibility (v1.3)
 
-Open3DCP v1.3 covers **100% of the test methods** referenced by [ICC 1150-202X](https://www.iccsafe.org/wp-content/uploads/is_3dact/ICC-1150-DRAFT-11-26-24.pdf) — the first US consensus standard for 3D-printed concrete walls, developed by the IS-3DACT committee.
+Open3DCP columns cover the material, mechanical, and process data referenced by [ICC 1150-202X](https://www.iccsafe.org/wp-content/uploads/is_3dact/ICC-1150-DRAFT-11-26-24.pdf) — the first US consensus standard for 3D-printed concrete walls, developed by the IS-3DACT committee.
 
 | Category | ICC Chapter | Key test methods | Open3DCP columns |
 |----------|-----------|-----------------|-----------------|
 | Material specs | Ch. 3, §301 | ASTM C150, C595, C33, C494, A820, D7508, D7357 | 37 material columns (11 binders, 6 aggregates, 10 fibers, 8 admixtures, water) |
 | Fresh properties | Ch. 3, §302 | ASTM C143, C1437, C231, C138, C403 | `slump_mm`, `spread_mm`, `air_content_fresh_pct`, `unit_weight_fresh_kg_m3`, `setting_time_initial_min` |
-| Hardened mechanical | Ch. 3-4 | ASTM C39, C109, C469, C157 | `compressive_strength_mpa`, `elastic_modulus_gpa`, `drying_shrinkage_microstrain` |
-| 3DCP interlayer | Ch. 4-5 | ASTM C1583, E518, custom | `interlayer_bond_strength_mpa`, `interlayer_shear_mpa`, `interbead_shear_strength_mpa` |
-| Durability | Ch. 3, §304 | ASTM C666, C1260, C1202 | `durability_factor_pct`, `asr_expansion_14d_pct`, `rcpt_coulombs` |
-| Fire safety | Ch. 3, §303.4 | ASTM E84 / UL 723 | `flame_spread_index`, `smoke_developed_index`, `fire_resistance_min` |
+| Hardened mechanical | Ch. 3-4 | ASTM C39, C109, C469, C157 | `compressive_strength_mpa`, `elastic_modulus_gpa`, `drying_shrinkage_28d_ue` |
+| 3DCP interlayer | Ch. 4-5 | ASTM C1583, E518 | `interlayer_bond_mpa`, `interlayer_shear_mpa` + `test_orientation_code` for all 3 directions |
+| Durability | Ch. 3, §304 | ASTM C666, C1260, C1202, C1585 | `freeze_thaw_durability_factor`, `asr_expansion_14d_pct`, `chloride_rcpt_coulombs`, `sorptivity_*` |
+| Fire safety | Ch. 3, §303.4 | ASTM E119 | `fire_resistance_min` (E84 flame/smoke indices omitted — concrete is non-combustible) |
 | Process params | Ch. 5 | — | `nozzle_diameter_mm`, `layer_height_mm`, `print_speed_mm_s`, `layer_time_gap_s`, `test_orientation` |
 
-**New in v1.3:** `interbead_shear_strength_mpa` (bead-to-bead shear, ICC §404.2.1.5), `flame_spread_index`, `smoke_developed_index` (ASTM E84), `cellulose_fiber` (ASTM D7357), `sorptivity_secondary_mm_sqrt_s` (ASTM C1585 secondary rate).
+**New in v1.3:** `cellulose_fiber` (ASTM D7357), `sorptivity_secondary_mm_sqrt_s` (ASTM C1585 secondary rate — same test, zero extra cost).
 
 See [`Open3DCP_SCHEMA.md`](Open3DCP_SCHEMA.md) for the complete column reference with units and test method citations.
 
