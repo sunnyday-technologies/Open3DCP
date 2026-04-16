@@ -11,6 +11,51 @@ Schema versioning follows these rules:
 
 ---
 
+## [1.5.0] - 2026-04-16
+
+### Pigment Columns
+
+Pigments are ultra-fine particles (~1 um) used at 1-5% in architectural 3DCP with significant impact on particle packing, water demand, and microstructure. At typical dosages they interact strongly with silica fume and metakaolin due to comparable surface area/energy effects.
+
+### Added
+- `iron_oxide_pigment` -- Fe2O3 (red), FeOOH (yellow), Fe3O4 (black). Most common concrete pigment.
+- `titanium_dioxide_pigment` -- TiO2 white pigment. Also used for photocatalytic self-cleaning surfaces.
+- `chromium_oxide_pigment` -- Cr2O3 green pigment.
+- `carbon_black_pigment` -- Carbon black (distinct from coal bottom ash or fly ash).
+- `pigment_other` -- Other/unspecified pigment type.
+
+### Notes
+- Total schema size: 239 columns across 10 domains.
+- Future CEMFORGE algorithm update needed to model pigment surface area interactions with SCMs (silica fume, metakaolin) — tracked separately.
+
+---
+
+## [1.4.0] - 2026-04-16
+
+### Alkali-Activated Materials (AAM) + Additional 3DCP Modifiers
+
+Open3DCP now supports alkali-activated systems (geopolymer, AAS) and additional materials commonly used in 3DCP research.
+
+### Added
+- `sodium_hydroxide` -- NaOH activator (mass-%, purity-adjusted solids).
+- `sodium_silicate` -- Na2SiO3 waterglass (mass-%, as-delivered liquid).
+- `potassium_hydroxide` -- KOH activator.
+- `potassium_silicate` -- K2SiO3 activator.
+- `activator_ms_ratio` -- SiO2/Na2O molar modulus of activator solution.
+- `na2o_dosage_pct` -- Na2O as % of binder (standard AAM reporting convention).
+- `nano_clay` -- Nanoclay / montmorillonite (rheology modifier for AAM and OPC 3DCP).
+- `mineral_powder` -- Generic mineral powder / filler (common in Chinese 3DCP literature).
+- `mwcnt` -- Multi-walled carbon nanotubes.
+- `graphene_oxide` -- Graphene oxide / reduced graphene oxide.
+- `rice_husk_ash` -- Rice husk ash pozzolan.
+- `recycled_sand` -- Recycled concrete aggregate sand.
+
+### Notes
+- AAM rows stored with `is_training_ready = false` until specimen count supports ML prediction (100+ minimum).
+- Total schema size: 234 columns across 10 domains.
+
+---
+
 ## [1.3.0] - 2026-04-16
 
 ### Added

@@ -1,8 +1,12 @@
-# Open3DCP v1.3
+# Open3DCP v1.5
 
 **Open Data Standard for 3D Concrete Printing**
 
-> **v1.3 (2026-04-16):** Added `cellulose_fiber` (ASTM D7357) and `sorptivity_secondary_mm_sqrt_s` (ASTM C1585 secondary rate, zero additional test cost). Removed `interbead_shear_strength_mpa` (redundant with `interlayer_shear_mpa` + `test_orientation`), `flame_spread_index`, `smoke_developed_index` (concrete is non-combustible; E84 applies to surface finishes, not the concrete itself). Total: 222 columns.
+> **v1.5 (2026-04-16):** Pigment columns: `iron_oxide_pigment`, `titanium_dioxide_pigment`, `chromium_oxide_pigment`, `carbon_black_pigment`, `pigment_other`. Pigments are ultra-fine (~1 um), used at 1-5% in architectural 3DCP, with significant impact on packing, water demand, and microstructure. Total: 239 columns.
+>
+> **v1.4 (2026-04-16):** Alkali-activated material (AAM) columns: `sodium_hydroxide`, `sodium_silicate`, `potassium_hydroxide`, `potassium_silicate`, `activator_ms_ratio`, `na2o_dosage_pct`, `nano_clay`, `mineral_powder`, `mwcnt`, `graphene_oxide`, `rice_husk_ash`, `recycled_sand`. Total: 234 columns.
+>
+> **v1.3 (2026-04-16):** Added `cellulose_fiber`, `sorptivity_secondary_mm_sqrt_s`. Removed 3 redundant columns. Total: 222 columns.
 >
 > **v1.2 (2026-04-15):** 11 durability/transport columns (ASTM C642, C1202, C666, C157, C1585, C231, interlayer bond). Claude prompt caching for extraction. Relaxed minimum-bar gate: accepts any measurement, not just compressive.
 >
@@ -77,6 +81,42 @@ Cements are classified by ASTM C150 / EN 197-1 type. SCMs follow their respectiv
 | `limestone` | real | Limestone filler / calcium carbonate | EN 12620 |
 | `pumice` | real | Natural pozzolan (pumice) | ASTM C618 Class N |
 | `bottom_ash` | real | Coal bottom ash | -- |
+| `rice_husk_ash` | real | Rice husk ash (pozzolan) | -- |
+
+### Alkali Activators (mass-% of total wet mix)
+
+For alkali-activated materials (AAM), the activator solution replaces water as the liquid phase. Record activator components as mass-% of total wet mix (including activator solution mass). Use `activator_ms_ratio` and `na2o_dosage_pct` to capture the key AAM design parameters.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `sodium_hydroxide` | real | NaOH (mass-%, purity-adjusted solids) |
+| `sodium_silicate` | real | Sodium silicate solution / waterglass (mass-%, as-delivered liquid) |
+| `potassium_hydroxide` | real | KOH (mass-%, purity-adjusted solids) |
+| `potassium_silicate` | real | Potassium silicate solution (mass-%, as-delivered liquid) |
+| `activator_ms_ratio` | real | SiO2/Na2O molar modulus of the activator solution |
+| `na2o_dosage_pct` | real | Na2O as % of binder mass (common AAM reporting convention) |
+
+### Additional Modifiers (mass-% of total wet mix)
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `nano_clay` | real | Nano clay / montmorillonite / nanoclay (rheology modifier for AAM and OPC 3DCP) |
+| `mineral_powder` | real | Generic mineral powder / filler (common in Chinese 3DCP literature) |
+| `mwcnt` | real | Multi-walled carbon nanotubes |
+| `graphene_oxide` | real | Graphene oxide / reduced graphene oxide (rGO) |
+| `recycled_sand` | real | Recycled concrete aggregate sand |
+
+### Pigments (mass-% of total wet mix)
+
+Pigments are ultra-fine particles (~1 um) used at 1-5% in architectural 3DCP. At these dosages they significantly affect particle packing, water demand, and microstructure due to their high surface area and surface energy. The schema tracks pigment mass-% separately from fillers because their rheological and microstructural effects are distinct from inert fillers.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `iron_oxide_pigment` | real | Iron oxide pigment — red (Fe2O3), yellow (FeOOH), black (Fe3O4), or brown blends. Most common concrete pigment. |
+| `titanium_dioxide_pigment` | real | TiO2 white pigment. Also used for photocatalytic self-cleaning surfaces. |
+| `chromium_oxide_pigment` | real | Cr2O3 green pigment |
+| `carbon_black_pigment` | real | Carbon black pigment (distinct from coal bottom ash or fly ash) |
+| `pigment_other` | real | Other/unspecified pigment (record type in `provenance_notes`) |
 
 ### Aggregate Materials (mass-% of total wet mix)
 
