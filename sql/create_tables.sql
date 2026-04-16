@@ -1,5 +1,5 @@
 -- ====================================================================
--- Open3DCP v1.3 — Reference SQL Implementation
+-- Open3DCP v1.5 — Reference SQL Implementation
 -- https://github.com/sunnyday-technologies/Open3DCP
 --
 -- Apache License 2.0 — Sunnyday Technologies
@@ -47,6 +47,31 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     limestone                   REAL DEFAULT 0,     -- Limestone filler, EN 12620
     pumice                      REAL DEFAULT 0,     -- Natural pozzolan, ASTM C618 Class N
     bottom_ash                  REAL DEFAULT 0,     -- Coal bottom ash
+    rice_husk_ash               REAL DEFAULT 0,     -- Rice husk ash (pozzolan)
+
+    -- Alkali Activators (mass-%)
+    sodium_hydroxide            REAL DEFAULT 0,     -- NaOH (purity-adjusted solids)
+    sodium_silicate             REAL DEFAULT 0,     -- Na2SiO3 solution (as-delivered liquid)
+    potassium_hydroxide         REAL DEFAULT 0,     -- KOH (purity-adjusted solids)
+    potassium_silicate          REAL DEFAULT 0,     -- K2SiO3 solution (as-delivered liquid)
+    activator_ms_ratio          REAL,               -- SiO2/Na2O molar modulus
+    na2o_dosage_pct             REAL,               -- Na2O as % of binder mass
+
+    -- Additional Modifiers (mass-%)
+    nano_clay                   REAL DEFAULT 0,     -- Nanoclay / montmorillonite
+    mineral_powder              REAL DEFAULT 0,     -- Generic mineral powder / filler
+    mwcnt                       REAL DEFAULT 0,     -- Multi-walled carbon nanotubes
+    graphene_oxide              REAL DEFAULT 0,     -- Graphene oxide / rGO
+    recycled_sand               REAL DEFAULT 0,     -- Recycled concrete aggregate sand
+
+    -- Pigments (mass-%)
+    -- Ultra-fine (~1 um), 1-5% dosage in architectural 3DCP.
+    -- Significant impact on packing, water demand, microstructure.
+    iron_oxide_pigment          REAL DEFAULT 0,     -- Fe2O3 red, FeOOH yellow, Fe3O4 black
+    titanium_dioxide_pigment    REAL DEFAULT 0,     -- TiO2 white / photocatalytic
+    chromium_oxide_pigment      REAL DEFAULT 0,     -- Cr2O3 green
+    carbon_black_pigment        REAL DEFAULT 0,     -- Carbon black
+    pigment_other               REAL DEFAULT 0,     -- Other/unspecified pigment
 
     -- Aggregate Materials (mass-%)
     -- Sand: US industry ordering terms, FM ranges adapted from ASTM C33 principles
