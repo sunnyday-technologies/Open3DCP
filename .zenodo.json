@@ -1,0 +1,31 @@
+{
+  "title": "Open3DCP: Open Data Standard for 3D Concrete Printing",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Sonnentag, Nicholas",
+      "affiliation": "Sunnyday Technologies"
+    }
+  ],
+  "description": "An open data standard for 3D concrete printing — a schema and column reference for recording mix designs, mechanical test results, and process parameters in a consistent, interoperable format. Cross-references ASTM, CEN, ACI, and RILEM standards.",
+  "license": "Apache-2.0",
+  "keywords": [
+    "3DCP",
+    "3D concrete printing",
+    "construction",
+    "data standard",
+    "schema",
+    "materials science",
+    "cementitious",
+    "additive manufacturing",
+    "open data"
+  ],
+  "access_right": "open",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/sunnyday-technologies/Open3DCP",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}
