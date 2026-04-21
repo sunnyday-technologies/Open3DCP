@@ -326,7 +326,16 @@ See [`Open3DCP_SCHEMA.md`](Open3DCP_SCHEMA.md) for the complete column reference
 
 Open3DCP is released under the **Apache License, Version 2.0** ([Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)).
 
-You are free to use, adapt, and redistribute this schema for any purpose, including commercial use, provided you give appropriate credit to Sunnyday Technologies. The Apache 2.0 license includes an express grant of patent rights from contributors to users.
+You are free to use, adapt, and redistribute this schema for any purpose, including commercial use, provided you give appropriate credit to Nicholas Sonnentag / Sunnyday Technologies. The Apache 2.0 license includes an express grant of patent rights from contributors to users.
+
+---
+
+## Author
+
+**Nicholas Sonnentag** — mechanical engineer, founder of [Sunnyday Technologies](https://sunn3d.com). Open3DCP is authored and maintained by Nick; drafting and refinement is AI-assisted (Claude, Anthropic) but the schema design, column semantics, reference-standard curation, and direction are his.
+
+- LinkedIn: [Nicholas Sonnentag](https://www.linkedin.com/in/nicholas-sonnentag)
+- Email: `nickworks@sunn3d.com`
 
 ---
 
@@ -335,9 +344,13 @@ You are free to use, adapt, and redistribute this schema for any purpose, includ
 If you use Open3DCP in your research, please cite:
 
 ```
-Sunnyday Technologies (2026). Open3DCP: Open Data Standard for
-3D Concrete Printing. https://github.com/sunnyday-technologies/Open3DCP
+Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete
+Printing. Sunnyday Technologies.
+https://github.com/sunnyday-technologies/Open3DCP
+DOI: 10.5281/zenodo.19647471
 ```
+
+A [`CITATION.cff`](CITATION.cff) file is included for automated citation tooling.
 
 ---
 
@@ -345,4 +358,4 @@ Sunnyday Technologies (2026). Open3DCP: Open Data Standard for
 
 We welcome contributions from the 3DCP research community. If you have suggestions for schema improvements, new columns for emerging test methods, or corrections to existing descriptions, please open an issue or pull request.
 
-Developed and maintained by [Sunnyday Technologies](https://sunn3d.com) | Wisconsin, USA
+Developed and maintained by Nicholas Sonnentag at [Sunnyday Technologies](https://sunn3d.com) | Wisconsin, USA
