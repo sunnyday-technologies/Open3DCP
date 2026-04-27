@@ -1,0 +1,72 @@
+{
+  "schema_version": "0.1-draft",
+  "_note": "Experimental site-level Model Context Protocol manifest. Schema is a community draft (see https://modelcontextprotocol.io). This site is a static, public, read-only documentation surface — listed resources are GET-only. Open3DCP is a schema definition project; it does not host mix-design data.",
+  "name": "Open3DCP",
+  "description": "Open data standard / flat database schema for 3D-printable concrete (3DCP) mix design data. Defines column names, units, types, and engineering context covering binders, aggregates, fibers, admixtures, fresh-state rheology, hardened mechanical properties, durability, and 3DCP process parameters.",
+  "publisher": {
+    "name": "Sunnyday Technologies LLC",
+    "url": "https://sunn3d.com/"
+  },
+  "url": "https://open3dcp.org/",
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "documentation": [
+    {
+      "name": "LLM-friendly summary",
+      "url": "https://open3dcp.org/llms.txt",
+      "media_type": "text/plain"
+    },
+    {
+      "name": "Sitemap",
+      "url": "https://open3dcp.org/sitemap.xml",
+      "media_type": "application/xml"
+    },
+    {
+      "name": "GitHub repository",
+      "url": "https://github.com/sunnyday-technologies/Open3DCP"
+    }
+  ],
+  "resources": [
+    {
+      "name": "GetSchema",
+      "description": "Canonical Open3DCP schema reference — column-by-column technical documentation with types, units, and standards citations. Single most authoritative document for the schema.",
+      "method": "GET",
+      "url": "https://open3dcp.org/Open3DCP_SCHEMA.md",
+      "media_type": "text/markdown"
+    },
+    {
+      "name": "GetSchemaSQL",
+      "description": "Reference PostgreSQL DDL implementing the Open3DCP schema (CREATE TABLE statements for `mix_designs` and companion tables).",
+      "method": "GET",
+      "url": "https://open3dcp.org/sql/create_tables.sql",
+      "media_type": "application/sql"
+    },
+    {
+      "name": "GetDatasetMetadata",
+      "description": "Site index page with embedded Dataset JSON-LD (name, description, license, creator, keywords, variableMeasured array). Parse the application/ld+json script tag for structured data.",
+      "method": "GET",
+      "url": "https://open3dcp.org/",
+      "media_type": "text/html",
+      "structured_data": "Dataset (schema.org)"
+    },
+    {
+      "name": "GetReadme",
+      "description": "Project README with design principles, materials/aggregates/fibers/admixtures explanations, key ratios, ICC 1150 compatibility mapping, and citation information.",
+      "method": "GET",
+      "url": "https://open3dcp.org/README.md",
+      "media_type": "text/markdown"
+    },
+    {
+      "name": "GetChangelog",
+      "description": "Version-by-version changelog of schema additions and revisions.",
+      "method": "GET",
+      "url": "https://open3dcp.org/CHANGELOG.md",
+      "media_type": "text/markdown"
+    }
+  ],
+  "related": {
+    "cemforge.ai": "CEMFORGE — AI mix-formulation platform that consumes Open3DCP-formatted data",
+    "m3-crete.com": "M3-CRETE — open-source meter-scale concrete 3D printer that produces Open3DCP-formatted data",
+    "sunn3d.com": "Sunnyday Technologies — parent organization"
+  },
+  "contact": "open3dcp@sunn3d.com"
+}

@@ -1,4 +1,25 @@
+# Open3DCP — robots policy
+# Public open data standard. Crawling and AI training are welcome.
+
 User-agent: *
+Disallow: /cdn-cgi/
+Allow: /
+
+# Explicit allow for AI agent crawlers (opt-in to AI training & retrieval)
+User-agent: ClaudeBot
+Disallow: /cdn-cgi/
+Allow: /
+
+User-agent: GPTBot
+Disallow: /cdn-cgi/
+Allow: /
+
+User-agent: Google-Extended
+Disallow: /cdn-cgi/
+Allow: /
+
+User-agent: PerplexityBot
+Disallow: /cdn-cgi/
 Allow: /
 
 Sitemap: https://open3dcp.org/sitemap.xml
