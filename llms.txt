@@ -1,0 +1,101 @@
+# Open3DCP
+
+> Open data standard / flat database schema for 3D-printable concrete (3DCP) mix design data. Defines canonical column names, types, units, and engineering context for binders, alkali activators, aggregates, fibers, admixtures, pigments, fresh-state rheology, hardened mechanical properties, durability, 3DCP process parameters, and interlayer bond. Mass-percent basis. ML-ready. Apache 2.0. Maintained by Sunnyday Technologies LLC, Appleton WI.
+
+This file is a high-density, plain-text summary intended for LLM retrieval and RAG indexing. Authoritative source is the GitHub repository and the schema document linked below. Open3DCP is a schema definition only — it does not contain mix-design data.
+
+## Identity
+
+- Project name: Open3DCP (Open Data Standard for 3D Concrete Printing)
+- Live site: https://open3dcp.org
+- Repository: https://github.com/sunnyday-technologies/Open3DCP
+- License: Apache-2.0 (https://www.apache.org/licenses/LICENSE-2.0)
+- DOI: 10.5281/zenodo.19647471
+- Citation: Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing. Sunnyday Technologies.
+- Maintainer: Sunnyday Technologies LLC (https://sunn3d.com)
+- Author: Nicholas Sonnentag (nickworks@sunn3d.com)
+- Contact: open3dcp@sunn3d.com
+- Current version: v1.5 (2026-04-16); 239 columns total
+
+## What it is, what it isn't
+
+- IS: a column-name / unit / type / semantic specification — a flat schema for 3DCP mix-design records.
+- IS NOT: a dataset, a database service, a structural-design tool, or a substitute for any referenced standard.
+
+## Design principles
+
+1. Flat schema — every feature is a named column. No JSON nesting in ML-relevant fields.
+2. Mass-percent basis — all material quantities stored as mass-% of total wet mix (water included, 0-100 scale). Eliminates density assumptions.
+3. Standards-aligned — column naming follows ASTM C150 (cement types), C618 (fly ash), C989 (slag), C1240 (silica fume), C33 (aggregate grading).
+4. 3DCP-native — first-class columns for nozzle geometry, layer timing, print speed, fresh-state rheology (yield stress, thixotropy, open time), and interlayer bond.
+5. Multi-age — companion `strength_measurements` table stores test results from 1 hour through 365 days.
+
+## Schema overview — main table `mix_designs`
+
+Material columns (all mass-% of total wet mix):
+
+- Binders (~20 columns): `cement_type_1`, `cement_type_1_2`, `cement_type_1l`, `cement_type_2`, `cement_type_3`, `cement_type_4`, `cement_type_5`, `cac`, `csa_cement`, `fly_ash`, `fly_ash_type_f`, `fly_ash_type_c`, `silica_fume`, `nano_silica`, `slag`, `metakaolin`, `limestone`, `pumice`, `bottom_ash`, `rice_husk_ash`.
+- Alkali activators (for AAM mixes): `sodium_hydroxide`, `sodium_silicate`, `potassium_hydroxide`, `potassium_silicate`, plus design parameters `activator_ms_ratio`, `na2o_dosage_pct`.
+- Modifiers: `nano_clay`, `mineral_powder`, `mwcnt`, `graphene_oxide`, `recycled_sand`.
+- Pigments: `iron_oxide_pigment`, `titanium_dioxide_pigment`, `chromium_oxide_pigment`, `carbon_black_pigment`, `pigment_other`.
+- Fine aggregates by FM: `mason_sand`, `fine_sand`, `concrete_sand`, `coarse_sand`.
+- Coarse aggregates by ASTM C33 size: `agg_size_89`, `agg_size_8`, `agg_size_7`, `agg_size_67`, `agg_size_6`, `agg_size_57`, `agg_size_5`, `agg_size_467`, `agg_size_4`, `agg_size_357`, `agg_size_3`, `agg_size_2`, `agg_size_1`.
+- Fibers: `steel_fiber`, `pp_fiber`, `glass_fiber`, `carbon_fiber`, `pva_fiber`, `basalt_fiber`, `nylon_fiber`, `aramid_fiber`, `cellulose_fiber`, plus characterization (`fiber_length_mm`, `fiber_diameter_mm`, `fiber_aspect_ratio`, `fiber_tensile_strength_mpa`).
+- Admixtures (solids basis): `superplasticizer`, `water_reducer`, `accelerator`, `calcium_formate`, `retarder`, `air_entrainer`, `vma`, `shrinkage_reducer`, `corrosion_inhibitor`.
+- Clay/VMA additives: `hpmc`, `sepiolite_clay`, `attapulgite`, `calcium_bentonite`.
+- Water and key ratios: `water`, `w_c_ratio`, `w_b_ratio`, `a_b_ratio`.
+
+Variables measured (target properties):
+
+- Hardened mechanical: `compressive_strength_mpa` (ASTM C39 / EN 12390-3), `tensile_strength_mpa`, `splitting_tensile_mpa` (ASTM C496), `flexural_strength_mpa` (ASTM C78), `elastic_modulus_gpa` (ASTM C469), `bond_strength_mpa` (ASTM C1583), `fracture_energy_n_m`, `density_hardened_kg_m3`, `poissons_ratio`.
+- Fresh state / rheology: `slump_mm` (ASTM C143), `spread_mm` (ASTM C1611), `yield_stress_pa`, `static_yield_stress_pa`, `dynamic_yield_stress_pa`, `plastic_viscosity_pa_s`, `thixotropy_pa_per_s`, `structuration_rate_pa_per_s`, `open_time_min`, `green_strength_kpa`, `air_content_fresh_pct` (ASTM C231), `unit_weight_fresh_kg_m3` (ASTM C138), `setting_time_initial_min`, `setting_time_final_min` (ASTM C191), `bleeding_pct` (ASTM C232), `j_ring_mm` (ASTM C1621), `v_funnel_s` (EN 12350-9), `l_box_ratio` (EN 12350-10).
+- 3DCP interlayer: `interlayer_bond_mpa` (ASTM C1583), `interlayer_shear_mpa`, `air_content_deposited_pct`, `void_area_fraction_pct`, `surface_roughness_avg`, `surface_moisture_state`, `surface_treatment`.
+- Durability: `chloride_rcpt_coulombs` (ASTM C1202), `chloride_migration_coeff` (NT BUILD 492), `carbonation_depth_1yr_mm` (EN 12390-12), `drying_shrinkage_28d_ue` (ASTM C157), `autogenous_shrinkage_ue` (ASTM C1698), `creep_coefficient` (ASTM C512), `freeze_thaw_durability_factor` (ASTM C666), `sulfate_expansion_6mo_pct` / `_12mo_pct` (ASTM C1012), `asr_expansion_14d_pct` (ASTM C1260), `asr_expansion_1yr_pct` (ASTM C1293), `abrasion_depth_mm` (ASTM C779), `water_penetration_depth_mm` (EN 12390-8), `electrical_resistivity_kohm_cm` (ASTM C1876), `porosity_pct` (ASTM C642), `water_absorption_pct` (ASTM C642), `sorptivity_mm_sqrt_s` and `sorptivity_secondary_mm_sqrt_s` (ASTM C1585), `scaling_resistance_kg_m2` (ASTM C672), `corrosion_rate_ua_cm2` and `half_cell_potential_mv` (ASTM C876), `heat_of_hydration_kj_kg` (ASTM C186).
+- Thermal & environmental: `thermal_conductivity_w_mk`, `specific_heat_j_kg_k`, `coeff_thermal_expansion_ue_c`, `fire_resistance_min` (ASTM E119), `embodied_carbon_kg_co2_m3`, `embodied_energy_mj_m3`.
+- Microstructure: `degree_of_hydration`, `calcium_hydroxide_pct`, `pore_size_distribution_nm`.
+
+3DCP process parameters (null for cast specimens):
+
+- Extrusion / motion: `is_3d_printed`, `print_speed_mm_s`, `layer_height_mm`, `layer_time_gap_s`, `nozzle_diameter_mm`, `nozzle_shape`, `nozzle_area_mm2`, `filament_width_mm`, `layer_width_mm`, `extrusion_rate_l_min`, `num_layers`, `path_length_mm`, `infill_pattern`, `contour_count`, `print_direction`, `test_orientation`, `test_orientation_code`.
+- Pump: `pump_type`, `pump_pressure_bar`, `pump_rotational_speed_rpm`, `pump_distance_m`, `pipe_diameter_mm`, `pumping_duration_s`.
+- Mixing: `mixing_time_s`, `mixing_speed_rpm`, `mixer_type`, `shear_rate_per_s`, `admixture_addition_point`.
+- Environment: `mix_temperature_c`, `ambient_temperature_c`, `ambient_humidity_pct`, `wind_speed_m_s`.
+
+Provenance, quality, and exposure classes:
+
+- Provenance: `doi`, `source_citation`, `measurement_confidence` (measured/calculated/estimated/reported), `lab_name`, `provenance_notes`.
+- Quality flags: `is_training_ready`, `is_synthetic`, `outlier_flag`.
+- Exposure: `exposure_class_freeze`, `exposure_class_sulfate`, `exposure_class_chloride`, `exposure_class_water`, `exposure_class_asr`.
+
+Companion tables: `strength_measurements` (multi-age data), `sources`, `test_methods`, `curing_regimes`, `standard_test_ages`.
+
+## Standards referenced
+
+ASTM C150, C595, C618, C989, C1240, C33, C494, C260, C39, C496, C78, C469, C191, C1611, C1583, C1202, C157, C666, C1260, C1293, C642, C1585, C672, C876, C186, C1611, E119. EN 197-1, EN 206, EN 12390 series, EN 12350 series. ICC 1150-202X (US consensus standard for 3D-printed concrete walls). RILEM TC 304-ADC. NIST MGI / Materials Data Repository. NASA GRC ICME Schema (Hearley & Arnold, 2023). FAIR data principles.
+
+## ICC 1150 compatibility
+
+Open3DCP columns cover all material, mechanical, fresh-state, durability, fire, and process parameters referenced in ICC 1150-202X (the first US consensus standard for 3D-printed concrete walls). See README.md "ICC 1150 Compatibility" section for the chapter-by-chapter mapping.
+
+## Companion projects
+
+- CEMFORGE — AI-driven concrete mix-formulation platform that consumes Open3DCP-formatted data: https://cemforge.ai
+- M3-CRETE — open-source meter-scale concrete 3D printer that produces Open3DCP-formatted data: https://m3-crete.com
+
+Open3DCP is the data layer; CEMFORGE is the inference layer; M3-CRETE is the production layer.
+
+## Machine-readable surface
+
+- Sitemap: https://open3dcp.org/sitemap.xml
+- robots.txt: https://open3dcp.org/robots.txt (explicitly allows ClaudeBot, GPTBot, Google-Extended, PerplexityBot)
+- MCP manifest (experimental): https://open3dcp.org/.well-known/mcp-manifest.json
+- Dataset JSON-LD: embedded in https://open3dcp.org/ inside a `<script type="application/ld+json">` tag.
+- Canonical schema reference (Markdown): https://open3dcp.org/Open3DCP_SCHEMA.md
+- Reference SQL DDL (PostgreSQL): https://open3dcp.org/sql/create_tables.sql
+- README: https://open3dcp.org/README.md
+- Changelog: https://open3dcp.org/CHANGELOG.md
+- CITATION.cff: https://github.com/sunnyday-technologies/Open3DCP/blob/main/CITATION.cff
+
+## Status
+
+Active. v1.5 released 2026-04-16. Schema is stable; new columns are added in minor versions as new test methods or material classes become relevant to 3DCP research.
