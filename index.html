@@ -468,6 +468,219 @@
       }
     }
   </style>
+
+  <!-- Structured data: Dataset + Organization (schema.org JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Dataset",
+        "@id": "https://open3dcp.org/#dataset",
+        "name": "Open3DCP",
+        "alternateName": "Open Data Standard for 3D Concrete Printing",
+        "description": "An open, flat database schema for 3D-printable concrete (3DCP) mix design data. Defines canonical column names, types, units, and engineering context covering binder materials, alkali activators, aggregates, fibers, admixtures, pigments, fresh-state rheology, hardened mechanical properties, durability, 3DCP process parameters, and interlayer bond. Mass-percent basis. ASTM/RILEM/EN-aligned. ML-ready. Schema definition only — not a dataset.",
+        "url": "https://open3dcp.org/",
+        "sameAs": [
+          "https://github.com/sunnyday-technologies/Open3DCP",
+          "https://doi.org/10.5281/zenodo.19647471"
+        ],
+        "identifier": "10.5281/zenodo.19647471",
+        "version": "1.5",
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "creator": {
+          "@id": "https://sunn3d.com/#organization"
+        },
+        "publisher": {
+          "@id": "https://sunn3d.com/#organization"
+        },
+        "isAccessibleForFree": true,
+        "keywords": [
+          "3D concrete printing",
+          "3DCP",
+          "concrete mix design",
+          "additive construction",
+          "machine learning",
+          "FAIR data",
+          "ASTM C39",
+          "ASTM C150",
+          "ASTM C618",
+          "ASTM C989",
+          "ASTM C1240",
+          "RILEM TC 304-ADC",
+          "alkali-activated materials",
+          "interlayer bond",
+          "rheology",
+          "schema",
+          "open data"
+        ],
+        "variableMeasured": [
+          {
+            "@type": "PropertyValue",
+            "name": "compressive_strength_mpa",
+            "unitText": "MPa",
+            "description": "Compressive strength of hardened specimen (ASTM C39 / EN 12390-3). Typical 3DCP range 20-120 MPa."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "flexural_strength_mpa",
+            "unitText": "MPa",
+            "description": "Flexural strength / modulus of rupture (ASTM C78). Typical 3DCP range 3-15 MPa."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "tensile_strength_mpa",
+            "unitText": "MPa",
+            "description": "Direct or splitting tensile strength (ASTM C496). Typical 8-12% of compressive."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "elastic_modulus_gpa",
+            "unitText": "GPa",
+            "description": "Static elastic modulus (ASTM C469). Typical 3DCP range 15-45 GPa."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "interlayer_bond_mpa",
+            "unitText": "MPa",
+            "description": "Tensile bond strength between printed layers (pull-off test, ASTM C1583). 3DCP-specific anisotropy indicator."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "yield_stress_pa",
+            "unitText": "Pa",
+            "description": "Static yield stress measured by rheometer. Governs shape retention and buildability."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "plastic_viscosity_pa_s",
+            "unitText": "Pa*s",
+            "description": "Plastic viscosity from rheometer. Governs pumpability."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "thixotropy_pa_per_s",
+            "unitText": "Pa/s",
+            "description": "Structural buildup rate (Athix). Critical for 3DCP layer-on-layer support."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "slump_mm",
+            "unitText": "mm",
+            "description": "Slump height (ASTM C143). Workability indicator."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "spread_mm",
+            "unitText": "mm",
+            "description": "Slump-flow spread diameter (ASTM C1611)."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "open_time_min",
+            "unitText": "min",
+            "description": "Workable window before set. Defines maximum print job duration."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "green_strength_kpa",
+            "unitText": "kPa",
+            "description": "Compressive strength of fresh concrete. Direct buildability measure."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "setting_time_initial_min",
+            "unitText": "min",
+            "description": "Initial set time by Vicat needle (ASTM C191)."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "w_b_ratio",
+            "description": "Water-to-binder ratio. The single most important predictor of compressive strength. Typical 3DCP range 0.30-0.45."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "print_speed_mm_s",
+            "unitText": "mm/s",
+            "description": "Nozzle travel speed during deposition."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "layer_height_mm",
+            "unitText": "mm",
+            "description": "Height of each deposited filament layer. Typical 5-15 mm."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "layer_time_gap_s",
+            "unitText": "s",
+            "description": "Time between successive layers at the same location. Cold-joint indicator; key driver of interlayer bond."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "nozzle_diameter_mm",
+            "unitText": "mm",
+            "description": "Print nozzle exit diameter. Constrains maximum aggregate size."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "test_orientation",
+            "description": "Loading direction relative to print layers (perpendicular, parallel, diagonal, cast). Captures 3DCP anisotropy."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "chloride_rcpt_coulombs",
+            "unitText": "C",
+            "description": "Rapid chloride permeability total charge passed (ASTM C1202). Durability indicator."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "drying_shrinkage_28d_ue",
+            "unitText": "microstrain",
+            "description": "28-day drying shrinkage (ASTM C157)."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "freeze_thaw_durability_factor",
+            "description": "Durability factor from freeze-thaw cycling (ASTM C666)."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "embodied_carbon_kg_co2_m3",
+            "unitText": "kg CO2/m3",
+            "description": "Cradle-to-gate embodied carbon dioxide of the mix."
+          }
+        ],
+        "measurementTechnique": [
+          "ASTM C39 (Compressive Strength)",
+          "ASTM C78 (Flexural Strength)",
+          "ASTM C469 (Elastic Modulus)",
+          "ASTM C1583 (Pull-off Bond Strength)",
+          "ASTM C143 / C1611 (Slump / Slump Flow)",
+          "ASTM C191 (Time of Setting)",
+          "ASTM C1202 (Rapid Chloride Permeability)",
+          "ASTM C157 (Drying Shrinkage)",
+          "ASTM C666 (Freeze-Thaw Durability)",
+          "EN 12390-3 (Compressive Strength)",
+          "Rotational rheometry (yield stress, viscosity, thixotropy)"
+        ],
+        "citation": "Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing. Sunnyday Technologies. https://github.com/sunnyday-technologies/Open3DCP DOI: 10.5281/zenodo.19647471"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://sunn3d.com/#organization",
+        "name": "Sunnyday Technologies LLC",
+        "url": "https://sunn3d.com/",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Appleton",
+          "addressRegion": "WI",
+          "addressCountry": "US"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -477,10 +690,10 @@
       <span class="logo-mark">Open3DCP</span>
       <span class="logo-sub">Open Data Standard</span>
     </div>
-    <nav>
-      <a href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener">Schema</a> &nbsp;&nbsp;
-      <a href="https://cemforge.ai" target="_blank" rel="noopener">CEMFORGE</a> &nbsp;&nbsp;
-      <a href="https://sunn3d.com" target="_blank" rel="noopener">sunn3d.com</a>
+    <nav aria-label="Primary">
+      <a href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener" aria-label="Open3DCP schema repository on GitHub (opens in new tab)">Schema</a> &nbsp;&nbsp;
+      <a href="https://cemforge.ai" target="_blank" rel="noopener" aria-label="CEMFORGE AI mix-formulation platform (opens in new tab)">CEMFORGE</a> &nbsp;&nbsp;
+      <a href="https://sunn3d.com" target="_blank" rel="noopener" aria-label="Sunnyday Technologies parent site (opens in new tab)">sunn3d.com</a>
     </nav>
   </header>
 
@@ -599,18 +812,18 @@
   <div class="cta-section">
     <div class="cta-columns">
       <div class="cta-col">
-        <a href="https://sunn3d.com" class="cta-col-word-sub" target="_blank" rel="noopener">Concrete.</a>
+        <a href="https://sunn3d.com" class="cta-col-word-sub" target="_blank" rel="noopener" aria-label="Visit Sunnyday Technologies (opens in new tab)">Concrete.</a>
       </div>
       <div class="cta-col">
         <div class="cta-col-word">Data.</div>
-        <a class="btn btn-secondary" href="https://cemforge.ai" target="_blank" rel="noopener">
+        <a class="btn btn-secondary" href="https://cemforge.ai" target="_blank" rel="noopener" aria-label="CEMFORGE AI mix-formulation platform (opens in new tab)">
           CEMFORGE Platform &rarr;
         </a>
       </div>
       <div class="cta-col">
         <div class="cta-col-word">Schema.</div>
-        <a class="btn btn-primary" href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <a class="btn btn-primary" href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener" aria-label="Open3DCP GitHub repository (opens in new tab)">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
           </svg>
           GitHub Repository
@@ -618,7 +831,7 @@
       </div>
       <div class="cta-col">
         <div class="cta-col-word">Printed.</div>
-        <a class="btn btn-secondary" href="https://m3-crete.com" target="_blank" rel="noopener">
+        <a class="btn btn-secondary" href="https://m3-crete.com" target="_blank" rel="noopener" aria-label="M3-CRETE concrete 3D printer (opens in new tab)">
           M3-CRETE Printer &rarr;
         </a>
       </div>
@@ -629,9 +842,10 @@
   <footer>
     <div class="footer-left">
       &copy; 2026 <a href="https://sunn3d.com">Sunnyday Technologies</a> &nbsp;&middot;&nbsp;
-      Wisconsin, USA &nbsp;·&nbsp; <span id="_em" style="color:#97D700;cursor:pointer" onclick="window.location.href=atob(this.dataset.h)" data-h="bWFpbHRvOm9wZW4zZGNwQHN1bm4zZC5jb20=">open&#51;dcp&#64;sunn&#51;d&#46;com</span> &nbsp;·&nbsp;
-      <a href="https://cemforge.ai">cemforge.ai</a> &nbsp;&middot;&nbsp;
-      <a href="https://m3-crete.com">m3-crete.com</a>
+      Wisconsin, USA &nbsp;·&nbsp; <span id="_em" role="link" tabindex="0" aria-label="Email open3dcp at sunn3d dot com" style="color:#97D700;cursor:pointer" onclick="window.location.href=atob(this.dataset.h)" data-h="bWFpbHRvOm9wZW4zZGNwQHN1bm4zZC5jb20=">open&#51;dcp&#64;sunn&#51;d&#46;com</span> &nbsp;·&nbsp;
+      <a href="https://cemforge.ai" aria-label="CEMFORGE AI mix-formulation platform">cemforge.ai</a> &nbsp;&middot;&nbsp;
+      <a href="https://m3-crete.com" aria-label="M3-CRETE concrete 3D printer">m3-crete.com</a> &nbsp;&middot;&nbsp;
+      <a href="https://cadclaw.io" aria-label="CADCLAW CAD validation framework">cadclaw.io</a>
     </div>
     <div class="footer-right">
       Apache 2.0
