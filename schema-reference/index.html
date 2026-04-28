@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>The Open3DCP Schema: A Reference Standard for 3D Concrete Printing Data</title>
+  <meta name="description" content="Open3DCP is an open, Apache-2.0 licensed schema and controlled vocabulary for 3D concrete printing data. This reference page describes the measured-variable groups, cross-references to ASTM, EN, ACI, and RILEM, and the canonical workflow for adoption in research labs." />
+  <!-- Open Graph -->
+  <meta property="og:title" content="The Open3DCP Schema: A Reference Standard for 3D Concrete Printing Data" />
+  <meta property="og:description" content="Open3DCP is an open, Apache-2.0 licensed schema and controlled vocabulary for 3D concrete printing data. This reference page describes the measured-variable groups, cross-references to ASTM, EN, ACI, and RILEM, and the canonical workflow for adoption in research labs." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://open3dcp.org/schema-reference/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="The Open3DCP Schema: A Reference Standard for 3D Concrete Printing Data" />
+  <meta name="twitter:description" content="Open3DCP is an open, Apache-2.0 licensed schema and controlled vocabulary for 3D concrete printing data. This reference page describes the measured-variable groups, cross-references to ASTM, EN, ACI, and RILEM, and the canonical workflow for adoption in research labs." />
+  <link rel="canonical" href="https://open3dcp.org/schema-reference/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@300;400;500&family=Poppins:wght@400;500;600&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:       #060d14;
+      --charcoal:    #0b1824;
+      --graphite:    #0f2035;
+      --border:      #1a3350;
+      --mid:         #2a4d6e;
+      --muted:       #6a8faa;
+      --light:       #c2d4e0;
+      --white:       #f0f4f7;
+      --accent:      #97D700;
+      --accent-dim:  #5c8400;
+      --brand-blue:  #013A73;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      background-image: linear-gradient(160deg, #011f3f 0%, #060d14 60%);
+      color: var(--white);
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    /* HEADER */
+    header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .logo-mark {
+      font-family: Orbitron, sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .logo-sub {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding-left: 0.75rem;
+      border-left: 1px solid var(--border);
+    }
+
+    nav a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      z-index: 10;
+      padding: 8rem 3rem 6rem;
+      max-width: 1100px;
+    }
+
+    .hero-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-label::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 1px;
+      background: var(--accent-dim);
+    }
+
+    h1 {
+      font-family: Orbitron, sans-serif;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: 0.03em;
+      color: var(--white);
+      margin-bottom: 2.5rem;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--light);
+      max-width: 620px;
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 3.5rem;
+    }
+
+    /* SPEC STRIP */
+    .spec-strip {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin: 0 3rem;
+      overflow: hidden;
+    }
+
+    .spec-item {
+      flex: 1;
+      padding: 1.5rem 2rem;
+      border-right: 1px solid var(--border);
+    }
+
+    .spec-item:last-child { border-right: none; }
+
+    .spec-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .spec-value {
+      font-family: Orbitron, sans-serif;
+      font-size: 1.6rem;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+
+    .spec-unit {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      margin-left: 0.3rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* CONTENT */
+    .content {
+      position: relative;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin: 5rem 3rem;
+      border: 1px solid var(--border);
+    }
+
+    .content-block {
+      padding: 3rem;
+      border-right: 1px solid var(--border);
+    }
+
+    .content-block:last-child { border-right: none; }
+    .content-block:nth-child(2) { border-right: none; }
+    .content-block:nth-child(3), .content-block:nth-child(4) {
+      border-top: 1px solid var(--border);
+    }
+
+    .block-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--accent-dim);
+      letter-spacing: 0.3em;
+      margin-bottom: 1.5rem;
+    }
+
+    .block-title {
+      font-family: Orbitron, sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .block-body {
+      font-size: 0.9rem;
+      color: var(--light);
+      line-height: 1.75;
+      font-weight: 300;
+      font-family: 'Raleway', sans-serif;
+    }
+
+    /* STANDARDS */
+    .standards-strip {
+      position: relative;
+      z-index: 10;
+      margin: 0 3rem;
+      padding: 2.5rem 3rem;
+      border: 1px solid var(--border);
+      border-top: none;
+    }
+
+    .standards-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .standards-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .standards-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      line-height: 1.6;
+      color: var(--muted);
+      margin: 0 0 1.2rem 0;
+      max-width: 52rem;
+    }
+
+    .standard-ref {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--border);
+      background: transparent;
+    }
+
+    /* CTA */
+    .cta-section {
+      position: relative;
+      z-index: 10;
+      margin: 5rem 3rem 6rem;
+      padding: 3.5rem;
+      border: 1px solid var(--border);
+      background: #0b1e33;
+    }
+
+    .cta-columns {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .cta-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .cta-col-word {
+      font-family: Orbitron, sans-serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1;
+      letter-spacing: 0.03em;
+      color: var(--white);
+    }
+
+    .cta-col-word-sub {
+      font-family: Orbitron, sans-serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1;
+      letter-spacing: 0.03em;
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    a.cta-col-word-sub:hover { color: #aae800; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 1.1rem 2rem;
+      width: 100%;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--brand-blue);
+      font-weight: 500;
+    }
+
+    .btn-primary:hover { background: #aae800; }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--light);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-left {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .footer-left a {
+      color: var(--accent-dim);
+      text-decoration: none;
+    }
+
+    .footer-left a:hover { color: var(--accent); }
+
+    .footer-right {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-label    { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
+    h1             { animation: fadeUp 0.7s ease both; animation-delay: 0.2s; }
+    .hero-desc     { animation: fadeUp 0.7s ease both; animation-delay: 0.35s; }
+    .spec-strip    { animation: fadeUp 0.7s ease both; animation-delay: 0.45s; }
+    .content       { animation: fadeUp 0.7s ease both; animation-delay: 0.55s; }
+    .standards-strip { animation: fadeUp 0.7s ease both; animation-delay: 0.6s; }
+    .cta-section   { animation: fadeUp 0.7s ease both; animation-delay: 0.65s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      header { padding: 1.25rem 1.5rem; }
+      .logo-sub { display: none; }
+      .hero { padding: 5rem 1.5rem 4rem; }
+
+      .spec-strip {
+        margin: 0 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .spec-item {
+        flex: 1 1 45%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .content {
+        grid-template-columns: 1fr;
+        margin: 3rem 1.5rem;
+      }
+
+      .content-block {
+        border-right: none !important;
+        border-bottom: 1px solid var(--border);
+        padding: 2rem 1.5rem;
+      }
+
+      .content-block:last-child { border-bottom: none; }
+
+      .standards-strip { margin: 0 1.5rem; padding: 2rem 1.5rem; }
+
+      .cta-section {
+        margin: 3rem 1.5rem 4rem;
+        padding: 2rem 1.5rem;
+      }
+
+      .cta-columns { flex-direction: column; }
+      .cta-col { width: 100%; }
+
+      footer {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1.5rem;
+        text-align: center;
+      }
+    }
+  </style>
+
+  <!-- Structured data: Dataset + Organization (schema.org JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Dataset",
+        "@id": "https://open3dcp.org/#dataset",
+        "name": "Open3DCP",
+        "alternateName": "Open Data Standard for 3D Concrete Printing",
+        "description": "An open, flat database schema for 3D-printable concrete (3DCP) mix design data. Defines canonical column names, types, units, and engineering context covering binder materials, alkali activators, aggregates, fibers, admixtures, pigments, fresh-state rheology, hardened mechanical properties, durability, 3DCP process parameters, and interlayer bond. Mass-percent basis. ASTM/RILEM/EN-aligned. ML-ready. Schema definition only — not a dataset.",
+        "url": "https://open3dcp.org/",
+        "sameAs": [
+          "https://github.com/sunnyday-technologies/Open3DCP",
+          "https://doi.org/10.5281/zenodo.19647471"
+        ],
+        "identifier": "10.5281/zenodo.19647471",
+        "version": "1.5",
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "creator": {
+          "@id": "https://sunn3d.com/#organization"
+        },
+        "publisher": {
+          "@id": "https://sunn3d.com/#organization"
+        },
+        "isAccessibleForFree": true,
+        "keywords": [
+          "3D concrete printing",
+          "3DCP",
+          "concrete mix design",
+          "additive construction",
+          "machine learning",
+          "FAIR data",
+          "ASTM C39",
+          "ASTM C150",
+          "ASTM C618",
+          "ASTM C989",
+          "ASTM C1240",
+          "RILEM TC 304-ADC",
+          "alkali-activated materials",
+          "interlayer bond",
+          "rheology",
+          "schema",
+          "open data"
+        ],
+        "variableMeasured": [
+          {
+            "@type": "PropertyValue",
+            "name": "compressive_strength_mpa",
+            "unitText": "MPa",
+            "description": "Compressive strength of hardened specimen (ASTM C39 / EN 12390-3). Typical 3DCP range 20-120 MPa."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "flexural_strength_mpa",
+            "unitText": "MPa",
+            "description": "Flexural strength / modulus of rupture (ASTM C78). Typical 3DCP range 3-15 MPa."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "tensile_strength_mpa",
+            "unitText": "MPa",
+            "description": "Direct or splitting tensile strength (ASTM C496). Typical 8-12% of compressive."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "elastic_modulus_gpa",
+            "unitText": "GPa",
+            "description": "Static elastic modulus (ASTM C469). Typical 3DCP range 15-45 GPa."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "interlayer_bond_mpa",
+            "unitText": "MPa",
+            "description": "Tensile bond strength between printed layers (pull-off test, ASTM C1583). 3DCP-specific anisotropy indicator."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "yield_stress_pa",
+            "unitText": "Pa",
+            "description": "Static yield stress measured by rheometer. Governs shape retention and buildability."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "plastic_viscosity_pa_s",
+            "unitText": "Pa*s",
+            "description": "Plastic viscosity from rheometer. Governs pumpability."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "thixotropy_pa_per_s",
+            "unitText": "Pa/s",
+            "description": "Structural buildup rate (Athix). Critical for 3DCP layer-on-layer support."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "slump_mm",
+            "unitText": "mm",
+            "description": "Slump height (ASTM C143). Workability indicator."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "spread_mm",
+            "unitText": "mm",
+            "description": "Slump-flow spread diameter (ASTM C1611)."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "open_time_min",
+            "unitText": "min",
+            "description": "Workable window before set. Defines maximum print job duration."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "green_strength_kpa",
+            "unitText": "kPa",
+            "description": "Compressive strength of fresh concrete. Direct buildability measure."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "setting_time_initial_min",
+            "unitText": "min",
+            "description": "Initial set time by Vicat needle (ASTM C191)."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "w_b_ratio",
+            "description": "Water-to-binder ratio. The single most important predictor of compressive strength. Typical 3DCP range 0.30-0.45."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "print_speed_mm_s",
+            "unitText": "mm/s",
+            "description": "Nozzle travel speed during deposition."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "layer_height_mm",
+            "unitText": "mm",
+            "description": "Height of each deposited filament layer. Typical 5-15 mm."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "layer_time_gap_s",
+            "unitText": "s",
+            "description": "Time between successive layers at the same location. Cold-joint indicator; key driver of interlayer bond."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "nozzle_diameter_mm",
+            "unitText": "mm",
+            "description": "Print nozzle exit diameter. Constrains maximum aggregate size."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "test_orientation",
+            "description": "Loading direction relative to print layers (perpendicular, parallel, diagonal, cast). Captures 3DCP anisotropy."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "chloride_rcpt_coulombs",
+            "unitText": "C",
+            "description": "Rapid chloride permeability total charge passed (ASTM C1202). Durability indicator."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "drying_shrinkage_28d_ue",
+            "unitText": "microstrain",
+            "description": "28-day drying shrinkage (ASTM C157)."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "freeze_thaw_durability_factor",
+            "description": "Durability factor from freeze-thaw cycling (ASTM C666)."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "embodied_carbon_kg_co2_m3",
+            "unitText": "kg CO2/m3",
+            "description": "Cradle-to-gate embodied carbon dioxide of the mix."
+          }
+        ],
+        "measurementTechnique": [
+          "ASTM C39 (Compressive Strength)",
+          "ASTM C78 (Flexural Strength)",
+          "ASTM C469 (Elastic Modulus)",
+          "ASTM C1583 (Pull-off Bond Strength)",
+          "ASTM C143 / C1611 (Slump / Slump Flow)",
+          "ASTM C191 (Time of Setting)",
+          "ASTM C1202 (Rapid Chloride Permeability)",
+          "ASTM C157 (Drying Shrinkage)",
+          "ASTM C666 (Freeze-Thaw Durability)",
+          "EN 12390-3 (Compressive Strength)",
+          "Rotational rheometry (yield stress, viscosity, thixotropy)"
+        ],
+        "citation": "Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing. Sunnyday Technologies. https://github.com/sunnyday-technologies/Open3DCP DOI: 10.5281/zenodo.19647471"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://sunn3d.com/#organization",
+        "name": "Sunnyday Technologies LLC",
+        "url": "https://sunn3d.com/",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Appleton",
+          "addressRegion": "WI",
+          "addressCountry": "US"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+  /* scoped pillar-page typography (article-style content) */
+  main.pillar-content {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 5rem;
+    position: relative;
+    z-index: 1;
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+  main.pillar-content h1 {
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    line-height: 1.15;
+    margin: 0 0 1.5rem;
+    letter-spacing: -0.01em;
+  }
+  main.pillar-content h2 {
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+    margin: 2.5rem 0 1rem;
+    letter-spacing: -0.005em;
+  }
+  main.pillar-content h3 {
+    font-size: 1.15rem;
+    margin: 1.75rem 0 0.75rem;
+    letter-spacing: 0;
+  }
+  main.pillar-content p { margin: 0 0 1.1rem; }
+  main.pillar-content ul, main.pillar-content ol { margin: 0 0 1.2rem 1.5rem; }
+  main.pillar-content li { margin-bottom: 0.4rem; }
+  main.pillar-content blockquote {
+    margin: 1.5rem 0;
+    padding: 0.5rem 1.25rem;
+    border-left: 3px solid currentColor;
+    opacity: 0.92;
+    font-style: italic;
+  }
+  main.pillar-content code {
+    font-family: 'IBM Plex Mono', 'Consolas', monospace;
+    font-size: 0.9em;
+    padding: 0.1em 0.35em;
+    background: rgba(127,127,127,0.12);
+    border-radius: 3px;
+  }
+  main.pillar-content pre {
+    overflow-x: auto;
+    padding: 1rem 1.1rem;
+    background: rgba(0,0,0,0.35);
+    border-radius: 4px;
+    margin: 1rem 0 1.4rem;
+    font-size: 0.85rem;
+  }
+  main.pillar-content pre code { background: transparent; padding: 0; }
+  main.pillar-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0 1.5rem;
+    font-size: 0.92rem;
+  }
+  main.pillar-content th, main.pillar-content td {
+    border: 1px solid rgba(127,127,127,0.35);
+    padding: 0.55rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  main.pillar-content th { font-weight: 600; }
+  main.pillar-content a { text-decoration: underline; text-underline-offset: 2px; }
+  main.pillar-content hr { border: 0; border-top: 1px solid rgba(127,127,127,0.35); margin: 2rem 0; }
+  main.pillar-content em { font-style: italic; }
+  main.pillar-content strong { font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+      <span class="logo-mark">Open3DCP</span>
+      <span class="logo-sub">Open Data Standard</span>
+    </div>
+    <nav aria-label="Primary">
+      <a href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener" aria-label="Open3DCP schema repository on GitHub (opens in new tab)">Schema</a> &nbsp;&nbsp;
+      <a href="https://cemforge.ai" target="_blank" rel="noopener" aria-label="CEMFORGE AI mix-formulation platform (opens in new tab)">CEMFORGE</a> &nbsp;&nbsp;
+      <a href="https://sunn3d.com" target="_blank" rel="noopener" aria-label="Sunnyday Technologies parent site (opens in new tab)">sunn3d.com</a>
+    </nav>
+  </header>
+
+  <main class="pillar-content">
+<h1 id="the-open3dcp-schema-a-reference-standard-for-3d-concrete-printing-data">The Open3DCP Schema: A Reference Standard for 3D Concrete Printing Data</h1>
+<blockquote>
+<p>Open3DCP. Apache License 2.0. Concept DOI: <a href="https://zenodo.org/records/19647471">10.5281/zenodo.19647471</a>. Maintained by <a href="https://sunn3d.com">Sunnyday Technologies</a>.</p>
+</blockquote>
+<p>This page is the reference description of the Open3DCP schema for researchers, standards authors, journal editors, dataset curators, and software implementers. It is intended as a citeable companion to the canonical schema document at <a href="https://github.com/sunnyday-technologies/Open3DCP">github.com/sunnyday-technologies/Open3DCP</a> and the <a href="https://github.com/sunnyday-technologies/Open3DCP/blob/main/Open3DCP_SCHEMA.md">Open3DCP_SCHEMA.md</a> reference. Where the schema document is exhaustive (every column, every type), this page is structural: it explains why the schema exists, what it covers, where it sits relative to the available standards landscape, and how a working laboratory can adopt it without changing how it runs experiments.</p>
+<p>The argument is simple. 3D concrete printing (3DCP) is an active research field with hundreds of publications per year. Almost every paper reports a mix design, fresh-state behavior, hardened mechanical performance, and some characterization of the print process itself. Almost no two papers report these in the same way. Open3DCP is a flat, machine-readable schema that fixes the reporting layer without dictating the test methods. It sits above the experimental dataset and is cross-referenced (for interoperability convenience, not commitment) to current widely-used test method references. The schema is compatible with the available standards frameworks but not committed to any single one; newer measurement protocols, including in-line process telemetry, computer-vision-based bond inspection, and emerging digital-twin instrumentation, are first-class extensions as the field develops them.</p>
+<hr />
+<h2 id="1-the-interoperability-problem-in-3dcp">1. The interoperability problem in 3DCP</h2>
+<p>3DCP literature has produced an enormous experimental record over the last decade and a half: rheology measurements, layer-bond pull-off tests, anisotropic compressive results, durability studies, recycled-aggregate variants, alkali-activated systems, fiber-reinforced printable mortars, and structural prototypes. The pace is high, with new mix designs, new test rigs, and new printing parameter combinations reported at conference and journal cadence.</p>
+<p>Almost none of this data is directly reusable by another laboratory. There are several reasons.</p>
+<p>First, <strong>units differ across labs and across publications</strong>. Mass percentages of binder are reported variously as fractions of the binder, fractions of total dry mass, or fractions of total wet mass. Water-to-binder ratios are sometimes water-to-cement ratios in disguise, depending on whether supplementary cementitious materials (SCMs) are counted as binder. Yield stress is reported in pascals or in kilopascals, or as torque from a vane that depends on the geometry of the apparatus. Slump-flow is reported in millimeters of spread, but the cone geometry and lift rate are often unstated.</p>
+<p>Second, <strong>test methods differ</strong>. A "compressive strength" value can come from a mortar cube cast against a smooth wall and tested under ASTM C109 conventions; from a prism following EN 196-1, where two halves of a broken flexural specimen are then compressed; or from a printed cube cut from a multi-layer wall specimen and tested perpendicular, parallel, or at an angle to the print direction. The numerical answer alone does not communicate what was actually done.</p>
+<p>Third, <strong>process parameters are buried in methodology prose</strong>. Layer height, layer time gap, nozzle diameter, nozzle shape, print speed, and pump pressure are reported, when reported at all, in narrative paragraphs rather than tabulated. Re-extraction is manual, error-prone, and expensive. Several large meta-analyses of 3DCP performance have noted explicitly that they could only recover a fraction of the variables they wanted from the published record.</p>
+<p>Fourth, <strong>interlaboratory variance is large and largely undocumented</strong>. The RILEM Technical Committee 304-ADC (Assessment of Additively Manufactured Concrete Materials and Structures) is one of the active reference points here: it has worked since 2018 on common protocols for printability and printed-specimen testing. Its interlaboratory studies have reported substantial between-lab dispersion in nominally identical experiments, which is unsurprising for a field still developing its measurement consensus, but which becomes scientifically actionable only when the variance is visible in the data (RILEM TC 304-ADC, 2022; Wangler et al., 2019).</p>
+<p>A schema does not fix the variance. A vane rheometer in one lab and a Brookfield in another will still produce different yield-stress numbers for the same paste. What a schema does is <strong>make the variance visible</strong>: it forces both labs to record the apparatus, the protocol code, the specimen geometry, and the value in a single, comparable structure. Once the variance is visible, statistical correction, hierarchical modeling, and data-driven calibration become possible. Without a schema, the variance is invisible because the data are not even in the same shape.</p>
+<p>This is the gap Open3DCP addresses. It is the column reference that sits above the experimental dataset.</p>
+<hr />
+<h2 id="2-what-open3dcp-is-and-is-not">2. What Open3DCP is (and is not)</h2>
+<p>Open3DCP is three things and only three things.</p>
+<ol>
+<li>
+<p><strong>A schema</strong>. A flat, named-column structure for 3DCP mix-design and test data. Every column has a name, an SI unit, a type, a description, and a reference to the standard that defines the underlying measurement. The schema spans rheology and fresh state, mechanical properties, 3DCP process parameters, durability, environment, specimen, interlayer, microstructure, and provenance domains.</p>
+</li>
+<li>
+<p><strong>A controlled vocabulary</strong>. Names are not free text. <code>cement_type_1l</code> is a Portland-limestone cement per ASTM C595 / EN 197-1 CEM II/A-L; it is not a Type I cement with a limestone addition. <code>superplasticizer</code> is recorded as solids-content mass percent of the wet mix, not as the as-supplied liquid percent. <code>test_orientation_code</code> takes one of {X, Y, Z, XY_45, CAST}. The vocabulary is the connective tissue that lets two datasets line up.</p>
+</li>
+<li>
+<p><strong>A column reference</strong>. Every column points outward to one of the available reference standards for the measurement: <code>compressive_strength_mpa</code> cross-references ASTM C39 and EN 12390-3; <code>chloride_rcpt_coulombs</code> cross-references ASTM C1202; <code>freeze_thaw_cycles</code> cross-references ASTM C666. The reference is informational only, and represents compatibility with current widely-used methods rather than commitment to any single one. Where newer measurement protocols emerge, the schema is designed to extend rather than to be replaced. Open3DCP does not redefine the test; it tells you which test the column is meant to capture.</p>
+</li>
+</ol>
+<p>Open3DCP is licensed under the Apache License, Version 2.0, including an express grant of patent rights from contributors. The canonical version is deposited on Zenodo with concept DOI <a href="https://zenodo.org/records/19647471">10.5281/zenodo.19647471</a>, which resolves to the most recent versioned release. The repository is at <a href="https://github.com/sunnyday-technologies/Open3DCP">github.com/sunnyday-technologies/Open3DCP</a>.</p>
+<p>It is equally important to be clear about what Open3DCP is not.</p>
+<ul>
+<li>
+<p><strong>Open3DCP is not a database</strong>. It defines column names and types; it does not host data. Researchers deposit their datasets on Zenodo, 4TU.ResearchData, the UCI Machine Learning Repository, or institutional repositories of their choice. Open3DCP gives them a target shape for the deposit.</p>
+</li>
+<li>
+<p><strong>Open3DCP is not a benchmark</strong>. There is no Open3DCP test set, no leaderboard, no canonical performance number to beat. Benchmarks are downstream artifacts that some users may build on top of Open3DCP-shaped data; the schema itself takes no position on what is "good."</p>
+</li>
+<li>
+<p><strong>Open3DCP is not a substitute for a standard</strong>. ASTM C39 still describes one way to test a cylinder. EN 12390-3 still describes one way to test a cube. RILEM TC 304-ADC still develops 3DCP-specific test protocols. Other emerging protocols will join them. Open3DCP does not replace any of these and does not privilege any of them; it records their results in a uniform shape.</p>
+</li>
+<li>
+<p><strong>Open3DCP is not a regulatory document</strong>. Building codes (IBC, Eurocode), material specifications (ACI 318, EN 206), and the emerging ICC 1150 standard for 3D-printed concrete walls (ICC, 2024 draft) define what concrete must be for construction. Open3DCP is a research data format. It happens to map cleanly onto ICC 1150 categories (see Section 4), but it does not certify anything.</p>
+</li>
+</ul>
+<p>The intended audience is researchers, dataset curators, journal editors enforcing supplementary-data conventions, ML practitioners training surrogate models, and standards bodies developing 3DCP test methods. The intended use is to make 3DCP data interoperable across labs, not to homogenize the underlying experimental practice.</p>
+<hr />
+<h2 id="3-the-schemas-variables-across-rheology-mechanical-process-and-durability-domains">3. The schema's variables across rheology, mechanical, process, and durability domains</h2>
+<p>The Open3DCP schema is organized into measured-variable groups across primary domains: rheology and fresh state, mechanical properties (hardened), 3DCP process parameters, and durability. The accounting is detailed in the CHANGELOG and the schema reference. This section walks through the groups with examples, giving enough orientation for a reader to find the corresponding section of the schema document.</p>
+<h3 id="31-composition-binders-aggregates-fibers-admixtures-water">3.1 Composition (binders, aggregates, fibers, admixtures, water)</h3>
+<p>All composition columns are stored as <strong>mass percent of total wet mix</strong>. This convention, fixed in the v1.0 design, eliminates density assumptions and normalizes naturally to a percent scale. The cementitious portion is indexed by familiar Portland and Portland-limestone cement classifications (<code>cement_type_1</code>, <code>cement_type_1_2</code>, <code>cement_type_1l</code>, <code>cement_type_2</code>, <code>cement_type_3</code>, <code>cement_type_4</code>, <code>cement_type_5</code>), cross-referenced to ASTM C150 / EN 197-1 for interoperability, plus calcium aluminate (<code>cac</code>) and calcium sulfoaluminate (<code>csa_cement</code>). Supplementary cementitious materials are split into bins compatible with ASTM classification conventions: <code>fly_ash_type_f</code> (cross-referenced to ASTM C618 Class F), <code>fly_ash_type_c</code> (ASTM C618 Class C), <code>silica_fume</code> (ASTM C1240), <code>slag</code> (ASTM C989), <code>metakaolin</code> (ASTM C618 Class N), and <code>limestone</code> (EN 12620). Recent releases have added alkali-activator columns (<code>sodium_hydroxide</code>, <code>sodium_silicate</code>, <code>potassium_hydroxide</code>, <code>potassium_silicate</code>, <code>activator_ms_ratio</code>, <code>na2o_dosage_pct</code>) for geopolymer and alkali-activated slag systems, plus pigment columns for architectural 3DCP.</p>
+<p>Aggregates use US-industry sand grade names cross-referenced to ASTM C33 fineness modulus ranges (<code>mason_sand</code>, <code>fine_sand</code>, <code>concrete_sand</code>, <code>coarse_sand</code>) plus the ASTM C33 size-number system for coarse aggregate. Most 3DCP systems are limited to smaller aggregate sizes because of pump and nozzle constraints; the larger sizes are present for compatibility with conventional concrete data and for future large-nozzle systems.</p>
+<p>Fibers are split by material (<code>steel_fiber</code>, <code>pp_fiber</code>, <code>pe_fiber</code>, <code>pva_fiber</code>, <code>glass_fiber</code>, <code>basalt_fiber</code>, <code>carbon_fiber</code>, <code>nylon_fiber</code>, <code>aramid_fiber</code>, <code>cellulose_fiber</code>) with three characterization columns that capture the form factor: <code>fiber_length_mm</code>, <code>fiber_diameter_mm</code>, and <code>fiber_aspect_ratio</code> (L/d). Cellulose fiber (cross-referenced to ASTM D7357 where applicable) was added for compatibility with ICC 1150 material categories.</p>
+<p>Admixtures are recorded as <strong>solids-content mass percent</strong>, not as-supplied liquid percent: a polycarboxylate dosage given as a fraction of a partly-aqueous product is recorded after multiplying by the solids fraction. The columns are cross-referenced to ASTM C494 admixture types where applicable: <code>superplasticizer</code> (Type F/G), <code>water_reducer</code> (Type A), <code>accelerator</code> (Type C/E), <code>retarder</code> (Type B/D), <code>air_entrainer</code> (ASTM C260), <code>vma</code>, <code>shrinkage_reducer</code>, and the specialized rheology modifiers <code>hpmc</code>, <code>sepiolite_clay</code>, <code>attapulgite</code>, and <code>calcium_bentonite</code>.</p>
+<h3 id="32-rheology-and-fresh-state">3.2 Rheology and fresh state</h3>
+<p>The rheology group (<code>yield_stress_pa</code>, <code>static_yield_stress_pa</code>, <code>dynamic_yield_stress_pa</code>, <code>plastic_viscosity_pa_s</code>, <code>thixotropy_pa_per_s</code>, <code>structuration_rate_pa_per_s</code>, <code>open_time_min</code>) captures the parameters that govern 3DCP printability. These are typically measured with a vane rheometer or a parallel-plate rheometer; the schema does not enforce a specific apparatus but expects the test method to be recorded in <code>test_method_code</code>.</p>
+<p>The workability group (<code>slump_mm</code> cross-referenced to ASTM C143; <code>spread_mm</code> cross-referenced to ASTM C1611 or the ASTM C1437 flow table; <code>j_ring_mm</code> to ASTM C1621; <code>v_funnel_s</code> to EN 12350-9; <code>l_box_ratio</code> to EN 12350-10) captures conventional flow tests carried over from self-consolidating concrete practice.</p>
+<p>Setting time uses Vicat-needle measurements (<code>setting_time_initial_min</code>, <code>setting_time_final_min</code>, cross-referenced to ASTM C191), and buildability is captured as <code>green_strength_kpa</code>. Air content (<code>air_content_fresh_pct</code>, cross-referenced to ASTM C231), unit weight (<code>unit_weight_fresh_kg_m3</code>, ASTM C138), and bleeding (<code>bleeding_pct</code>, ASTM C232) round out the fresh-state battery.</p>
+<h3 id="33-mechanical-properties-hardened">3.3 Mechanical properties (hardened)</h3>
+<p>Compressive strength (<code>compressive_strength_mpa</code>, cross-referenced to ASTM C39 or EN 12390-3 where applicable) is the most-reported variable in 3DCP literature, but it is also the most ambiguous because of specimen geometry and test orientation. The schema separates the value from its context: <code>specimen_geometry</code>, <code>specimen_length_mm</code>, <code>specimen_width_mm</code>, <code>specimen_height_mm</code>, <code>test_orientation</code>, and <code>test_orientation_code</code> together describe how the test was actually run. For a 3DCP literature review, recording (cube, perpendicular) versus (prism, parallel) versus (cast cylinder, no orientation) is the difference between meaningful comparison and apples-to-rocks.</p>
+<p>Other mechanical columns include <code>tensile_strength_mpa</code>, <code>splitting_tensile_mpa</code> (cross-ref ASTM C496), <code>flexural_strength_mpa</code> (ASTM C78), <code>elastic_modulus_gpa</code> (ASTM C469), <code>bond_strength_mpa</code> (ASTM C1583), <code>fracture_energy_n_m</code> (RILEM FMC-50), <code>toughness_index</code> (ASTM C1018), and <code>density_hardened_kg_m3</code> (ASTM C642). The cross-references are interoperability hooks rather than methodological commitments.</p>
+<p>3DCP-specific interlayer columns are split out: <code>interlayer_bond_mpa</code> (pull-off, cross-ref ASTM C1583), <code>interlayer_shear_mpa</code>, <code>air_content_deposited_pct</code>, <code>void_area_fraction_pct</code>, <code>surface_roughness_avg</code>, <code>surface_moisture_state</code>, and <code>surface_treatment</code>. Interlayer behavior is the dominant 3DCP-specific failure mode, and Chen et al. (2020) showed that bond strength can drop substantially when the layer time gap is extended past the printability window, with porosity at the interface as the controlling mechanism.</p>
+<h3 id="34-process-parameters">3.4 Process parameters</h3>
+<p>The 3DCP process group is what distinguishes Open3DCP from conventional concrete schemas. Columns include <code>is_3d_printed</code> (boolean), <code>print_speed_mm_s</code>, <code>layer_height_mm</code>, <code>layer_time_gap_s</code>, <code>nozzle_diameter_mm</code>, <code>nozzle_shape</code>, <code>nozzle_area_mm2</code>, <code>filament_width_mm</code>, <code>extrusion_rate_l_min</code>, <code>num_layers</code>, <code>path_length_mm</code>, <code>infill_pattern</code>, and <code>print_direction</code>. The pumping subgroup (<code>pump_type</code>, <code>pump_pressure_bar</code>, <code>pump_rotational_speed_rpm</code>, <code>pump_distance_m</code>, <code>pipe_diameter_mm</code>, <code>pumping_duration_s</code>) and mixing subgroup (<code>mixing_time_s</code>, <code>mixing_speed_rpm</code>, <code>mixer_type</code>, <code>shear_rate_per_s</code>, <code>admixture_addition_point</code>) capture the production line that delivers the printable mix to the nozzle.</p>
+<p>Environmental conditions during printing (<code>mix_temperature_c</code>, <code>ambient_temperature_c</code>, <code>ambient_humidity_pct</code>, <code>wind_speed_m_s</code>) matter for cold-joint formation and surface drying, both of which affect interlayer bond.</p>
+<h3 id="35-durability">3.5 Durability</h3>
+<p>The durability group covers chloride transport (<code>chloride_rcpt_coulombs</code>, cross-ref ASTM C1202; <code>chloride_migration_coeff</code>, NT BUILD 492; <code>chloride_diffusion_coeff</code>, ASTM C1556), carbonation (<code>carbonation_depth_1yr_mm</code>, EN 12390-12), shrinkage (<code>drying_shrinkage_28d_ue</code>, ASTM C157; <code>autogenous_shrinkage_ue</code>, ASTM C1698), creep (<code>creep_coefficient</code>, ASTM C512), freeze-thaw (<code>freeze_thaw_cycles</code>, ASTM C666), sulfate attack (<code>sulfate_expansion_6mo_pct</code>, ASTM C1012), ASR (<code>asr_expansion_14d_pct</code>, ASTM C1260; <code>asr_expansion_1yr_pct</code>, ASTM C1293), permeability (<code>water_penetration_depth_mm</code>, EN 12390-8; <code>electrical_resistivity_kohm_cm</code>, ASTM C1876), and absorption (<code>water_absorption_pct</code>, ASTM C642; <code>sorptivity_mm_sqrt_s</code> and <code>sorptivity_secondary_mm_sqrt_s</code>, ASTM C1585). Each cross-reference points at one of the available test frameworks; emerging durability protocols (electrochemical impedance spectroscopy, accelerated multi-ion exposure, embedded sensors) extend the schema as the field develops them.</p>
+<p>The secondary sorptivity column is particularly relevant for 3DCP because it characterizes interlayer-zone moisture transport at no extra laboratory cost: it is the same C1585 specimen, the same test, just a different segment of the absorption curve.</p>
+<h3 id="36-provenance">3.6 Provenance</h3>
+<p>Every record carries provenance: <code>doi</code>, <code>source_citation</code>, <code>measurement_confidence</code> (one of <code>measured</code>, <code>calculated</code>, <code>estimated</code>, <code>reported</code>), <code>lab_name</code>, and <code>provenance_notes</code>. The <code>lab_name</code> field is the linchpin of interlaboratory analysis: it lets a meta-analyst compute lab-level random effects without having to reconstruct lab identity from authorship strings.</p>
+<hr />
+<h2 id="4-cross-references-to-existing-standards">4. Cross-references to existing standards</h2>
+<p>Open3DCP fields are cross-referenced to the available standards landscape for interoperability convenience. The four major bodies most often present in the literature today are ASTM International, the European Committee for Standardization (CEN/EN), the American Concrete Institute (ACI), and RILEM. Newer cross-cutting documents include the ICC 1150 draft for 3D-printed concrete walls (ICC, 2024) and NIST guidance on materials data management. The schema treats these as compatibility hooks rather than methodological commitments: it is open to additional cross-references and to newer measurement protocols as the field develops them.</p>
+<p>The table below is a compact mapping; the canonical mapping is in <code>Open3DCP_SCHEMA.md</code>, which carries one row per column.</p>
+<table>
+<thead>
+<tr>
+<th>Open3DCP column</th>
+<th>Standard reference</th>
+<th>Type of reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cement_type_1</code></td>
+<td>ASTM C150 Type I</td>
+<td>Material classification</td>
+</tr>
+<tr>
+<td><code>cement_type_1l</code></td>
+<td>ASTM C595 / EN 197-1 CEM II/A-L</td>
+<td>Material classification</td>
+</tr>
+<tr>
+<td><code>fly_ash_type_f</code></td>
+<td>ASTM C618 Class F</td>
+<td>Material classification</td>
+</tr>
+<tr>
+<td><code>silica_fume</code></td>
+<td>ASTM C1240</td>
+<td>Material classification</td>
+</tr>
+<tr>
+<td><code>slag</code></td>
+<td>ASTM C989</td>
+<td>Material classification</td>
+</tr>
+<tr>
+<td><code>metakaolin</code></td>
+<td>ASTM C618 Class N</td>
+<td>Material classification</td>
+</tr>
+<tr>
+<td><code>mason_sand</code> ... <code>coarse_sand</code></td>
+<td>ASTM C33 (FM ranges)</td>
+<td>Aggregate grading</td>
+</tr>
+<tr>
+<td><code>agg_size_X</code></td>
+<td>ASTM C33 size numbers</td>
+<td>Aggregate grading</td>
+</tr>
+<tr>
+<td><code>superplasticizer</code></td>
+<td>ASTM C494 Type F/G</td>
+<td>Admixture classification</td>
+</tr>
+<tr>
+<td><code>water_reducer</code></td>
+<td>ASTM C494 Type A</td>
+<td>Admixture classification</td>
+</tr>
+<tr>
+<td><code>accelerator</code></td>
+<td>ASTM C494 Type C/E</td>
+<td>Admixture classification</td>
+</tr>
+<tr>
+<td><code>retarder</code></td>
+<td>ASTM C494 Type B/D</td>
+<td>Admixture classification</td>
+</tr>
+<tr>
+<td><code>air_entrainer</code></td>
+<td>ASTM C260</td>
+<td>Admixture classification</td>
+</tr>
+<tr>
+<td><code>slump_mm</code></td>
+<td>ASTM C143</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>spread_mm</code></td>
+<td>ASTM C1611 / ASTM C1437</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>setting_time_initial_min</code></td>
+<td>ASTM C191 (Vicat)</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>air_content_fresh_pct</code></td>
+<td>ASTM C231</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>unit_weight_fresh_kg_m3</code></td>
+<td>ASTM C138</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>compressive_strength_mpa</code></td>
+<td>ASTM C39 / EN 12390-3</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>flexural_strength_mpa</code></td>
+<td>ASTM C78</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>splitting_tensile_mpa</code></td>
+<td>ASTM C496</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>elastic_modulus_gpa</code></td>
+<td>ASTM C469</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>bond_strength_mpa</code> / <code>interlayer_bond_mpa</code></td>
+<td>ASTM C1583</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>fracture_energy_n_m</code></td>
+<td>RILEM FMC-50</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>toughness_index</code></td>
+<td>ASTM C1018</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>chloride_rcpt_coulombs</code></td>
+<td>ASTM C1202</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>chloride_migration_coeff</code></td>
+<td>NT BUILD 492</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>carbonation_depth_1yr_mm</code></td>
+<td>EN 12390-12</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>drying_shrinkage_28d_ue</code></td>
+<td>ASTM C157</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>freeze_thaw_cycles</code></td>
+<td>ASTM C666</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>sulfate_expansion_6mo_pct</code></td>
+<td>ASTM C1012</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>asr_expansion_14d_pct</code></td>
+<td>ASTM C1260</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>asr_expansion_1yr_pct</code></td>
+<td>ASTM C1293</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>sorptivity_mm_sqrt_s</code></td>
+<td>ASTM C1585</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>water_absorption_pct</code></td>
+<td>ASTM C642</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>water_penetration_depth_mm</code></td>
+<td>EN 12390-8</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>fire_resistance_min</code></td>
+<td>ASTM E119</td>
+<td>Test method</td>
+</tr>
+<tr>
+<td><code>exposure_class_freeze</code></td>
+<td>EN 206 / ACI 318</td>
+<td>Exposure classification</td>
+</tr>
+<tr>
+<td><code>test_age_days</code></td>
+<td>ACI 318 (28-day convention)</td>
+<td>Reporting convention</td>
+</tr>
+<tr>
+<td><code>test_orientation</code> / <code>test_orientation_code</code></td>
+<td>RILEM TC 304-ADC nomenclature</td>
+<td>Reporting convention</td>
+</tr>
+</tbody>
+</table>
+<p>The recently published ICC 1150 draft (IS-3DACT committee, ICC, 2024) is one of the first US consensus standards for 3D-printed concrete walls. It cites ASTM C150, C595, C33, C494, C143, C1437, C231, C138, C403, C39, C109, C469, C157, C1583, E518, C666, C1260, C1202, C1585, A820, D7508, D7357, and E119. Each of these maps to an Open3DCP column. RILEM TC 304-ADC publications (Reinhardt et al., 2019; Wangler et al., 2022), among other available reference points, describe orientation nomenclature and protocol structure that the schema's <code>test_orientation_code</code> enumeration is compatible with.</p>
+<p>The mapping is one-way and informational. Open3DCP makes no claim that a column "satisfies" the cited standard; it claims that the column <strong>records the result of a test performed under one of the available reference frameworks</strong>. The distinction matters legally and methodologically, and is restated in the schema disclaimer.</p>
+<hr />
+<h2 id="5-a-worked-example">5. A worked example</h2>
+<p>To make the schema concrete, consider an illustrative 3DCP experiment. The Sunnyday Materials Lab prints a multi-layer test wall using a Portland-limestone-cement (PLC) based mortar with fly ash replacement and polypropylene fiber. Cubes are extracted from the printed wall, plus cast control cubes, and tested at the standard reporting age.</p>
+<p>The mix design records, in canonical Open3DCP shape:</p>
+<ul>
+<li>Type IL Portland-limestone cement (cross-ref ASTM C595 CEM II/A-L) as <code>cement_type_1l</code></li>
+<li>Class F fly ash (cross-ref ASTM C618) as <code>fly_ash_type_f</code></li>
+<li>Concrete sand (cross-ref ASTM C33) as <code>concrete_sand</code></li>
+<li>PCE superplasticizer recorded at solids-content basis as <code>superplasticizer</code></li>
+<li>HPMC viscosity modifier as <code>hpmc</code></li>
+<li>Polypropylene fiber, with <code>fiber_length_mm</code>, <code>fiber_diameter_mm</code>, and <code>fiber_aspect_ratio</code> filled in as <code>pp_fiber</code></li>
+<li>Water as <code>water</code> and the derived <code>w_b_ratio</code></li>
+</ul>
+<p>Process columns capture nozzle, layer, speed, layer time gap, ambient conditions, and mix temperature. Test columns capture the spread, the static yield stress at the time of pumping, the orientation (Z, Y, or CAST), and the test method code.</p>
+<p>The corresponding Open3DCP CSV row is fully self-describing. A consumer that has never seen this dataset can identify the print orientation, the test method, the lab, and every material composition entry from the row alone. Where two compressive results come from the same mix but different orientations, they are recorded as separate rows that share a <code>mix_id</code> prefix and differ only in <code>test_orientation_code</code>; an ML pipeline can group or condition on orientation at training time. The <code>lab_name</code> and <code>measurement_confidence</code> fields enable downstream meta-analysis to weight or partition by lab and by data quality.</p>
+<p>The same record is machine-extractable for ML training without any parsing logic beyond reading a CSV. This is the central design property of the schema and the reason for the flat structure: every column is a feature, every row is an observation, no JSON traversal is required for the model to consume the data.</p>
+<p>The schema also supports JSON-LD wrapping for deposit alongside Zenodo records. The minimal wrapper points the consumer at the Open3DCP vocabulary (<code>@vocab: https://open3dcp.org/schema/</code>) and declares the schema version (<code>open3dcp:schema_version</code>) so consumers can detect breaking changes between major versions. CEMFORGE, the Sunnyday Technologies AI platform for printable concrete optimization (<a href="https://cemforge.ai">cemforge.ai</a>), consumes Open3DCP-shaped data directly. Hardware platforms such as M3-CRETE (<a href="https://m3-crete.com">m3-crete.com</a>) generate Open3DCP-shaped logs from their print controllers as the data are produced.</p>
+<hr />
+<h2 id="6-adopting-open3dcp-in-your-lab">6. Adopting Open3DCP in your lab</h2>
+<p>The schema is designed so that adoption does not require changing how your lab runs experiments. It requires only that the results are recorded in a uniform shape on the way out. The recommended workflow is three steps.</p>
+<p><strong>Step 1: Map your existing CSV columns to Open3DCP keys.</strong> Most laboratories already keep a mix-design spreadsheet with columns for each material, plus a results spreadsheet with columns for the tests. The mapping from your column names to Open3DCP column names is usually a one-time alias table. The schema document includes a substantial seeded alias list from the literature: "GGBFS," "ground granulated blast-furnace slag," and "slag" all map to <code>slag</code>; "C33 sand," "concrete sand," and "natural sand" all map to <code>concrete_sand</code>. Where you store densities and compute mass-percent on the fly, do that conversion once at export time so the deposited file is in the canonical shape.</p>
+<p><strong>Step 2: Wrap the CSV with a JSON-LD context.</strong> The minimal wrapper points the consumer at the Open3DCP vocabulary and declares the schema version (<code>open3dcp:schema_version</code>) so consumers can detect breaking changes between major versions. A complete deposit usually includes the CSV file (one row per measurement), a JSON-LD sidecar with the dataset-level metadata (authors, license, description, related identifiers), and the schema version reference. Templates are in the GitHub repository under <code>examples/</code>.</p>
+<p><strong>Step 3: Validate with tooling that consumes Open3DCP-shaped reports.</strong> Validation harnesses, including <a href="https://cadclaw.io">CADCLAW</a> (the open-source CAD validation framework that ships with M3-CRETE), are able to round-trip Open3DCP rows directly: an Open3DCP record describing a printed specimen can be tied back to the CAD-validated geometry that was deposited. This kind of cross-tool integration is the reason the Open3DCP schema is flat and stable: it lets independent tools (formulation engines, hardware controllers, CAD validators, statistics packages) share the same record without bespoke adapters.</p>
+<p><strong>Step 4: Deposit on Zenodo, 4TU.ResearchData, or your institutional repository.</strong> Use a CC BY 4.0 license for the data itself (this is independent of the Apache 2.0 license on the schema). Add the Open3DCP <code>@id</code> reference to the metadata so search engines and citation tools can link your dataset to the schema. Mint a DOI. Cite both Open3DCP (using the Zenodo concept DOI, <a href="https://zenodo.org/records/19647471">10.5281/zenodo.19647471</a>) and any test methods you used in your dataset description.</p>
+<p>A working lab can complete these steps for an existing dataset in an afternoon. The harder cases are legacy datasets where the experimental record is incomplete, and there the schema is honest: missing columns are simply null, and the <code>measurement_confidence</code> field flags the cells that were reconstructed from narrative prose. Open3DCP does not pretend that legacy data are as good as primary measurements, but it does let you publish them in a comparable shape with the limitations recorded explicitly.</p>
+<hr />
+<h2 id="7-where-open3dcp-fits-relative-to-the-available-standards-landscape">7. Where Open3DCP fits relative to the available standards landscape</h2>
+<p>Reference frameworks in materials science are layered. From the lab bench upward, here is how the available standards landscape commonly looks today (one snapshot, not a fixed hierarchy):</p>
+<pre><code>+------------------------------------------------------------+
+|  Building codes and design standards                       |
+|  IBC, Eurocode, ACI 318, EN 206, ICC 1150 (3DCP walls)     |
++------------------------------------------------------------+
+|  Material specifications                                   |
+|  ASTM C150, C595, C618, C989, C1240, C33, C494, EN 197-1   |
++------------------------------------------------------------+
+|  Test method standards                                     |
+|  ASTM C39, C78, C496, C469, C1202, C1585, C666, C1260,     |
+|  EN 12390-3, RILEM TC 304-ADC, NT BUILD 492                |
++------------------------------------------------------------+
+|  Open3DCP schema (this layer)                              |
+|  Column names, units, types, controlled vocabulary         |
+|  Apache 2.0, DOI 10.5281/zenodo.19647471                   |
++------------------------------------------------------------+
+|  Experimental datasets                                     |
+|  Per-lab CSVs, supplementary materials, Zenodo deposits,   |
+|  4TU.ResearchData, UCI ML Repo, institutional repositories |
++------------------------------------------------------------+
+|  Raw measurements                                          |
+|  Rheometer logs, load cell traces, image stacks, etc.      |
++------------------------------------------------------------+
+</code></pre>
+<p>The standards layer above describes what to measure and how to measure it under current widely-used methods. The schema layer says how to record what you measured. The dataset layer says what the actual numbers are. The schema is informational with respect to the reference frameworks above (it cross-references them, but is not committed to any single one) and prescriptive only with respect to the datasets below (it tells them what shape to take). It is intentionally thin: it does not redefine ASTM C39, it does not specify an apparatus, it does not approve a test, it does not certify a lab. It just tells you where to put the answer, in a way that is open to newer measurement protocols as the field develops them.</p>
+<p>This positioning matters because there is no other layer that does this. ASTM and EN do not publish digital schemas. RILEM publishes recommendations, not column reference documents. NIST publishes data management guidelines (Hearley and Arnold, 2023; Materials Genome Initiative materials) that describe the principles a schema should follow, but does not maintain a 3DCP-specific schema. Open3DCP fills the gap, and it does so in a license (Apache 2.0) and a format (flat CSV plus JSON-LD) that allow downstream reuse without negotiation.</p>
+<hr />
+<h2 id="8-roadmap-where-the-schema-is-going">8. Roadmap: where the schema is going</h2>
+<p>The schema is on a quarterly minor-version cadence. Major versions are reserved for breaking changes that would force existing datasets to migrate, and the maintainers commit to making such changes rare. The current planned additions and known gaps:</p>
+<p><strong>Planned for upcoming releases:</strong></p>
+<ul>
+<li>Long-term durability columns. The schema currently captures medium-horizon carbonation and sulfate expansion; multi-year exposure data (carbonation, ASR) is not yet first-class. A working group is reviewing the right column granularity.</li>
+<li>Embodied carbon LCA fields beyond <code>embodied_carbon_kg_co2_m3</code> and <code>embodied_energy_mj_m3</code>. The current columns are cradle-to-gate; cradle-to-grave and module-level (A1 through A5) breakdowns are useful for green-procurement reporting that cross-references EN 15804, ISO 21930, and other emerging LCA frameworks.</li>
+<li>Surface finish characterization. Architectural 3DCP applications need quantitative surface-roughness columns beyond the current single-value <code>surface_roughness_avg</code>. Candidates include Sa, Sq, and Sz from areal-roughness measurement standards.</li>
+<li>Pumping power and energy columns to support energy-per-cubic-meter analyses. The current <code>pump_pressure_bar</code> and <code>extrusion_rate_l_min</code> allow derivation but do not record the recorded power directly.</li>
+<li>Robotic and gantry kinematic envelope fields. Cell geometry, build envelope, and reachable orientations matter for printability comparison across machines.</li>
+<li>Closer integration with the M3-CRETE log format so that hardware-generated print logs map one-to-one onto schema columns at runtime.</li>
+</ul>
+<p><strong>Honest gaps:</strong></p>
+<ul>
+<li>The schema is biased toward extrusion-based 3DCP. Selective binder activation, particle-bed printing, and shotcrete-based 3DCP are partially covered but not first-class.</li>
+<li>Microstructure characterization is sparse. SEM image references, XRD pattern hashes, and MIP curve summaries are not yet schema fields. Image-level data are better hosted as separate Zenodo records linked by DOI.</li>
+<li>Sustainability metrics beyond embodied carbon are out of scope for the v1 series.</li>
+</ul>
+<p><strong>Invitation to contribute.</strong> The schema is community-maintainable. Issues and pull requests are welcome at <a href="https://github.com/sunnyday-technologies/Open3DCP">github.com/sunnyday-technologies/Open3DCP</a>. Proposed columns should come with: (1) a clear naming convention, (2) a unit, (3) a reference standard or, where no standard exists, a citation to the literature defining the measurement, (4) a use case from the proposer's own work. Major changes are discussed in issues before being merged into a release.</p>
+<hr />
+<h2 id="cite-open3dcp">Cite Open3DCP</h2>
+<p>If you reference Open3DCP in a paper, dataset, or technical report, please cite:</p>
+<p><strong>Plain text:</strong></p>
+<blockquote>
+<p>Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing [Schema]. Sunnyday Technologies. https://doi.org/10.5281/zenodo.19647471</p>
+</blockquote>
+<p><strong>BibTeX:</strong></p>
+<pre><code class="language-bibtex">@misc{open3dcp_2026,
+  author       = {Sonnentag, Nicholas},
+  title        = {{Open3DCP: Open Data Standard for 3D Concrete Printing}},
+  year         = {2026},
+  publisher    = {Sunnyday Technologies},
+  doi          = {10.5281/zenodo.19647471},
+  url          = {https://open3dcp.org}
+}
+</code></pre>
+<p><strong>RIS:</strong></p>
+<pre><code class="language-ris">TY  - DATA
+T1  - Open3DCP: Open Data Standard for 3D Concrete Printing
+AU  - Sonnentag, Nicholas
+PY  - 2026
+PB  - Sunnyday Technologies
+DO  - 10.5281/zenodo.19647471
+UR  - https://open3dcp.org
+ER  -
+</code></pre>
+<p>A <code>CITATION.cff</code> file is included in the repository for automated citation tooling (Citation File Format v1.2.0).</p>
+<hr />
+<h2 id="references">References</h2>
+<ol>
+<li>
+<p>Chen, Y., Jansen, K., Zhang, H., Romero Rodriguez, C., Gan, Y., Copuroglu, O., and Schlangen, E. (2020). Effect of printing parameters on interlayer bond strength of 3D printed limestone-calcined clay-based cementitious materials. <em>Construction and Building Materials</em>, 262, 120094. https://doi.org/10.1016/j.conbuildmat.2020.120094 [filename: T1L_LC3_15_TUDelft_Interlayer_Bond_LC3_3DCP.pdf]</p>
+</li>
+<li>
+<p>Hearley, B. L., and Arnold, S. M. (2023). NASA GRC ICME Schema for Materials Data Management: An Executive Summary. NASA/TM-20230018337. NASA Glenn Research Center.</p>
+</li>
+<li>
+<p>ICC IS-3DACT Committee (2024). ICC 1150-202X (Draft): Standard Requirements for 3D-Printed Concrete Walls. International Code Council. https://www.iccsafe.org/wp-content/uploads/is_3dact/ICC-1150-DRAFT-11-26-24.pdf</p>
+</li>
+<li>
+<p>Reinhardt, H.-W., Wangler, T., and Roussel, N., eds. (2019). RILEM Technical Committee 304-ADC: State-of-the-art Report on Assessment of Additively Manufactured Concrete Materials and Structures. RILEM.</p>
+</li>
+<li>
+<p>Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing. Sunnyday Technologies. DOI: 10.5281/zenodo.19647471. https://github.com/sunnyday-technologies/Open3DCP</p>
+</li>
+<li>
+<p>Wangler, T., Roussel, N., Bos, F. P., Salet, T. A. M., and Flatt, R. J. (2019). Digital concrete: A review. <em>Cement and Concrete Research</em>, 123, 105780. https://doi.org/10.1016/j.cemconres.2019.105780</p>
+</li>
+<li>
+<p>Bos, F. P., Wolfs, R. J. M., Ahmed, Z. Y., and Salet, T. A. M. (2016). Additive manufacturing of concrete in construction: potentials and challenges of 3D concrete printing. <em>Virtual and Physical Prototyping</em>, 11(3), 209-225. https://doi.org/10.1080/17452759.2016.1209867</p>
+</li>
+<li>
+<p>Roussel, N. (2018). Rheological requirements for printable concretes. <em>Cement and Concrete Research</em>, 112, 76-85. https://doi.org/10.1016/j.cemconres.2018.04.005</p>
+</li>
+<li>
+<p>Panda, B., Paul, S. C., and Tan, M. J. (2017). Anisotropic mechanical performance of 3D printed fiber reinforced sustainable construction material. <em>Materials Letters</em>, 209, 146-149. https://doi.org/10.1016/j.matlet.2017.07.123</p>
+</li>
+<li>
+<p>Tay, Y. W. D., Qian, Y., and Tan, M. J. (2019). Printability region for 3D concrete printing using slump and slump flow test. <em>Composites Part B: Engineering</em>, 174, 106968. https://doi.org/10.1016/j.compositesb.2019.106968</p>
+</li>
+<li>
+<p>Marchment, T., Sanjayan, J., and Xia, M. (2019). Method of enhancing interlayer bond strength in construction-scale 3D printing with mortar by effective bond area amplification. <em>Materials &amp; Design</em>, 169, 107684. https://doi.org/10.1016/j.matdes.2019.107684</p>
+</li>
+<li>
+<p>Wolfs, R. J. M., Bos, F. P., and Salet, T. A. M. (2019). Hardened properties of 3D printed concrete: The influence of process parameters on interlayer adhesion. <em>Cement and Concrete Research</em>, 119, 132-140. https://doi.org/10.1016/j.cemconres.2019.02.017</p>
+</li>
+<li>
+<p>Sanjayan, J. G., Nematollahi, B., Xia, M., and Marchment, T. (2018). Effect of surface moisture on inter-layer strength of 3D printed concrete. <em>Construction and Building Materials</em>, 172, 468-475. https://doi.org/10.1016/j.conbuildmat.2018.03.232</p>
+</li>
+<li>
+<p>Tennis, P. D., Thomas, M. D. A., Weiss, W. J., Farny, J. A., and Giannini, E. R. (2024). State-of-the-Art Report on Use of Limestone in Cements at Levels of up to 15%. PCA R&amp;D Bulletin SN3148. Portland Cement Association. [filename: 2024-SN3148.03.pdf]</p>
+</li>
+<li>
+<p>Adu-Amankwah, S., Black, L., and Zajac, M. (2015). Effect of Limestone Addition on the Early Age Hydration and Microstructure Evolution of Composite Slag Cements. In <em>Proceedings of the 14th International Congress on the Chemistry of Cement (ICCC 14)</em>, Beijing. [filename: SN588 - Effect of Limestone Addition on the Early Age Hydration and Microstructure Evolution of Composite Slag Cements Full paper.pdf]</p>
+</li>
+<li>
+<p>Sharma, A., Sirotiak, T., Wang, X., Taylor, P., Angadi, P., and Payne, S. (2021). Portland limestone cement for reduced shrinkage and enhanced durability of concrete. <em>Magazine of Concrete Research</em>. https://doi.org/10.1680/jmacr.19.00165 [filename: 1631120.pdf]</p>
+</li>
+<li>
+<p>Hooton, R. D., and Riding, K. A. (2025). Type IL cement use in precast, prestressed concrete. <em>PCI Journal</em>, 70(2), 23-36. https://doi.org/10.15554/pcij70.2-04 [filename: Portland_Limeston_Cement_MA25_R01.pdf]</p>
+</li>
+<li>
+<p>An, D., Zhang, Y. X., and Yang, R. (2024). Incorporating coarse aggregates into 3D concrete printing from mixture design and process control to structural behaviours and practical applications: a review. <em>Virtual and Physical Prototyping</em>. https://doi.org/10.1080/17452759.2024.2351154 [filename: Incorporating coarse aggregates into 3D concrete printing from mixture design and process control to structural behaviours and practical applications .pdf]</p>
+</li>
+<li>
+<p>ASTM International. ASTM C39/C39M Standard Test Method for Compressive Strength of Cylindrical Concrete Specimens. West Conshohocken, PA.</p>
+</li>
+<li>
+<p>ASTM International. ASTM C150/C150M Standard Specification for Portland Cement. West Conshohocken, PA.</p>
+</li>
+<li>
+<p>ASTM International. ASTM C595/C595M Standard Specification for Blended Hydraulic Cements. West Conshohocken, PA.</p>
+</li>
+<li>
+<p>CEN. EN 12390-3 Testing hardened concrete - Part 3: Compressive strength of test specimens. European Committee for Standardization.</p>
+</li>
+<li>
+<p>CEN. EN 197-1 Cement - Part 1: Composition, specifications and conformity criteria for common cements. European Committee for Standardization.</p>
+</li>
+<li>
+<p>RILEM TC 304-ADC. (2022). Assessment of Additively Manufactured Concrete Materials and Structures: Recommendations on test methods. RILEM Materials and Structures.</p>
+</li>
+<li>
+<p>NIST. Materials Genome Initiative. https://www.nist.gov/mgi</p>
+</li>
+</ol>
+<hr />
+<h2 id="cross-references">Cross-references</h2>
+<ul>
+<li>Schema reference and source: <a href="https://github.com/sunnyday-technologies/Open3DCP">github.com/sunnyday-technologies/Open3DCP</a></li>
+<li>Canonical schema document: <a href="https://github.com/sunnyday-technologies/Open3DCP/blob/main/Open3DCP_SCHEMA.md">Open3DCP_SCHEMA.md</a></li>
+<li>Zenodo concept DOI: <a href="https://zenodo.org/records/19647471">10.5281/zenodo.19647471</a></li>
+<li>AI platform consuming Open3DCP-shaped data: <a href="https://cemforge.ai">CEMFORGE</a></li>
+<li>Hardware platform producing Open3DCP-shaped logs: <a href="https://m3-crete.com">M3-CRETE</a></li>
+<li>Validation tooling that consumes Open3DCP-shaped reports: <a href="https://cadclaw.io">CADCLAW</a></li>
+<li>Maintainer: <a href="https://sunn3d.com">Sunnyday Technologies</a></li>
+</ul>
+<hr />
+<hr />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Dataset",
+      "@id": "https://open3dcp.org/schema-reference/#dataset",
+      "name": "Open3DCP: Open Data Standard for 3D Concrete Printing",
+      "description": "An open, Apache-2.0 licensed schema and controlled vocabulary for 3D concrete printing data. Spans composition, process, mechanical, fresh state, durability, environment, specimen, interlayer, microstructure, and provenance domains. Cross-references ASTM, EN, ACI, and RILEM standards.",
+      "url": "https://open3dcp.org/",
+      "sameAs": "https://github.com/sunnyday-technologies/Open3DCP",
+      "identifier": "https://doi.org/10.5281/zenodo.19647471",
+      "license": "https://www.apache.org/licenses/LICENSE-2.0",
+      "creator": {
+        "@type": "Organization",
+        "name": "Sunnyday Technologies",
+        "url": "https://sunn3d.com"
+      },
+      "keywords": [
+        "3D concrete printing",
+        "3DCP",
+        "schema",
+        "open data",
+        "printability dataset",
+        "RILEM TC 304-ADC",
+        "ASTM",
+        "EN",
+        "ACI",
+        "interlaboratory comparability"
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://open3dcp.org/schema-reference/#article",
+      "headline": "The Open3DCP Schema: A Reference Standard for 3D Concrete Printing Data",
+      "description": "Reference description of the Open3DCP schema for 3D concrete printing data: the measured-variable groups across rheology, mechanical, process, and durability domains, cross-references to ASTM, EN, ACI, and RILEM, a worked example, and the canonical adoption workflow.",
+      "url": "https://open3dcp.org/schema-reference/",
+      "datePublished": "2026-04-27",
+      "dateModified": "2026-04-27",
+      "author": {
+        "@type": "Person",
+        "name": "Nicholas Sonnentag",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Sunnyday Technologies"
+        }
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Sunnyday Technologies",
+        "url": "https://sunn3d.com"
+      },
+      "about": {
+        "@id": "https://open3dcp.org/schema-reference/#dataset"
+      },
+      "mainEntityOfPage": "https://open3dcp.org/schema-reference/",
+      "license": "https://creativecommons.org/licenses/by/4.0/"
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">...</script>
+
+  </main>
+
+<footer>
+    <div class="footer-left">
+      &copy; 2026 <a href="https://sunn3d.com">Sunnyday Technologies</a> &nbsp;&middot;&nbsp;
+      Wisconsin, USA &nbsp;·&nbsp; <span id="_em" role="link" tabindex="0" aria-label="Email open3dcp at sunn3d dot com" style="color:#97D700;cursor:pointer" onclick="window.location.href=atob(this.dataset.h)" data-h="bWFpbHRvOm9wZW4zZGNwQHN1bm4zZC5jb20=">open&#51;dcp&#64;sunn&#51;d&#46;com</span> &nbsp;·&nbsp;
+      <a href="https://cemforge.ai" aria-label="CEMFORGE AI mix-formulation platform">cemforge.ai</a> &nbsp;&middot;&nbsp;
+      <a href="https://m3-crete.com" aria-label="M3-CRETE concrete 3D printer">m3-crete.com</a> &nbsp;&middot;&nbsp;
+      <a href="https://cadclaw.io" aria-label="CADCLAW CAD validation framework">cadclaw.io</a>
+    </div>
+    <div class="footer-right">
+      Apache 2.0
+    </div>
+  </footer>
+
+</body>
+</html>
