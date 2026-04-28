@@ -332,7 +332,7 @@ You are free to use, adapt, and redistribute this schema for any purpose, includ
 
 ## Author
 
-**Nicholas Sonnentag** — mechanical engineer, founder of [Sunnyday Technologies](https://sunn3d.com). Open3DCP is authored and maintained by Nick; drafting and refinement is AI-assisted (Claude, Anthropic) but the schema design, column semantics, reference-standard curation, and direction are his.
+**Nicholas Sonnentag** ([ORCID 0009-0002-1897-384X](https://orcid.org/0009-0002-1897-384X)) — mechanical engineer, founder of [Sunnyday Technologies](https://sunn3d.com). Open3DCP is authored and maintained by Nick; drafting and refinement is LLM-assisted but the schema design, column semantics, reference-standard curation, and direction are his.
 
 - LinkedIn: [Nicholas Sonnentag](https://www.linkedin.com/in/nicholas-sonnentag)
 - Email: `nickworks@sunn3d.com`
