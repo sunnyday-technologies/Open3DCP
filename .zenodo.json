@@ -4,7 +4,8 @@
   "creators": [
     {
       "name": "Sonnentag, Nicholas",
-      "affiliation": "Sunnyday Technologies"
+      "affiliation": "Sunnyday Technologies",
+      "orcid": "0009-0002-1897-384X"
     }
   ],
   "description": "An open data standard for 3D concrete printing — a schema and column reference for recording mix designs, mechanical test results, and process parameters in a consistent, interoperable format. Cross-references ASTM, CEN, ACI, and RILEM standards.",
