@@ -1,7 +1,9 @@
-# Open3DCP v1.5
+# Open3DCP v1.6
 
 **Open Data Standard for 3D Concrete Printing**
 
+> **v1.6 (2026-05-05):** SCM per-grade taxonomy split — slag (3 grades per ASTM C989 strength index), metakaolin (2 reactivity grades), and pumice (powder/sand/coarse by particle size). New columns: `slag_grade_80`, `slag_grade_100`, `slag_grade_120`, `metakaolin_high_purity`, `metakaolin_standard`, `pumice_powder`, `pumice_sand`, `pumice_coarse`. Generic `slag`, `metakaolin`, and `pumice` columns are preserved for backward compatibility (use them when the source paper does not specify a grade). Total: 247 columns.
+>
 > **v1.5 (2026-04-16):** Pigment columns: `iron_oxide_pigment`, `titanium_dioxide_pigment`, `chromium_oxide_pigment`, `carbon_black_pigment`, `pigment_other`. Pigments are ultra-fine (~1 um), used at 1-5% in architectural 3DCP, with significant impact on packing, water demand, and microstructure. Total: 239 columns.
 >
 > **v1.4 (2026-04-16):** Alkali-activated material (AAM) columns: `sodium_hydroxide`, `sodium_silicate`, `potassium_hydroxide`, `potassium_silicate`, `activator_ms_ratio`, `na2o_dosage_pct`, `nano_clay`, `mineral_powder`, `mwcnt`, `graphene_oxide`, `rice_husk_ash`, `recycled_sand`. Total: 234 columns.
@@ -76,10 +78,16 @@ Cements are classified by ASTM C150 / EN 197-1 type. SCMs follow their respectiv
 | `fly_ash_type_c` | real | Class C fly ash (SiO2+Al2O3+Fe2O3 ≥ 50%) | ASTM C618 |
 | `silica_fume` | real | Silica fume / microsilica | ASTM C1240 |
 | `nano_silica` | real | Nano-SiO2 (colloidal or fumed, <100 nm) | -- |
-| `slag` | real | Ground granulated blast furnace slag (GGBS) | ASTM C989 |
-| `metakaolin` | real | Calcined kaolin clay | ASTM C618 Class N |
+| `slag` | real | GGBS, grade not specified in source | ASTM C989 |
+| `slag_grade_80` | real | GGBS, ASTM C989 Grade 80 (Strength Index ≥ 75% at 28d). Lower reactivity, lower water demand. | ASTM C989 |
+| `slag_grade_100` | real | GGBS, ASTM C989 Grade 100 (Strength Index ≥ 95% at 28d). Most common commercial grade. | ASTM C989 |
+| `slag_grade_120` | real | GGBS, ASTM C989 Grade 120 (Strength Index ≥ 115% at 28d). Higher early strength, higher heat of hydration. | ASTM C989 |
+| `metakaolin` | real | Calcined kaolin clay, reactivity grade not specified in source | ASTM C618 Class N |
+| `metakaolin_high_purity` | real | High-Reactivity Metakaolin (HRM): kaolinite >95%, Blaine ~15,000 m²/kg. Highest pozzolanic activity, pronounced thixotropy enhancement. | ASTM C618 Class N |
+| `metakaolin_standard` | real | Standard Metakaolin (MRM): kaolinite 75-90%, Blaine ~10,000 m²/kg. Lower cost than HRM; the more common grade in literature. | ASTM C618 Class N |
 | `limestone` | real | Limestone filler / calcium carbonate | EN 12620 |
-| `pumice` | real | Natural pozzolan (pumice) | ASTM C618 Class N |
+| `pumice` | real | Natural pozzolan (pumice), grade not specified in source | ASTM C618 Class N |
+| `pumice_powder` | real | SCM-grade pumice <75 μm (200-mesh). Low-density, high-absorption pozzolan with moderate reactivity (PAI ~85%). Pacific Northwest US deposits. | ASTM C618 Class N |
 | `bottom_ash` | real | Coal bottom ash | -- |
 | `rice_husk_ash` | real | Rice husk ash (pozzolan) | -- |
 
@@ -130,6 +138,8 @@ Sand is classified using US industry ordering terms. Fineness modulus (FM) range
 | `coarse_sand` | real | Coarse washed sand | FM 3.1-3.7 | Coarse sand / torpedo sand |
 | `agg_size_89` | real | Very fine gravel (3/8" - #16 sieve, 9.5-1.18 mm) | ASTM C33 Size #89 | #89 stone |
 | `agg_size_8` | real | Fine pea gravel (3/8" - #8 sieve, 9.5-2.36 mm) | ASTM C33 Size #8 | Pea gravel / #8 stone |
+| `pumice_sand` | real | Lightweight fine-aggregate pumice (75-600 μm). Density ~700 kg/m³ vs ~2,650 kg/m³ for silica sand. Provides thermal-shock resistance and internal-curing water retention; lower compressive contribution per kg than silica sand. | ASTM C330 lightweight | Pumice sand |
+| `pumice_coarse` | real | Lightweight coarse-aggregate pumice (600 μm - 9.5 mm). Density ~650 kg/m³. Rare in 3DCP (nozzle blockage risk above ~4 mm) but captured when explicitly stated. | ASTM C330 lightweight | Coarse pumice |
 | `agg_size_7` | real | 1/2" - #4 (12.5-4.75 mm) | ASTM C33 Size #7 | #7 stone |
 | `agg_size_67` | real | 3/4" - #4 (19-4.75 mm) | ASTM C33 Size #67 | Common structural |
 | `agg_size_6` | real | 3/4" - 3/8" (19-9.5 mm) | ASTM C33 Size #6 | #6 stone |
