@@ -302,7 +302,7 @@ See `Open3DCP_SCHEMA.md` for full disclaimer language.
 
 ---
 
-## Test-method coverage (current schema v1.5)
+## Test-method coverage (current schema v1.6)
 
 Open3DCP captures the materials, fresh-state, hardened-mechanical, interlayer, durability, and process data that 3DCP research and inter-laboratory studies routinely report. The table below lists representative test methods that researchers commonly cite when populating each column group; Open3DCP itself is method-neutral and accepts data from any equivalent test.
 

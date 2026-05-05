@@ -42,10 +42,16 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     fly_ash_type_c              REAL DEFAULT 0,     -- Class C (SiO2+Al2O3+Fe2O3 >= 50%), ASTM C618
     silica_fume                 REAL DEFAULT 0,     -- Microsilica, ASTM C1240
     nano_silica                 REAL DEFAULT 0,     -- Nano-SiO2 (<100 nm)
-    slag                        REAL DEFAULT 0,     -- GGBFS, ASTM C989
-    metakaolin                  REAL DEFAULT 0,     -- Calcined kaolin, ASTM C618 Class N
+    slag                        REAL DEFAULT 0,     -- GGBFS, grade not specified, ASTM C989
+    slag_grade_80               REAL DEFAULT 0,     -- v1.6 — ASTM C989 Grade 80 (SI >= 75% at 28d)
+    slag_grade_100              REAL DEFAULT 0,     -- v1.6 — ASTM C989 Grade 100 (SI >= 95% at 28d)
+    slag_grade_120              REAL DEFAULT 0,     -- v1.6 — ASTM C989 Grade 120 (SI >= 115% at 28d)
+    metakaolin                  REAL DEFAULT 0,     -- Calcined kaolin, reactivity grade not specified, ASTM C618 Class N
+    metakaolin_high_purity      REAL DEFAULT 0,     -- v1.6 — High-Reactivity Metakaolin (HRM), kaolinite >95%, Blaine ~15,000 m²/kg
+    metakaolin_standard         REAL DEFAULT 0,     -- v1.6 — Standard Metakaolin (MRM), kaolinite 75-90%, Blaine ~10,000 m²/kg
     limestone                   REAL DEFAULT 0,     -- Limestone filler, EN 12620
-    pumice                      REAL DEFAULT 0,     -- Natural pozzolan, ASTM C618 Class N
+    pumice                      REAL DEFAULT 0,     -- Natural pozzolan, grade not specified, ASTM C618 Class N
+    pumice_powder               REAL DEFAULT 0,     -- v1.6 — SCM-grade pumice <75 μm (binder-section), ASTM C618 Class N
     bottom_ash                  REAL DEFAULT 0,     -- Coal bottom ash
     rice_husk_ash               REAL DEFAULT 0,     -- Rice husk ash (pozzolan)
 
@@ -83,6 +89,8 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- Coarse aggregate: ASTM C33 size numbers
     agg_size_89                 REAL DEFAULT 0,     -- #89: 3/8"-#16 sieve (9.5-1.18 mm)
     agg_size_8                  REAL DEFAULT 0,     -- #8:  3/8"-#8 sieve (9.5-2.36 mm) — pea gravel, 3DCP limit for most systems
+    pumice_sand                 REAL DEFAULT 0,     -- v1.6 — Lightweight fine-aggregate pumice 75-600 μm, ASTM C330 lightweight
+    pumice_coarse               REAL DEFAULT 0,     -- v1.6 — Lightweight coarse-aggregate pumice 600 μm-9.5 mm, ASTM C330 lightweight
     agg_size_7                  REAL DEFAULT 0,     -- #7:  1/2"-#4 (12.5-4.75 mm)
     agg_size_67                 REAL DEFAULT 0,     -- #67: 3/4"-#4 (19-4.75 mm) — common structural
     agg_size_6                  REAL DEFAULT 0,     -- #6:  3/4"-3/8" (19-9.5 mm)
