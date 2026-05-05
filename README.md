@@ -302,23 +302,23 @@ See `Open3DCP_SCHEMA.md` for full disclaimer language.
 
 ---
 
-## ICC 1150 Compatibility (v1.3)
+## Test-method coverage (current schema v1.5)
 
-Open3DCP columns cover the material, mechanical, and process data referenced by [ICC 1150-202X](https://www.iccsafe.org/wp-content/uploads/is_3dact/ICC-1150-DRAFT-11-26-24.pdf) — the first US consensus standard for 3D-printed concrete walls, developed by the IS-3DACT committee.
+Open3DCP captures the materials, fresh-state, hardened-mechanical, interlayer, durability, and process data that 3DCP research and inter-laboratory studies routinely report. The table below lists representative test methods that researchers commonly cite when populating each column group; Open3DCP itself is method-neutral and accepts data from any equivalent test.
 
-| Category | ICC Chapter | Key test methods | Open3DCP columns |
-|----------|-----------|-----------------|-----------------|
-| Material specs | Ch. 3, §301 | ASTM C150, C595, C33, C494, A820, D7508, D7357 | 37 material columns (11 binders, 6 aggregates, 10 fibers, 8 admixtures, water) |
-| Fresh properties | Ch. 3, §302 | ASTM C143, C1437, C231, C138, C403 | `slump_mm`, `spread_mm`, `air_content_fresh_pct`, `unit_weight_fresh_kg_m3`, `setting_time_initial_min` |
-| Hardened mechanical | Ch. 3-4 | ASTM C39, C109, C469, C157 | `compressive_strength_mpa`, `elastic_modulus_gpa`, `drying_shrinkage_28d_ue` |
-| 3DCP interlayer | Ch. 4-5 | ASTM C1583, E518 | `interlayer_bond_mpa`, `interlayer_shear_mpa` + `test_orientation_code` for all 3 directions |
-| Durability | Ch. 3, §304 | ASTM C666, C1260, C1202, C1585 | `freeze_thaw_durability_factor`, `asr_expansion_14d_pct`, `chloride_rcpt_coulombs`, `sorptivity_*` |
-| Fire safety | Ch. 3, §303.4 | ASTM E119 | `fire_resistance_min` (E84 flame/smoke indices omitted — concrete is non-combustible) |
-| Process params | Ch. 5 | — | `nozzle_diameter_mm`, `layer_height_mm`, `print_speed_mm_s`, `layer_time_gap_s`, `test_orientation` |
+| Category | Representative test methods | Open3DCP columns |
+|----------|----------------------------|-----------------|
+| Material specs | ASTM C150, C595, C33, C494, A820, D7508, D7357 | 37+ material columns (binders, aggregates, fibers, admixtures, pigments, AAM activators, water) |
+| Fresh properties | ASTM C143, C1437, C231, C138, C403 | `slump_mm`, `spread_mm`, `air_content_fresh_pct`, `unit_weight_fresh_kg_m3`, `setting_time_initial_min` |
+| Hardened mechanical | ASTM C39, C109, C469, C157 | `compressive_strength_mpa`, `elastic_modulus_gpa`, `drying_shrinkage_28d_ue` |
+| 3DCP interlayer | ASTM C1583, E518 | `interlayer_bond_mpa`, `interlayer_shear_mpa` + `test_orientation_code` for all directions |
+| Durability | ASTM C666, C1260, C1202, C1585 | `freeze_thaw_durability_factor`, `asr_expansion_14d_pct`, `chloride_rcpt_coulombs`, `sorptivity_*` |
+| Fire performance | ASTM E119 | `fire_resistance_min` (concrete is non-combustible; E84 flame/smoke indices omitted) |
+| Process params | (3DCP-native, no single legacy method) | `nozzle_diameter_mm`, `layer_height_mm`, `print_speed_mm_s`, `layer_time_gap_s`, `test_orientation` |
 
-**New in v1.3:** `cellulose_fiber` (ASTM D7357), `sorptivity_secondary_mm_sqrt_s` (ASTM C1585 secondary rate — same test, zero extra cost).
+This table maps test-method *identifiers* commonly seen in 3DCP literature to the columns where the corresponding measurements are stored. It is not a compliance claim. Open3DCP is not certified, endorsed, or affiliated with ASTM, ACI, EN/CEN, ICC, RILEM, or any other standards body, and is not a code-compliance schema.
 
-See [`Open3DCP_SCHEMA.md`](Open3DCP_SCHEMA.md) for the complete column reference with units and test method citations.
+For the full per-version change history, see [`CHANGELOG.md`](CHANGELOG.md). For column-level definitions and units, see [`Open3DCP_SCHEMA.md`](Open3DCP_SCHEMA.md).
 
 ---
 
