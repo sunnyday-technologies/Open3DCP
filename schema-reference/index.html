@@ -479,7 +479,7 @@
         "@id": "https://open3dcp.org/#dataset",
         "name": "Open3DCP",
         "alternateName": "Open Data Standard for 3D Concrete Printing",
-        "description": "An open, flat database schema for 3D-printable concrete (3DCP) mix design data. Defines canonical column names, types, units, and engineering context covering binder materials, alkali activators, aggregates, fibers, admixtures, pigments, fresh-state rheology, hardened mechanical properties, durability, 3DCP process parameters, and interlayer bond. Mass-percent basis. ASTM/RILEM/EN-aligned. ML-ready. Schema definition only — not a dataset.",
+        "description": "An open, flat database schema for 3D-printable concrete (3DCP) mix design data. Defines canonical column names, types, units, and engineering context covering binder materials, alkali activators, aggregates, fibers, admixtures, pigments, fresh-state rheology, hardened mechanical properties, durability, 3DCP process parameters, and interlayer bond. Mass-percent basis. ASTM/RILEM/EN-aligned. Designed for analysis and ML-oriented workflows. Schema definition only -- not a dataset.",
         "url": "https://open3dcp.org/",
         "sameAs": [
           "https://github.com/sunnyday-technologies/Open3DCP",
@@ -596,7 +596,7 @@
           {
             "@type": "PropertyValue",
             "name": "w_b_ratio",
-            "description": "Water-to-binder ratio. The single most important predictor of compressive strength. Typical 3DCP range 0.30-0.45."
+            "description": "Water-to-binder ratio. A major predictor of compressive strength and fresh-state behavior. Typical 3DCP range 0.30-0.45."
           },
           {
             "@type": "PropertyValue",
@@ -762,7 +762,8 @@
       <span class="logo-sub">Open Data Standard</span>
     </div>
     <nav aria-label="Primary">
-      <a href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener" aria-label="Open3DCP schema repository on GitHub (opens in new tab)">Schema</a> &nbsp;&nbsp;
+      <a href="/" aria-label="Open3DCP homepage">Home</a> &nbsp;&nbsp;
+      <a href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener" aria-label="Open3DCP schema repository on GitHub (opens in new tab)">GitHub</a> &nbsp;&nbsp;
       <a href="https://cemforge.ai" target="_blank" rel="noopener" aria-label="CEMFORGE AI mix-formulation platform (opens in new tab)">CEMFORGE</a> &nbsp;&nbsp;
       <a href="https://sunn3d.com" target="_blank" rel="noopener" aria-label="Sunnyday Technologies parent site (opens in new tab)">sunn3d.com</a>
     </nav>
@@ -774,16 +775,16 @@
 <p>Open3DCP. Apache License 2.0. Concept DOI: <a href="https://zenodo.org/records/19647471">10.5281/zenodo.19647471</a>. Maintained by <a href="https://sunn3d.com">Sunnyday Technologies</a>.</p>
 </blockquote>
 <p>This page is the reference description of the Open3DCP schema for researchers, standards authors, journal editors, dataset curators, and software implementers. It is intended as a citeable companion to the canonical schema document at <a href="https://github.com/sunnyday-technologies/Open3DCP">github.com/sunnyday-technologies/Open3DCP</a> and the <a href="https://github.com/sunnyday-technologies/Open3DCP/blob/main/Open3DCP_SCHEMA.md">Open3DCP_SCHEMA.md</a> reference. Where the schema document is exhaustive (every column, every type), this page is structural: it explains why the schema exists, what it covers, where it sits relative to the available standards landscape, and how a working laboratory can adopt it without changing how it runs experiments.</p>
-<p>The argument is simple. 3D concrete printing (3DCP) is an active research field with hundreds of publications per year. Almost every paper reports a mix design, fresh-state behavior, hardened mechanical performance, and some characterization of the print process itself. Almost no two papers report these in the same way. Open3DCP is a flat, machine-readable schema that fixes the reporting layer without dictating the test methods. It sits above the experimental dataset and is cross-referenced (for interoperability convenience, not commitment) to current widely-used test method references. The schema is compatible with the available standards frameworks but not committed to any single one; newer measurement protocols, including in-line process telemetry, computer-vision-based bond inspection, and emerging digital-twin instrumentation, are first-class extensions as the field develops them.</p>
+<p>The argument is simple. 3D concrete printing (3DCP) is an active research field with a growing publication base. Many papers report a mix design, fresh-state behavior, hardened mechanical performance, and some characterization of the print process itself, but reporting conventions vary substantially across authors, laboratories, and test methods. Open3DCP is a flat, machine-readable schema that addresses the reporting layer without dictating the test methods. It sits above the experimental dataset and is cross-referenced (for interoperability convenience, not commitment) to current widely-used test method references. The schema is compatible with the available standards frameworks but not committed to any single one; newer measurement protocols, including in-line process telemetry, computer-vision-based bond inspection, and emerging digital-twin instrumentation, are first-class extension candidates as the field develops them.</p>
 <hr />
 <h2 id="1-the-interoperability-problem-in-3dcp">1. The interoperability problem in 3DCP</h2>
-<p>3DCP literature has produced an enormous experimental record over the last decade and a half: rheology measurements, layer-bond pull-off tests, anisotropic compressive results, durability studies, recycled-aggregate variants, alkali-activated systems, fiber-reinforced printable mortars, and structural prototypes. The pace is high, with new mix designs, new test rigs, and new printing parameter combinations reported at conference and journal cadence.</p>
-<p>Almost none of this data is directly reusable by another laboratory. There are several reasons.</p>
+<p>3DCP literature has produced a substantial experimental record over the last decade and a half: rheology measurements, layer-bond pull-off tests, anisotropic compressive results, durability studies, recycled-aggregate variants, alkali-activated systems, fiber-reinforced printable mortars, and structural prototypes. New mix designs, new test rigs, and new printing parameter combinations continue to appear at conference and journal cadence.</p>
+<p>Much of this data is difficult to reuse directly in another laboratory or meta-analysis. There are several reasons.</p>
 <p>First, <strong>units differ across labs and across publications</strong>. Mass percentages of binder are reported variously as fractions of the binder, fractions of total dry mass, or fractions of total wet mass. Water-to-binder ratios are sometimes water-to-cement ratios in disguise, depending on whether supplementary cementitious materials (SCMs) are counted as binder. Yield stress is reported in pascals or in kilopascals, or as torque from a vane that depends on the geometry of the apparatus. Slump-flow is reported in millimeters of spread, but the cone geometry and lift rate are often unstated.</p>
 <p>Second, <strong>test methods differ</strong>. A "compressive strength" value can come from a mortar cube cast against a smooth wall and tested under ASTM C109 conventions; from a prism following EN 196-1, where two halves of a broken flexural specimen are then compressed; or from a printed cube cut from a multi-layer wall specimen and tested perpendicular, parallel, or at an angle to the print direction. The numerical answer alone does not communicate what was actually done.</p>
 <p>Third, <strong>process parameters are buried in methodology prose</strong>. Layer height, layer time gap, nozzle diameter, nozzle shape, print speed, and pump pressure are reported, when reported at all, in narrative paragraphs rather than tabulated. Re-extraction is manual, error-prone, and expensive. Several large meta-analyses of 3DCP performance have noted explicitly that they could only recover a fraction of the variables they wanted from the published record.</p>
 <p>Fourth, <strong>interlaboratory variance is large and largely undocumented</strong>. The RILEM Technical Committee 304-ADC (Assessment of Additively Manufactured Concrete Materials and Structures) is one of the active reference points here: it has worked since 2018 on common protocols for printability and printed-specimen testing. Its interlaboratory studies have reported substantial between-lab dispersion in nominally identical experiments, which is unsurprising for a field still developing its measurement consensus, but which becomes scientifically actionable only when the variance is visible in the data (RILEM TC 304-ADC, 2022; Wangler et al., 2019).</p>
-<p>A schema does not fix the variance. A vane rheometer in one lab and a Brookfield in another will still produce different yield-stress numbers for the same paste. What a schema does is <strong>make the variance visible</strong>: it forces both labs to record the apparatus, the protocol code, the specimen geometry, and the value in a single, comparable structure. Once the variance is visible, statistical correction, hierarchical modeling, and data-driven calibration become possible. Without a schema, the variance is invisible because the data are not even in the same shape.</p>
+<p>A schema does not fix the variance. A vane rheometer in one lab and a Brookfield in another may produce different yield-stress numbers for the same paste. What a schema does is <strong>make the variance visible</strong>: it gives both labs a place to record the apparatus, the protocol code, the specimen geometry, and the value in a single, comparable structure. Once the variance is visible, statistical correction, hierarchical modeling, and data-driven calibration become possible. Without a schema, the variance is harder to interpret because the data are not even in the same shape.</p>
 <p>This is the gap Open3DCP addresses. It is the column reference that sits above the experimental dataset.</p>
 <hr />
 <h2 id="2-what-open3dcp-is-and-is-not">2. What Open3DCP is (and is not)</h2>
@@ -812,7 +813,7 @@
 <p><strong>Open3DCP is not a substitute for a standard</strong>. ASTM C39 still describes one way to test a cylinder. EN 12390-3 still describes one way to test a cube. RILEM TC 304-ADC still develops 3DCP-specific test protocols. Other emerging protocols will join them. Open3DCP does not replace any of these and does not privilege any of them; it records their results in a uniform shape.</p>
 </li>
 <li>
-<p><strong>Open3DCP is not a regulatory document</strong>. Building codes (IBC, Eurocode), material specifications (ACI 318, EN 206), and the emerging ICC 1150 standard for 3D-printed concrete walls (ICC, 2024 draft) define what concrete must be for construction. Open3DCP is a research data format. It happens to map cleanly onto ICC 1150 categories (see Section 4), but it does not certify anything.</p>
+<p><strong>Open3DCP is not a regulatory document</strong>. Building codes (IBC, Eurocode), material specifications (ACI 318, EN 206), and ICC 1150-2026 define requirements for construction use. Open3DCP is a research data format. It can record many data categories used in qualification and reporting workflows, but it does not certify anything.</p>
 </li>
 </ul>
 <p>The intended audience is researchers, dataset curators, journal editors enforcing supplementary-data conventions, ML practitioners training surrogate models, and standards bodies developing 3DCP test methods. The intended use is to make 3DCP data interoperable across labs, not to homogenize the underlying experimental practice.</p>
@@ -822,7 +823,7 @@
 <h3 id="31-composition-binders-aggregates-fibers-admixtures-water">3.1 Composition (binders, aggregates, fibers, admixtures, water)</h3>
 <p>All composition columns are stored as <strong>mass percent of total wet mix</strong>. This convention, fixed in the v1.0 design, eliminates density assumptions and normalizes naturally to a percent scale. The cementitious portion is indexed by familiar Portland and Portland-limestone cement classifications (<code>cement_type_1</code>, <code>cement_type_1_2</code>, <code>cement_type_1l</code>, <code>cement_type_2</code>, <code>cement_type_3</code>, <code>cement_type_4</code>, <code>cement_type_5</code>), cross-referenced to ASTM C150 / EN 197-1 for interoperability, plus calcium aluminate (<code>cac</code>) and calcium sulfoaluminate (<code>csa_cement</code>). Supplementary cementitious materials are split into bins compatible with ASTM classification conventions: <code>fly_ash_type_f</code> (cross-referenced to ASTM C618 Class F), <code>fly_ash_type_c</code> (ASTM C618 Class C), <code>silica_fume</code> (ASTM C1240), <code>slag</code> (ASTM C989), <code>metakaolin</code> (ASTM C618 Class N), and <code>limestone</code> (EN 12620). Recent releases have added alkali-activator columns (<code>sodium_hydroxide</code>, <code>sodium_silicate</code>, <code>potassium_hydroxide</code>, <code>potassium_silicate</code>, <code>activator_ms_ratio</code>, <code>na2o_dosage_pct</code>) for geopolymer and alkali-activated slag systems, plus pigment columns for architectural 3DCP.</p>
 <p>Aggregates use US-industry sand grade names cross-referenced to ASTM C33 fineness modulus ranges (<code>mason_sand</code>, <code>fine_sand</code>, <code>concrete_sand</code>, <code>coarse_sand</code>) plus the ASTM C33 size-number system for coarse aggregate. Most 3DCP systems are limited to smaller aggregate sizes because of pump and nozzle constraints; the larger sizes are present for compatibility with conventional concrete data and for future large-nozzle systems.</p>
-<p>Fibers are split by material (<code>steel_fiber</code>, <code>pp_fiber</code>, <code>pe_fiber</code>, <code>pva_fiber</code>, <code>glass_fiber</code>, <code>basalt_fiber</code>, <code>carbon_fiber</code>, <code>nylon_fiber</code>, <code>aramid_fiber</code>, <code>cellulose_fiber</code>) with three characterization columns that capture the form factor: <code>fiber_length_mm</code>, <code>fiber_diameter_mm</code>, and <code>fiber_aspect_ratio</code> (L/d). Cellulose fiber (cross-referenced to ASTM D7357 where applicable) was added for compatibility with ICC 1150 material categories.</p>
+<p>Fibers are split by material across eight core fiber families (<code>steel_fiber</code>, <code>pp_fiber</code>, <code>pva_fiber</code>, <code>glass_fiber</code>, <code>basalt_fiber</code>, <code>carbon_fiber</code>, <code>nylon_fiber</code>, <code>aramid_fiber</code>) plus <code>cellulose_fiber</code> for natural-fiber compatibility, with three characterization columns that capture the form factor: <code>fiber_length_mm</code>, <code>fiber_diameter_mm</code>, and <code>fiber_aspect_ratio</code> (L/d). Cellulose fiber (cross-referenced to ASTM D7357 where applicable) was added for compatibility with ICC 1150 material categories.</p>
 <p>Admixtures are recorded as <strong>solids-content mass percent</strong>, not as-supplied liquid percent: a polycarboxylate dosage given as a fraction of a partly-aqueous product is recorded after multiplying by the solids fraction. The columns are cross-referenced to ASTM C494 admixture types where applicable: <code>superplasticizer</code> (Type F/G), <code>water_reducer</code> (Type A), <code>accelerator</code> (Type C/E), <code>retarder</code> (Type B/D), <code>air_entrainer</code> (ASTM C260), <code>vma</code>, <code>shrinkage_reducer</code>, and the specialized rheology modifiers <code>hpmc</code>, <code>sepiolite_clay</code>, <code>attapulgite</code>, and <code>calcium_bentonite</code>.</p>
 <h3 id="32-rheology-and-fresh-state">3.2 Rheology and fresh state</h3>
 <p>The rheology group (<code>yield_stress_pa</code>, <code>static_yield_stress_pa</code>, <code>dynamic_yield_stress_pa</code>, <code>plastic_viscosity_pa_s</code>, <code>thixotropy_pa_per_s</code>, <code>structuration_rate_pa_per_s</code>, <code>open_time_min</code>) captures the parameters that govern 3DCP printability. These are typically measured with a vane rheometer or a parallel-plate rheometer; the schema does not enforce a specific apparatus but expects the test method to be recorded in <code>test_method_code</code>.</p>
@@ -842,7 +843,7 @@
 <p>Every record carries provenance: <code>doi</code>, <code>source_citation</code>, <code>measurement_confidence</code> (one of <code>measured</code>, <code>calculated</code>, <code>estimated</code>, <code>reported</code>), <code>lab_name</code>, and <code>provenance_notes</code>. The <code>lab_name</code> field is the linchpin of interlaboratory analysis: it lets a meta-analyst compute lab-level random effects without having to reconstruct lab identity from authorship strings.</p>
 <hr />
 <h2 id="4-cross-references-to-existing-standards">4. Cross-references to existing standards</h2>
-<p>Open3DCP fields are cross-referenced to the available standards landscape for interoperability convenience. The four major bodies most often present in the literature today are ASTM International, the European Committee for Standardization (CEN/EN), the American Concrete Institute (ACI), and RILEM. Newer cross-cutting documents include the ICC 1150 draft for 3D-printed concrete walls (ICC, 2024) and NIST guidance on materials data management. The schema treats these as compatibility hooks rather than methodological commitments: it is open to additional cross-references and to newer measurement protocols as the field develops them.</p>
+<p>Open3DCP fields are cross-referenced to the available standards landscape for interoperability convenience. The four major bodies most often present in the literature today are ASTM International, the European Committee for Standardization (CEN/EN), the American Concrete Institute (ACI), and RILEM. Newer cross-cutting references include ICC 1150-2026 for 3D automated construction technology concrete walls and NIST guidance on materials data management. The schema treats these as compatibility hooks rather than methodological commitments: it is open to additional cross-references and to newer measurement protocols as the field develops them.</p>
 <p>The table below is a compact mapping; the canonical mapping is in <code>Open3DCP_SCHEMA.md</code>, which carries one row per column.</p>
 <table>
 <thead>
@@ -1055,11 +1056,11 @@
 </tr>
 </tbody>
 </table>
-<p>The recently published ICC 1150 draft (IS-3DACT committee, ICC, 2024) is one of the first US consensus standards for 3D-printed concrete walls. It cites ASTM C150, C595, C33, C494, C143, C1437, C231, C138, C403, C39, C109, C469, C157, C1583, E518, C666, C1260, C1202, C1585, A820, D7508, D7357, and E119. Each of these maps to an Open3DCP column. RILEM TC 304-ADC publications (Reinhardt et al., 2019; Wangler et al., 2022), among other available reference points, describe orientation nomenclature and protocol structure that the schema's <code>test_orientation_code</code> enumeration is compatible with.</p>
+<p>ICC 1150-2026 establishes requirements for materials, qualification, inspection, and structural design of 3D printed concrete wall systems. Many of the material, fresh-property, hardened-property, durability, fire, and interlayer categories referenced in that qualification landscape can be recorded in Open3DCP columns. RILEM TC 304-ADC publications (Reinhardt et al., 2019; Wangler et al., 2022), among other available reference points, describe orientation nomenclature and protocol structure that the schema's <code>test_orientation_code</code> enumeration is compatible with.</p>
 <p>The mapping is one-way and informational. Open3DCP makes no claim that a column "satisfies" the cited standard; it claims that the column <strong>records the result of a test performed under one of the available reference frameworks</strong>. The distinction matters legally and methodologically, and is restated in the schema disclaimer.</p>
 <hr />
 <h2 id="5-a-worked-example">5. A worked example</h2>
-<p>To make the schema concrete, consider an illustrative 3DCP experiment. The Sunnyday Materials Lab prints a multi-layer test wall using a Portland-limestone-cement (PLC) based mortar with fly ash replacement and polypropylene fiber. Cubes are extracted from the printed wall, plus cast control cubes, and tested at the standard reporting age.</p>
+<p>To make the schema concrete, consider an illustrative 3DCP experiment. A laboratory prints a multi-layer test wall using a Portland-limestone-cement (PLC) based mortar with fly ash replacement and polypropylene fiber. Cubes are extracted from the printed wall, plus cast control cubes, and tested at the standard reporting age.</p>
 <p>The mix design records, in canonical Open3DCP shape:</p>
 <ul>
 <li>Type IL Portland-limestone cement (cross-ref ASTM C595 CEM II/A-L) as <code>cement_type_1l</code></li>
@@ -1071,17 +1072,17 @@
 <li>Water as <code>water</code> and the derived <code>w_b_ratio</code></li>
 </ul>
 <p>Process columns capture nozzle, layer, speed, layer time gap, ambient conditions, and mix temperature. Test columns capture the spread, the static yield stress at the time of pumping, the orientation (Z, Y, or CAST), and the test method code.</p>
-<p>The corresponding Open3DCP CSV row is fully self-describing. A consumer that has never seen this dataset can identify the print orientation, the test method, the lab, and every material composition entry from the row alone. Where two compressive results come from the same mix but different orientations, they are recorded as separate rows that share a <code>mix_id</code> prefix and differ only in <code>test_orientation_code</code>; an ML pipeline can group or condition on orientation at training time. The <code>lab_name</code> and <code>measurement_confidence</code> fields enable downstream meta-analysis to weight or partition by lab and by data quality.</p>
-<p>The same record is machine-extractable for ML training without any parsing logic beyond reading a CSV. This is the central design property of the schema and the reason for the flat structure: every column is a feature, every row is an observation, no JSON traversal is required for the model to consume the data.</p>
-<p>The schema also supports JSON-LD wrapping for deposit alongside Zenodo records. The minimal wrapper points the consumer at the Open3DCP vocabulary (<code>@vocab: https://open3dcp.org/schema/</code>) and declares the schema version (<code>open3dcp:schema_version</code>) so consumers can detect breaking changes between major versions. CEMFORGE, the Sunnyday Technologies AI platform for printable concrete optimization (<a href="https://cemforge.ai">cemforge.ai</a>), consumes Open3DCP-shaped data directly. Hardware platforms such as M3-CRETE (<a href="https://m3-crete.com">m3-crete.com</a>) generate Open3DCP-shaped logs from their print controllers as the data are produced.</p>
+<p>The corresponding Open3DCP CSV row carries the key context needed to interpret the measurement. A consumer that has never seen this dataset can identify the print orientation, the test method, the lab, and every material composition entry from the row alone when those fields are populated. Where two compressive results come from the same mix but different orientations, they are recorded as separate rows that share a <code>mix_id</code> prefix and differ only in <code>test_orientation_code</code>; an ML pipeline can group or condition on orientation at training time. The <code>lab_name</code> and <code>measurement_confidence</code> fields enable downstream meta-analysis to weight or partition by lab and by data quality.</p>
+<p>The same record is easier to extract for ML or statistical analysis because each feature is a column and each row is an observation. This is the central design property of the schema and the reason for the flat structure: no JSON traversal is required before a model or dataframe can consume the data.</p>
+<p>The schema can be wrapped with dataset-level JSON-LD for deposit alongside Zenodo records. In the current public v1.5 release, the canonical machine-readable surfaces are the Markdown schema reference, the SQL DDL, and the Dataset JSON-LD embedded on this site. A full Open3DCP vocabulary namespace and example-deposit templates should be published only when they are complete enough for downstream users to rely on.</p>
 <hr />
 <h2 id="6-adopting-open3dcp-in-your-lab">6. Adopting Open3DCP in your lab</h2>
 <p>The schema is designed so that adoption does not require changing how your lab runs experiments. It requires only that the results are recorded in a uniform shape on the way out. The recommended workflow is three steps.</p>
 <p><strong>Step 1: Map your existing CSV columns to Open3DCP keys.</strong> Most laboratories already keep a mix-design spreadsheet with columns for each material, plus a results spreadsheet with columns for the tests. The mapping from your column names to Open3DCP column names is usually a one-time alias table. The schema document includes a substantial seeded alias list from the literature: "GGBFS," "ground granulated blast-furnace slag," and "slag" all map to <code>slag</code>; "C33 sand," "concrete sand," and "natural sand" all map to <code>concrete_sand</code>. Where you store densities and compute mass-percent on the fly, do that conversion once at export time so the deposited file is in the canonical shape.</p>
-<p><strong>Step 2: Wrap the CSV with a JSON-LD context.</strong> The minimal wrapper points the consumer at the Open3DCP vocabulary and declares the schema version (<code>open3dcp:schema_version</code>) so consumers can detect breaking changes between major versions. A complete deposit usually includes the CSV file (one row per measurement), a JSON-LD sidecar with the dataset-level metadata (authors, license, description, related identifiers), and the schema version reference. Templates are in the GitHub repository under <code>examples/</code>.</p>
-<p><strong>Step 3: Validate with tooling that consumes Open3DCP-shaped reports.</strong> Validation harnesses, including <a href="https://cadclaw.io">CADCLAW</a> (the open-source CAD validation framework that ships with M3-CRETE), are able to round-trip Open3DCP rows directly: an Open3DCP record describing a printed specimen can be tied back to the CAD-validated geometry that was deposited. This kind of cross-tool integration is the reason the Open3DCP schema is flat and stable: it lets independent tools (formulation engines, hardware controllers, CAD validators, statistics packages) share the same record without bespoke adapters.</p>
+<p><strong>Step 2: Add dataset-level metadata.</strong> A complete deposit usually includes the CSV file (one row per measurement), metadata describing authors, license, description, related identifiers, and the schema version reference. A formal JSON-LD context and reusable examples are planned, but should not be treated as public v1.5 contract files until they are published with the schema.</p>
+<p><strong>Step 3: Validate with tooling that consumes Open3DCP-shaped reports.</strong> Where users maintain CAD, machine-log, formulation, or statistics tooling, an Open3DCP record can serve as the shared tabular record that those tools reference. This kind of cross-tool integration is the reason the Open3DCP schema is flat and stable: it lets independent tools share the same record with fewer bespoke adapters.</p>
 <p><strong>Step 4: Deposit on Zenodo, 4TU.ResearchData, or your institutional repository.</strong> Use a CC BY 4.0 license for the data itself (this is independent of the Apache 2.0 license on the schema). Add the Open3DCP <code>@id</code> reference to the metadata so search engines and citation tools can link your dataset to the schema. Mint a DOI. Cite both Open3DCP (using the Zenodo concept DOI, <a href="https://zenodo.org/records/19647471">10.5281/zenodo.19647471</a>) and any test methods you used in your dataset description.</p>
-<p>A working lab can complete these steps for an existing dataset in an afternoon. The harder cases are legacy datasets where the experimental record is incomplete, and there the schema is honest: missing columns are simply null, and the <code>measurement_confidence</code> field flags the cells that were reconstructed from narrative prose. Open3DCP does not pretend that legacy data are as good as primary measurements, but it does let you publish them in a comparable shape with the limitations recorded explicitly.</p>
+<p>For a well-organized existing dataset, these steps may be a modest export and mapping exercise. The harder cases are legacy datasets where the experimental record is incomplete, and there the schema is honest: missing columns are simply null, and the <code>measurement_confidence</code> field flags the cells that were reconstructed from narrative prose. Open3DCP does not pretend that legacy data are as good as primary measurements, but it does let you publish them in a comparable shape with the limitations recorded explicitly.</p>
 <hr />
 <h2 id="7-where-open3dcp-fits-relative-to-the-available-standards-landscape">7. Where Open3DCP fits relative to the available standards landscape</h2>
 <p>Reference frameworks in materials science are layered. From the lab bench upward, here is how the available standards landscape commonly looks today (one snapshot, not a fixed hierarchy):</p>
@@ -1109,7 +1110,7 @@
 +------------------------------------------------------------+
 </code></pre>
 <p>The standards layer above describes what to measure and how to measure it under current widely-used methods. The schema layer says how to record what you measured. The dataset layer says what the actual numbers are. The schema is informational with respect to the reference frameworks above (it cross-references them, but is not committed to any single one) and prescriptive only with respect to the datasets below (it tells them what shape to take). It is intentionally thin: it does not redefine ASTM C39, it does not specify an apparatus, it does not approve a test, it does not certify a lab. It just tells you where to put the answer, in a way that is open to newer measurement protocols as the field develops them.</p>
-<p>This positioning matters because there is no other layer that does this. ASTM and EN do not publish digital schemas. RILEM publishes recommendations, not column reference documents. NIST publishes data management guidelines (Hearley and Arnold, 2023; Materials Genome Initiative materials) that describe the principles a schema should follow, but does not maintain a 3DCP-specific schema. Open3DCP fills the gap, and it does so in a license (Apache 2.0) and a format (flat CSV plus JSON-LD) that allow downstream reuse without negotiation.</p>
+<p>This positioning matters because the digital reporting layer is still underdeveloped. ASTM and EN primarily publish standards, not public machine-readable 3DCP schemas. RILEM publishes recommendations, not column reference documents. NIST publishes data management guidelines (Hearley and Arnold, 2023; Materials Genome Initiative materials) that describe the principles a schema should follow, but does not maintain a 3DCP-specific schema. Open3DCP is intended to help fill that gap in a license (Apache 2.0) and a format (flat CSV plus JSON-LD where published) that allow downstream reuse without negotiation.</p>
 <hr />
 <h2 id="8-roadmap-where-the-schema-is-going">8. Roadmap: where the schema is going</h2>
 <p>The schema is on a quarterly minor-version cadence. Major versions are reserved for breaking changes that would force existing datasets to migrate, and the maintainers commit to making such changes rare. The current planned additions and known gaps:</p>
@@ -1120,7 +1121,7 @@
 <li>Surface finish characterization. Architectural 3DCP applications need quantitative surface-roughness columns beyond the current single-value <code>surface_roughness_avg</code>. Candidates include Sa, Sq, and Sz from areal-roughness measurement standards.</li>
 <li>Pumping power and energy columns to support energy-per-cubic-meter analyses. The current <code>pump_pressure_bar</code> and <code>extrusion_rate_l_min</code> allow derivation but do not record the recorded power directly.</li>
 <li>Robotic and gantry kinematic envelope fields. Cell geometry, build envelope, and reachable orientations matter for printability comparison across machines.</li>
-<li>Closer integration with the M3-CRETE log format so that hardware-generated print logs map one-to-one onto schema columns at runtime.</li>
+<li>Clearer guidance for linking hardware-generated print logs and raw sensor files to Open3DCP rows without forcing time-series data into scalar columns.</li>
 </ul>
 <p><strong>Honest gaps:</strong></p>
 <ul>
@@ -1161,13 +1162,13 @@ ER  -
 <h2 id="references">References</h2>
 <ol>
 <li>
-<p>Chen, Y., Jansen, K., Zhang, H., Romero Rodriguez, C., Gan, Y., Copuroglu, O., and Schlangen, E. (2020). Effect of printing parameters on interlayer bond strength of 3D printed limestone-calcined clay-based cementitious materials. <em>Construction and Building Materials</em>, 262, 120094. https://doi.org/10.1016/j.conbuildmat.2020.120094 [filename: T1L_LC3_15_TUDelft_Interlayer_Bond_LC3_3DCP.pdf]</p>
+<p>Chen, Y., Jansen, K., Zhang, H., Romero Rodriguez, C., Gan, Y., Copuroglu, O., and Schlangen, E. (2020). Effect of printing parameters on interlayer bond strength of 3D printed limestone-calcined clay-based cementitious materials. <em>Construction and Building Materials</em>, 262, 120094. https://doi.org/10.1016/j.conbuildmat.2020.120094</p>
 </li>
 <li>
 <p>Hearley, B. L., and Arnold, S. M. (2023). NASA GRC ICME Schema for Materials Data Management: An Executive Summary. NASA/TM-20230018337. NASA Glenn Research Center.</p>
 </li>
 <li>
-<p>ICC IS-3DACT Committee (2024). ICC 1150-202X (Draft): Standard Requirements for 3D-Printed Concrete Walls. International Code Council. https://www.iccsafe.org/wp-content/uploads/is_3dact/ICC-1150-DRAFT-11-26-24.pdf</p>
+<p>International Code Council. ICC 1150-2026: Standard for 3D Automated Construction Technology for 3D Concrete Walls. https://shop.iccsafe.org/standards/icc-standards/icc-1150-2026-standard-for-3d-automated-construction-technology-for-3d-concrete-walls.html</p>
 </li>
 <li>
 <p>Reinhardt, H.-W., Wangler, T., and Roussel, N., eds. (2019). RILEM Technical Committee 304-ADC: State-of-the-art Report on Assessment of Additively Manufactured Concrete Materials and Structures. RILEM.</p>
@@ -1200,19 +1201,19 @@ ER  -
 <p>Sanjayan, J. G., Nematollahi, B., Xia, M., and Marchment, T. (2018). Effect of surface moisture on inter-layer strength of 3D printed concrete. <em>Construction and Building Materials</em>, 172, 468-475. https://doi.org/10.1016/j.conbuildmat.2018.03.232</p>
 </li>
 <li>
-<p>Tennis, P. D., Thomas, M. D. A., Weiss, W. J., Farny, J. A., and Giannini, E. R. (2024). State-of-the-Art Report on Use of Limestone in Cements at Levels of up to 15%. PCA R&amp;D Bulletin SN3148. Portland Cement Association. [filename: 2024-SN3148.03.pdf]</p>
+<p>Tennis, P. D., Thomas, M. D. A., Weiss, W. J., Farny, J. A., and Giannini, E. R. (2024). State-of-the-Art Report on Use of Limestone in Cements at Levels of up to 15%. PCA R&amp;D Bulletin SN3148. Portland Cement Association.</p>
 </li>
 <li>
-<p>Adu-Amankwah, S., Black, L., and Zajac, M. (2015). Effect of Limestone Addition on the Early Age Hydration and Microstructure Evolution of Composite Slag Cements. In <em>Proceedings of the 14th International Congress on the Chemistry of Cement (ICCC 14)</em>, Beijing. [filename: SN588 - Effect of Limestone Addition on the Early Age Hydration and Microstructure Evolution of Composite Slag Cements Full paper.pdf]</p>
+<p>Adu-Amankwah, S., Black, L., and Zajac, M. (2015). Effect of Limestone Addition on the Early Age Hydration and Microstructure Evolution of Composite Slag Cements. In <em>Proceedings of the 14th International Congress on the Chemistry of Cement (ICCC 14)</em>, Beijing.</p>
 </li>
 <li>
-<p>Sharma, A., Sirotiak, T., Wang, X., Taylor, P., Angadi, P., and Payne, S. (2021). Portland limestone cement for reduced shrinkage and enhanced durability of concrete. <em>Magazine of Concrete Research</em>. https://doi.org/10.1680/jmacr.19.00165 [filename: 1631120.pdf]</p>
+<p>Sharma, A., Sirotiak, T., Wang, X., Taylor, P., Angadi, P., and Payne, S. (2021). Portland limestone cement for reduced shrinkage and enhanced durability of concrete. <em>Magazine of Concrete Research</em>. https://doi.org/10.1680/jmacr.19.00165</p>
 </li>
 <li>
-<p>Hooton, R. D., and Riding, K. A. (2025). Type IL cement use in precast, prestressed concrete. <em>PCI Journal</em>, 70(2), 23-36. https://doi.org/10.15554/pcij70.2-04 [filename: Portland_Limeston_Cement_MA25_R01.pdf]</p>
+<p>Hooton, R. D., and Riding, K. A. (2025). Type IL cement use in precast, prestressed concrete. <em>PCI Journal</em>, 70(2), 23-36. https://doi.org/10.15554/pcij70.2-04</p>
 </li>
 <li>
-<p>An, D., Zhang, Y. X., and Yang, R. (2024). Incorporating coarse aggregates into 3D concrete printing from mixture design and process control to structural behaviours and practical applications: a review. <em>Virtual and Physical Prototyping</em>. https://doi.org/10.1080/17452759.2024.2351154 [filename: Incorporating coarse aggregates into 3D concrete printing from mixture design and process control to structural behaviours and practical applications .pdf]</p>
+<p>An, D., Zhang, Y. X., and Yang, R. (2024). Incorporating coarse aggregates into 3D concrete printing from mixture design and process control to structural behaviours and practical applications: a review. <em>Virtual and Physical Prototyping</em>. https://doi.org/10.1080/17452759.2024.2351154</p>
 </li>
 <li>
 <p>ASTM International. ASTM C39/C39M Standard Test Method for Compressive Strength of Cylindrical Concrete Specimens. West Conshohocken, PA.</p>
@@ -1242,9 +1243,9 @@ ER  -
 <li>Schema reference and source: <a href="https://github.com/sunnyday-technologies/Open3DCP">github.com/sunnyday-technologies/Open3DCP</a></li>
 <li>Canonical schema document: <a href="https://github.com/sunnyday-technologies/Open3DCP/blob/main/Open3DCP_SCHEMA.md">Open3DCP_SCHEMA.md</a></li>
 <li>Zenodo concept DOI: <a href="https://zenodo.org/records/19647471">10.5281/zenodo.19647471</a></li>
-<li>AI platform consuming Open3DCP-shaped data: <a href="https://cemforge.ai">CEMFORGE</a></li>
-<li>Hardware platform producing Open3DCP-shaped logs: <a href="https://m3-crete.com">M3-CRETE</a></li>
-<li>Validation tooling that consumes Open3DCP-shaped reports: <a href="https://cadclaw.io">CADCLAW</a></li>
+<li>Companion formulation platform: <a href="https://cemforge.ai">CEMFORGE</a></li>
+<li>Companion open-hardware project: <a href="https://m3-crete.com">M3-CRETE</a></li>
+<li>Companion validation tooling: <a href="https://cadclaw.io">CADCLAW</a></li>
 <li>Maintainer: <a href="https://sunn3d.com">Sunnyday Technologies</a></li>
 </ul>
 <hr />
@@ -1288,7 +1289,7 @@ ER  -
       "description": "Reference description of the Open3DCP schema for 3D concrete printing data: the measured-variable groups across rheology, mechanical, process, and durability domains, cross-references to ASTM, EN, ACI, and RILEM, a worked example, and the canonical adoption workflow.",
       "url": "https://open3dcp.org/schema-reference/",
       "datePublished": "2026-04-27",
-      "dateModified": "2026-04-27",
+      "dateModified": "2026-05-14",
       "author": {
         "@type": "Person",
         "name": "Nicholas Sonnentag",
@@ -1306,13 +1307,11 @@ ER  -
         "@id": "https://open3dcp.org/schema-reference/#dataset"
       },
       "mainEntityOfPage": "https://open3dcp.org/schema-reference/",
-      "license": "https://creativecommons.org/licenses/by/4.0/"
+        "license": "https://www.apache.org/licenses/LICENSE-2.0/"
     }
   ]
 }
 </script>
-
-<script type="application/ld+json">...</script>
 
   </main>
 

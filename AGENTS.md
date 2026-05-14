@@ -16,8 +16,8 @@ Open3DCP is a **schema specification**: column names, types, units, and
 engineering context for binders, alkali activators, aggregates, fibers,
 admixtures, pigments, fresh-state rheology, hardened mechanical
 properties, durability indicators, 3DCP process parameters, and
-interlayer bond. v1.5 defines 239 columns. Mass-percent basis. Flat,
-ML-ready.
+interlayer bond. v1.5 defines the current public column vocabulary.
+Mass-percent basis. Flat and analysis/ML-oriented.
 
 Open3DCP is **not**:
 

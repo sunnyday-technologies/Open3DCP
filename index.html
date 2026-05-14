@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>Open3DCP | Open Data Standard for 3D Concrete Printing</title>
-  <meta name="description" content="Open3DCP is an open database schema standard for 3D-printable concrete (3DCP) mix design data. Flat, ML-ready, standards-aligned. Developed by Sunnyday Technologies." />
+  <meta name="description" content="Open3DCP is an open schema standard for 3D-printable concrete (3DCP) mix design and test records. Flat, standards-aligned, and designed for analysis workflows. Developed by Sunnyday Technologies." />
   <!-- Open Graph -->
   <meta property="og:title" content="Open3DCP | Open Data Standard for 3D Concrete Printing" />
   <meta property="og:description" content="A canonical flat schema for 3DCP mix design data, process parameters, rheology, and mechanical properties. Apache 2.0." />
@@ -13,7 +13,7 @@
   <meta property="og:url" content="https://open3dcp.org/" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Open3DCP | Open Data Standard for 3D Concrete Printing" />
-  <meta name="twitter:description" content="Open schema for 3D concrete printing data. ML-ready, standards-aligned. By Sunnyday Technologies." />
+  <meta name="twitter:description" content="Open schema for 3D concrete printing data. Flat, standards-aligned, and analysis-oriented. By Sunnyday Technologies." />
   <link rel="canonical" href="https://open3dcp.org/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -467,8 +467,7 @@
         text-align: center;
       }
     }
-    /* 2026-05-07: Sunnyday open-source family refresh.
-       Same brand system as Sunn3D/CEMFORGE, with a looser project-hub tone. */
+    /* 2026-05-07: Open-source project site refresh. */
     :root {
       --black: #f7f8f5;
       --charcoal: #ffffff;
@@ -530,14 +529,14 @@
         "@id": "https://open3dcp.org/#dataset",
         "name": "Open3DCP",
         "alternateName": "Open Data Standard for 3D Concrete Printing",
-        "description": "An open, flat database schema for 3D-printable concrete (3DCP) mix design data. Defines canonical column names, types, units, and engineering context covering binder materials, alkali activators, aggregates, fibers, admixtures, pigments, fresh-state rheology, hardened mechanical properties, durability, 3DCP process parameters, and interlayer bond. Mass-percent basis. ASTM/RILEM/EN-aligned. ML-ready. Schema definition only — not a dataset.",
+        "description": "An open, flat schema for 3D-printable concrete (3DCP) mix design and test records. Defines canonical column names, types, units, and engineering context covering binder materials, alkali activators, aggregates, fibers, admixtures, pigments, fresh-state rheology, hardened mechanical properties, durability, 3DCP process parameters, and interlayer bond. Mass-percent basis. ASTM/RILEM/EN-aligned. Designed for analysis and ML-oriented workflows. Schema definition only -- not a dataset.",
         "url": "https://open3dcp.org/",
         "sameAs": [
           "https://github.com/sunnyday-technologies/Open3DCP",
           "https://doi.org/10.5281/zenodo.19647471"
         ],
         "identifier": "10.5281/zenodo.19647471",
-        "version": "1.6",
+        "version": "1.5",
         "license": "https://www.apache.org/licenses/LICENSE-2.0",
         "creator": {
           "@id": "https://sunn3d.com/#organization"
@@ -647,7 +646,7 @@
           {
             "@type": "PropertyValue",
             "name": "w_b_ratio",
-            "description": "Water-to-binder ratio. The single most important predictor of compressive strength. Typical 3DCP range 0.30-0.45."
+            "description": "Water-to-binder ratio. A major predictor of compressive strength and fresh-state behavior. Typical 3DCP range 0.30-0.45."
           },
           {
             "@type": "PropertyValue",
@@ -742,7 +741,8 @@
       <span class="logo-sub">Open Data Standard</span>
     </div>
     <nav aria-label="Primary">
-      <a href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener" aria-label="Open3DCP schema repository on GitHub (opens in new tab)">Schema</a> &nbsp;&nbsp;
+      <a href="/schema-reference/" aria-label="Open3DCP schema reference">Reference</a> &nbsp;&nbsp;
+      <a href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener" aria-label="Open3DCP schema repository on GitHub (opens in new tab)">GitHub</a> &nbsp;&nbsp;
       <a href="https://cemforge.ai" target="_blank" rel="noopener" aria-label="CEMFORGE AI mix-formulation platform (opens in new tab)">CEMFORGE</a> &nbsp;&nbsp;
       <a href="https://sunn3d.com" target="_blank" rel="noopener" aria-label="Sunnyday Technologies parent site (opens in new tab)">sunn3d.com</a>
     </nav>
@@ -750,13 +750,13 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-label">Open-Source Schema // 3D Concrete Printing // v1.6</div>
+    <div class="hero-label">Open Schema // 3D Concrete Printing // v1.5</div>
     <h1>Data.<br/><span>Standard.</span><br/>Open.</h1>
     <p class="hero-desc">
-      Open3DCP is an open database schema for 3D-printable concrete mix design
-      data. Flat, ML-ready, and aligned with ASTM, RILEM, and NIST conventions.
-      A core flat schema plus companion tables, designed so every lab can speak the same data language.
-      Covers alkali-activated materials, architectural pigments, and per-grade SCM taxonomy (slag, metakaolin, pumice).
+      Open3DCP is an open schema for 3D-printable concrete mix design and test
+      data. Flat, analysis-oriented, and aligned with ASTM, RILEM, and NIST conventions.
+      A core flat schema plus companion tables, designed so labs can publish data in a common shape.
+      Covers alkali-activated materials, architectural pigments, and standards-aligned material taxonomy.
     </p>
     <p class="hero-desc" style="margin-top:1rem;">
       <a href="https://doi.org/10.5281/zenodo.19647471" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:none; font-family:'IBM Plex Mono', monospace; font-size:0.8rem; letter-spacing:0.1em;">
@@ -774,11 +774,11 @@
     </div>
     <div class="spec-item">
       <div class="spec-label">Schema Version</div>
-      <div class="spec-value">v1.6<span class="spec-unit">current</span></div>
+      <div class="spec-value">v1.5<span class="spec-unit">current</span></div>
     </div>
     <div class="spec-item">
       <div class="spec-label">Material Coverage</div>
-      <div class="spec-value">Expanded<span class="spec-unit">AAM + pigments</span></div>
+      <div class="spec-value">Core<span class="spec-unit">AAM + pigments</span></div>
     </div>
     <div class="spec-item">
       <div class="spec-label">Format</div>
@@ -796,10 +796,10 @@
       <div class="block-num">// 01</div>
       <div class="block-title">The Problem</div>
       <p class="block-body">
-        There is no standard way to store 3D-printable concrete data. Research
+        There is not yet a broadly adopted public schema for 3D-printable concrete data. Research
         papers use inconsistent naming, units, and formats. Combining datasets
-        from different labs requires painful manual reformatting. Machine learning
-        on concrete data starts with months of data cleaning.
+        from different labs often requires painful manual reformatting. Machine learning
+        and meta-analysis on concrete data usually start with substantial data cleaning.
       </p>
     </div>
     <div class="content-block">
@@ -809,7 +809,7 @@
         Open3DCP defines a canonical flat schema where every material, process
         parameter, and test result has exactly one column name, one unit, and
         one meaning. Mass-percent basis. Standards-aligned naming. A dataset
-        in this format goes straight into ML training with a single SELECT.
+        in this format is easier to inspect, merge, and prepare for analysis.
       </p>
     </div>
     <div class="content-block">
@@ -819,7 +819,7 @@
         Unlike conventional concrete databases, Open3DCP has first-class columns
         for print process parameters (nozzle geometry, layer timing, print speed),
         fresh-state rheology (yield stress, thixotropy, open time), and interlayer
-        bond properties. Built for additive construction from the ground up.
+        bond properties. Designed around additive-construction reporting needs.
       </p>
     </div>
     <div class="content-block">
