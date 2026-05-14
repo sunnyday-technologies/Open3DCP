@@ -1,20 +1,18 @@
-# Open3DCP v1.6
+# Open3DCP v1.5
 
 **Open Data Standard for 3D Concrete Printing**
 
-> **v1.6 (2026-05-05):** SCM per-grade taxonomy split — slag (3 grades per ASTM C989 strength index), metakaolin (2 reactivity grades), and pumice (powder/sand/coarse by particle size). New columns: `slag_grade_80`, `slag_grade_100`, `slag_grade_120`, `metakaolin_high_purity`, `metakaolin_standard`, `pumice_powder`, `pumice_sand`, `pumice_coarse`. Generic `slag`, `metakaolin`, and `pumice` columns are preserved for backward compatibility (use them when the source paper does not specify a grade). Total: 247 columns.
+> **v1.5 (2026-04-16):** Pigment columns: `iron_oxide_pigment`, `titanium_dioxide_pigment`, `chromium_oxide_pigment`, `carbon_black_pigment`, `pigment_other`. Pigments are ultra-fine (~1 um), used at 1-5% in architectural 3DCP, with significant impact on packing, water demand, and microstructure. The canonical column list below is the source of truth for the public v1.5 schema.
 >
-> **v1.5 (2026-04-16):** Pigment columns: `iron_oxide_pigment`, `titanium_dioxide_pigment`, `chromium_oxide_pigment`, `carbon_black_pigment`, `pigment_other`. Pigments are ultra-fine (~1 um), used at 1-5% in architectural 3DCP, with significant impact on packing, water demand, and microstructure. Total: 239 columns.
+> **v1.4 (2026-04-16):** Alkali-activated material (AAM) columns: `sodium_hydroxide`, `sodium_silicate`, `potassium_hydroxide`, `potassium_silicate`, `activator_ms_ratio`, `na2o_dosage_pct`, `nano_clay`, `mineral_powder`, `mwcnt`, `graphene_oxide`, `rice_husk_ash`, `recycled_sand`.
 >
-> **v1.4 (2026-04-16):** Alkali-activated material (AAM) columns: `sodium_hydroxide`, `sodium_silicate`, `potassium_hydroxide`, `potassium_silicate`, `activator_ms_ratio`, `na2o_dosage_pct`, `nano_clay`, `mineral_powder`, `mwcnt`, `graphene_oxide`, `rice_husk_ash`, `recycled_sand`. Total: 234 columns.
->
-> **v1.3 (2026-04-16):** Added `cellulose_fiber`, `sorptivity_secondary_mm_sqrt_s`. Removed 3 redundant columns. Total: 222 columns.
+> **v1.3 (2026-04-16):** Added `cellulose_fiber`, `sorptivity_secondary_mm_sqrt_s`. Removed 3 redundant columns.
 >
 > **v1.2 (2026-04-15):** 11 durability/transport columns (ASTM C642, C1202, C666, C157, C1585, C231, interlayer bond). Claude prompt caching for extraction. Relaxed minimum-bar gate: accepts any measurement, not just compressive.
 >
-> **v1.1 (2026-04-15):** Added `cement_type_2/3/4`, `hpmc`, `vma`, `shrinkage_reducer`, `pe_fiber`. 150+ material aliases seeded.
+> **v1.1 (2026-04-15):** Added `cement_type_2/3/4`, `hpmc`, `vma`, `shrinkage_reducer`, and expanded fiber/admixture aliases. 150+ material aliases seeded.
 
-A flat database schema for 3D-printable concrete (3DCP) mix design data. Open3DCP captures materials, process parameters, fresh-state rheology, hardened mechanical properties, durability performance, and environmental impact in a single table designed for direct ML training.
+A flat database schema for 3D-printable concrete (3DCP) mix design data. Open3DCP captures materials, process parameters, fresh-state rheology, hardened mechanical properties, durability performance, and environmental impact in a single table designed for analysis, exchange, and ML-oriented workflows.
 
 ---
 
@@ -42,6 +40,8 @@ All values in Open3DCP are stored in **SI/metric units**. This is consistent wit
 | C | F | F = C × 9/5 + 32 |
 | m/s | mph | 1 m/s = 2.237 mph |
 | Pa | psi | 1 Pa = 0.000145 psi |
+
+Use `NULL` when a value is unknown, not reported, not applicable, or not measured. Use `0` only when the source explicitly reports that the material or property was absent or equal to zero. This distinction is important for statistical analysis and model training.
 
 ---
 
@@ -79,15 +79,9 @@ Cements are classified by ASTM C150 / EN 197-1 type. SCMs follow their respectiv
 | `silica_fume` | real | Silica fume / microsilica | ASTM C1240 |
 | `nano_silica` | real | Nano-SiO2 (colloidal or fumed, <100 nm) | -- |
 | `slag` | real | GGBS, grade not specified in source | ASTM C989 |
-| `slag_grade_80` | real | GGBS, ASTM C989 Grade 80 (Strength Index ≥ 75% at 28d). Lower reactivity, lower water demand. | ASTM C989 |
-| `slag_grade_100` | real | GGBS, ASTM C989 Grade 100 (Strength Index ≥ 95% at 28d). Most common commercial grade. | ASTM C989 |
-| `slag_grade_120` | real | GGBS, ASTM C989 Grade 120 (Strength Index ≥ 115% at 28d). Higher early strength, higher heat of hydration. | ASTM C989 |
 | `metakaolin` | real | Calcined kaolin clay, reactivity grade not specified in source | ASTM C618 Class N |
-| `metakaolin_high_purity` | real | High-Reactivity Metakaolin (HRM): kaolinite >95%, Blaine ~15,000 m²/kg. Highest pozzolanic activity, pronounced thixotropy enhancement. | ASTM C618 Class N |
-| `metakaolin_standard` | real | Standard Metakaolin (MRM): kaolinite 75-90%, Blaine ~10,000 m²/kg. Lower cost than HRM; the more common grade in literature. | ASTM C618 Class N |
 | `limestone` | real | Limestone filler / calcium carbonate | EN 12620 |
 | `pumice` | real | Natural pozzolan (pumice), grade not specified in source | ASTM C618 Class N |
-| `pumice_powder` | real | SCM-grade pumice <75 μm (200-mesh). Low-density, high-absorption pozzolan with moderate reactivity (PAI ~85%). Pacific Northwest US deposits. | ASTM C618 Class N |
 | `bottom_ash` | real | Coal bottom ash | -- |
 | `rice_husk_ash` | real | Rice husk ash (pozzolan) | -- |
 
@@ -128,7 +122,7 @@ Pigments are ultra-fine particles (~1 um) used at 1-5% in architectural 3DCP. At
 
 ### Aggregate Materials (mass-% of total wet mix)
 
-Sand is classified using US industry ordering terms. Fineness modulus (FM) ranges are adapted from ASTM C33 grading principles; note that ASTM C33 defines fine aggregate as FM 2.3-3.1 without further subdivision. Coarse aggregates are limited to pumpable sizes for 3DCP (ASTM C33 Size #8 and #89). Larger aggregates (Size #7 and above) are omitted as they cannot be pumped by standard 3DCP equipment; contact us for custom large-aggregate schema extensions.
+Sand is classified using US industry ordering terms. Fineness modulus (FM) ranges are adapted from ASTM C33 grading principles; note that ASTM C33 defines fine aggregate as FM 2.3-3.1 without further subdivision. Coarse aggregates use ASTM C33 size numbers. Many standard 3DCP systems are limited to Size #8 or smaller by pump and nozzle constraints, while larger sizes are included for large-nozzle systems, conventional concrete compatibility, and cross-dataset completeness.
 
 | Column | Type | Description | ASTM C33 / FM | Typical US Order Name |
 |--------|------|-------------|---------------|----------------------|
@@ -138,8 +132,6 @@ Sand is classified using US industry ordering terms. Fineness modulus (FM) range
 | `coarse_sand` | real | Coarse washed sand | FM 3.1-3.7 | Coarse sand / torpedo sand |
 | `agg_size_89` | real | Very fine gravel (3/8" - #16 sieve, 9.5-1.18 mm) | ASTM C33 Size #89 | #89 stone |
 | `agg_size_8` | real | Fine pea gravel (3/8" - #8 sieve, 9.5-2.36 mm) | ASTM C33 Size #8 | Pea gravel / #8 stone |
-| `pumice_sand` | real | Lightweight fine-aggregate pumice (75-600 μm). Density ~700 kg/m³ vs ~2,650 kg/m³ for silica sand. Provides thermal-shock resistance and internal-curing water retention; lower compressive contribution per kg than silica sand. | ASTM C330 lightweight | Pumice sand |
-| `pumice_coarse` | real | Lightweight coarse-aggregate pumice (600 μm - 9.5 mm). Density ~650 kg/m³. Rare in 3DCP (nozzle blockage risk above ~4 mm) but captured when explicitly stated. | ASTM C330 lightweight | Coarse pumice |
 | `agg_size_7` | real | 1/2" - #4 (12.5-4.75 mm) | ASTM C33 Size #7 | #7 stone |
 | `agg_size_67` | real | 3/4" - #4 (19-4.75 mm) | ASTM C33 Size #67 | Common structural |
 | `agg_size_6` | real | 3/4" - 3/8" (19-9.5 mm) | ASTM C33 Size #6 | #6 stone |
@@ -169,7 +161,7 @@ Note: Most 3DCP systems are limited to Size #8 or smaller due to pump and nozzle
 | `cellulose_fiber` | real | Natural cellulose fiber per ASTM D7357 |
 | `fiber_length_mm` | real | Fiber length (mm). Industry example: Dramix 3D 65/35 = 35 mm |
 | `fiber_diameter_mm` | real | Fiber diameter (mm). Required to calculate aspect ratio |
-| `fiber_aspect_ratio` | real | Length-to-diameter ratio (L/d). THE key fiber performance parameter. Example: Dramix 65/35 has L/d = 65 |
+| `fiber_aspect_ratio` | real | Length-to-diameter ratio (L/d). Common fiber bridging and ordering parameter. Example: Dramix 65/35 has L/d = 65 |
 | `fiber_tensile_strength_mpa` | real | Fiber tensile strength as specified by supplier |
 
 ### Chemical Admixtures (mass-% of total wet mix)
@@ -438,6 +430,8 @@ These columns capture the full extrusion printing process. Null for cast specime
 
 All material quantities are in **mass-% of total wet mix** (cement + SCMs + aggregates + water + admixtures + fibers = ~100%).
 
+Use `NULL` when a value is unknown, not reported, not applicable, or not measured. Use `0` only when the source explicitly reports that the material or property was absent or zero. This preserves the distinction between missing data and true zero dosage for statistical analysis and machine-learning pipelines.
+
 This convention was chosen because:
 - It eliminates density assumptions required for kg/m3 conversion
 - It is directly comparable across datasets with different total binder contents
@@ -453,6 +447,7 @@ This convention was chosen because:
 | `sources` | Publication metadata (DOI, journal, year, license) |
 | `test_methods` | Controlled vocabulary of test standards |
 | `curing_regimes` | Standard curing condition definitions |
+| `standard_test_ages` | Reference test-age schedule |
 
 ---
 
@@ -498,5 +493,5 @@ If you use Open3DCP in your research, please cite:
 
 ---
 
-*Open3DCP v1.3 -- Last updated: 2026-04-16*
+*Open3DCP v1.5 -- Last updated: 2026-04-16*
 *Maintained by [Sunnyday Technologies](https://sunn3d.com), Wisconsin, USA*

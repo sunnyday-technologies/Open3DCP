@@ -2,7 +2,7 @@
   "schema_version": "0.1-draft",
   "_note": "Experimental site-level Model Context Protocol manifest. Schema is a community draft (see https://modelcontextprotocol.io). This site is a static, public, read-only documentation surface — listed resources are GET-only. Open3DCP is a schema definition project; it does not host mix-design data.",
   "name": "Open3DCP",
-  "description": "Open data standard / flat database schema for 3D-printable concrete (3DCP) mix design data. Defines column names, units, types, and engineering context covering binders, aggregates, fibers, admixtures, fresh-state rheology, hardened mechanical properties, durability, and 3DCP process parameters.",
+  "description": "Open data standard / flat schema for 3D-printable concrete (3DCP) mix design and test records. Current public schema version: v1.5. Defines column names, units, types, and engineering context covering binders, aggregates, fibers, admixtures, fresh-state rheology, hardened mechanical properties, durability, and 3DCP process parameters.",
   "publisher": {
     "name": "Sunnyday Technologies LLC",
     "url": "https://sunn3d.com/"
@@ -64,8 +64,8 @@
     }
   ],
   "related": {
-    "cemforge.ai": "CEMFORGE — AI mix-formulation platform that consumes Open3DCP-formatted data",
-    "m3-crete.com": "M3-CRETE — open-source meter-scale concrete 3D printer that produces Open3DCP-formatted data",
+    "cemforge.ai": "CEMFORGE — companion AI mix-formulation platform intended to consume Open3DCP-formatted data",
+    "m3-crete.com": "M3-CRETE — companion meter-scale concrete 3D printer platform intended to produce Open3DCP-formatted data",
     "sunn3d.com": "Sunnyday Technologies — parent organization"
   },
   "contact": "open3dcp@sunn3d.com"
