@@ -7,6 +7,8 @@
 -- This file creates the Open3DCP schema in PostgreSQL.
 -- Adapt column types and constraints for your database engine.
 -- All material quantities in mass-% of total wet mix (0-100).
+-- Use NULL for unknown / not reported / not applicable values.
+-- Use 0 only when the source explicitly reports zero dosage or absence.
 -- Strengths in MPa, elastic modulus in GPa.
 -- ====================================================================
 
@@ -28,91 +30,83 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- -----------------------------------------
     -- COMPOSITION — Binder Materials (mass-%)
     -- -----------------------------------------
-    cement_type_1               REAL DEFAULT 0,     -- OPC, ASTM C150 Type I
-    cement_type_1_2             REAL DEFAULT 0,     -- General purpose / moderate sulfate, ASTM C150 Type I/II
-    cement_type_1l              REAL DEFAULT 0,     -- Portland-limestone, ASTM C595 / EN 197-1 CEM II/A-L
-    cement_type_2               REAL DEFAULT 0,     -- Moderate sulfate / moderate heat, ASTM C150 Type II
-    cement_type_3               REAL DEFAULT 0,     -- High early strength / rapid hardening, ASTM C150 Type III
-    cement_type_4               REAL DEFAULT 0,     -- Low-heat, ASTM C150 Type IV (rarely manufactured)
-    cement_type_5               REAL DEFAULT 0,     -- High sulfate resistance, ASTM C150 Type V
-    cac                         REAL DEFAULT 0,     -- Calcium aluminate cement, EN 14647
-    csa_cement                  REAL DEFAULT 0,     -- Calcium sulfoaluminate cement
-    fly_ash                     REAL DEFAULT 0,     -- Fly ash (class not specified)
-    fly_ash_type_f              REAL DEFAULT 0,     -- Class F (SiO2+Al2O3+Fe2O3 >= 70%), ASTM C618
-    fly_ash_type_c              REAL DEFAULT 0,     -- Class C (SiO2+Al2O3+Fe2O3 >= 50%), ASTM C618
-    silica_fume                 REAL DEFAULT 0,     -- Microsilica, ASTM C1240
-    nano_silica                 REAL DEFAULT 0,     -- Nano-SiO2 (<100 nm)
-    slag                        REAL DEFAULT 0,     -- GGBFS, grade not specified, ASTM C989
-    slag_grade_80               REAL DEFAULT 0,     -- v1.6 — ASTM C989 Grade 80 (SI >= 75% at 28d)
-    slag_grade_100              REAL DEFAULT 0,     -- v1.6 — ASTM C989 Grade 100 (SI >= 95% at 28d)
-    slag_grade_120              REAL DEFAULT 0,     -- v1.6 — ASTM C989 Grade 120 (SI >= 115% at 28d)
-    metakaolin                  REAL DEFAULT 0,     -- Calcined kaolin, reactivity grade not specified, ASTM C618 Class N
-    metakaolin_high_purity      REAL DEFAULT 0,     -- v1.6 — High-Reactivity Metakaolin (HRM), kaolinite >95%, Blaine ~15,000 m²/kg
-    metakaolin_standard         REAL DEFAULT 0,     -- v1.6 — Standard Metakaolin (MRM), kaolinite 75-90%, Blaine ~10,000 m²/kg
-    limestone                   REAL DEFAULT 0,     -- Limestone filler, EN 12620
-    pumice                      REAL DEFAULT 0,     -- Natural pozzolan, grade not specified, ASTM C618 Class N
-    pumice_powder               REAL DEFAULT 0,     -- v1.6 — SCM-grade pumice <75 μm (binder-section), ASTM C618 Class N
-    bottom_ash                  REAL DEFAULT 0,     -- Coal bottom ash
-    rice_husk_ash               REAL DEFAULT 0,     -- Rice husk ash (pozzolan)
+    cement_type_1               REAL,     -- OPC, ASTM C150 Type I
+    cement_type_1_2             REAL,     -- General purpose / moderate sulfate, ASTM C150 Type I/II
+    cement_type_1l              REAL,     -- Portland-limestone, ASTM C595 / EN 197-1 CEM II/A-L
+    cement_type_2               REAL,     -- Moderate sulfate / moderate heat, ASTM C150 Type II
+    cement_type_3               REAL,     -- High early strength / rapid hardening, ASTM C150 Type III
+    cement_type_4               REAL,     -- Low-heat, ASTM C150 Type IV (rarely manufactured)
+    cement_type_5               REAL,     -- High sulfate resistance, ASTM C150 Type V
+    cac                         REAL,     -- Calcium aluminate cement, EN 14647
+    csa_cement                  REAL,     -- Calcium sulfoaluminate cement
+    fly_ash                     REAL,     -- Fly ash (class not specified)
+    fly_ash_type_f              REAL,     -- Class F (SiO2+Al2O3+Fe2O3 >= 70%), ASTM C618
+    fly_ash_type_c              REAL,     -- Class C (SiO2+Al2O3+Fe2O3 >= 50%), ASTM C618
+    silica_fume                 REAL,     -- Microsilica, ASTM C1240
+    nano_silica                 REAL,     -- Nano-SiO2 (<100 nm)
+    slag                        REAL,     -- GGBFS, grade not specified, ASTM C989
+    metakaolin                  REAL,     -- Calcined kaolin, reactivity grade not specified, ASTM C618 Class N
+    limestone                   REAL,     -- Limestone filler, EN 12620
+    pumice                      REAL,     -- Natural pozzolan, grade not specified, ASTM C618 Class N
+    bottom_ash                  REAL,     -- Coal bottom ash
+    rice_husk_ash               REAL,     -- Rice husk ash (pozzolan)
 
     -- Alkali Activators (mass-%)
-    sodium_hydroxide            REAL DEFAULT 0,     -- NaOH (purity-adjusted solids)
-    sodium_silicate             REAL DEFAULT 0,     -- Na2SiO3 solution (as-delivered liquid)
-    potassium_hydroxide         REAL DEFAULT 0,     -- KOH (purity-adjusted solids)
-    potassium_silicate          REAL DEFAULT 0,     -- K2SiO3 solution (as-delivered liquid)
+    sodium_hydroxide            REAL,     -- NaOH (purity-adjusted solids)
+    sodium_silicate             REAL,     -- Na2SiO3 solution (as-delivered liquid)
+    potassium_hydroxide         REAL,     -- KOH (purity-adjusted solids)
+    potassium_silicate          REAL,     -- K2SiO3 solution (as-delivered liquid)
     activator_ms_ratio          REAL,               -- SiO2/Na2O molar modulus
     na2o_dosage_pct             REAL,               -- Na2O as % of binder mass
 
     -- Additional Modifiers (mass-%)
-    nano_clay                   REAL DEFAULT 0,     -- Nanoclay / montmorillonite
-    mineral_powder              REAL DEFAULT 0,     -- Generic mineral powder / filler
-    mwcnt                       REAL DEFAULT 0,     -- Multi-walled carbon nanotubes
-    graphene_oxide              REAL DEFAULT 0,     -- Graphene oxide / rGO
-    recycled_sand               REAL DEFAULT 0,     -- Recycled concrete aggregate sand
+    nano_clay                   REAL,     -- Nanoclay / montmorillonite
+    mineral_powder              REAL,     -- Generic mineral powder / filler
+    mwcnt                       REAL,     -- Multi-walled carbon nanotubes
+    graphene_oxide              REAL,     -- Graphene oxide / rGO
+    recycled_sand               REAL,     -- Recycled concrete aggregate sand
 
     -- Pigments (mass-%)
     -- Ultra-fine (~1 um), 1-5% dosage in architectural 3DCP.
     -- Significant impact on packing, water demand, microstructure.
-    iron_oxide_pigment          REAL DEFAULT 0,     -- Fe2O3 red, FeOOH yellow, Fe3O4 black
-    titanium_dioxide_pigment    REAL DEFAULT 0,     -- TiO2 white / photocatalytic
-    chromium_oxide_pigment      REAL DEFAULT 0,     -- Cr2O3 green
-    carbon_black_pigment        REAL DEFAULT 0,     -- Carbon black
-    pigment_other               REAL DEFAULT 0,     -- Other/unspecified pigment
+    iron_oxide_pigment          REAL,     -- Fe2O3 red, FeOOH yellow, Fe3O4 black
+    titanium_dioxide_pigment    REAL,     -- TiO2 white / photocatalytic
+    chromium_oxide_pigment      REAL,     -- Cr2O3 green
+    carbon_black_pigment        REAL,     -- Carbon black
+    pigment_other               REAL,     -- Other/unspecified pigment
 
     -- Aggregate Materials (mass-%)
     -- Sand: US industry ordering terms, FM ranges adapted from ASTM C33 principles
     -- ASTM C33 defines fine aggregate as FM 2.3-3.1; subdivisions below are Open3DCP conventions
-    mason_sand                  REAL DEFAULT 0,     -- FM 1.0-1.8 (mason sand / plaster sand)
-    fine_sand                   REAL DEFAULT 0,     -- FM 1.6-2.2
-    concrete_sand               REAL DEFAULT 0,     -- FM 2.3-3.0 (concrete sand / C33 sand)
-    coarse_sand                 REAL DEFAULT 0,     -- FM 3.1-3.7 (torpedo sand)
+    mason_sand                  REAL,     -- FM 1.0-1.8 (mason sand / plaster sand)
+    fine_sand                   REAL,     -- FM 1.6-2.2
+    concrete_sand               REAL,     -- FM 2.3-3.0 (concrete sand / C33 sand)
+    coarse_sand                 REAL,     -- FM 3.1-3.7 (torpedo sand)
     -- Coarse aggregate: ASTM C33 size numbers
-    agg_size_89                 REAL DEFAULT 0,     -- #89: 3/8"-#16 sieve (9.5-1.18 mm)
-    agg_size_8                  REAL DEFAULT 0,     -- #8:  3/8"-#8 sieve (9.5-2.36 mm) — pea gravel, 3DCP limit for most systems
-    pumice_sand                 REAL DEFAULT 0,     -- v1.6 — Lightweight fine-aggregate pumice 75-600 μm, ASTM C330 lightweight
-    pumice_coarse               REAL DEFAULT 0,     -- v1.6 — Lightweight coarse-aggregate pumice 600 μm-9.5 mm, ASTM C330 lightweight
-    agg_size_7                  REAL DEFAULT 0,     -- #7:  1/2"-#4 (12.5-4.75 mm)
-    agg_size_67                 REAL DEFAULT 0,     -- #67: 3/4"-#4 (19-4.75 mm) — common structural
-    agg_size_6                  REAL DEFAULT 0,     -- #6:  3/4"-3/8" (19-9.5 mm)
-    agg_size_57                 REAL DEFAULT 0,     -- #57: 1"-#4 (25-4.75 mm) — most common US concrete aggregate
-    agg_size_5                  REAL DEFAULT 0,     -- #5:  1"-1/2" (25-12.5 mm)
-    agg_size_467                REAL DEFAULT 0,     -- #467: 1.5"-#4 (37.5-4.75 mm) — common ready-mix
-    agg_size_4                  REAL DEFAULT 0,     -- #4:  1.5"-3/4" (37.5-19 mm)
-    agg_size_357                REAL DEFAULT 0,     -- #357: 2"-#4 (50-4.75 mm) — crusher run
-    agg_size_3                  REAL DEFAULT 0,     -- #3:  2"-1" (50-25 mm)
-    agg_size_2                  REAL DEFAULT 0,     -- #2:  2.5"-1.5" (63-37.5 mm)
-    agg_size_1                  REAL DEFAULT 0,     -- #1:  3.5"-1.5" (90-37.5 mm) — large stone
+    agg_size_89                 REAL,     -- #89: 3/8"-#16 sieve (9.5-1.18 mm)
+    agg_size_8                  REAL,     -- #8:  3/8"-#8 sieve (9.5-2.36 mm) — pea gravel, 3DCP limit for most systems
+    agg_size_7                  REAL,     -- #7:  1/2"-#4 (12.5-4.75 mm)
+    agg_size_67                 REAL,     -- #67: 3/4"-#4 (19-4.75 mm) — common structural
+    agg_size_6                  REAL,     -- #6:  3/4"-3/8" (19-9.5 mm)
+    agg_size_57                 REAL,     -- #57: 1"-#4 (25-4.75 mm) — most common US concrete aggregate
+    agg_size_5                  REAL,     -- #5:  1"-1/2" (25-12.5 mm)
+    agg_size_467                REAL,     -- #467: 1.5"-#4 (37.5-4.75 mm) — common ready-mix
+    agg_size_4                  REAL,     -- #4:  1.5"-3/4" (37.5-19 mm)
+    agg_size_357                REAL,     -- #357: 2"-#4 (50-4.75 mm) — crusher run
+    agg_size_3                  REAL,     -- #3:  2"-1" (50-25 mm)
+    agg_size_2                  REAL,     -- #2:  2.5"-1.5" (63-37.5 mm)
+    agg_size_1                  REAL,     -- #1:  3.5"-1.5" (90-37.5 mm) — large stone
 
     -- Fiber Reinforcement (mass-%)
-    steel_fiber                 REAL DEFAULT 0,
-    pp_fiber                    REAL DEFAULT 0,     -- Polypropylene
-    glass_fiber                 REAL DEFAULT 0,     -- Alkali-resistant
-    carbon_fiber                REAL DEFAULT 0,
-    pva_fiber                   REAL DEFAULT 0,     -- Polyvinyl alcohol
-    basalt_fiber                REAL DEFAULT 0,
-    nylon_fiber                 REAL DEFAULT 0,
-    aramid_fiber                REAL DEFAULT 0,
-    cellulose_fiber             REAL DEFAULT 0,     -- Natural cellulose fiber, ASTM D7357 / ICC 1150 §301.1
+    steel_fiber                 REAL,
+    pp_fiber                    REAL,     -- Polypropylene
+    glass_fiber                 REAL,     -- Alkali-resistant
+    carbon_fiber                REAL,
+    pva_fiber                   REAL,     -- Polyvinyl alcohol
+    basalt_fiber                REAL,
+    nylon_fiber                 REAL,
+    aramid_fiber                REAL,
+    cellulose_fiber             REAL,     -- Natural cellulose fiber, ASTM D7357 / ICC 1150 §301.1
     -- Fiber characterization (dominant fiber in the mix)
     fiber_length_mm             REAL,               -- Fiber length (e.g., 13 mm)
     fiber_diameter_mm           REAL,               -- Fiber diameter (e.g., 0.2 mm)
@@ -122,24 +116,24 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- Chemical Admixtures (mass-% SOLIDS CONTENT)
     -- NOTE: Most commercial admixtures are liquid solutions (typically 20-40% solids).
     -- Convert using manufacturer TDS: e.g., 1.0% liquid at 30% solids = 0.3% in this schema.
-    superplasticizer            REAL DEFAULT 0,     -- HRWR (PCE/SNF/SMF), ASTM C494 Type F/G — solids content
-    water_reducer               REAL DEFAULT 0,     -- MRWR, ASTM C494 Type A — solids content
-    accelerator                 REAL DEFAULT 0,     -- Set/strength accelerator, ASTM C494 Type C/E
-    calcium_formate             REAL DEFAULT 0,     -- Organic salt accelerator (not classified under C494)
-    retarder                    REAL DEFAULT 0,     -- Set retarder, ASTM C494 Type B/D
-    air_entrainer               REAL DEFAULT 0,     -- Air-entraining admixture, ASTM C260
-    vma                         REAL DEFAULT 0,     -- Viscosity-modifying admixture
-    shrinkage_reducer           REAL DEFAULT 0,     -- Shrinkage-reducing admixture
-    corrosion_inhibitor         REAL DEFAULT 0,     -- Corrosion-inhibiting admixture
+    superplasticizer            REAL,     -- HRWR (PCE/SNF/SMF), ASTM C494 Type F/G — solids content
+    water_reducer               REAL,     -- MRWR, ASTM C494 Type A — solids content
+    accelerator                 REAL,     -- Set/strength accelerator, ASTM C494 Type C/E
+    calcium_formate             REAL,     -- Organic salt accelerator (not classified under C494)
+    retarder                    REAL,     -- Set retarder, ASTM C494 Type B/D
+    air_entrainer               REAL,     -- Air-entraining admixture, ASTM C260
+    vma                         REAL,     -- Viscosity-modifying admixture
+    shrinkage_reducer           REAL,     -- Shrinkage-reducing admixture
+    corrosion_inhibitor         REAL,     -- Corrosion-inhibiting admixture
 
     -- Clay / VMA Rheology Modifiers (mass-%)
-    hpmc                        REAL DEFAULT 0,     -- Hydroxypropyl methylcellulose
-    sepiolite_clay              REAL DEFAULT 0,     -- Chain silicate thixotropy agent
-    attapulgite                 REAL DEFAULT 0,     -- Palygorskite
-    calcium_bentonite           REAL DEFAULT 0,     -- Smectite
+    hpmc                        REAL,     -- Hydroxypropyl methylcellulose
+    sepiolite_clay              REAL,     -- Chain silicate thixotropy agent
+    attapulgite                 REAL,     -- Palygorskite
+    calcium_bentonite           REAL,     -- Smectite
 
     -- Water
-    water                       REAL DEFAULT 0,
+    water                       REAL,
 
     -- -----------------------------------------
     -- KEY RATIOS
@@ -153,7 +147,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- -----------------------------------------
     -- TEST CONDITIONS
     -- -----------------------------------------
-    test_age_days               INTEGER DEFAULT 28,
+    test_age_days               INTEGER,
     specimen_prep               VARCHAR(50),        -- cast | 3d_printed
     -- Specimen geometry: all dimensions in mm
     -- Common mortar specimens: 50x50x50 mm cube (2"x2"x2"), 40x40x160 mm prism (ASTM C348/C349)
@@ -176,7 +170,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- -----------------------------------------
     -- 3DCP PROCESS PARAMETERS
     -- -----------------------------------------
-    is_3d_printed               BOOLEAN DEFAULT false,
+    is_3d_printed               BOOLEAN,
     print_speed_mm_s            REAL,
     layer_height_mm             REAL,
     layer_time_gap_s            REAL,               -- Interlayer time interval

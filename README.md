@@ -13,9 +13,9 @@
   <a href="sql/create_tables.sql">SQL Implementation</a>
 </p>
 
-An open database schema for 3D-printable concrete (3DCP) mix design data, developed by [Sunnyday Technologies](https://sunn3d.com).
+An open schema for 3D-printable concrete (3DCP) mix design and test records, developed by [Sunnyday Technologies](https://sunn3d.com).
 
-Open3DCP defines a standard way to store the full digital twin of a 3DCP formulation: what goes into the mix, how it was printed, how it was cured, and what came out in testing. Every column has a name, a unit, and a purpose. No JSON parsing, no nested structures, no guesswork.
+Open3DCP defines a standard way to record the material, process, curing, testing, and provenance attributes needed for a practical digital-twin record of a 3DCP experiment. Every column has a name, a unit, and a purpose. No JSON parsing, no nested structures, and no hidden unit conventions.
 
 This repository provides the **schema definition only** -- column names, types, units, and engineering context. We encourage researchers and industry to adopt this schema as a common format so that 3DCP datasets from different labs and research groups can be combined without painful reformatting.
 
@@ -23,11 +23,11 @@ This repository provides the **schema definition only** -- column names, types, 
 
 ## Why This Exists
 
-There is no standard way to store 3D-printable concrete data.
+There is not yet a broadly adopted public schema for storing 3D-printable concrete data.
 
 Research papers describe mixes as free-text tables with inconsistent naming. One paper calls it "GGBFS," another says "slag," a third writes "ground granulated blast-furnace slag." The aggregate is "sand" in one study and "siliceous fine aggregate (0-2 mm)" in another. Print parameters are buried in methodology sections. Test results are scattered across figures, tables, and supplementary files.
 
-This makes it nearly impossible to combine datasets from different research groups into a single training corpus for machine learning. Open3DCP solves this by defining a canonical flat schema where every material, process parameter, and test result has exactly one column name, one unit, and one meaning.
+This makes it difficult to combine datasets from different research groups for meta-analysis, review, or downstream modeling. Open3DCP addresses the reporting layer by defining a canonical flat schema where every material, process parameter, and test result has exactly one column name, one unit, and one meaning.
 
 The schema follows **FAIR data principles** (Findable, Accessible, Interoperable, Reusable) and the **Processing-Structure-Property-Performance** pattern, consistent with the NASA GRC ICME Schema philosophy for materials data management (Hearley & Arnold, 2023). Column organization aligns with NIST Materials Data Repository guidelines, RILEM TC 304-ADC recommendations, and Citrine GEMD conventions.
 
@@ -66,7 +66,7 @@ Binders are the reactive powders that harden when mixed with water. Portland cem
 | `cement_type_3` | High early strength / rapid hardening, ASTM C150 Type III. Finer grind, faster hydration. | Useful when early strength gain is critical for layer-on-layer buildability. |
 | `cement_type_5` | High sulfate resistance, ASTM C150 Type V. | Required in sulfate-rich soils, common in western US. |
 | `fly_ash` | Coal combustion byproduct. When class is known, use `fly_ash_type_f` (SiO2+Al2O3+Fe2O3 ≥ 70% per ASTM C618) or `fly_ash_type_c` (≥ 50%). | Improves long-term strength and reduces heat of hydration. Slows early strength, which can be problematic for 3DCP layer timing. |
-| `silica_fume` | Ultra-fine amorphous silica from silicon/ferrosilicon production. Particle size ~0.1 um. ASTM C1240. | Fills micro-voids between cement grains (packing effect), dramatically increases strength. Typical dosage 5-10%. Increases water demand. |
+| `silica_fume` | Ultra-fine amorphous silica from silicon/ferrosilicon production. Particle size ~0.1 um. ASTM C1240. | Fills micro-voids between cement grains (packing effect), can increase strength where mix design and curing support it. Typical dosage 5-10%. Increases water demand. |
 | `slag` | Ground granulated blast-furnace slag (GGBFS). Steel industry byproduct. ASTM C989. | Improves durability, reduces permeability, contributes to long-term strength. Common at 30-50% replacement in 3DCP. |
 | `metakaolin` | Calcined kaolin clay. High reactivity pozzolan. ASTM C618 Class N. | Popular in 3DCP for early strength development and thixotropy enhancement. Typical 5-15%. |
 | `limestone` | Ground limestone powder/filler. EN 12620. | Provides nucleation sites that accelerate cement hydration. Improves particle packing. Common in European 3DCP mixes at 5-20%. |
@@ -108,7 +108,7 @@ A typical 3DCP mix is 55-65% sand by total mass with little or no coarse aggrega
 
 ### Fibers -- The Reinforcement
 
-Without formwork, printed concrete has no external confinement. Fibers provide ductility, crack control, and post-crack load carrying capacity. Open3DCP tracks eight fiber types by material, plus industry-standard fiber characterization:
+Without formwork, printed concrete has no external confinement. Fibers provide ductility, crack control, and post-crack load carrying capacity. Open3DCP v1.5 tracks eight core fiber families by material, plus a cellulose compatibility column and industry-standard fiber characterization:
 
 | Column | Material | Typical Use in 3DCP |
 |--------|----------|---------------------|
@@ -118,8 +118,11 @@ Without formwork, printed concrete has no external confinement. Fibers provide d
 | `glass_fiber` | Alkali-resistant glass | Good balance of strength and cost. Must be AR-coated to resist alkaline cement paste. |
 | `basalt_fiber` | Basalt rock | Sustainable, good thermal resistance. Growing 3DCP interest. |
 | `carbon_fiber` | Carbon | Highest tensile strength, highest cost. Rare in 3DCP. |
+| `nylon_fiber` | Nylon / polyamide | Tough synthetic fiber used where crack control and ductility are useful. |
+| `aramid_fiber` | Aramid | High-tensile organic fiber; uncommon in 3DCP but relevant for future specialty mixes. |
+| `cellulose_fiber` | Natural cellulose | Compatibility column for natural-fiber and cellulose-reinforced mixes where reported. |
 
-In addition to mass-%, three characterization columns capture how fiber is actually specified and ordered commercially: `fiber_length_mm`, `fiber_diameter_mm`, and `fiber_aspect_ratio` (L/d — the key performance parameter; e.g., Dramix 3D 65/35 means L/d=65, length=35 mm). `fiber_tensile_strength_mpa` records the supplier-specified fiber tensile strength.
+In addition to mass-%, three characterization columns capture how fiber is actually specified and ordered commercially: `fiber_length_mm`, `fiber_diameter_mm`, and `fiber_aspect_ratio` (L/d, a common predictor of fiber bridging behavior; e.g., Dramix 3D 65/35 means L/d=65, length=35 mm). `fiber_tensile_strength_mpa` records the supplier-specified fiber tensile strength.
 
 ### Admixtures -- The Tuning Knobs
 
@@ -139,7 +142,7 @@ Additional admixture columns include `vma` (viscosity-modifying admixture), `shr
 
 ### Water
 
-A single column: `water`, stored as mass-% of total wet mix. Despite its simplicity, water content is the single most influential variable in concrete performance, because it controls the water-to-binder ratio.
+A single column: `water`, stored as mass-% of total wet mix. Water content is one of the most influential variables in concrete performance because it controls the water-to-binder ratio and strongly affects rheology.
 
 ---
 
@@ -150,7 +153,7 @@ Three derived ratios capture the essential character of a mix more than any indi
 | Column | Formula | Why It Matters |
 |--------|---------|----------------|
 | `w_c_ratio` | water / cement only | The classic predictor from Abrams' law (1918): lower w/c = higher strength. Does not account for SCMs. |
-| `w_b_ratio` | water / total binder | **The single most important predictor of compressive strength.** Accounts for all cementitious materials, not just Portland cement. A typical 3DCP mix has w/b between 0.30 and 0.45. |
+| `w_b_ratio` | water / total binder | A major predictor of compressive strength and fresh-state behavior. Accounts for all cementitious materials, not just Portland cement. A typical 3DCP mix has w/b between 0.30 and 0.45. |
 | `a_b_ratio` | aggregate / total binder | Indicates paste volume. Lower a/b means more paste (binder + water), which generally improves pumpability but increases cost and shrinkage. |
 
 ---
@@ -223,7 +226,7 @@ Every record in Open3DCP should carry provenance metadata that traces it back to
 | `measurement_confidence` | How the value was obtained: `measured`, `calculated`, `estimated`, or `reported` |
 | `lab_name` | Laboratory that performed the tests (enables inter-laboratory comparison) |
 
-Provenance matters because data quality directly determines model accuracy. A single miscoded material percentage (e.g., recording cement as 45% when the paper says 24%) can shift a model's predictions for every similar mix.
+Provenance matters because data quality strongly affects model accuracy and scientific reproducibility. A single miscoded material percentage (e.g., recording cement as 45% when the paper says 24%) can shift downstream analysis for similar mixes.
 
 ---
 
@@ -243,7 +246,7 @@ The main mix design table is supported by several reference tables. Implementers
 
 ## Getting Started
 
-Open3DCP is designed to be database-agnostic. The canonical column definitions target PostgreSQL, but the flat structure works in any relational database, CSV export, or dataframe.
+Open3DCP is designed to be database-agnostic. The canonical column definitions target PostgreSQL, but the flat structure works in any relational database, CSV export, or dataframe. Use `NULL` when a value is unknown, not reported, not applicable, or not measured; use `0` only when the source explicitly reports absence or a true zero value.
 
 If you maintain a 3DCP mix design database, you can adopt the Open3DCP schema by creating tables matching the column definitions in `Open3DCP_SCHEMA.md`. Start with the columns relevant to your data -- you do not need to populate every column. The schema is designed so that null columns are simply ignored during analysis.
 
@@ -302,7 +305,7 @@ See `Open3DCP_SCHEMA.md` for full disclaimer language.
 
 ---
 
-## Test-method coverage (current schema v1.6)
+## Test-method coverage (current schema v1.5)
 
 Open3DCP captures the materials, fresh-state, hardened-mechanical, interlayer, durability, and process data that 3DCP research and inter-laboratory studies routinely report. The table below lists representative test methods that researchers commonly cite when populating each column group; Open3DCP itself is method-neutral and accepts data from any equivalent test.
 

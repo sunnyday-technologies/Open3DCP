@@ -11,35 +11,6 @@ Schema versioning follows these rules:
 
 ---
 
-## [1.6.0] - 2026-05-05
-
-### SCM Per-Grade Taxonomy Split
-
-Slag, metakaolin, and pumice are now captured by grade (or particle size, in pumice's case) so the schema records the actual SCM behavior the test specimen used. Generic `slag`, `metakaolin`, and `pumice` columns are preserved for backward compatibility — use them when the source paper does not state a grade.
-
-### Added
-
-**Slag grades (ASTM C989):**
-- `slag_grade_80` — Grade 80 GGBS (Strength Index ≥ 75% at 28d). Lower reactivity, lower water demand.
-- `slag_grade_100` — Grade 100 GGBS (Strength Index ≥ 95% at 28d). Most common commercial grade.
-- `slag_grade_120` — Grade 120 GGBS (Strength Index ≥ 115% at 28d). Higher early strength, higher heat of hydration.
-
-**Metakaolin reactivity grades (ASTM C618 Class N):**
-- `metakaolin_high_purity` — High-Reactivity Metakaolin (HRM). Kaolinite >95%, Blaine ~15,000 m²/kg.
-- `metakaolin_standard` — Standard Metakaolin (MRM). Kaolinite 75-90%, Blaine ~10,000 m²/kg.
-
-**Pumice by particle size:**
-- `pumice_powder` — SCM-grade pumice <75 μm (binder-section column).
-- `pumice_sand` — Lightweight fine-aggregate pumice 75-600 μm (aggregate-section column).
-- `pumice_coarse` — Lightweight coarse-aggregate pumice 600 μm - 9.5 mm.
-
-### Notes
-
-- Generic `slag`, `metakaolin`, `pumice` columns remain valid for legacy data and for sources that do not state a grade.
-- Total schema size: 247 columns across 10 domains.
-
----
-
 ## [1.5.0] - 2026-04-16
 
 ### Pigment Columns
@@ -54,7 +25,7 @@ Pigments are ultra-fine particles (~1 um) used at 1-5% in architectural 3DCP wit
 - `pigment_other` -- Other/unspecified pigment type.
 
 ### Notes
-- Total schema size: 239 columns across 10 domains.
+- Canonical column list is maintained in `Open3DCP_SCHEMA.md`.
 - Future CEMFORGE algorithm update needed to model pigment surface area interactions with SCMs (silica fume, metakaolin) — tracked separately.
 
 ---
@@ -81,7 +52,7 @@ Open3DCP now supports alkali-activated systems (geopolymer, AAS) and additional 
 
 ### Notes
 - AAM rows stored with `is_training_ready = false` until specimen count supports ML prediction (100+ minimum).
-- Total schema size: 234 columns across 10 domains.
+- Canonical column list is maintained in `Open3DCP_SCHEMA.md`.
 
 ---
 
@@ -99,7 +70,7 @@ Open3DCP now supports alkali-activated systems (geopolymer, AAS) and additional 
 - `sql/create_tables.sql` updated from v1.0 to v1.3 (was 2 versions behind the docs).
 
 ### Notes
-- Total schema size: 222 columns across 10 domains.
+- Canonical column list is maintained in `Open3DCP_SCHEMA.md`.
 
 ---
 
@@ -118,7 +89,7 @@ Open3DCP now supports alkali-activated systems (geopolymer, AAS) and additional 
 
 ### Added
 - `cement_type_2`, `cement_type_3`, `cement_type_4` -- ASTM C150 Types II, III, IV.
-- `pe_fiber` -- Polyethylene (UHMWPE) fiber, distinct from PP fiber.
+- Expanded fiber aliases and characterization coverage.
 - `hpmc` -- Hydroxypropyl methylcellulose (cellulose ether VMA).
 - `vma` -- Generic viscosity-modifying admixture.
 - `shrinkage_reducer` -- Shrinkage-reducing admixture (SRA).
