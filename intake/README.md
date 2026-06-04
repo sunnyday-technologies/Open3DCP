@@ -26,9 +26,9 @@ pre-filled via URL, so the license and the two declaration checkboxes are set by
 
 ## Discoverability
 
-The page currently carries `<meta name="robots" content="noindex, nofollow">` while it is in
-demonstration. Remove that one line in `index.html` (and add the page to `sitemap.xml`) to make it
-discoverable.
+The page is indexable and listed in `sitemap.xml`, linked from the landing page and the root README.
+(To hide it again, add `<meta name="robots" content="noindex, nofollow">` to `index.html` and remove
+its `sitemap.xml` entry.)
 
 ## Validate a submission locally
 

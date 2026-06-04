@@ -10,7 +10,8 @@
 <p align="center">
   <a href="https://open3dcp.org">open3dcp.org</a> ·
   <a href="Open3DCP_SCHEMA.md">Schema Reference</a> ·
-  <a href="sql/create_tables.sql">SQL Implementation</a>
+  <a href="sql/create_tables.sql">SQL Implementation</a> ·
+  <a href="https://open3dcp.org/intake/">Submit a Dataset</a>
 </p>
 
 An open schema for 3D-printable concrete (3DCP) mix design and test records, developed by [Sunnyday Technologies](https://sunn3d.com).
@@ -18,6 +19,8 @@ An open schema for 3D-printable concrete (3DCP) mix design and test records, dev
 Open3DCP defines a standard way to record the material, process, curing, testing, and provenance attributes needed for a practical digital-twin record of a 3DCP experiment. Every column has a name, a unit, and a purpose. No JSON parsing, no nested structures, and no hidden unit conventions.
 
 This repository provides the **schema definition only** -- column names, types, units, and engineering context. We encourage researchers and industry to adopt this schema as a common format so that 3DCP datasets from different labs and research groups can be combined without painful reformatting.
+
+> **Have a 3DCP dataset to share?** [Submit it →](https://open3dcp.org/intake/) — you provide provenance and an archive DOI; an automated check and a maintainer curate it into the catalog.
 
 ---
 
@@ -37,7 +40,7 @@ The schema follows **FAIR data principles** (Findable, Accessible, Interoperable
 
 1. **Flat schema** -- Every feature is a named column. No JSON nesting for ML-relevant data.
 
-2. **Mass-percent basis** -- All material quantities are stored as mass-% of the total wet mix (water included, 0-100 scale). This eliminates the need for density assumptions during inference and is consistent across datasets.
+2. **kg/m³-primary basis (v1.6)** -- kg/m³ is the primary reporting basis (the industry and literature standard). Material quantities are also expressible as mass-% of the total wet mix (a derived secondary representation); `mix_density_kg_m3` and `total_binder_kg_m3` make the two losslessly interconvertible with no density assumption, and `original_basis` records what the source reported.
 
 3. **Standards-aligned** -- Column naming follows established test standards: ASTM C150 for cement types, ASTM C618 for fly ash, ASTM C989 for slag, ASTM C1240 for silica fume, ASTM C33 for aggregate grading by fineness modulus.
 
