@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- noindex while the portal is in demonstration; remove this line to make it discoverable. -->
+<meta name="robots" content="noindex, nofollow"/>
+<title>Open3DCP — Submit a Dataset</title>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<header class="pb-header"><div class="in">
+  <span class="mark">Open3DCP</span><span class="sep">·</span><span class="tag">Submit a Dataset</span>
+  <a href="/">← open3dcp.org</a>
+</div></header>
+
+<main class="sheet">
+  <div class="kicker">Dataset intake · demonstration</div>
+  <h1>Submit a Dataset</h1>
+  <p class="lede">Contribute a 3D-printed-concrete dataset to the Open3DCP catalog. You submit the
+  <strong>metadata + an archive DOI</strong>; the data itself stays in a public archive.</p>
+
+  <div class="note">
+    <strong>How this works.</strong> Open3DCP is a curation layer, not an archive. Deposit your dataset in a
+    public archive first — <strong>Zenodo</strong>, <strong>DesignSafe</strong>, <strong>MDF&nbsp;/&nbsp;NIST</strong>,
+    or <strong>Dataverse</strong> — then submit its <strong>DOI</strong> below. This page collects the details,
+    then hands off to a structured form on GitHub where you sign in (your GitHub account is your verified
+    identity) and submit. An automated check posts a readiness checklist within about a minute, and a maintainer
+    curates it (staging&nbsp;→&nbsp;reviewed&nbsp;→&nbsp;published).
+  </div>
+
+  <!-- STEP 1 — dataset & archive -->
+  <div class="step">
+    <h3><span class="num">1</span>Dataset &amp; archive</h3>
+    <label for="dataset_title">Dataset title</label>
+    <input id="dataset_title" placeholder="e.g. Printability and interlayer bond of an LC3 3DCP mix"/>
+    <div class="rowf">
+      <div><label for="dataset_doi">Dataset DOI <span class="hint">(the archived dataset, not a paper)</span></label>
+        <input id="dataset_doi" placeholder="10.5281/zenodo.XXXXXXX"/></div>
+      <div><label for="archive_url">Archive URL <span class="hint">(resolvable link)</span></label>
+        <input id="archive_url" placeholder="https://doi.org/10.5281/zenodo.XXXXXXX"/></div>
+    </div>
+  </div>
+
+  <!-- STEP 2 — provenance & license -->
+  <div class="step">
+    <h3><span class="num">2</span>Provenance &amp; license</h3>
+    <label for="source_citation">Source citation</label>
+    <input id="source_citation" placeholder="Author et al., Journal (Year). DOI…"/>
+    <div class="rowf">
+      <div><label for="lab_name">Lead author / lab</label>
+        <input id="lab_name" placeholder="Author et al. / University"/></div>
+      <div><label for="declared_orcid">ORCID iD <span class="hint">(optional, self-declared)</span></label>
+        <input id="declared_orcid" placeholder="0000-0002-1825-0097"/></div>
+    </div>
+    <div class="rowf">
+      <div><label for="license">Data license <span class="hint">(must be redistributable)</span></label>
+        <select id="license">
+          <option value="CC BY 4.0">CC BY 4.0</option>
+          <option value="CC0 1.0">CC0 1.0</option>
+          <option value="Other open license">Other open license</option>
+        </select></div>
+      <div><label for="schema_version">Open3DCP schema version <span class="hint">(targeted)</span></label>
+        <input id="schema_version" value="1.6"/></div>
+    </div>
+    <label for="notes">Notes <span class="hint">(optional — units, scope, what's in the archive)</span></label>
+    <textarea id="notes" placeholder="Anything a curator should know."></textarea>
+  </div>
+
+  <!-- STEP 3 — declarations -->
+  <div class="step">
+    <h3><span class="num">3</span>Declarations</h3>
+    <div class="chk"><input id="chk_redist" type="checkbox"/>
+      <label for="chk_redist" style="font-weight:400;margin:0">I confirm the data is legally redistributable
+      under the license above and contains no copyrighted articles.</label></div>
+    <div class="chk"><input id="chk_archive" type="checkbox"/>
+      <label for="chk_archive" style="font-weight:400;margin:0">The dataset is deposited in a public archive
+      and the DOI above resolves to it.</label></div>
+  </div>
+
+  <!-- STEP 4 — readiness -->
+  <div class="step">
+    <h3><span class="num">4</span>Readiness</h3>
+    <p class="hint">Preliminary checks before you continue to GitHub.</p>
+    <ul class="checklist" id="checklist">
+      <li data-gate="dataset" data-state="fail"><span class="ico">&times;</span><span><strong>Dataset title, DOI &amp; archive URL</strong> <span class="det" data-det>— all three provided</span></span></li>
+      <li data-gate="provenance" data-state="fail"><span class="ico">&times;</span><span><strong>Provenance</strong> <span class="det" data-det>— citation + lead author/lab</span></span></li>
+      <li data-gate="license" data-state="fail"><span class="ico">&times;</span><span><strong>Redistributable license selected</strong> <span class="det" data-det></span></span></li>
+      <li data-gate="orcid" data-state="fail"><span class="ico">&times;</span><span><strong>ORCID iD valid or left blank</strong> <span class="det" data-det>— format 0000-0000-0000-0000</span></span></li>
+      <li data-gate="declarations" data-state="fail"><span class="ico">&times;</span><span><strong>Declarations confirmed</strong> <span class="det" data-det>— redistribution + archive resolves</span></span></li>
+    </ul>
+    <div class="note">The authoritative <strong>0&ndash;100 fidelity score</strong> (structure / units / vocabulary)
+      is computed during curation by <code>open3dcp-ingest</code> — this page never invents a number.</div>
+  </div>
+
+  <!-- STEP 5 — continue on GitHub -->
+  <div class="step">
+    <h3><span class="num">5</span>Continue on GitHub</h3>
+    <p class="hint">This opens a structured submission form on GitHub with your details pre-filled.
+    GitHub can't pre-fill the license dropdown or the checkboxes, so you'll re-select the license and tick the
+    two boxes there, then click <em>Submit new issue</em>. You'll sign in with GitHub if you aren't already —
+    that account is your verified identity on the submission.</p>
+    <a class="btn disabled" id="btnContinue" role="button" aria-disabled="true" aria-describedby="continueHint">Continue on GitHub →</a>
+    <p class="small" id="continueHint" style="margin-top:8px">Complete the readiness checks above to continue.</p>
+  </div>
+</main>
+
+<footer class="pb-footer">
+  <span>Open3DCP · Dataset intake</span>
+  <span>Sunnyday Technologies · schema v1.6</span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
