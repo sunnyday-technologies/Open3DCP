@@ -1,0 +1,11 @@
+name: Bug or schema question
+description: Report a problem with Open3DCP or ask a schema question (not a dataset submission).
+title: "[question] "
+body:
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What's the bug or question? Include links, schema version, and steps where relevant.
+    validations:
+      required: true

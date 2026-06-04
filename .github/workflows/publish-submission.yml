@@ -1,0 +1,83 @@
+name: Publish submission
+
+# Runs when a maintainer applies the `intake:published` label: writes submissions/<NNNN>.json,
+# appends submissions/index.json, comments the permalink, and closes the issue. The label IS the
+# curation approval; only repo members with write access can trigger it.
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+  contents: write
+
+# Serialize publishes: each rewrites submissions/index.json, so they must not run in parallel.
+# cancel-in-progress MUST be false — cancelling a queued publish would drop that record.
+concurrency:
+  group: publish-records
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: ${{ github.event.label.name == 'intake:published' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify the actor may publish (write access or above)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ACTOR: ${{ github.event.sender.login }}
+        run: |
+          perm=$(gh api "repos/${GITHUB_REPOSITORY}/collaborators/${ACTOR}/permission" --jq '.permission')
+          echo "Actor '${ACTOR}' has permission: $perm"
+          case "$perm" in
+            admin|maintain|write) : ;;
+            *) echo "::error::Only maintainers (write+) can publish a submission."; exit 1 ;;
+          esac
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: pip install --quiet pyyaml
+
+      - name: Build record + update index
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_USER: ${{ github.event.issue.user.login }}
+          ISSUE_USER_ID: ${{ github.event.issue.user.id }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: python scripts/publish_record.py
+
+      - name: Commit to main
+        env:
+          N: ${{ github.event.issue.number }}
+        run: |
+          git config user.name "open3dcp-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add submissions/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."; exit 0
+          fi
+          git commit -m "submissions: record dataset submission #${N}"
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push; then exit 0; fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 3))
+          done
+          echo "::error::could not push submission record after retries"; exit 1
+
+      - name: Comment permalink + close
+        env:
+          GH_TOKEN: ${{ github.token }}
+          N: ${{ github.event.issue.number }}
+        run: |
+          rec=$(printf 'submissions/%04d.json' "$N")
+          gh issue comment "$N" --body "📒 Published to the catalog: \`$rec\` — thank you for contributing to Open3DCP."
+          gh issue close "$N" --reason completed
