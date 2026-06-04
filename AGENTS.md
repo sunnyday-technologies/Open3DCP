@@ -16,8 +16,8 @@ Open3DCP is a **schema specification**: column names, types, units, and
 engineering context for binders, alkali activators, aggregates, fibers,
 admixtures, pigments, fresh-state rheology, hardened mechanical
 properties, durability indicators, 3DCP process parameters, and
-interlayer bond. v1.5 defines the current public column vocabulary.
-Mass-percent basis. Flat and analysis/ML-oriented.
+interlayer bond. v1.6 defines the current public column vocabulary.
+kg/m³-primary basis (mass-% derivable). Flat and analysis/ML-oriented.
 
 Open3DCP is **not**:
 
@@ -42,13 +42,16 @@ results, or process parameters are nested inside JSON objects, **flatten
 them to canonical column names** before persisting. Nesting breaks
 downstream ML pipelines and is the most common ingestion failure mode.
 
-### 2. Preserve mass-percent basis. Do not silently convert units.
+### 2. Preserve the source's basis. Do not silently convert units.
 
-All material quantities are stored as mass-% of total wet mix, water
-included, 0–100 scale. If you receive a record in kg/m³, water-cement
-ratio, or volume fraction, you must convert and document the
-conversion in a notes column — not silently rewrite the values into a
-different basis. If a density assumption is required, flag it.
+As of v1.6, **kg/m³ is the primary reporting basis**; material quantities
+are also expressible as mass-% of total wet mix (a derived secondary
+representation). Record `original_basis` (what the source reported) and
+`mix_density_kg_m3` / `total_binder_kg_m3` so the two bases convert
+losslessly with no density assumption. If you receive a record in a
+different basis (water-cement ratio, volume fraction), convert and
+document the conversion in a notes column — never silently rewrite the
+values. If a density assumption is unavoidable, flag it.
 
 ### 3. Preserve standards alignment.
 
