@@ -1,0 +1,102 @@
+name: Dataset Submission
+description: Submit a 3D-printed-concrete dataset to the Open3DCP catalog (metadata + archive DOI).
+title: "[dataset] "
+labels: ["intake:staging"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing to **Open3DCP**.
+
+        This form records the **metadata** for a dataset. The dataset itself should already be deposited in a
+        public archive (**Zenodo**, **DesignSafe**, **MDF&nbsp;/&nbsp;NIST**, **Dataverse**) — you provide its
+        **DOI** here, not the files. An automated check posts a readiness checklist within ~a minute, and a
+        maintainer curates it (`intake:staging` → `intake:reviewed` → `intake:published`).
+
+        Tip: the [submission page](https://open3dcp.org/intake/) pre-fills most of this form for you.
+  - type: input
+    id: dataset_title
+    attributes:
+      label: Dataset title
+      placeholder: e.g. Printability and interlayer bond of an LC3 3DCP mix
+    validations:
+      required: true
+  - type: input
+    id: dataset_doi
+    attributes:
+      label: Dataset DOI
+      description: The DOI of the archived dataset (not a paper). e.g. 10.5281/zenodo.1234567
+      placeholder: 10.5281/zenodo.XXXXXXX
+    validations:
+      required: true
+  - type: input
+    id: archive_url
+    attributes:
+      label: Archive URL
+      description: A resolvable link to the dataset record (Zenodo / DesignSafe / MDF-NIST / Dataverse).
+      placeholder: https://doi.org/10.5281/zenodo.XXXXXXX
+    validations:
+      required: true
+  - type: input
+    id: source_citation
+    attributes:
+      label: Source citation
+      description: How to cite the source publication or dataset.
+      placeholder: Author et al., Journal (Year). DOI…
+    validations:
+      required: true
+  - type: input
+    id: lab_name
+    attributes:
+      label: Lead author / lab
+      placeholder: Author et al. / University
+    validations:
+      required: true
+  - type: input
+    id: declared_orcid
+    attributes:
+      label: ORCID iD (optional)
+      description: Format 0000-0000-0000-0000. Self-declared — a curator may cross-check it against your GitHub profile.
+      placeholder: 0000-0002-1825-0097
+    validations:
+      required: false
+  - type: dropdown
+    id: license
+    attributes:
+      label: Data license
+      description: Must be redistributable.
+      options:
+        - CC BY 4.0
+        - CC0 1.0
+        - Other open license
+    validations:
+      required: true
+  - type: input
+    id: schema_version
+    attributes:
+      label: Open3DCP schema version targeted
+      description: The Open3DCP schema version your records map to.
+      value: "1.6"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes (optional)
+      description: Anything a curator should know — units, scope, what's in the archive.
+    validations:
+      required: false
+  - type: checkboxes
+    id: redistribution_confirmed
+    attributes:
+      label: Redistribution
+      options:
+        - label: I confirm the data is legally redistributable under the license above and contains no copyrighted articles.
+          required: true
+  - type: checkboxes
+    id: archive_ack
+    attributes:
+      label: Archive
+      options:
+        - label: The dataset is deposited in a public archive and the DOI above resolves to it.
+          required: true
