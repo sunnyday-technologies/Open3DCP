@@ -1,0 +1,17 @@
+This example includes a curated excerpt derived from:
+
+  Database of the RILEM TC 304-ADC interlaboratory study on mechanical
+  properties of 3D printed concrete (2024)
+  RILEM Technical Committee 304-ADC
+  Zenodo — https://doi.org/10.5281/zenodo.12200570
+
+Licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0):
+  https://creativecommons.org/licenses/by/4.0/
+
+Changes made: a 9-row excerpt (three participating labs) was derived from the relational
+openBIS SQLite export by denormalizing material/print/test views and aggregating per-specimen
+flexural results into mean / standard-deviation / n, then mapping the RILEM U/V/W orientation
+onto the Open3DCP X/Y/Z/CAST convention. Underlying values are unchanged; the source database
+is not redistributed (download it from the DOI). See SOURCE.md and build/extract.py.
+
+"RILEM" is a trademark of its owner; used here for identification only. No endorsement implied.
