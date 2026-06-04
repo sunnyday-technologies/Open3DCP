@@ -1,7 +1,9 @@
-# Open3DCP v1.5
+# Open3DCP v1.6
 
 **Open Data Standard for 3D Concrete Printing**
 
+> **v1.6 (2026-06-03):** **kg/m³ adopted as the primary reporting basis** (industry/field standard); mass-% retained as a derived secondary representation. New columns: `original_basis`, `mix_density_kg_m3`, `total_binder_kg_m3` (lossless basis conversion); `compressive_strength_stddev_mpa`, `flexural_strength_stddev_mpa`, `tensile_strength_stddev_mpa`, `elastic_modulus_stddev_gpa`, `interlayer_bond_stddev_mpa` (per-measurement uncertainty); `raw_data_doi`, `stress_strain_file`, `rheology_curve_file`, `microstructure_image`, `raw_data_file` (raw-data references). Backward-compatible (additive). Improves interoperability and ingestion fidelity for relational concrete datasets.
+>
 > **v1.5 (2026-04-16):** Pigment columns: `iron_oxide_pigment`, `titanium_dioxide_pigment`, `chromium_oxide_pigment`, `carbon_black_pigment`, `pigment_other`. Pigments are ultra-fine (~1 um), used at 1-5% in architectural 3DCP, with significant impact on packing, water demand, and microstructure. The canonical column list below is the source of truth for the public v1.5 schema.
 >
 > **v1.4 (2026-04-16):** Alkali-activated material (AAM) columns: `sodium_hydroxide`, `sodium_silicate`, `potassium_hydroxide`, `potassium_silicate`, `activator_ms_ratio`, `na2o_dosage_pct`, `nano_clay`, `mineral_powder`, `mwcnt`, `graphene_oxide`, `rice_husk_ash`, `recycled_sand`.
@@ -19,7 +21,7 @@ A flat database schema for 3D-printable concrete (3DCP) mix design data. Open3DC
 ## Design Principles
 
 1. **Flat schema** -- Every feature is a named column, no JSON parsing required for ML.
-2. **Mass-percent basis** -- All material quantities stored as mass-% of total wet mix (water included). Consistent across datasets, eliminates density assumptions.
+2. **kg/m³-primary basis (v1.6)** -- kg/m³ is the primary reporting basis (the industry/field standard). Material quantities are also expressible as mass-% of total wet mix (a derived secondary representation); `mix_density_kg_m3` and `total_binder_kg_m3` make the two losslessly interconvertible, and `original_basis` records what the source reported.
 3. **ASTM/RILEM-aligned** -- Column naming follows established standards: ASTM C150 (cement types), ASTM C618 (fly ash), ASTM C989 (slag), ASTM C1240 (silica fume), ASTM C33 (aggregate grading by fineness modulus).
 4. **3DCP-native** -- First-class columns for print process parameters (nozzle, layer, speed, pump), rheology (yield stress, thixotropy, open time), and interlayer properties that don't exist in conventional concrete schemas.
 5. **Multi-age** -- Companion `strength_measurements` table stores multi-age data (1, 3, 7, 14, 28, 56, 90, 365 days).
@@ -201,6 +203,16 @@ Specialized rheology modifiers for 3DCP thixotropy and shape retention.
 | `a_b_ratio` | real | Aggregate-to-binder ratio |
 | `water_premix_pct` | real | % of water added during pre-mix phase |
 | `water_temperature_c` | real | Water temperature at mixing (C) |
+
+### Mix Basis (v1.6)
+
+kg/m³ is the primary basis; the mass-% composition columns are a derived secondary representation. Record the source's native basis and the mix density so the two convert without any assumption.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `original_basis` | varchar | Basis the source reported: `kg_m3` (primary), `mass_pct`, `volume`, or `lb_yd3` |
+| `mix_density_kg_m3` | real | Total fresh wet-mix density (sum of kg/m³ constituents); enables exact mass-% ↔ kg/m³ conversion |
+| `total_binder_kg_m3` | real | Total cementitious content (kg/m³); supports w/b and absolute back-conversion |
 
 ### Test Conditions
 
@@ -396,6 +408,30 @@ These columns capture the full extrusion printing process. Null for cast specime
 | `calcium_hydroxide_pct` | real | Ca(OH)2 content (TGA/XRD) | % |
 | `pore_size_distribution_nm` | real | Critical pore diameter (MIP) | nm |
 
+### Measurement Uncertainty (v1.6)
+
+Mirrors the common `mean + standard_deviation + number_of_specimens` reporting convention. Each std-dev uses the same unit as its base column; `n_specimens` is recorded under Test Conditions.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `compressive_strength_stddev_mpa` | real | Std-dev of compressive strength across specimens |
+| `flexural_strength_stddev_mpa` | real | Std-dev of flexural strength |
+| `tensile_strength_stddev_mpa` | real | Std-dev of tensile / splitting strength |
+| `elastic_modulus_stddev_gpa` | real | Std-dev of elastic modulus |
+| `interlayer_bond_stddev_mpa` | real | Std-dev of interlayer bond strength |
+
+### Raw Data References (v1.6)
+
+Links to curve/image/HDF5 files that the flat schema cannot hold inline. Payloads stay external (FAIR); the reference is preserved so the raw data remains discoverable.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `raw_data_doi` | varchar | DOI of a deposited raw-data record |
+| `stress_strain_file` | varchar | Load-displacement / stress-strain curve file |
+| `rheology_curve_file` | varchar | Flow / structuration curve file |
+| `microstructure_image` | varchar | SEM / CT / crack-pattern image file |
+| `raw_data_file` | varchar | Generic table / HDF5 raw-data reference |
+
 ### Data Provenance
 
 | Column | Type | Description |
@@ -428,14 +464,14 @@ These columns capture the full extrusion printing process. Null for cast specime
 
 ## Units Convention
 
-All material quantities are in **mass-% of total wet mix** (cement + SCMs + aggregates + water + admixtures + fibers = ~100%).
+**As of v1.6, kg/m³ is the primary reporting basis** (the industry and literature standard: UCI/Yeh, RILEM/NU, RILEM TC 281-CCC, and fib all use kg/m³). Material quantities are also expressible as **mass-% of total wet mix** (cement + SCMs + aggregates + water + admixtures + fibers = ~100%) as a derived secondary representation. Record `mix_density_kg_m3` and `total_binder_kg_m3` so the two bases convert with no assumed density, and set `original_basis` to the basis the source reported.
 
 Use `NULL` when a value is unknown, not reported, not applicable, or not measured. Use `0` only when the source explicitly reports that the material or property was absent or zero. This preserves the distinction between missing data and true zero dosage for statistical analysis and machine-learning pipelines.
 
-This convention was chosen because:
-- It eliminates density assumptions required for kg/m3 conversion
+The mass-% representation is retained because:
 - It is directly comparable across datasets with different total binder contents
-- It normalizes naturally to a fixed scale (0-100%)
+- It normalizes naturally to a fixed scale (0-100%), convenient for ML
+- With `mix_density_kg_m3` stored, it converts back to kg/m³ exactly (no density assumption)
 
 ---
 
@@ -493,5 +529,5 @@ If you use Open3DCP in your research, please cite:
 
 ---
 
-*Open3DCP v1.5 -- Last updated: 2026-04-16*
+*Open3DCP v1.6 -- Last updated: 2026-06-03*
 *Maintained by [Sunnyday Technologies](https://sunn3d.com), Wisconsin, USA*

@@ -108,7 +108,7 @@ A typical 3DCP mix is 55-65% sand by total mass with little or no coarse aggrega
 
 ### Fibers -- The Reinforcement
 
-Without formwork, printed concrete has no external confinement. Fibers provide ductility, crack control, and post-crack load carrying capacity. Open3DCP v1.5 tracks eight core fiber families by material, plus a cellulose compatibility column and industry-standard fiber characterization:
+Without formwork, printed concrete has no external confinement. Fibers provide ductility, crack control, and post-crack load carrying capacity. Open3DCP v1.6 tracks eight core fiber families by material, plus a cellulose compatibility column and industry-standard fiber characterization:
 
 | Column | Material | Typical Use in 3DCP |
 |--------|----------|---------------------|
@@ -252,6 +252,18 @@ If you maintain a 3DCP mix design database, you can adopt the Open3DCP schema by
 
 ---
 
+## Interoperability & tooling
+
+Open3DCP ships tooling to bring external concrete datasets into the flat schema without losing data:
+
+| Artifact | What it is |
+|----------|------------|
+| [`tools/ingest/`](tools/ingest/) | `open3dcp-ingest` — converts external datasets (relational concrete databases, UCI/Yeh, generic CSV) into Open3DCP, with an ingestion fidelity score and a drop-nothing triage sidecar |
+| [`crosswalk/`](crosswalk/) | Versioned, machine-readable schema mappings consumed by the tool |
+| [`Open3DCP_TERM_JUSTIFICATION.md`](Open3DCP_TERM_JUSTIFICATION.md) | Justification for every schema term + unit, with standard references (auto-generated; coverage-gated) |
+
+---
+
 ## References & Acknowledgments
 
 Open3DCP is an agglomeration of the most applicable schema patterns for 3DCP mix design data, drawn from established standards bodies and open-access research:
@@ -305,7 +317,7 @@ See `Open3DCP_SCHEMA.md` for full disclaimer language.
 
 ---
 
-## Test-method coverage (current schema v1.5)
+## Test-method coverage (current schema v1.6)
 
 Open3DCP captures the materials, fresh-state, hardened-mechanical, interlayer, durability, and process data that 3DCP research and inter-laboratory studies routinely report. The table below lists representative test methods that researchers commonly cite when populating each column group; Open3DCP itself is method-neutral and accepts data from any equivalent test.
 

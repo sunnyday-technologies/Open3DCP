@@ -145,6 +145,16 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     water_temperature_c         REAL,               -- Water temperature at mixing (C)
 
     -- -----------------------------------------
+    -- MIX BASIS (v1.6)
+    -- kg/m3 is the PRIMARY reporting basis (industry standard: UCI/Yeh, RILEM, fib).
+    -- The mass-% composition columns above are a derived secondary representation; these
+    -- columns make the two bases losslessly interconvertible (no assumed density).
+    -- -----------------------------------------
+    original_basis              VARCHAR(20),        -- kg_m3 (primary) | mass_pct | volume | lb_yd3
+    mix_density_kg_m3           REAL,               -- Total fresh wet-mix density (sum of kg/m3 constituents)
+    total_binder_kg_m3          REAL,               -- Total cementitious content (kg/m3)
+
+    -- -----------------------------------------
     -- TEST CONDITIONS
     -- -----------------------------------------
     test_age_days               INTEGER,
@@ -308,6 +318,26 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     degree_of_hydration         REAL,               -- 0-1
     calcium_hydroxide_pct       REAL,               -- TGA/XRD
     pore_size_distribution_nm   REAL,               -- Critical pore diameter (MIP)
+
+    -- -----------------------------------------
+    -- MEASUREMENT UNCERTAINTY (v1.6) — mirrors mean + standard_deviation + N
+    -- Same unit as the corresponding base column. n_specimens already exists above.
+    -- -----------------------------------------
+    compressive_strength_stddev_mpa REAL,           -- Std-dev of compressive strength across specimens
+    flexural_strength_stddev_mpa    REAL,           -- Std-dev of flexural strength
+    tensile_strength_stddev_mpa     REAL,           -- Std-dev of tensile / splitting strength
+    elastic_modulus_stddev_gpa      REAL,           -- Std-dev of elastic modulus
+    interlayer_bond_stddev_mpa      REAL,           -- Std-dev of interlayer bond strength
+
+    -- -----------------------------------------
+    -- RAW DATA REFERENCES (v1.6) — link curve/image/HDF5 files the flat schema can't hold inline
+    -- File payloads stay external (CSV/HDF5/image); these columns preserve the reference (FAIR).
+    -- -----------------------------------------
+    raw_data_doi                VARCHAR(255),       -- DOI of a deposited raw-data record
+    stress_strain_file          VARCHAR(255),       -- Load-displacement / stress-strain curve file
+    rheology_curve_file         VARCHAR(255),       -- Flow / structuration curve file
+    microstructure_image        VARCHAR(255),       -- SEM / CT / crack-pattern image file
+    raw_data_file               VARCHAR(255),       -- Generic table / HDF5 raw-data reference
 
     -- -----------------------------------------
     -- DATA PROVENANCE
