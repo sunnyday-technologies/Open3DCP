@@ -7,11 +7,11 @@
 
 ## How terms were chosen
 
-Each column uses the **most frequently used term** for its quantity across the surveyed
-literature and datasets, so most records need no alias lookup; synonyms resolve via the
-Open3DCP alias table (maintained separately). Per term, the table gives its governing
-standard and — where one exists — its relational-schema crosswalk. 3DCP-only terms
-are justified against RILEM TC 276-DFC / TC 304-ADC.
+Each column uses the **most frequently used term** for its quantity, determined by
+compiling the corpus of 3D-printable-cement literature and datasets; alternate spellings
+normalize to that canonical term. Per term, the table gives its governing standard and —
+where one exists — its relational-schema crosswalk. 3DCP-only terms are justified against
+RILEM TC 276-DFC / TC 304-ADC.
 
 **Coverage:** 237 canonical `mix_designs` terms, grouped into 24 sections.
 
