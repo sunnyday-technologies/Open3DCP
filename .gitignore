@@ -42,3 +42,8 @@ playbooks/
 docs/
 crosswalk/dataset_comparison.csv
 crosswalk/printing_variables_to_relational.csv
+scripts/examples_blocklist.txt
+
+# examples/ carry intentional build/ inputs — override the generic build/ ignore above
+!examples/*/build/
+!examples/*/build/**
