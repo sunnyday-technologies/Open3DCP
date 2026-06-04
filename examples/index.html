@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Worked Open3DCP examples converted from open, licensed academic and national concrete datasets — each shows the source's data classes and storage medium and how it re-formats into the Open3DCP flat schema."/>
+<link rel="canonical" href="https://open3dcp.org/examples/"/>
+<title>Open3DCP — Example entries</title>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<header class="pb-header"><div class="in">
+  <span class="mark">Open3DCP</span><span class="sep">·</span><span class="tag">Example entries</span>
+  <a href="/">← open3dcp.org</a>
+</div></header>
+
+<main class="sheet">
+  <div class="kicker">The open concrete-data landscape</div>
+  <h1>Example entries</h1>
+  <p class="lede">Worked Open3DCP records converted from <strong>public, openly-licensed</strong> academic and
+  national datasets — each shows the source's data classes and storage medium, and how it re-formats into the
+  Open3DCP flat schema.</p>
+
+  <div class="note"><strong>The national flywheel.</strong> Shared open production data raises the production value
+  of construction — a national flywheel for development. Concrete data is scattered across benchmarks, national
+  repositories, and standards bodies in incompatible shapes (flat vs relational vs file-based) and bases (kg/m³ vs
+  mass-%). Open3DCP is the connective layer spanning the full digital twin: <em>quarry → mix → 3DCP process → fresh
+  rheology → hardened mechanical → durability → interlayer bond → embodied carbon → strength over decades.</em></p>
+
+  <h2>Examples</h2>
+  <div class="cols">
+    <div class="panel">
+      <h3><a href="uci-yeh-1998/">UCI Concrete Compressive Strength →</a></h3>
+      <p class="small"><span class="badge b-store">CC BY 4.0</span> <span class="badge b-cast">cast concrete</span></p>
+      <p class="small">A flat kg/m³ benchmark (Yeh 1998). Exact kg/m³→mass-% projection; fidelity <strong>96.7/A</strong>.
+      Fills mix-design + hardened + multi-age; 3DCP/process/durability stay null.</p>
+    </div>
+    <div class="panel">
+      <h3><a href="rilem-tc304-ils-mech/">RILEM TC 304-ADC ILS-mech →</a></h3>
+      <p class="small"><span class="badge b-store">CC BY 4.0</span> <span class="badge b-3dcp">3D-printed</span></p>
+      <p class="small">A multi-national relational SQLite of printed concrete. Denormalized + aggregated to mean±std-dev/n;
+      shows <strong>print anisotropy</strong> (orientation) + process — the columns UCI leaves empty.</p>
+    </div>
+  </div>
+
+  <h2>Coverage — each source lights up a slice; Open3DCP spans the whole</h2>
+  <table>
+    <thead><tr><th>Source</th><th>Prov.</th><th>Mix</th><th>Rheo.</th><th>3DCP</th><th>Mech.</th><th>Age</th><th>Dura.</th><th>Env.</th></tr></thead>
+    <tbody>
+      <tr><td><a href="uci-yeh-1998/">UCI (Yeh) — cast</a></td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>✓</td><td>▢</td><td>▢</td></tr>
+      <tr><td><a href="rilem-tc304-ils-mech/">RILEM ILS-mech — 3DCP</a></td><td>✓</td><td>▢¹</td><td>✓</td><td>✓</td><td>✓</td><td>▢</td><td>▢</td><td>▢</td></tr>
+      <tr><td><em>AAC (BAM/TU-Berlin)</em> — planned</td><td>✓</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td></tr>
+      <tr><td><em>UF/UTK 3DCP mix</em> — planned</td><td>✓</td><td>✓</td><td>▢</td><td>◐</td><td>▢</td><td>▢</td><td>▢</td><td>▢</td></tr>
+      <tr><td><em>NIST LCA</em> — planned</td><td>✓</td><td>▢</td><td>▢</td><td>▢</td><td>▢</td><td>▢</td><td>▢</td><td>✓</td></tr>
+    </tbody>
+  </table>
+  <p class="small">¹ commercial premix — w/b and yield stress captured, constituent dosages not disclosed. The gaps
+  between slices are the connective-layer argument: no single source spans quarry → decades; the union does.</p>
+
+  <h2>Storable vs reference-only</h2>
+  <p><strong>The rule:</strong> store only when the license clearly permits redistribution — <strong>CC BY 4.0</strong>,
+  <strong>CC0</strong>, <strong>US-government public domain</strong>, or <strong>GODL-India</strong> — with attribution.
+  Anything copyrighted, registration-gated, or unclear is <strong>reference-only</strong> and cited respectfully.</p>
+  <p class="small"><strong>Storable</strong> (built / verified): UCI Concrete Strength &amp; Slump · RILEM TC 304-ADC
+  ILS-mech · BAM/TU-Berlin AAC · UF/UTK 3DCP mix-design · NIST Construction Materials (US public domain) · JCI–JACT
+  (per-paper). &nbsp; <strong>Reference-only</strong> (cited, not stored): ACI · NIMS MatNavi · China NMDMS /
+  Materials-Genome platforms · Russia GOST · RILEM recommendations · EU NOMAD / Materials Project · image-only sets.</p>
+
+  <h2>National map</h2>
+  <p class="small">Open concrete &amp; materials-data efforts Open3DCP can interoperate with: <strong>USA</strong> —
+  NIST (MGI; Federal LCA Commons, storable), UCI (CC BY 4.0), ACI (reference). <strong>International</strong> — RILEM
+  TC 304-ADC (the 3DCP anchor; ILS-mech storable), NOMAD (FAIR exemplar). <strong>Germany</strong> — BAM + NFDI-MatWerk;
+  Zenodo deposits CC BY 4.0. <strong>Japan</strong> — NIMS MatNavi (gated, reference), JCI–JACT (CC BY 4.0).
+  <strong>China</strong> — National Materials-Genome stack (gated, reference); CAS ScienceDB (storable platform).
+  <strong>South Korea</strong> — KISTI DataON. <strong>India</strong> — GODL-India permits redistribution (and IIT Madras
+  contributes to RILEM ILS-mech). <strong>Russia</strong> — GOST (method codes only). Provenance (<code>doi</code> /
+  <code>source_citation</code> / <code>lab_name</code>) is preserved on every row.</p>
+
+  <div class="note ok"><strong>Contribute:</strong> have an openly-licensed dataset to add?
+  <a href="/intake/">Submit it →</a> — provenance + an archive DOI + a redistributable license.</div>
+</main>
+
+<footer class="pb-footer">
+  <span><a href="/">open3dcp.org</a> · Example entries</span>
+  <span>Open3DCP · schema v1.6</span>
+</footer>
+</body>
+</html>

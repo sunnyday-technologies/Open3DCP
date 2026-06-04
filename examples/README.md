@@ -1,0 +1,84 @@
+# Example entries — the open concrete-data landscape
+
+Worked Open3DCP examples converted from **public, openly-licensed** academic and national datasets. Each
+carries its source, DOI, license, a `NOTICE`, a `record.json`, the converted flat CSV, and an honest fidelity
+report. We commit **small curated excerpts** (reproducible from the source), never bulk re-hosts. Every example
+is generic and public; each page shows the source's data classes and storage medium and how it re-formats into
+Open3DCP.
+
+## The national flywheel
+
+Shared open production data is a **national flywheel**: better data raises the production value of construction,
+which enables development and expansion. Concrete is the most-used material on earth, yet its data is scattered
+across academic benchmarks, national repositories, and standards bodies — in incompatible shapes (flat vs
+relational vs file-based) and unit bases (kg/m³ vs mass-%). **Open3DCP is the connective layer**: a flat,
+analysis-ready projection spanning the full digital twin — quarry → raw-material provenance → mix design
+(kg/m³-primary) → 3DCP process → fresh rheology → hardened mechanical → durability → interlayer bond → embodied
+carbon → strength over decades.
+
+## Coverage — each source lights up a slice; Open3DCP spans the whole
+
+| Source | Provenance | Mix design | Rheology | 3DCP process | Hardened mech. | Multi-age | Durability | Environment |
+|---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| [UCI Concrete Strength (Yeh 1998)](uci-yeh-1998/) — *cast* | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ▢ | ▢ |
+| [RILEM TC 304-ADC ILS-mech](rilem-tc304-ils-mech/) — *3DCP* | ✓ | ▢¹ | ✓ | ✓ | ✓ | ▢ | ▢ | ▢ |
+| *AAC (BAM/TU-Berlin)* — planned | ✓ | ✓ | ▢ | ▢ | ✓ | ▢ | ▢ | ✓ |
+| *UF/UTK 3DCP mix-design* — planned | ✓ | ✓ | ▢ | ◐ | ▢ | ▢ | ▢ | ▢ |
+| *NIST Construction Materials (LCA)* — planned | ✓ | ▢ | ▢ | ▢ | ▢ | ▢ | ▢ | ✓ |
+
+¹ commercial premix — w/b and yield stress captured, constituent dosages not disclosed. The **gaps between
+slices are the connective-layer argument**: no single source spans quarry → decades; the union does.
+
+## Storable vs reference-only
+
+**The rule:** store only when the license clearly permits redistribution — **CC BY 4.0**, **CC0**, **US-government
+public domain**, or **GODL-India** — with attribution. Anything copyrighted, registration-gated, or unclear is
+**reference-only** and cited respectfully (never stored).
+
+**Storable** (built / verified): UCI Concrete Strength & Slump (CC BY 4.0) · RILEM TC 304-ADC ILS-mech (CC BY 4.0) ·
+BAM/TU-Berlin AAC (CC BY 4.0) · UF/UTK 3DCP mix-design (CC BY 4.0) · NIST Construction Materials Repository
+(US public domain) · JCI–JACT articles (CC BY 4.0, per-paper).
+
+**Reference-only** (cited, not stored): ACI (copyrighted / request-gated) · NIMS MatNavi (self-use-only terms) ·
+China NMDMS / Materials Genome platforms (no data license, registration-gated) · Russia GOST standards
+(copyrighted) · RILEM recommendations & durability ILS article (copyrighted) · EU NOMAD / Materials Project
+(atomistic, no concrete) · image-only datasets (no mix/mechanical scalars).
+
+## National map — open concrete & materials-data efforts
+
+- **USA** — NIST (Materials Genome Initiative; Federal LCA Commons = storable, env) · UCI ML Repository (CC BY 4.0,
+  storable) · ACI (reference-only).
+- **International / EU** — **RILEM** TC 304-ADC (the 3DCP standards anchor; ILS-mech is storable) · NOMAD (FAIR
+  exemplar, no concrete).
+- **Germany** — BAM + NFDI-MatWerk (FAIR infrastructure); their Zenodo concrete deposits are CC BY 4.0 storable.
+- **Japan** — NIMS MatNavi (national DB, registration-gated → reference) · JCI–JACT (CC BY 4.0, per-paper storable).
+- **China** — National Materials Genome stack (no license / gated → reference); CAS ScienceDB is a storable
+  *platform* (CC0/CC BY) once a concrete deposit is verified.
+- **South Korea** — KISTI DataON (metadata aggregator; per-record license).
+- **India** — NDSAP / GODL-India permits redistribution (a future India concrete dataset would be storable);
+  India participates directly via IIT Madras in the storable RILEM ILS-mech.
+- **Russia** — GOST standards (cite method codes only); no open concrete dataset located.
+
+Open3DCP interoperates by preserving provenance (`doi` / `source_citation` / `lab_name`) on every row, hosting via
+GitHub + a Zenodo concept DOI, and honoring each source's license (CC BY attribution, NIST AS-IS, standards
+designations for identification only).
+
+## How each example is built
+
+`open3dcp-ingest` converts the source into the flat schema and emits an honest 0–100 fidelity report (it never
+invents a score). Conventions: **NULL, not 0**, for anything unreported; RILEM **U/V/W → X/Y/Z/CAST** orientation
+crosswalk (raw code kept in `provenance_notes`); per-measurement **mean + std-dev + n**. Where a turnkey reader
+exists (UCI), CI re-runs the `build_cmd` and **diffs** the output so the example can't drift; where a source needs
+a reader still to be written (RILEM SQLite), the excerpt is hand-curated with a committed, documented
+`build/extract.py`.
+
+## Licensing, attribution, trademarks
+
+Each dataset folder carries a `NOTICE` with the exact CC BY attribution (or NIST AS-IS disclaimer). Standards
+designations (ASTM / EN / ACI / RILEM / GOST) are cited for identification only; trademarks belong to their owners.
+This directory is a schema demonstration, not an endorsement by any source.
+
+## Contribute
+
+Have an openly-licensed dataset to add? Use the [submission portal](https://open3dcp.org/intake/) — provenance +
+an archive DOI + a redistributable license. See the storable-license rule above.
