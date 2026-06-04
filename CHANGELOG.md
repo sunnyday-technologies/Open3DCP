@@ -121,11 +121,11 @@ Open3DCP now supports alkali-activated systems (geopolymer, AAS) and additional 
 
 ### Added
 - `cement_type_2`, `cement_type_3`, `cement_type_4` -- ASTM C150 Types II, III, IV.
-- Expanded fiber aliases and characterization coverage.
+- Expanded fiber synonym and characterization coverage.
 - `hpmc` -- Hydroxypropyl methylcellulose (cellulose ether VMA).
 - `vma` -- Generic viscosity-modifying admixture.
 - `shrinkage_reducer` -- Shrinkage-reducing admixture (SRA).
-- 150+ material aliases seeded for fiber types, admixtures, and sand grades.
+- Expanded recognized material synonyms for fiber types, admixtures, and sand grades.
 
 ---
 
