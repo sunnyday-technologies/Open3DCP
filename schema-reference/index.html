@@ -1116,7 +1116,7 @@
 <p>The schema is on a quarterly minor-version cadence. Major versions are reserved for breaking changes that would force existing datasets to migrate, and the maintainers commit to making such changes rare. The current planned additions and known gaps:</p>
 <p><strong>Planned for upcoming releases:</strong></p>
 <ul>
-<li>Long-term durability columns. The schema currently captures medium-horizon carbonation and sulfate expansion; multi-year exposure data (carbonation, ASR) is not yet first-class. A working group is reviewing the right column granularity.</li>
+<li>Long-term durability columns. The schema currently captures medium-horizon carbonation and sulfate expansion; multi-year exposure data (carbonation, ASR) is not yet first-class. The right column granularity is under review.</li>
 <li>Embodied carbon LCA fields beyond <code>embodied_carbon_kg_co2_m3</code> and <code>embodied_energy_mj_m3</code>. The current columns are cradle-to-gate; cradle-to-grave and module-level (A1 through A5) breakdowns are useful for green-procurement reporting that cross-references EN 15804, ISO 21930, and other emerging LCA frameworks.</li>
 <li>Surface finish characterization. Architectural 3DCP applications need quantitative surface-roughness columns beyond the current single-value <code>surface_roughness_avg</code>. Candidates include Sa, Sq, and Sz from areal-roughness measurement standards.</li>
 <li>Pumping power and energy columns to support energy-per-cubic-meter analyses. The current <code>pump_pressure_bar</code> and <code>extrusion_rate_l_min</code> allow derivation but do not record the recorded power directly.</li>
