@@ -1,0 +1,28 @@
+name: Validate examples
+
+# Guards the examples/ catalog: every stored dataset must carry a redistributable license + NOTICE +
+# a valid record.json, the open3dcp-ingest examples must reproduce byte-for-byte, and no commercial or
+# non-public token may appear. Keeps examples honest and license-clean.
+
+on:
+  push:
+    paths: [examples/**, scripts/check_examples.py, tools/ingest/**, crosswalk/**]
+  pull_request:
+    paths: [examples/**, scripts/check_examples.py, tools/ingest/**, crosswalk/**]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install the ingest tool
+        run: pip install --quiet -e tools/ingest
+      - name: Validate examples
+        run: python scripts/check_examples.py

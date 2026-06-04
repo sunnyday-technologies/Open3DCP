@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Worked example: the RILEM TC 304-ADC interlaboratory database of 3D-printed concrete (relational SQLite) re-formatted into the Open3DCP flat schema — print process, orientation anisotropy, and per-measurement uncertainty."/>
+<link rel="canonical" href="https://open3dcp.org/examples/rilem-tc304-ils-mech/"/>
+<title>RILEM TC 304-ADC ILS-mech → Open3DCP</title>
+<link rel="stylesheet" href="../styles.css"/>
+</head>
+<body>
+<header class="pb-header"><div class="in">
+  <span class="mark">Open3DCP</span><span class="sep">·</span><span class="tag">Example entry</span>
+  <a href="../">← all examples</a>
+</div></header>
+
+<main class="sheet">
+  <div class="kicker">Example entry · 3D-printed concrete</div>
+  <h1>RILEM TC 304-ADC ILS-mech → Open3DCP</h1>
+  <p class="lede">How a multi-national, <strong>relational</strong> interlaboratory database of printed concrete
+  re-formats into the Open3DCP schema — print process, layer-orientation anisotropy, and per-measurement uncertainty.</p>
+  <p class="meta">
+    <span class="badge b-store">storable · CC BY 4.0</span> <span class="badge b-3dcp">3D-printed</span>
+    · Source: <a href="https://zenodo.org/records/12200570">Zenodo</a>
+    · DOI <a href="https://doi.org/10.5281/zenodo.12200570">10.5281/zenodo.12200570</a>
+    · <a href="SOURCE.md">provenance</a> · <a href="NOTICE">attribution</a>
+  </p>
+
+  <!-- 1. NATIVE STRUCTURE -->
+  <h2>1 · Native structure</h2>
+  <p><strong>Storage medium:</strong> a <strong>relational</strong> openBIS-exported <strong>SQLite</strong> database
+  (<code>2024-06-21_openbis.db</code>, 31 tables/views), <strong>one row per tested specimen</strong>, joined across
+  material → print → test via sample relationships. ~5,000 mechanical data points from 30 labs; a 9-row aggregated
+  excerpt (3 labs) is committed here.</p>
+  <table>
+    <thead><tr><th>Source view (data class)</th><th>Key fields</th><th>Grain</th></tr></thead>
+    <tbody>
+      <tr><td><code>material_…_view</code></td><td>static yield stress (Pa), w/b, spread, brand, max agg size</td><td>per mix</td></tr>
+      <tr><td><code>print_…_view</code></td><td>extrusion rate, layer interval time, layer height, nozzle dims, # layers, pump</td><td>per print</td></tr>
+      <tr><td><code>exp_flex_…_view</code></td><td>age, <strong>orientation (U/V/W/CAST)</strong>, 3-/4-pt, force, flexural strength (MPa), density</td><td>per specimen</td></tr>
+      <tr><td><code>exp_tens_/exp_split_/exp_comp_/exp_emod_…</code></td><td>uniaxial &amp; splitting tensile, compressive, E-modulus per specimen</td><td>per specimen</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 2. TRANSFORMATION GRAPHIC -->
+  <h2>2 · Re-formatting into Open3DCP</h2>
+  <figure>
+  <svg viewBox="0 0 760 486" role="img" aria-label="Three-stage transformation: a relational SQLite (material, print, per-specimen test views) is denormalized and aggregated into mean/std-dev/n, the RILEM U/V/W orientation is mapped to X/Y/Z/CAST, producing Open3DCP flat rows for process, rheology, orientation, mechanical and uncertainty; mix-design constituents, durability, environment remain null.">
+    <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#1f6fb2"/></marker></defs>
+
+    <!-- Stage 1: relational source (stacked mini-tables) -->
+    <text class="svg-head" x="12" y="26">Source — RILEM (openBIS SQLite)</text>
+    <text class="svg-sub" x="12" y="40">relational · 31 tables · row per specimen</text>
+    <rect class="svg-node" x="10" y="50" width="210" height="48" rx="6"/>
+    <text class="svg-head" x="20" y="66" font-size="11">material_…_view</text>
+    <text class="svg-sub" x="20" y="80">yield stress · w/b · spread · brand</text>
+    <text class="svg-sub" x="20" y="92">(per mix)</text>
+    <rect class="svg-node" x="10" y="108" width="210" height="48" rx="6"/>
+    <text class="svg-head" x="20" y="124" font-size="11">print_…_view</text>
+    <text class="svg-sub" x="20" y="138">extrusion · layer interval · nozzle</text>
+    <text class="svg-sub" x="20" y="150">(per print)</text>
+    <rect class="svg-node" x="10" y="166" width="210" height="62" rx="6"/>
+    <text class="svg-head" x="20" y="182" font-size="11">exp_flex_…_view</text>
+    <text class="svg-sub" x="20" y="196">age · orientation U/V/W/CAST</text>
+    <text class="svg-sub" x="20" y="208">flexural strength (MPa) · density</text>
+    <text class="svg-sub" x="20" y="220">(per specimen)</text>
+    <path class="svg-edge-dash" d="M115,98 L115,108"/><path class="svg-edge-dash" d="M115,156 L115,166"/>
+    <text class="svg-sub" x="124" y="135" font-style="italic">FK / NAME join</text>
+
+    <!-- Stage 2: transform -->
+    <rect class="svg-node-2" x="276" y="44" width="214" height="196" rx="7"/>
+    <text class="svg-head" x="288" y="64">denormalize + aggregate</text>
+    <text class="svg-sub" x="288" y="84">join material + print + test</text>
+    <text class="svg-sub" x="288" y="104">group by (mix × orientation)</text>
+    <text class="svg-sub" x="288" y="120">  → mean + std-dev + n</text>
+    <text class="svg-sub" x="288" y="140">orientation U/V/W → X/Y/Z/CAST</text>
+    <text class="svg-sub" x="288" y="160">  (raw code kept in provenance)</text>
+    <text class="svg-sub" x="288" y="180">omit unit-inconsistent travel vel.</text>
+    <text class="svg-sub" x="288" y="200">commercial premix:</text>
+    <text class="svg-sub" x="288" y="216">  constituents undisclosed → NULL</text>
+
+    <!-- Stage 3: open3dcp flat -->
+    <rect class="svg-node-accent" x="540" y="20" width="212" height="248" rx="7"/>
+    <text class="svg-head" x="552" y="38">Open3DCP flat row</text>
+    <text class="svg-sub" x="552" y="56" font-style="italic">3DCP process</text>
+    <text class="svg-sub" x="552" y="70">layer_height_mm · layer_time_gap_s</text>
+    <text class="svg-sub" x="552" y="84">extrusion_rate_l_min · nozzle_* · num_layers</text>
+    <text class="svg-sub" x="552" y="102" font-style="italic">fresh rheology</text>
+    <text class="svg-sub" x="552" y="116">static_yield_stress_pa · spread_mm</text>
+    <text class="svg-sub" x="552" y="134" font-style="italic">orientation</text>
+    <text class="svg-sub" x="552" y="148">is_3d_printed · test_orientation_code</text>
+    <text class="svg-sub" x="552" y="166" font-style="italic">mechanical + uncertainty</text>
+    <text class="svg-sub" x="552" y="180">flexural_strength_mpa</text>
+    <text class="svg-sub" x="552" y="194">flexural_strength_stddev_mpa · n_specimens</text>
+    <text class="svg-sub" x="552" y="212" font-style="italic">provenance</text>
+    <text class="svg-sub" x="552" y="226">lab_name · doi · measurement_confidence</text>
+    <text class="svg-sub" x="552" y="252">one row per (mix × orientation × age)</text>
+
+    <!-- flow arrows -->
+    <path class="svg-edge" d="M222,140 L274,140"/>
+    <path class="svg-edge" d="M492,140 L538,140"/>
+
+    <!-- NULL band -->
+    <rect class="svg-node-null" x="8" y="300" width="744" height="120" rx="7"/>
+    <text class="svg-head" x="20" y="320">NULL — not present in this source</text>
+    <text class="svg-sub" x="20" y="342">▢ Mix-design constituents — commercial premix; composition not disclosed</text>
+    <text class="svg-sub" x="20" y="360">▢ Durability — chloride, carbonation, freeze-thaw, shrinkage</text>
+    <text class="svg-sub" x="390" y="342">▢ Environment — embodied carbon, exposure class</text>
+    <text class="svg-sub" x="390" y="360">▢ Multi-age — predominantly 28 d in this study</text>
+    <text class="svg-sub" x="20" y="392" font-style="italic">Complementary to the UCI example: that fills mix-design + strength but no process; this fills process + orientation +</text>
+    <text class="svg-sub" x="20" y="406" font-style="italic">uncertainty but not the (undisclosed) constituents. The union across sources is the quarry → decades digital twin.</text>
+  </svg>
+  <figcaption>The relational per-specimen records are denormalized and aggregated into flat rows carrying
+  <strong>mean + std-dev + n</strong>; the RILEM U/V/W orientation maps to Open3DCP X/Y/Z/CAST (raw code retained).</figcaption>
+  </figure>
+
+  <!-- 3. RESULT -->
+  <h2>3 · Result in Open3DCP — print anisotropy</h2>
+  <div class="note ok"><strong>The 3DCP story UCI can't tell:</strong> the same mix is markedly weaker loaded
+  <em>parallel to the layers</em> (X) than cast or loaded <em>perpendicular/transverse</em> — captured per
+  orientation with mean ± std-dev and n. No fabricated values; aggregated from real per-specimen data.</div>
+
+  <table>
+    <thead><tr><th>lab</th><th>printed?</th><th>orientation</th><th>age (d)</th><th>flexural (MPa)</th><th>± std-dev</th><th>n</th></tr></thead>
+    <tbody>
+      <tr><td>01</td><td>cast</td><td>CAST</td><td>28</td><td class="num">6.84</td><td class="num">1.09</td><td class="num">19</td></tr>
+      <tr><td>01</td><td>printed</td><td>X · ∥ layers</td><td>28</td><td class="num">4.09</td><td class="num">1.58</td><td class="num">34</td></tr>
+      <tr><td>01</td><td>printed</td><td>Z · ⟂ layers</td><td>28</td><td class="num">6.07</td><td class="num">0.74</td><td class="num">19</td></tr>
+      <tr><td>13</td><td>cast</td><td>CAST</td><td>28</td><td class="num">9.97</td><td class="num">0.84</td><td class="num">22</td></tr>
+      <tr><td>13</td><td>printed</td><td>X · ∥ layers</td><td>28</td><td class="num">6.80</td><td class="num">0.97</td><td class="num">40</td></tr>
+      <tr><td>13</td><td>printed</td><td>Y · ∥ layers</td><td>28</td><td class="num">9.93</td><td class="num">0.96</td><td class="num">20</td></tr>
+      <tr><td>19</td><td>cast</td><td>CAST</td><td>28</td><td class="num">14.76</td><td class="num">5.90</td><td class="num">12</td></tr>
+      <tr><td>19</td><td>printed</td><td>X · ∥ layers</td><td>28</td><td class="num">6.72</td><td class="num">2.47</td><td class="num">17</td></tr>
+      <tr><td>19</td><td>printed</td><td>Y · ∥ layers</td><td>28</td><td class="num">14.48</td><td class="num">2.52</td><td class="num">12</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Full file: <a href="rilem-tc304-ils-mech.open3dcp.csv">rilem-tc304-ils-mech.open3dcp.csv</a>
+  (also carries static yield stress, spread, layer height/interval, extrusion rate, nozzle, hardened density per row).</p>
+
+  <h3>Digital-twin coverage</h3>
+  <div class="cov">
+    <div class="cell on"><span class="lab">Provenance</span><span class="mk">✓</span></div>
+    <div class="cell off"><span class="lab">Mix design</span><span class="mk">▢</span></div>
+    <div class="cell on"><span class="lab">Rheology</span><span class="mk">✓</span></div>
+    <div class="cell on"><span class="lab">3DCP process</span><span class="mk">✓</span></div>
+    <div class="cell on"><span class="lab">Hardened mech.</span><span class="mk">✓</span></div>
+    <div class="cell off"><span class="lab">Multi-age</span><span class="mk">▢</span></div>
+    <div class="cell off"><span class="lab">Durability</span><span class="mk">▢</span></div>
+    <div class="cell off"><span class="lab">Environment</span><span class="mk">▢</span></div>
+  </div>
+  <p class="small">(Mix-design ▢ because the mortars are commercial premixes with undisclosed composition — w/b and yield
+  stress are captured, the constituent dosages are not.) Compare with the <a href="../uci-yeh-1998/">UCI example</a>,
+  whose ✓/▢ pattern is almost the inverse.</p>
+
+  <!-- 4. BUILD -->
+  <h2>4 · How this was built</h2>
+  <pre><code># source SQLite is CC BY 4.0 but not re-hosted — download from the DOI, then:
+python build/extract.py /path/to/2024-06-21_openbis.db
+# → rilem-tc304-ils-mech.open3dcp.csv</code></pre>
+  <p class="small">v1 is <strong>hand-curated</strong> from the relational structure (<a href="build/extract.py">build/extract.py</a>,
+  <a href="build/README.md">build/README.md</a>); a turnkey <code>open3dcp-ingest</code> SQLite reader is a planned
+  follow-up. Source © RILEM TC 304-ADC, CC BY 4.0 — see <a href="NOTICE">NOTICE</a>. A sample, not a re-host.</p>
+</main>
+
+<footer class="pb-footer">
+  <span><a href="../">← all examples</a> · RILEM TC 304-ADC ILS-mech</span>
+  <span>Open3DCP · schema v1.6</span>
+</footer>
+</body>
+</html>

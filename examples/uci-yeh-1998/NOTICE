@@ -1,0 +1,15 @@
+This example includes a curated excerpt of:
+
+  Concrete Compressive Strength
+  Prof. I-Cheng Yeh, Chung-Hua University
+  UCI Machine Learning Repository — https://archive.ics.uci.edu/dataset/165
+  DOI: 10.24432/C5PK67
+
+Licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0):
+  https://creativecommons.org/licenses/by/4.0/
+
+Changes made: a 14-row representative excerpt was selected from the 1,030-row source and
+converted into the Open3DCP flat schema using open3dcp-ingest (see SOURCE.md and build/).
+The original values are unchanged; the schema projection (kg/m³ → mass-%) is documented.
+
+No endorsement by the originator or UCI is implied.
