@@ -11,6 +11,38 @@ Schema versioning follows these rules:
 
 ---
 
+## [1.6.0] - 2026-06-03
+
+### Interoperability — basis, uncertainty, raw-data references
+
+Additive, backward-compatible changes that align Open3DCP with relational concrete databases
+and raise ingestion fidelity. Existing v1.5 datasets remain valid unchanged.
+
+### Changed
+- **kg/m³ is now the primary reporting basis** (industry/field standard). mass-% of total wet
+  mix is retained as a derived secondary representation. No existing column was renamed or
+  redefined; the change is one of stated convention plus the new basis columns below.
+
+### Added — mix basis (lossless conversion)
+- `original_basis` -- basis the source reported: `kg_m3` (primary) | `mass_pct` | `volume` | `lb_yd3`.
+- `mix_density_kg_m3` -- total fresh wet-mix density; enables exact mass-% ↔ kg/m³ conversion.
+- `total_binder_kg_m3` -- total cementitious content (kg/m³).
+
+### Added — per-measurement uncertainty (mirrors mean + std-dev + N)
+- `compressive_strength_stddev_mpa`, `flexural_strength_stddev_mpa`,
+  `tensile_strength_stddev_mpa`, `elastic_modulus_stddev_gpa`, `interlayer_bond_stddev_mpa`.
+
+### Added — raw-data references (FAIR; payloads stay external)
+- `raw_data_doi`, `stress_strain_file`, `rheology_curve_file`, `microstructure_image`, `raw_data_file`.
+
+### Notes
+- Canonical column list remains `Open3DCP_SCHEMA.md` / `sql/create_tables.sql`.
+- Crosswalk updated so the source `data` std-dev and file references map to columns instead of
+  the ingestion triage sidecar; `original_basis`/`mix_density_kg_m3`/`total_binder_kg_m3` are
+  populated by the ingestion tool from the source batch.
+
+---
+
 ## [1.5.0] - 2026-04-16
 
 ### Pigment Columns

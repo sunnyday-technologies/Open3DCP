@@ -15,6 +15,15 @@ desktop.ini
 *.bak
 *.orig
 
+# Python build / cache artifacts
+__pycache__/
+*.pyc
+*.egg-info/
+*.egg
+build/
+dist/
+.pytest_cache/
+
 # Secrets / environment files
 .env
 .env.*
@@ -23,3 +32,13 @@ desktop.ini
 *.key
 id_rsa
 id_ed25519
+
+# --- Local-only working materials (not published) ---
+reference_docs/
+drafts/
+.claude/
+intake-demo/
+playbooks/
+docs/
+crosswalk/dataset_comparison.csv
+crosswalk/printing_variables_to_relational.csv
