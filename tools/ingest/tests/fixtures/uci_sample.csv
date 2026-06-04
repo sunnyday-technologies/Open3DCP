@@ -1,0 +1,4 @@
+Cement (component 1)(kg in a m^3 mixture),Blast Furnace Slag (component 2)(kg in a m^3 mixture),Fly Ash (component 3)(kg in a m^3 mixture),Water (component 4)(kg in a m^3 mixture),Superplasticizer (component 5)(kg in a m^3 mixture),Coarse Aggregate (component 6)(kg in a m^3 mixture),Fine Aggregate (component 7)(kg in a m^3 mixture),Age (day),Concrete compressive strength(MPa megapascals)
+540.0,0.0,0.0,162.0,2.5,1040.0,676.0,28,79.99
+332.5,142.5,0.0,228.0,0.0,932.0,594.0,270,40.27
+198.6,132.4,0.0,192.0,0.0,978.4,825.5,90,44.30

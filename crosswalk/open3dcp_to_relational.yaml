@@ -1,0 +1,161 @@
+# Open3DCP <-> relational concrete database crosswalk
+# Single source of truth shared by the ingestion tool, the fidelity scorer, and the
+# intake validator. Versioned alongside both schemas. Maps Open3DCP (flat) to a
+# normalized relational concrete-data schema (literature_sources -> material_batches /
+# geometries / reinforcement -> specimens -> tests -> devices / loading / data).
+#
+# Fidelity classes used throughout:
+#   exact       - reversible, no information lost
+#   derived     - computed from other reported fields; exact only if inputs present
+#   lossy       - requires an assumption (e.g. density / solids fraction) to convert
+#   categorical - vocab/value pivot (information-equivalent, structure differs)
+#   collapse    - relational one-to-many flattened into the wide row (cardinality lost)
+#   file_ref    - source data is an external file the flat schema cannot hold inline
+#   none        - source field has no flat Open3DCP home -> triage sidecar
+meta:
+  name: open3dcp_to_relational
+  open3dcp_version: "1.6"   # MUST match the schema version in Open3DCP_SCHEMA.md / CHANGELOG.md
+  source_schema: "relational concrete database (15-tab spreadsheet template)"
+  direction: bidirectional_where_possible
+  notes: >
+    The source model is relational. Open3DCP is one flat row per mix design. Ingesting
+    denormalizes by joining on the FK chain and pivoting the source `data` rows (one per
+    quantity) into Open3DCP property columns.
+
+# --- relational collapse: how the source FK chain maps onto one Open3DCP row ----------
+cardinality:
+  grain_open3dcp: "one row per (material_batch x specimen x test x orientation)"
+  joins:
+    - "material_batches.batch_id  ->  specimens.batch_id"
+    - "specimens.specimen_id      ->  tests.specimen_id"
+    - "tests.test_id              ->  data.test_id"
+  collapse_warnings:
+    - "A batch tested at multiple ages / orientations / by multiple labs becomes multiple Open3DCP rows."
+    - "Multiple `data` rows for one test (compressive, modulus, ...) collapse into columns of one row."
+    - "geometries / reinforcement_layouts / reinforcement_components have no flat home beyond specimen_geometry* -> sidecar."
+
+# --- named transforms (implemented in the tool's transforms module) ------------------
+transforms:
+  identity:            { fidelity: exact,   desc: "copy value unchanged" }
+  kg_m3_to_mass_pct:   { fidelity: lossy,   desc: "x_kg_m3 / total_wet_mass_kg_m3 * 100; exact iff full batch reported, else needs mix_density", needs: [total_wet_mass_kg_m3] }
+  mass_pct_to_kg_m3:   { fidelity: lossy,   desc: "x_pct/100 * mix_density_kg_m3; needs mix_density", needs: [mix_density_kg_m3] }
+  ml_m3_to_mass_pct:   { fidelity: lossy,   desc: "volume dose -> mass needs product density, then solids fraction, then /total", needs: [product_density, solids_fraction, total_wet_mass_kg_m3] }
+  as_delivered_to_solids_pct: { fidelity: lossy, desc: "as-delivered kg/m3 -> solids mass-% needs product solids fraction", needs: [solids_fraction, total_wet_mass_kg_m3] }
+  vol_fraction_to_mass_pct:   { fidelity: lossy, desc: "fiber volume fraction -> mass-% needs fiber + mix densities", needs: [fiber_density, mix_density_kg_m3] }
+  unit_convert:        { fidelity: exact,   desc: "convert between declared units via the unit table" }
+  vocab_pivot:         { fidelity: categorical, desc: "categorical field + content -> the Open3DCP column selected by the category" }
+  enum_map:            { fidelity: categorical, desc: "map a source vocab member to an Open3DCP code/value" }
+
+# --- material_batches (mix design; kg/m3) -> Open3DCP binder/aggregate/etc. ----------
+mappings:
+  # Cement: source stores ONE categorical type + one content; Open3DCP has a column per type.
+  - { src: material_batches.cement_content_kg_m3, transform: vocab_pivot,
+      pivot_on: material_batches.cement_type, transform_value: kg_m3_to_mass_pct,
+      pivot_map: {
+        ASTM_C150_Type_I: cement_type_1, ASTM_C150_Type_II: cement_type_2,
+        ASTM_C150_Type_III: cement_type_3, ASTM_C150_Type_IV: cement_type_4,
+        ASTM_C150_Type_V: cement_type_5, ASTM_C595_Type_IL: cement_type_1l,
+        ASTM_C595_Type_IL_HE: cement_type_1l, ASTM_C595_Type_IL_MS: cement_type_1l,
+        ASTM_C595_Type_IL_HS: cement_type_1l, EN197_CEM_I: cement_type_1,
+        ASTM_C1157_Type_GU: cement_type_1 },
+      fidelity: categorical,
+      notes: "Source cement_type vocab has more members than Open3DCP cement columns. Unmapped members (CEM II/III/IV/V, GB175_*, blended IP/IS/IT) -> sidecar with original type string." }
+
+  - { open3dcp: w_b_ratio,  src: material_batches.water_binder_ratio, transform: identity, fidelity: exact }
+  - { open3dcp: fly_ash,    src: material_batches.fly_ash_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy,
+      refine_by: { src: material_batches.fly_ash_class, map: { F: fly_ash_type_f, C: fly_ash_type_c } },
+      notes: "fly_ash_class refines to the F/C-specific Open3DCP column when present." }
+  - { open3dcp: silica_fume, src: material_batches.silica_fume_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy }
+  - { open3dcp: slag,        src: material_batches.slag_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy }
+
+  # Aggregates: source has 2 lumped fields (+ densities + max size + type); Open3DCP is graded.
+  - { open3dcp: concrete_sand, src: material_batches.fine_aggregate_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy,
+      notes: "Default fine-aggregate bucket is concrete_sand (FM 2.3-3.0). Without a fineness modulus the FM-specific bucket cannot be chosen -> records assumption in fidelity report." }
+  - { open3dcp: agg_size_57, src: material_batches.coarse_aggregate_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy,
+      refine_by: { src: material_batches.max_aggregate_size_mm, desc: "map max size to nearest ASTM C33 size number" },
+      notes: "Coarse aggregate bucketed by max_aggregate_size_mm -> ASTM C33 size column; default agg_size_57 (most common US)." }
+
+  # Admixtures: source stores as-delivered kg/m3 or ml/m3; Open3DCP stores SOLIDS mass-%.
+  - { open3dcp: superplasticizer, src: material_batches.superplasticizer_content_kg_m3, transform: as_delivered_to_solids_pct, fidelity: lossy,
+      carry: { src: material_batches.superplasticizer_type, to: provenance_notes } }
+  - { open3dcp: water_reducer, src: material_batches.water_reducer_content_ml_m3, transform: ml_m3_to_mass_pct, fidelity: lossy }
+  - { open3dcp: air_entrainer, src: material_batches.air_entrainment_content_ml_m3, transform: ml_m3_to_mass_pct, fidelity: lossy }
+  - { open3dcp: vma, src: material_batches.rheology_modifier_content_kg_m3, transform: as_delivered_to_solids_pct, fidelity: lossy,
+      carry: { src: material_batches.rheology_modifier_type, to: provenance_notes } }
+  - { open3dcp: accelerator, src: material_batches.hydration_accelerator_content_ml_m3, transform: ml_m3_to_mass_pct, fidelity: lossy }
+
+  # Fibers: source volume fraction + type vocab; Open3DCP mass-% per fiber material.
+  - { src: material_batches.fiber_volume_fraction, transform: vocab_pivot,
+      pivot_on: material_batches.fiber_type, transform_value: vol_fraction_to_mass_pct,
+      pivot_map: {
+        steel_hooked: steel_fiber, steel_crimped: steel_fiber, steel_straight: steel_fiber,
+        steel_twisted: steel_fiber, steel_hybrid: steel_fiber,
+        polypropylene_macro: pp_fiber, polypropylene_micro: pp_fiber,
+        glass: glass_fiber, carbon: carbon_fiber, polyvinyl_alcohol: pva_fiber,
+        basalt: basalt_fiber, aramid: aramid_fiber, natural: cellulose_fiber },
+      fidelity: lossy, notes: "volume fraction -> mass-% needs fiber & mix densities." }
+  - { open3dcp: fiber_length_mm,   src: material_batches.fiber_length_mm,   transform: identity, fidelity: exact }
+  - { open3dcp: fiber_diameter_mm, src: material_batches.fiber_diameter_mm, transform: identity, fidelity: exact }
+  - { open3dcp: air_content_fresh_pct, src: material_batches.air_content_percent_volume_concrete, transform: identity, fidelity: exact }
+  - { open3dcp: is_3d_printed, src: material_batches.printable, transform: enum_map, map: { yes: true, no: false },
+      fidelity: categorical, notes: "Source `printable` = capability, not 'was printed'. Approximate; confirm via the printing-process linkage." }
+
+  # tests -> Open3DCP test conditions
+  - { open3dcp: test_age_days, src: tests.age_days, transform: identity, fidelity: exact }
+  - { open3dcp: curing_regime_code, src: tests.curing_condition, transform: enum_map, fidelity: categorical,
+      notes: "Adopt the source curing_condition list members as canonical curing codes." }
+  - { open3dcp: curing_temperature_c, src: tests.initial_env_temperature_C, transform: identity, fidelity: exact }
+  - { open3dcp: curing_humidity_pct, src: tests.initial_env_relative_humidity_percent, transform: identity, fidelity: exact }
+  - { open3dcp: test_method_code, src: tests.test_type, transform: enum_map, fidelity: categorical,
+      notes: "The source test_type list (ASTM/EN designations) maps to Open3DCP free-text test_method_code." }
+
+  # data -> Open3DCP measured properties (value-keyed by quantity_reported)
+  - { open3dcp: n_specimens, src: data.number_of_specimens, transform: identity, fidelity: exact }
+  - { open3dcp: measurement_confidence, src: data.extraction_methods, transform: enum_map,
+      map: { direct: measured, computed: calculated, digitized: reported, AI-assisted: estimated, unknown: reported },
+      fidelity: categorical }
+  # v1.6: raw-data file reference now has a flat home (was sidecar/file_ref)
+  - { open3dcp: raw_data_file, src: data.file_name, transform: identity, fidelity: exact,
+      notes: "v1.6 raw-data reference; preserves the link to the external curve/table/image file." }
+
+# Source `data` rows are pivoted by quantity_reported into these Open3DCP columns (unit-converted).
+# v1.6: `stddev` routes quantity_reported_standard_deviation into the matching *_stddev_* column.
+quantity_map:
+  compressive_strength: { open3dcp: compressive_strength_mpa, to_unit: MPa, stddev: compressive_strength_stddev_mpa }
+  tensile_strength:     { open3dcp: tensile_strength_mpa, to_unit: MPa, stddev: tensile_strength_stddev_mpa }
+  elastic_modulus:      { open3dcp: elastic_modulus_gpa, to_unit: GPa, stddev: elastic_modulus_stddev_gpa }
+  slump:                { open3dcp: slump_mm, to_unit: mm }
+  yield_stress:         { open3dcp: yield_stress_pa, to_unit: Pa }
+  viscosity:            { open3dcp: plastic_viscosity_pa_s, to_unit: Pa_s }
+  density:              { open3dcp: density_hardened_kg_m3, to_unit: kg_m3 }
+  porosity:             { open3dcp: porosity_pct, to_unit: "%" }
+  sorptivity:           { open3dcp: sorptivity_mm_sqrt_s, to_unit: mm_sqrt_s }
+  expansion:            { open3dcp: asr_expansion_14d_pct, to_unit: "%", notes: "ambiguous: ASR vs sulfate vs length-change; needs observed_mechanism to disambiguate -> flag" }
+
+# --- Columns the ingestion tool fills from the source batch context (v1.6) ------------
+# Not a 1:1 field map -- derived so kg/m3 (primary basis) is recoverable from the flat row.
+engine_populated:
+  - { open3dcp: original_basis,     from: "source kind", value: "kg_m3 for kg/m3 sources (relational, UCI)" }
+  - { open3dcp: mix_density_kg_m3,  from: "batch context", value: "sum of kg/m3 constituents (= total wet mass)" }
+  - { open3dcp: total_binder_kg_m3, from: "batch context", value: "sum of cementitious kg/m3 constituents" }
+
+# --- source fields with NO flat Open3DCP home -> triage sidecar (never dropped) -------
+src_unmapped:
+  # v1.6: data.<q> std-dev now maps to *_stddev_* columns; data.file_name maps to raw_data_file.
+  - { src: "data.table_file_name / curve files (secondary)", reason: "file references beyond the primary raw_data_file", fidelity: file_ref, triage: "link in sidecar or extend file-reference columns" }
+  - { src: "tests.main_observed_mechanisms", reason: "no flat equivalent", fidelity: none, triage: "provenance_notes / sidecar" }
+  - { src: "tests.hygral_boundary_conditions / thermal_boundary_conditions", reason: "no flat equivalent", fidelity: none, triage: "sidecar" }
+  - { src: "geometries.* / reinforcement_*.*", reason: "reinforcement & parametrized geometry beyond specimen_geometry have no flat home", fidelity: collapse, triage: "sidecar; retain the source relational record" }
+  - { src: "devices_and_supports.* / loading_histories.*", reason: "instrumentation & loading protocol not represented in flat mix view", fidelity: collapse, triage: "sidecar; retain the source relational record" }
+  - { src: "material_batches.date_of_pouring / batch_label / mixing_protocol_file_name", reason: "metadata not in flat schema", fidelity: none, triage: "provenance_notes / sidecar" }
+  - { src: "material_batches.max_aggregate_size_mm", reason: "used to bucket coarse aggregate; not stored as its own column", fidelity: derived, triage: "provenance_notes" }
+
+# --- Open3DCP columns with no conventional source equivalent (informational) ----------
+# The 3DCP-native + extended-durability columns. When emitting to the relational schema,
+# the 3DCP process block populates its (often nascent) printing-process table.
+open3dcp_only_blocks:
+  - "3DCP process (print_speed_mm_s, layer_height_mm, layer_time_gap_s, nozzle_*, extrusion_rate_l_min, ...)"
+  - "Pumping system (pump_*, pipe_diameter_mm)"
+  - "Interlayer (interlayer_bond_mpa, interlayer_shear_mpa, void_area_fraction_pct, surface_*)"
+  - "Extended fresh-state rheology (static/dynamic yield stress, structuration_rate_pa_per_s, open_time_min, green_strength_kpa)"
+  - "Extended durability/thermal/microstructure & EN206/ACI318 exposure classes"
