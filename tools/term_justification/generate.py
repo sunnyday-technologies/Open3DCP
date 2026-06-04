@@ -132,7 +132,7 @@ def standard_for(col, sql_desc, schema_std):
 
 
 def rationale(col, section, std, rel_ref):
-    # Brevity: the term-frequency + alias methodology is stated once in the header. Each row
+    # Efficiency: the term-frequency methodology is stated once in the header. Each row
     # carries only what is term-specific -- the 3DCP marker and the purposeful crosswalk link.
     is_3dcp = section in THREEDCP_SECTIONS or col in THREEDCP_COLS
     parts = []
@@ -170,11 +170,11 @@ def generate():
         "",
         "## How terms were chosen",
         "",
-        "Each column uses the **most frequently used term** for its quantity across the surveyed",
-        "literature and datasets, so most records need no alias lookup; synonyms resolve via the",
-        "Open3DCP alias table (maintained separately). Per term, the table gives its governing",
-        "standard and — where one exists — its relational-schema crosswalk. 3DCP-only terms",
-        "are justified against RILEM TC 276-DFC / TC 304-ADC.",
+        "Each column uses the **most frequently used term** for its quantity, determined by",
+        "compiling the corpus of 3D-printable-cement literature and datasets; alternate spellings",
+        "normalize to that canonical term. Per term, the table gives its governing standard and —",
+        "where one exists — its relational-schema crosswalk. 3DCP-only terms are justified against",
+        "RILEM TC 276-DFC / TC 304-ADC.",
         "",
         f"**Coverage:** {len(cols)} canonical `mix_designs` terms, grouped into {len(sections)} sections.",
         "",

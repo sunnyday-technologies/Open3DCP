@@ -12,7 +12,7 @@
 >
 > **v1.2 (2026-04-15):** 11 durability/transport columns (ASTM C642, C1202, C666, C157, C1585, C231, interlayer bond). Claude prompt caching for extraction. Relaxed minimum-bar gate: accepts any measurement, not just compressive.
 >
-> **v1.1 (2026-04-15):** Added `cement_type_2/3/4`, `hpmc`, `vma`, `shrinkage_reducer`, and expanded fiber/admixture aliases. 150+ material aliases seeded.
+> **v1.1 (2026-04-15):** Added `cement_type_2/3/4`, `hpmc`, `vma`, `shrinkage_reducer`, and expanded fiber/admixture synonym coverage.
 
 A flat database schema for 3D-printable concrete (3DCP) mix design data. Open3DCP captures materials, process parameters, fresh-state rheology, hardened mechanical properties, durability performance, and environmental impact in a single table designed for analysis, exchange, and ML-oriented workflows.
 
