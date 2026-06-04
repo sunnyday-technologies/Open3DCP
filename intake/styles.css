@@ -1,0 +1,68 @@
+/* Open3DCP data-intake page — styling.
+   Self-contained subset of the Open3DCP playbook collection palette (so the page deploys on its own).
+   Open3DCP design system only — not a copy of any third-party site. */
+:root{
+  --ink:#1c2733; --muted:#5b6b7a; --line:#e3e8ee; --bg:#fff; --band:#f5f7fa;
+  --brand:#0f3d63; --brand-2:#1f6fb2; --accent:#0a7d52; --warn:#b26a00; --err:#b00020;
+  --maxw:920px; --font:"Helvetica Neue",Arial,"Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);color:var(--ink);background:var(--band);line-height:1.5;font-size:15px}
+a{color:var(--brand-2);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.9em;background:#eef2f6;padding:1px 5px;border-radius:4px}
+
+/* header / footer */
+.pb-header{background:var(--brand);color:#fff}
+.pb-header .in{max-width:var(--maxw);margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.pb-header .mark{font-weight:800;letter-spacing:.04em}
+.pb-header .sep{opacity:.5}
+.pb-header .tag{font-size:12.5px;opacity:.9}
+.pb-header a{color:#cfe3f5;margin-left:auto;font-size:13px}
+.pb-footer{max-width:var(--maxw);margin:0 auto;padding:18px 24px 40px;color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* sheet */
+.sheet{max-width:var(--maxw);margin:18px auto;background:#fff;border:1px solid var(--line);border-radius:8px;padding:34px 40px}
+.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--brand-2);font-weight:700}
+h1{font-size:26px;margin:4px 0 6px}
+.lede{color:var(--muted);margin:0 0 4px;font-size:15.5px}
+p{margin:6px 0}
+.small{font-size:12.5px;color:var(--muted)}
+
+/* callouts */
+.note{background:#eef6ff;border:1px solid #cfe2f5;border-left:4px solid var(--brand-2);border-radius:6px;padding:10px 14px;margin:12px 0;font-size:13.5px}
+.note.ok{background:#eef7f1;border-color:#cfe7d8;border-left-color:var(--accent)}
+.note.warn{background:#fff7e9;border-color:#f0d9a8;border-left-color:var(--warn)}
+
+/* steps + form */
+.step{border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin:14px 0}
+.step h3{margin:0 0 8px;font-size:15px}
+.num{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--brand);color:#fff;
+     align-items:center;justify-content:center;font-size:12px;margin-right:8px;vertical-align:middle}
+label{display:block;font-size:13px;font-weight:700;margin:10px 0 3px}
+.hint{font-weight:400;color:var(--muted);font-size:12px}
+input,select,textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;font:inherit;background:#fff}
+textarea{min-height:64px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--brand-2);outline-offset:0;border-color:var(--brand-2)}
+.rowf{display:flex;gap:12px;flex-wrap:wrap}.rowf>div{flex:1 1 200px}
+.btn{display:inline-block;background:var(--brand);color:#fff;border:0;border-radius:6px;padding:10px 20px;font:inherit;font-weight:600;cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(1.08);text-decoration:none}
+.btn:disabled,.btn.disabled,.btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed;filter:none}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin:8px 0}
+.chk input{width:auto;margin-top:2px}
+
+/* readiness checklist */
+.checklist{list-style:none;margin:8px 0;padding:0}
+.checklist li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;margin:5px 0}
+.checklist .ico{flex:0 0 18px;width:18px;height:18px;border-radius:50%;display:inline-flex;
+     align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;margin-top:1px}
+.checklist li[data-state="pass"] .ico{background:var(--accent)}
+.checklist li[data-state="fail"] .ico{background:#c2ccd6}
+.checklist li[data-state="fail"]{color:var(--muted)}
+.checklist .det{color:var(--muted);font-weight:400}
+
+.mono{font-family:var(--mono);font-size:12px;word-break:break-all}
+.hidden{display:none!important}
+@media(max-width:680px){.sheet{padding:22px}}

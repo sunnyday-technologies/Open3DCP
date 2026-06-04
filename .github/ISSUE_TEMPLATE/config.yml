@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Open3DCP schema reference
+    url: https://open3dcp.org/schema-reference/
+    about: The flat schema — fields, units, and engineering context your dataset should map to.
+  - name: Submission page (pre-fills the dataset form)
+    url: https://open3dcp.org/intake/
+    about: A guided page that fills in the dataset submission form for you.

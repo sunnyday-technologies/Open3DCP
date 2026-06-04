@@ -1,0 +1,77 @@
+name: Validate submission
+
+# Runs on every dataset submission and edit: checks structure, posts a single readiness checklist
+# comment, and labels the issue staging-ok / needs-fixes. Structure only — the authoritative 0-100
+# fidelity score is computed during curation by open3dcp-ingest, never invented here.
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  issues: write
+  contents: read
+
+concurrency:
+  group: validate-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    # Gate on the form's title prefix (works before labels exist) or the staging label.
+    if: ${{ startsWith(github.event.issue.title, '[dataset]') || contains(join(github.event.issue.labels.*.name, ','), 'intake:staging') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: pip install --quiet pyyaml
+
+      - name: Ensure lifecycle labels exist
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create "intake:staging"     --color 0e8a16 --description "New dataset submission" --force
+          gh label create "intake:staging-ok"  --color 1f6fb2 --description "Automated checks passed" --force
+          gh label create "intake:needs-fixes" --color b60205 --description "Automated checks found issues" --force
+          gh label create "intake:reviewed"    --color 5319e7 --description "Curator reviewed" --force
+          gh label create "intake:published"   --color 0a7d52 --description "Accepted and recorded" --force
+
+      - name: Validate submission
+        id: v
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          set +e
+          python scripts/validate_submission.py --out checklist.md
+          echo "passed=$?" >> "$GITHUB_OUTPUT"
+          set -e
+
+      - name: Upsert the readiness checklist comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          N: ${{ github.event.issue.number }}
+        run: |
+          marker="<!-- open3dcp-validation -->"
+          id=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${N}/comments" \
+                 --jq "map(select(.body | startswith(\"$marker\"))) | .[0].id // empty")
+          if [ -n "$id" ]; then
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${id}" -f body="$(cat checklist.md)" >/dev/null
+          else
+            gh issue comment "$N" --body-file checklist.md
+          fi
+
+      - name: Label by result
+        env:
+          GH_TOKEN: ${{ github.token }}
+          N: ${{ github.event.issue.number }}
+        run: |
+          if [ "${{ steps.v.outputs.passed }}" = "0" ]; then
+            gh issue edit "$N" --add-label "intake:staging-ok" --remove-label "intake:needs-fixes"
+          else
+            gh issue edit "$N" --add-label "intake:needs-fixes" --remove-label "intake:staging-ok"
+          fi
