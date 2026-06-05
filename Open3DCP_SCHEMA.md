@@ -1,7 +1,9 @@
-# Open3DCP v1.6
+# Open3DCP v1.7
 
 **Open Data Standard for 3D Concrete Printing**
 
+> **v1.7 (2026-06-04):** **Aggregate-conditioning columns added** so effective (free) mix water is recoverable when aggregates are batched off SSD: `aggregate_moisture_state`, `aggregate_absorption_pct`, `aggregate_moisture_content_pct` (ASTM C127/C128, C566), plus a process flag `aggregate_prewetted` for the common practice of pre-wetting aggregate to a damp condition. Tooling/fidelity fixes: imperial-tonnage units (`lb_yd3`, US short ton, UK long ton) added and a bare "ton" rejected as ambiguous; ingestion fidelity refined so relational foreign keys no longer count against coverage; test-method crosswalk completed. Backward-compatible (additive); v1.6 datasets remain valid.
+>
 > **v1.6 (2026-06-03):** **kg/m³ adopted as the primary reporting basis** (industry/field standard); mass-% retained as a derived secondary representation. New columns: `original_basis`, `mix_density_kg_m3`, `total_binder_kg_m3` (lossless basis conversion); `compressive_strength_stddev_mpa`, `flexural_strength_stddev_mpa`, `tensile_strength_stddev_mpa`, `elastic_modulus_stddev_gpa`, `interlayer_bond_stddev_mpa` (per-measurement uncertainty); `raw_data_doi`, `stress_strain_file`, `rheology_curve_file`, `microstructure_image`, `raw_data_file` (raw-data references). Backward-compatible (additive). Improves interoperability and ingestion fidelity for relational concrete datasets.
 >
 > **v1.5 (2026-04-16):** Pigment columns: `iron_oxide_pigment`, `titanium_dioxide_pigment`, `chromium_oxide_pigment`, `carbon_black_pigment`, `pigment_other`. Pigments are ultra-fine (~1 um), used at 1-5% in architectural 3DCP, with significant impact on packing, water demand, and microstructure. The canonical column list below is the source of truth for the public v1.5 schema.
@@ -197,12 +199,27 @@ Specialized rheology modifiers for 3DCP thixotropy and shape retention.
 
 | Column | Type | Description |
 |--------|------|-------------|
-| `water` | real | Total mix water (mass-% of total wet mix) |
+| `water` | real | Free (added) mix water, aggregates at SSD basis (mass-% of total wet mix). See *Aggregate Conditioning* to recover effective water when batched off SSD. |
 | `w_c_ratio` | real | Water-to-cement ratio (water / cement only) |
 | `w_b_ratio` | real | Water-to-binder ratio (water / all cementitious materials) |
 | `a_b_ratio` | real | Aggregate-to-binder ratio |
 | `water_premix_pct` | real | % of water added during pre-mix phase |
 | `water_temperature_c` | real | Water temperature at mixing (C) |
+
+### Aggregate Conditioning (v1.7)
+
+As-batched aggregate moisture relative to the **SSD** (saturated surface-dry) reference, so the
+**effective (free) mix water** can be recovered when aggregates are batched off SSD — a common
+3DCP practice (see `aggregate_prewetted` in *Mixing Process*). Recorded at mix level, not per
+aggregate fraction. The free water an aggregate contributes (+) or absorbs (−) is
+`aggregate_moisture_content_pct − aggregate_absorption_pct`; together with the SSD-basis `water`
+column this makes the water accounting unambiguous without duplicating the w/c and w/b ratios.
+
+| Column | Type | Description | Test Method |
+|--------|------|-------------|-------------|
+| `aggregate_moisture_state` | varchar | As-batched condition: `oven_dry` / `air_dry` / `SSD` / `wet` | -- |
+| `aggregate_absorption_pct` | real | 24-h aggregate absorption, % of oven-dry mass | ASTM C127 / C128 |
+| `aggregate_moisture_content_pct` | real | Total as-batched aggregate moisture, % of oven-dry mass (free moisture = this − absorption) | ASTM C566 |
 
 ### Mix Basis (v1.6)
 
@@ -293,6 +310,7 @@ These columns capture the full extrusion printing process. Null for cast specime
 | `mixer_type` | varchar | Mixer type (pan, planetary, twin-shaft, continuous) | -- |
 | `shear_rate_per_s` | real | Applied shear rate during mixing | 1/s |
 | `admixture_addition_point` | varchar | When admixtures were added (dry, wet, delayed) | -- |
+| `aggregate_prewetted` | boolean | Aggregate pre-wetted / pre-soaked before batching (common 3DCP practice; pairs with *Aggregate Conditioning*) | -- |
 
 ### Environmental Conditions
 
@@ -529,5 +547,5 @@ If you use Open3DCP in your research, please cite:
 
 ---
 
-*Open3DCP v1.6 -- Last updated: 2026-06-03*
+*Open3DCP v1.7 -- Last updated: 2026-06-04*
 *Maintained by [Sunnyday Technologies](https://sunn3d.com), Wisconsin, USA*

@@ -11,6 +11,36 @@ Schema versioning follows these rules:
 
 ---
 
+## [1.7.0] - 2026-06-04
+
+Additive, backward-compatible changes. Existing v1.6 datasets remain valid unchanged.
+
+### Added — aggregate conditioning (water accounting)
+- `aggregate_moisture_state` -- as-batched aggregate condition: `oven_dry` | `air_dry` | `SSD` | `wet`.
+- `aggregate_absorption_pct` -- 24-h aggregate absorption, % of oven-dry mass (ASTM C127/C128).
+- `aggregate_moisture_content_pct` -- total as-batched aggregate moisture, % of oven-dry mass (ASTM C566).
+  Free moisture = `aggregate_moisture_content_pct` − `aggregate_absorption_pct`, so the effective
+  (free) mix water is recoverable when aggregates are batched off the SSD reference. The SSD-basis
+  `water` column plus these three make water accounting unambiguous without duplicating w/c, w/b.
+- `aggregate_prewetted` -- process flag for pre-wetting aggregate to a damp condition before
+  batching (a common 3DCP practice).
+
+### Fixed — ingestion fidelity & crosswalk
+- Fidelity `field_coverage` no longer penalizes relational foreign keys / identifiers (a flat row
+  carries none); they are excluded from the coverage denominator and still preserved in the
+  triage sidecar.
+- Crosswalk test-method map completed (e.g. `four_point_bending` -> `ASTM_C78`), so standard test
+  methods canonicalize instead of passing through unmapped.
+
+### Fixed — unit converter (ingestion tool)
+- Added imperial-tonnage factors: `lb_yd3` (US batch-ticket concentration unit), US `short_ton`,
+  UK `long_ton`, plus explicit `metric_ton`/`tonne`; a bare "ton"/"t" is now rejected as
+  ambiguous (short vs long ton differ by ~12%).
+
+### Notes
+- Ingestion-tool MAJOR.MINOR bumped to 1.7 to track the schema (`TARGET_SCHEMA_VERSION`).
+- Canonical column list remains `Open3DCP_SCHEMA.md` / `sql/create_tables.sql`.
+
 ## [1.6.0] - 2026-06-03
 
 ### Interoperability — basis, uncertainty, raw-data references
