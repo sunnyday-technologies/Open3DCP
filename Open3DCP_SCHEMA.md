@@ -2,6 +2,8 @@
 
 **Open Data Standard for 3D Concrete Printing**
 
+> **Status: Draft** — under working-group review; the schema may change before ratification.
+>
 > **v1.7 (2026-06-04):** **Aggregate-conditioning columns added** so effective (free) mix water is recoverable when aggregates are batched off SSD: `aggregate_moisture_state`, `aggregate_absorption_pct`, `aggregate_moisture_content_pct` (ASTM C127/C128, C566), plus a process flag `aggregate_prewetted` for the common practice of pre-wetting aggregate to a damp condition. Tooling/fidelity fixes: imperial-tonnage units (`lb_yd3`, US short ton, UK long ton) added and a bare "ton" rejected as ambiguous; ingestion fidelity refined so relational foreign keys no longer count against coverage; test-method crosswalk completed. Backward-compatible (additive); v1.6 datasets remain valid.
 >
 > **v1.6 (2026-06-03):** **kg/m³ adopted as the primary reporting basis** (industry/field standard); mass-% retained as a derived secondary representation. New columns: `original_basis`, `mix_density_kg_m3`, `total_binder_kg_m3` (lossless basis conversion); `compressive_strength_stddev_mpa`, `flexural_strength_stddev_mpa`, `tensile_strength_stddev_mpa`, `elastic_modulus_stddev_gpa`, `interlayer_bond_stddev_mpa` (per-measurement uncertainty); `raw_data_doi`, `stress_strain_file`, `rheology_curve_file`, `microstructure_image`, `raw_data_file` (raw-data references). Backward-compatible (additive). Improves interoperability and ingestion fidelity for relational concrete datasets.
