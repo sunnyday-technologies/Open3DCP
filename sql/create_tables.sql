@@ -145,6 +145,16 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     water_temperature_c         REAL,               -- Water temperature at mixing (C)
 
     -- -----------------------------------------
+    -- AGGREGATE CONDITIONING
+    -- (v1.7) As-batched aggregate moisture vs the SSD reference, so effective (free) mix water is
+    -- recoverable when aggregates are batched off SSD. Recorded at mix level (not per fraction).
+    -- free moisture = aggregate_moisture_content_pct - aggregate_absorption_pct
+    -- -----------------------------------------
+    aggregate_moisture_state    VARCHAR(20),        -- As-batched condition: oven_dry | air_dry | SSD | wet
+    aggregate_absorption_pct    REAL,               -- 24-h aggregate absorption, % of oven-dry mass — ASTM C127/C128
+    aggregate_moisture_content_pct REAL,            -- Total as-batched aggregate moisture, % of oven-dry mass — ASTM C566
+
+    -- -----------------------------------------
     -- MIX BASIS (v1.6)
     -- kg/m3 is the PRIMARY reporting basis (industry standard: UCI/Yeh, RILEM, fib).
     -- The mass-% composition columns above are a derived secondary representation; these
@@ -210,6 +220,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     mixer_type                  VARCHAR(50),        -- pan | planetary | twin-shaft | continuous
     shear_rate_per_s            REAL,               -- Applied shear rate (1/s)
     admixture_addition_point    VARCHAR(50),        -- dry | wet | delayed
+    aggregate_prewetted         BOOLEAN,            -- Aggregate pre-wetted/pre-soaked before batching (common 3DCP practice)
 
     -- -----------------------------------------
     -- ENVIRONMENTAL CONDITIONS

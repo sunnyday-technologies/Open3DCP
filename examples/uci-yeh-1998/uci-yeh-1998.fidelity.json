@@ -9,7 +9,7 @@
       "name": "field_coverage",
       "score": 100.0,
       "weight": 0.3,
-      "detail": "126 of 126 populated source fields mapped to Open3DCP columns (0 routed to triage sidecar).",
+      "detail": "126 of 126 mappable source fields mapped to Open3DCP columns (0 routed to triage sidecar).",
       "not_preserved_examples": [],
       "triage": "Sidecar fields are preserved in <dataset>.unmapped.jsonl; review for schema extension."
     },

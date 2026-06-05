@@ -22,6 +22,11 @@ import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EX = os.path.join(ROOT, "examples")
+
+try:  # Windows consoles default to cp1252; keep the "·"/"✓" status glyphs from crashing
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
 REQUIRED = ["id", "dataset", "license", "license_url", "attribution", "classification"]
 ALLOWED_LICENSES = {
     "cc by 4.0", "cc0 1.0", "cc0", "us public domain", "nist open license",

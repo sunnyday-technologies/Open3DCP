@@ -8,7 +8,7 @@
 
 | Dimension | Score | Weight | Detail |
 |---|---:|---:|---|
-| field_coverage | 100 | 0.30 | 126 of 126 populated source fields mapped to Open3DCP columns (0 routed to triage sidecar). |
+| field_coverage | 100 | 0.30 | 126 of 126 mappable source fields mapped to Open3DCP columns (0 routed to triage sidecar). |
 | value_fidelity | 89 | 0.30 | 126 values written; 125 exact, 1 required an assumption. |
 | relational_integrity | 100 | 0.15 | 0 relational fields (reinforcement, geometry parametrization, devices, loading histories) had no flat home. |
 | file_data_capture | 100 | 0.15 | 0 curve/table/image/raw-file references cannot be held by the flat schema (pre-v1.6). |

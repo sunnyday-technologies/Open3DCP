@@ -12,8 +12,8 @@ triage sidecar**. Bridges relational concrete databases and the Open3DCP flat sc
 The ingestion tool and crosswalk are **versioned together with the Open3DCP schema** and must be
 updated every time the schema changes:
 
-- The package version's **MAJOR.MINOR tracks the schema version** it targets (schema v1.6 → tool
-  `1.6.x`). Check with `open3dcp-ingest --version`.
+- The package version's **MAJOR.MINOR tracks the schema version** it targets (schema v1.7 → tool
+  `1.7.x`). Check with `open3dcp-ingest --version`.
 - `TARGET_SCHEMA_VERSION` in [`open3dcp_ingest/__init__.py`](open3dcp_ingest/__init__.py) is the
   authoritative target; the crosswalk declares `meta.open3dcp_version`.
 - On every run, the tool **warns if the crosswalk's schema version ≠ the tool's target**, so a
