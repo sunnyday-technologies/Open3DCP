@@ -15,7 +15,6 @@ name: Deploy to Cloudflare Pages
 #   2. Add repo secrets:          CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID
 #   3. Add repo variable:         CF_DEPLOY_ENABLED = true
 #   4. Point open3dcp.org DNS at the Pages project, then disable GitHub Pages.
-# See PUBLISHING_HYGIENE_ROLLOUT.md cutover runbook for the exact steps.
 
 on:
   push:
