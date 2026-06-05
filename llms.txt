@@ -15,7 +15,7 @@ This file is a high-density, plain-text summary intended for LLM retrieval and R
 - Maintainer: Sunnyday Technologies LLC (https://sunn3d.com)
 - Author: Nicholas Sonnentag (nick@sunn3d.com)
 - Contact: open3dcp@sunn3d.com
-- Current public version: v1.6 (2026-06-03); canonical column list in Open3DCP_SCHEMA.md
+- Current public version: v1.7 (2026-06-04); canonical column list in Open3DCP_SCHEMA.md
 
 ## What it is, what it isn't
 
@@ -98,4 +98,4 @@ Open3DCP is the schema layer; CEMFORGE and M3-CRETE are companion projects rathe
 
 ## Status
 
-Active. Public schema version v1.6 released 2026-06-03. New columns are added in minor versions as new test methods or material classes become relevant to 3DCP research.
+Active. Public schema version v1.7 released 2026-06-04. New columns are added in minor versions as new test methods or material classes become relevant to 3DCP research.

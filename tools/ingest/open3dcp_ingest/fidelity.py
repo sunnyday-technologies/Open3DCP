@@ -58,6 +58,13 @@ class FidelityReport:
         }
 
 
+def _is_relational_key(source: str) -> bool:
+    """A foreign key / identifier (e.g. `specimens.batch_id`) has no place in a denormalized
+    flat row -- the join is implicit -- so it must not be penalized as a coverage failure."""
+    leaf = source.rsplit(".", 1)[-1].lower()
+    return leaf == "id" or leaf.endswith("_id")
+
+
 def _grade(score: float) -> str:
     if score >= 90: return "A (high fidelity)"
     if score >= 75: return "B (good; review flagged items)"
@@ -72,13 +79,19 @@ def score(result: IngestResult) -> FidelityReport:
     # 1. field coverage --------------------------------------------------------
     src = result.n_source_fields
     mapped = result.n_mapped_fields
-    cov = (mapped / src * 100.0) if src else 100.0
-    dropped = [u.source for u in result.unmapped]
+    # Relational plumbing (foreign keys / identifiers) is intentionally not carried by the
+    # flat row, so it is excluded from the coverage denominator rather than counted as a loss.
+    keys = [u for u in result.unmapped if _is_relational_key(u.source)]
+    real_dropped = [u for u in result.unmapped if not _is_relational_key(u.source)]
+    eff_src = max(0, src - len(keys))
+    cov = min(100.0, (mapped / eff_src * 100.0) if eff_src else 100.0)
+    key_note = (f" {len(keys)} relational keys/IDs excluded from coverage (a flat row needs none)."
+                if keys else "")
     dims.append(Dimension(
         "field_coverage", cov,
-        f"{mapped} of {src} populated source fields mapped to Open3DCP columns "
-        f"({len(result.unmapped)} routed to triage sidecar).",
-        not_preserved=sorted(set(dropped)),
+        f"{mapped} of {eff_src} mappable source fields mapped to Open3DCP columns "
+        f"({len(real_dropped)} routed to triage sidecar).{key_note}",
+        not_preserved=sorted(set(u.source for u in real_dropped)),
         triage="Sidecar fields are preserved in <dataset>.unmapped.jsonl; review for schema extension.",
     ))
 
