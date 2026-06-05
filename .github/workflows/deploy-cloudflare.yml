@@ -1,0 +1,44 @@
+name: Deploy to Cloudflare Pages
+
+# Auto-deploys open3dcp.org to Cloudflare Pages on push to main, replacing the
+# GitHub Pages deploy. The site is built from the repo root by the allowlist +
+# fail-loud script scripts/build-site.ps1 (pwsh is preinstalled on GitHub's
+# ubuntu runners), then deployed with wrangler.
+#
+# NOTE: the issue->submission Action (publish-submission.yml) still commits new
+# records to submissions/ on the `intake:published` label; this deploy then
+# ships them to Cloudflare on the resulting push to main. Push-to-deploy is
+# preserved, so the submission-publishing flow keeps working.
+#
+# INERT BY DEFAULT. This job is skipped until you opt in:
+#   1. Create the Pages project:  wrangler pages project create open3dcp
+#   2. Add repo secrets:          CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID
+#   3. Add repo variable:         CF_DEPLOY_ENABLED = true
+#   4. Point open3dcp.org DNS at the Pages project, then disable GitHub Pages.
+# See PUBLISHING_HYGIENE_ROLLOUT.md cutover runbook for the exact steps.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: ${{ vars.CF_DEPLOY_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build web-only publish dir (allowlist + CAD/size/secret tripwires)
+        shell: pwsh
+        run: ./scripts/build-site.ps1
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy .cloudflare/pages/open3dcp --project-name=open3dcp --branch=main
