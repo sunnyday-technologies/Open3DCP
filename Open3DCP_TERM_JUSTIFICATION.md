@@ -13,7 +13,7 @@ normalize to that canonical term. Per term, the table gives its governing standa
 where one exists — its relational-schema crosswalk. 3DCP-only terms are justified against
 RILEM TC 276-DFC / TC 304-ADC.
 
-**Coverage:** 237 canonical `mix_designs` terms, grouped into 24 sections.
+**Coverage:** 241 canonical `mix_designs` terms, grouped into 25 sections.
 
 ---
 
@@ -145,7 +145,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 
 | Term | Type | Definition | Standard | Justification & crosswalk |
 |---|---|---|---|---|
-| `water` | real | Total mix water (mass-% of total wet mix) | — | Open3DCP-specific. |
+| `water` | real | Free (added) mix water, aggregates at SSD basis (mass-% of total wet mix). See *Aggregate Conditioning* to recover effective water when batched off SSD. | — | Open3DCP-specific. |
 
 ## KEY RATIOS
 
@@ -156,6 +156,14 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `a_b_ratio` | real | Aggregate-to-binder ratio | — | Open3DCP-specific. |
 | `water_premix_pct` | real | % of water added during pre-mix phase | — | Open3DCP-specific. |
 | `water_temperature_c` | real | Water temperature at mixing (C) | — | Open3DCP-specific. |
+
+## AGGREGATE CONDITIONING
+
+| Term | Type | Definition | Standard | Justification & crosswalk |
+|---|---|---|---|---|
+| `aggregate_moisture_state` | varchar(20) | As-batched condition: `oven_dry` / `air_dry` / `SSD` / `wet` | — | Open3DCP-specific. |
+| `aggregate_absorption_pct` | real | 24-h aggregate absorption, % of oven-dry mass | ASTM C127 / C128 | Open3DCP-specific. |
+| `aggregate_moisture_content_pct` | real | Total as-batched aggregate moisture, % of oven-dry mass (free moisture = this − absorption) | ASTM C566 | Open3DCP-specific. |
 | `original_basis` | varchar(20) | Basis the source reported: `kg_m3` (primary), `mass_pct`, `volume`, or `lb_yd3` | — | Open3DCP-specific. |
 | `mix_density_kg_m3` | real | Total fresh wet-mix density (sum of kg/m³ constituents); enables exact mass-% ↔ kg/m³ conversion | — | Open3DCP-specific. |
 | `total_binder_kg_m3` | real | Total cementitious content (kg/m³); supports w/b and absolute back-conversion | — | Open3DCP-specific. |
@@ -220,6 +228,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `mixer_type` | varchar(50) | Mixer type (pan, planetary, twin-shaft, continuous) | — | Open3DCP-specific. |
 | `shear_rate_per_s` | real | Applied shear rate during mixing | — | Open3DCP-specific. |
 | `admixture_addition_point` | varchar(50) | When admixtures were added (dry, wet, delayed) | — | Open3DCP-specific. |
+| `aggregate_prewetted` | boolean | Aggregate pre-wetted / pre-soaked before batching (common 3DCP practice; pairs with *Aggregate Conditioning*) | — | Open3DCP-specific. |
 
 ## ENVIRONMENTAL CONDITIONS
 

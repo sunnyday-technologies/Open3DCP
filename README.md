@@ -112,7 +112,7 @@ A typical 3DCP mix is 55-65% sand by total mass with little or no coarse aggrega
 
 ### Fibers -- The Reinforcement
 
-Without formwork, printed concrete has no external confinement. Fibers provide ductility, crack control, and post-crack load carrying capacity. Open3DCP v1.6 tracks eight core fiber families by material, plus a cellulose compatibility column and industry-standard fiber characterization:
+Without formwork, printed concrete has no external confinement. Fibers provide ductility, crack control, and post-crack load carrying capacity. Open3DCP v1.7 tracks eight core fiber families by material, plus a cellulose compatibility column and industry-standard fiber characterization:
 
 | Column | Material | Typical Use in 3DCP |
 |--------|----------|---------------------|
@@ -321,7 +321,7 @@ See `Open3DCP_SCHEMA.md` for full disclaimer language.
 
 ---
 
-## Test-method coverage (current schema v1.6)
+## Test-method coverage (current schema v1.7)
 
 Open3DCP captures the materials, fresh-state, hardened-mechanical, interlayer, durability, and process data that 3DCP research and inter-laboratory studies routinely report. The table below lists representative test methods that researchers commonly cite when populating each column group; Open3DCP itself is method-neutral and accepts data from any equivalent test.
 

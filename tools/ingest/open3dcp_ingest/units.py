@@ -19,7 +19,12 @@ _FACTORS = {
     "m": ("m", 1.0), "in": ("m", 0.0254), "ft": ("m", 0.3048),
     # density (base: kg/m3)
     "kg_m3": ("kg_m3", 1.0), "g_cm3": ("kg_m3", 1000.0), "Mg_m3": ("kg_m3", 1000.0),
-    "lb_ft3": ("kg_m3", 16.018463),
+    "lb_ft3": ("kg_m3", 16.018463), "lb_yd3": ("kg_m3", 0.59327642),
+    # mass (base: kg) -- tonnage MUST be explicit; a bare "ton" is rejected (see convert()).
+    # short ton (2000 lb) and long ton (2240 lb) differ from the metric tonne by -9.3% / +1.6%.
+    "kg": ("kg", 1.0), "g": ("kg", 1e-3), "lb": ("kg", 0.45359237),
+    "tonne": ("kg", 1000.0), "metric_ton": ("kg", 1000.0), "Mg": ("kg", 1000.0),
+    "short_ton": ("kg", 907.18474), "long_ton": ("kg", 1016.0469),
     # viscosity (base: Pa_s)
     "Pa_s": ("Pa_s", 1.0), "mPa_s": ("Pa_s", 1e-3), "cP": ("Pa_s", 1e-3),
     # dimensionless / fraction (base: fraction; "%" is /100)
@@ -34,9 +39,13 @@ _FACTORS = {
 # Open3DCP target token per "base" so we can scale base -> the column's stored unit.
 _TARGET_FOR = {
     "MPa": ("Pa", 1e6), "GPa": ("Pa", 1e9), "Pa": ("Pa", 1.0), "kPa": ("Pa", 1e3),
-    "mm": ("m", 1e-3), "kg_m3": ("kg_m3", 1.0), "Pa_s": ("Pa_s", 1.0),
+    "mm": ("m", 1e-3), "kg_m3": ("kg_m3", 1.0), "kg": ("kg", 1.0), "Pa_s": ("Pa_s", 1.0),
     "%": ("frac", 0.01), "mm_sqrt_s": ("mm_sqrt_s", 1.0), "day": ("s", 86400.0),
 }
+
+# Ambiguous tonnage tokens: a bare "ton"/"t" could be metric (1000 kg), US short (907 kg),
+# or UK long (1016 kg) -- up to a ~12% spread. Reject rather than guess.
+_AMBIGUOUS = {"ton", "tons", "Ton", "TON", "t", "T"}
 
 
 class UnitError(ValueError):
@@ -47,6 +56,12 @@ def convert(value, from_unit: str, to_unit: str):
     """Convert a numeric value between unit tokens. Raises UnitError on dimension mismatch."""
     if value is None:
         return None
+    if from_unit in _AMBIGUOUS or to_unit in _AMBIGUOUS:
+        bad = from_unit if from_unit in _AMBIGUOUS else to_unit
+        raise UnitError(
+            f"ambiguous tonnage unit {bad!r}; specify metric_ton|short_ton|long_ton "
+            "(mass) or Mg_m3|lb_yd3 (density)"
+        )
     if from_unit == to_unit:
         return value
     if from_unit not in _FACTORS:
