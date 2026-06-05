@@ -45,8 +45,8 @@ def checks(vv, v):
         "tools/ingest/open3dcp_ingest/__init__.py": [
             f'TARGET_SCHEMA_VERSION = "{v}"', f'__version__ = "{vv}"'],
         "tools/ingest/README.md": [f"schema v{v} → tool"],
-        "index.html": [f'"version": "{v}"', f"// v{v}</div>",
-                       f'>v{v}<span class="spec-unit">current'],
+        "index.html": [f'"version": "{v}"', f"// v{v}",
+                       f'>v{v}<span class="spec-unit">'],
         "schema-reference/index.html": [f'"version": "{v}"', f"current public v{v} release"],
         "llms.txt": [f"Current public version: v{v}", f"Public schema version v{v}"],
         "README.md": [f"current schema v{v}", f"Open3DCP v{v} tracks"],
@@ -58,6 +58,20 @@ def checks(vv, v):
         "examples/uci-yeh-1998/index.html": [f"schema v{v}"],
         "examples/rilem-tc304-ils-mech/index.html": [f"schema v{v}"],
     }
+
+
+# Maturity status (decoupled from the SemVer number): the schema is a working-group draft
+# until ratified. Flip these markers (and the lines they sit in) from "Draft" to "Stable" at
+# ratification. Kept here so the status, like the version, can't silently drift across surfaces.
+STATUS = {
+    "Open3DCP_SCHEMA.md": ["**Status: Draft**"],
+    "index.html": ['"creativeWorkStatus": "Draft"', 'spec-unit">draft<'],
+    "schema-reference/index.html": ['"creativeWorkStatus": "Draft"'],
+    "llms.txt": ["Status: Draft"],
+    ".well-known/mcp-manifest.json": ["Status: Draft"],
+    ".zenodo.json": ["Status: Draft"],
+    "README.md": ["Status: Draft"],
+}
 
 
 def main():
@@ -72,14 +86,25 @@ def main():
         text = open(path, encoding="utf-8").read()
         for needle in needles:
             if needle not in text:
-                missing.append(f"{rel}: missing {needle!r}")
+                missing.append(f"{rel}: missing version label {needle!r}")
+    for rel, needles in STATUS.items():
+        path = os.path.join(ROOT, rel)
+        if not os.path.exists(path):
+            missing.append(f"{rel}: file not found")
+            continue
+        text = open(path, encoding="utf-8").read()
+        for needle in needles:
+            if needle not in text:
+                missing.append(f"{rel}: missing status marker {needle!r}")
     if missing:
-        print(f"\nFAIL — {len(missing)} version label(s) out of sync with v{vv}:")
+        print(f"\nFAIL — {len(missing)} version/status label(s) out of sync:")
         for m in missing:
             print(f"  x {m}")
         return 1
-    print(f"OK — all {sum(len(n) for n in checks(vv, v).values())} version labels "
-          f"across {len(checks(vv, v))} files are consistent at v{vv}.")
+    n_ver = sum(len(n) for n in checks(vv, v).values())
+    n_stat = sum(len(n) for n in STATUS.values())
+    print(f"OK — {n_ver} version labels across {len(checks(vv, v))} files consistent at v{vv}; "
+          f"{n_stat} Draft-status markers across {len(STATUS)} files consistent.")
     return 0
 
 

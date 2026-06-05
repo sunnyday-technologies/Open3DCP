@@ -486,7 +486,7 @@
           "https://doi.org/10.5281/zenodo.19647471"
         ],
         "identifier": "10.5281/zenodo.19647471",
-        "version": "1.7",
+        "version": "1.7", "creativeWorkStatus": "Draft",
         "license": "https://www.apache.org/licenses/LICENSE-2.0",
         "creator": {
           "@id": "https://sunn3d.com/#organization"
@@ -1074,7 +1074,7 @@
 <p>Process columns capture nozzle, layer, speed, layer time gap, ambient conditions, and mix temperature. Test columns capture the spread, the static yield stress at the time of pumping, the orientation (Z, Y, or CAST), and the test method code.</p>
 <p>The corresponding Open3DCP CSV row carries the key context needed to interpret the measurement. A consumer that has never seen this dataset can identify the print orientation, the test method, the lab, and every material composition entry from the row alone when those fields are populated. Where two compressive results come from the same mix but different orientations, they are recorded as separate rows that share a <code>mix_id</code> prefix and differ only in <code>test_orientation_code</code>; an ML pipeline can group or condition on orientation at training time. The <code>lab_name</code> and <code>measurement_confidence</code> fields enable downstream meta-analysis to weight or partition by lab and by data quality.</p>
 <p>The same record is easier to extract for ML or statistical analysis because each feature is a column and each row is an observation. This is the central design property of the schema and the reason for the flat structure: no JSON traversal is required before a model or dataframe can consume the data.</p>
-<p>The schema can be wrapped with dataset-level JSON-LD for deposit alongside Zenodo records. In the current public v1.7 release, the canonical machine-readable surfaces are the Markdown schema reference, the SQL DDL, and the Dataset JSON-LD embedded on this site. A full Open3DCP vocabulary namespace and example-deposit templates should be published only when they are complete enough for downstream users to rely on.</p>
+<p>The schema can be wrapped with dataset-level JSON-LD for deposit alongside Zenodo records. In the current public v1.7 release (Draft — under working-group review), the canonical machine-readable surfaces are the Markdown schema reference, the SQL DDL, and the Dataset JSON-LD embedded on this site. A full Open3DCP vocabulary namespace and example-deposit templates should be published only when they are complete enough for downstream users to rely on.</p>
 <hr />
 <h2 id="6-adopting-open3dcp-in-your-lab">6. Adopting Open3DCP in your lab</h2>
 <p>The schema is designed so that adoption does not require changing how your lab runs experiments. It requires only that the results are recorded in a uniform shape on the way out. The recommended workflow is three steps.</p>
