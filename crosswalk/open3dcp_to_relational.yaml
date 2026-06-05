@@ -70,7 +70,7 @@ mappings:
 
   # Aggregates: source has 2 lumped fields (+ densities + max size + type); Open3DCP is graded.
   - { open3dcp: concrete_sand, src: material_batches.fine_aggregate_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy,
-      notes: "Default fine-aggregate bucket is concrete_sand (FM 2.3-3.0). Without a fineness modulus the FM-specific bucket cannot be chosen -> records assumption in fidelity report." }
+      notes: "Default fine-aggregate bucket is concrete_sand (FM [2.3,3.1) -- matches the non-overlapping Open3DCP FM partition). Without a fineness modulus the FM-specific bucket cannot be chosen -> records assumption in fidelity report." }
   - { open3dcp: agg_size_57, src: material_batches.coarse_aggregate_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy,
       refine_by: { src: material_batches.max_aggregate_size_mm, desc: "map max size to nearest ASTM C33 size number" },
       notes: "Coarse aggregate bucketed by max_aggregate_size_mm -> ASTM C33 size column; default agg_size_57 (most common US)." }
@@ -97,32 +97,56 @@ mappings:
   - { open3dcp: fiber_length_mm,   src: material_batches.fiber_length_mm,   transform: identity, fidelity: exact }
   - { open3dcp: fiber_diameter_mm, src: material_batches.fiber_diameter_mm, transform: identity, fidelity: exact }
   - { open3dcp: air_content_fresh_pct, src: material_batches.air_content_percent_volume_concrete, transform: identity, fidelity: exact }
-  - { open3dcp: is_3d_printed, src: material_batches.printable, transform: enum_map, map: { yes: true, no: false },
+  # NOTE: quote the enum keys -- unquoted yes/no are parsed by YAML as booleans, so the source
+  # string "yes" would never match and the value would pass through unmapped.
+  - { open3dcp: is_3d_printed, src: material_batches.printable, transform: enum_map,
+      map: { "yes": true, "no": false, "true": true, "false": false, "1": true, "0": false },
       fidelity: categorical, notes: "Source `printable` = capability, not 'was printed'. Approximate; confirm via the printing-process linkage." }
 
+  # Classification & batch identity/timeline (v1.7: previously routed to the triage sidecar).
+  # material_class is the mix/binder system; it also lets the ingestor route by chemistry
+  # (e.g. an AAM row expects activators and water near zero), so it is data, not metadata.
+  - { open3dcp: material_class, src: material_batches.material_class, transform: enum_map, fidelity: categorical,
+      map: {
+        OPC: OPC, ordinary_portland: OPC, portland: OPC, PC: OPC,
+        blended: blended_OPC, blended_OPC: blended_OPC, PLC: blended_OPC, portland_limestone: blended_OPC,
+        AAM: AAM, alkali_activated: AAM, geopolymer: AAM, GP: AAM, AAS: AAM,
+        CAC: CAC, calcium_aluminate: CAC, CSA: CSA, calcium_sulfoaluminate: CSA,
+        UHPC: UHPC, mortar: mortar, paste: paste, concrete: concrete },
+      notes: "Mix/binder classification. Source members canonicalize to the Open3DCP material_class vocabulary; unmapped members pass through and are flagged." }
+  - { open3dcp: date_of_casting, src: material_batches.date_of_pouring, transform: identity, fidelity: exact,
+      notes: "Casting/pour date = t=0 of the curing clock; with a test date the engine can derive test_age_days. Distinct from created_at (record creation)." }
+  - { open3dcp: batch_label, src: material_batches.batch_label, transform: identity, fidelity: exact,
+      notes: "Physical batch sub-identifier within a mix design (provenance; distinguishes repeat batches of one formulation). Not a foreign key." }
+
   # tests -> Open3DCP test conditions
+  - { open3dcp: specimen_geometry, src: specimens.specimen_geometry, transform: identity, fidelity: exact,
+      notes: "Single specimen shape; parametrized geometry beyond one shape stays relational (collapse)." }
   - { open3dcp: test_age_days, src: tests.age_days, transform: identity, fidelity: exact }
-  - { open3dcp: curing_regime_code, src: tests.curing_condition, transform: enum_map, fidelity: categorical,
-      notes: "Adopt the source curing_condition list members as canonical curing codes." }
+  # The source curing_condition controlled-vocabulary codes ARE the canonical Open3DCP curing
+  # codes (adopted verbatim), so this is an exact identity copy -- not an assumed conversion.
+  - { open3dcp: curing_regime_code, src: tests.curing_condition, transform: identity, fidelity: exact,
+      notes: "Adopt the source curing_condition list members as canonical curing codes (identity)." }
   - { open3dcp: curing_temperature_c, src: tests.initial_env_temperature_C, transform: identity, fidelity: exact }
   - { open3dcp: curing_humidity_pct, src: tests.initial_env_relative_humidity_percent, transform: identity, fidelity: exact }
   - { open3dcp: test_method_code, src: tests.test_type, transform: enum_map, fidelity: categorical,
       map: {
-        compression: ASTM_C39, compressive_strength: ASTM_C39, cube_compression: ASTM_C39,
-        cylinder_compression: ASTM_C39, three_point_bending: ASTM_C293,
+        compression: ASTM_C39, compressive_strength: ASTM_C39,
+        cylinder_compression: ASTM_C39, cube_compression: EN_12390_3,
+        three_point_bending: ASTM_C293,
         four_point_bending: ASTM_C78, flexure: ASTM_C78, flexural_strength: ASTM_C78,
-        splitting_tensile: ASTM_C496, brazilian: ASTM_C496, direct_tension: ASTM_C307,
+        splitting_tensile: ASTM_C496, brazilian: ASTM_C496, direct_tension: ASTM_C1583,
         elastic_modulus: ASTM_C469, pull_off: ASTM_C1583, interlayer_bond: ASTM_C1583 },
-      notes: "Source test_type members canonicalize to Open3DCP standard test codes (US/ASTM by default; four-point bending = third-point loading = ASTM C78). Unmapped members pass through and are flagged." }
+      notes: "Source test_type members canonicalize to Open3DCP standard test codes. Scope-correct: ASTM C39 is CYLINDER compression only -> cube_compression maps to EN 12390-3 (cube). ASTM C307 is for chemical-resistant mortars/grouts, NOT concrete; concrete has no consensus uniaxial direct-tension standard, so direct_tension maps to the pull-off direct-tension method ASTM C1583. four-point bending = third-point loading = ASTM C78. Unmapped members pass through and are flagged." }
 
   # data -> Open3DCP measured properties (value-keyed by quantity_reported)
   - { open3dcp: n_specimens, src: data.number_of_specimens, transform: identity, fidelity: exact }
   - { open3dcp: measurement_confidence, src: data.extraction_methods, transform: enum_map,
       map: { direct: measured, computed: calculated, digitized: reported, AI-assisted: estimated, unknown: reported },
       fidelity: categorical }
-  # v1.6: raw-data file reference now has a flat home (was sidecar/file_ref)
-  - { open3dcp: raw_data_file, src: data.file_name, transform: identity, fidelity: exact,
-      notes: "v1.6 raw-data reference; preserves the link to the external curve/table/image file." }
+  # v1.7: per-record file references are routed by data_type inside the engine
+  # (data.<q>.data_type + data.<q>.file_name -> stress_strain_file / rheology_curve_file /
+  # microstructure_image / raw_data_file). See `_route_data_records` in ingest.py.
 
 # Source `data` rows are pivoted by quantity_reported into these Open3DCP columns (unit-converted).
 # v1.6: `stddev` routes quantity_reported_standard_deviation into the matching *_stddev_* column.
@@ -153,7 +177,10 @@ src_unmapped:
   - { src: "tests.hygral_boundary_conditions / thermal_boundary_conditions", reason: "no flat equivalent", fidelity: none, triage: "sidecar" }
   - { src: "geometries.* / reinforcement_*.*", reason: "reinforcement & parametrized geometry beyond specimen_geometry have no flat home", fidelity: collapse, triage: "sidecar; retain the source relational record" }
   - { src: "devices_and_supports.* / loading_histories.*", reason: "instrumentation & loading protocol not represented in flat mix view", fidelity: collapse, triage: "sidecar; retain the source relational record" }
-  - { src: "material_batches.date_of_pouring / batch_label / mixing_protocol_file_name", reason: "metadata not in flat schema", fidelity: none, triage: "provenance_notes / sidecar" }
+  # v1.7: date_of_pouring -> date_of_casting and batch_label -> batch_label now have columns
+  # (and date_of_pouring can derive test_age_days). Only the mixing-protocol file stays a sidecar ref.
+  - { src: "material_batches.mixing_protocol_file_name", reason: "external protocol file; no inline flat home", fidelity: file_ref, triage: "link in sidecar or extend file-reference columns" }
+  - { src: "specimens.structural_form_type", reason: "structural form (wall/beam/column) is a geometry/structural concern, not a mix property", fidelity: none, triage: "sidecar; retain the source relational record" }
   - { src: "material_batches.max_aggregate_size_mm", reason: "used to bucket coarse aggregate; not stored as its own column", fidelity: derived, triage: "provenance_notes" }
 
 # --- Open3DCP columns with no conventional source equivalent (informational) ----------

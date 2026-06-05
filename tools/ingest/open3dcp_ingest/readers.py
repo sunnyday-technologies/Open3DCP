@@ -105,14 +105,32 @@ def _load_xlsx_tabs(path: str) -> dict[str, list[dict[str, Any]]]:
 
 
 _BINDER_KG = ["cement_content_kg_m3", "silica_fume_content_kg_m3",
-              "fly_ash_content_kg_m3", "slag_content_kg_m3"]
+              "fly_ash_content_kg_m3", "slag_content_kg_m3", "metakaolin_content_kg_m3"]
+# Every kg/m3 constituent that contributes mass to the fresh wet mix. The total wet mass
+# (denominator of every mass-%) MUST include all of these -- omitting admixtures/SCMs
+# biases the composition vector high. Aggregates and kg/m3 admixtures are mass-accountable.
+_MASS_KG_FIELDS = _BINDER_KG + [
+    "limestone_content_kg_m3", "fine_aggregate_content_kg_m3",
+    "coarse_aggregate_content_kg_m3", "superplasticizer_content_kg_m3",
+    "rheology_modifier_content_kg_m3",
+]
+# Constituents the source reports by VOLUME or as a dose, not a kg/m3 mass: their mass cannot
+# be added to the wet-mass balance without a density. If any is present, the balance is not
+# closed -> `complete=False` so the kg/m3 -> mass-% conversion is honestly flagged lossy
+# (rather than reported "exact" against a denominator that silently omits them).
+_UNACCOUNTED_FIELDS = [
+    "water_reducer_content_ml_m3", "air_entrainment_content_ml_m3",
+    "hydration_accelerator_content_ml_m3", "fiber_volume_fraction",
+]
 
 
 def _batch_total_wet_mass(batch: dict):
     """Estimate total wet-mix mass (kg/m3) for a source batch.
 
-    binder = cement + scms ; water = w/b * binder ; total = binder + water + aggregates.
-    Returns (total, is_complete, binder). Complete only if binder, w/b and aggregates present.
+    total = Σ(all kg/m3 constituents) + water,  water = w/b * binder.
+    Returns (total, is_complete, binder). `complete` is True only when the mass balance is
+    actually closed: binder, w/b and aggregates are present AND no constituent is reported
+    by volume/dose (ml/m3, fiber volume fraction) whose mass we cannot account for.
     """
     binder = sum(_num(batch.get(k)) or 0.0 for k in _BINDER_KG)
     wb = _num(batch.get("water_binder_ratio"))
@@ -122,8 +140,10 @@ def _batch_total_wet_mass(batch: dict):
     if binder <= 0 or wb is None:
         return (None, False, binder_out)
     water = wb * binder
-    total = binder + water + fine + coarse
-    complete = binder > 0 and wb is not None and (fine + coarse) > 0
+    mass_kg = sum(_num(batch.get(k)) or 0.0 for k in _MASS_KG_FIELDS)
+    total = mass_kg + water
+    unaccounted = any(_num(batch.get(k)) is not None for k in _UNACCOUNTED_FIELDS)
+    complete = binder > 0 and wb is not None and (fine + coarse) > 0 and not unaccounted
     return (total, complete, binder_out)
 
 
@@ -165,11 +185,19 @@ def read_relational_xlsx(path: str) -> list[dict[str, Any]]:
                 for d in data_by_test.get(test.get("test_id"), []):
                     q = d.get("quantity_reported")
                     if q:
+                        # Attach data_type and file_name PER quantity (not once per test) so a
+                        # test carrying both a scalar and a curve keeps each record's routing
+                        # metadata -- the engine reads data.<q>.data_type to send curves/images
+                        # to the right *_file column instead of dropping the descriptor.
                         rec[f"data.{q}.mean"] = d.get("quantity_reported_mean")
                         rec[f"data.{q}.std"] = d.get("quantity_reported_standard_deviation")
                         rec[f"data.{q}.units"] = d.get("units")
-                    for k in ("number_of_specimens", "extraction_methods", "data_type",
-                              "file_name", "curator_first_name", "curator_last_name"):
+                        if d.get("data_type") is not None:
+                            rec[f"data.{q}.data_type"] = d.get("data_type")
+                        if d.get("file_name") is not None:
+                            rec[f"data.{q}.file_name"] = d.get("file_name")
+                    for k in ("number_of_specimens", "extraction_methods",
+                              "curator_first_name", "curator_last_name"):
                         if d.get(k) is not None:
                             rec[f"data.{k}"] = d.get(k)
             rec["_ctx"] = {

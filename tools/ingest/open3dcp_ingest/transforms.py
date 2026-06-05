@@ -77,6 +77,10 @@ def mass_pct_to_kg_m3(value, ctx=None, **kw) -> TransformResult:
 def as_delivered_to_solids_pct(value, ctx=None, solids_fraction=None, **kw) -> TransformResult:
     if value is None:
         return TransformResult(None, EXACT)
+    # A zero (absent) admixture carries no solids-vs-as-delivered ambiguity: 0 as-delivered = 0
+    # solids. Flagging it 'assumed' wrongly penalizes value_fidelity for an absent constituent.
+    if float(value) == 0.0:
+        return TransformResult(0.0, EXACT, note="zero dose; admixture absent")
     total = (ctx or {}).get("total_wet_mass_kg_m3")
     sf = solids_fraction if solids_fraction is not None else (ctx or {}).get("solids_fraction")
     if total and total > 0 and sf:
