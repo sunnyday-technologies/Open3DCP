@@ -51,6 +51,9 @@ class IngestResult:
     source_kind: str = ""
     n_source_fields: int = 0
     n_mapped_fields: int = 0
+    n_consumed_fields: int = 0   # selector/plumbing fields consumed by a mapping (pivot key,
+                                 # refine key, carry source, data_type, curve descriptor) that
+                                 # write no column of their own -> excluded from coverage denom
     crosswalk_schema_version: str = ""
 
 
@@ -99,6 +102,102 @@ def _get(rec, path):
     return rec.get(path)
 
 
+def _is_key(source: str) -> bool:
+    """A foreign key / identifier leaf (`*_id`, `id`) -- plumbing, not data a flat row holds.
+    Mirrors fidelity._is_relational_key (kept local to avoid an import cycle)."""
+    leaf = source.rsplit(".", 1)[-1].lower()
+    return leaf == "id" or leaf.endswith("_id")
+
+
+# Tokens (in data_type or the quantity name) that select the file-reference column a
+# non-scalar `data` record routes to. An "intelligent" ingestor reads the descriptor
+# rather than dropping curves/images to the triage sidecar.
+_SCALAR_TYPES = {"scalar", "value", "mean", "point", "number"}
+
+
+def _file_target_for(data_type, quantity) -> str:
+    s = f"{data_type or ''} {quantity or ''}".lower()
+    if any(t in s for t in ("rheo", "flow", "viscos", "yield")):
+        return "rheology_curve_file"
+    if any(t in s for t in ("image", "sem", " ct", "ct_", "micrograph", "xrd", "tomograph")):
+        return "microstructure_image"
+    if any(t in s for t in ("stress", "strain", "load", "displac", "force")):
+        return "stress_strain_file"
+    return "raw_data_file"
+
+
+def _data_quantities(rec) -> set:
+    """The set of <q> appearing as data.<q>.<attr> keys (q may contain underscores)."""
+    qs = set()
+    for k in rec:
+        if k.startswith("data.") and k.count(".") >= 2:
+            qs.add(".".join(k.split(".")[1:-1]))
+    return qs
+
+
+def _route_data_records(rec, row, handled, res, i, quantity_map, ctx) -> int:
+    """Map each source `data` record onto the flat row by its kind.
+
+    - scalar quantity in the quantity_map  -> its property column (+ matching *_stddev);
+    - any record with a file reference      -> the *_file column chosen by data_type;
+    - a non-scalar record's axis units      -> provenance_notes (the curve descriptor that
+                                               explains the linked file -- not silent loss).
+    data_type itself is consumed as a routing selector (handled), like a pivot key.
+    """
+    n = 0
+    notes: list[str] = []
+    qmap = quantity_map or {}
+    for q in sorted(_data_quantities(rec)):
+        mean_k, std_k = f"data.{q}.mean", f"data.{q}.std"
+        units_k, dtype_k, file_k = f"data.{q}.units", f"data.{q}.data_type", f"data.{q}.file_name"
+        for k in (mean_k, std_k, units_k, dtype_k, file_k):
+            if k in rec:
+                handled.add(k)
+        mean, units = _get(rec, mean_k), _get(rec, units_k)
+        dtype, fname = _get(rec, dtype_k), _get(rec, file_k)
+        spec = qmap.get(q)
+        is_scalar = (dtype is None) or (str(dtype).lower() in _SCALAR_TYPES)
+
+        # scalar measured property -> property column (unit-converted), with std-dev companion
+        if spec and mean is not None:
+            tr = transforms.apply("unit_convert", mean, ctx=ctx, from_unit=units, to_unit=spec.get("to_unit"))
+            row[spec["open3dcp"]] = tr.value
+            n += 1
+            res.trace.append(CellTrace(i, spec["open3dcp"], mean_k, tr.fidelity, tr.assumed, tr.note))
+            std = _get(rec, std_k)
+            if std is not None:
+                std_col = spec.get("stddev")
+                if std_col:
+                    trs = transforms.apply("unit_convert", std, ctx=ctx, from_unit=units, to_unit=spec.get("to_unit"))
+                    row[std_col] = trs.value
+                    n += 1
+                    res.trace.append(CellTrace(i, std_col, std_k, trs.fidelity, trs.assumed, trs.note))
+                else:
+                    res.unmapped.append(Unmapped(i, std_k, std, transforms.NONE,
+                                                 "per-measurement std-dev: no matching *_stddev column"))
+        elif spec is None and mean is not None:
+            # a scalar quantity with no flat column -> sidecar (named, not dropped)
+            res.unmapped.append(Unmapped(i, mean_k, mean, transforms.NONE,
+                                         f"quantity {q!r} not in quantity_map"))
+
+        # non-scalar payload -> route the file reference by data_type; keep the axis descriptor
+        if not is_scalar or fname is not None:
+            if fname is not None:
+                target = _file_target_for(dtype, q)
+                if target not in row:
+                    row[target] = fname
+                    n += 1
+                    res.trace.append(CellTrace(i, target, file_k, transforms.FILE_REF, False,
+                                               f"data_type={dtype}; routed {q} -> {target}"))
+            if units is not None and not (spec and mean is not None):
+                notes.append(f"curve {q}.units={units}")
+
+    if notes:
+        prev = row.get("provenance_notes", "")
+        row["provenance_notes"] = (f"{prev}; " if prev else "") + "; ".join(notes)
+    return n
+
+
 def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
            cw: Optional[Crosswalk], source_kind: str) -> IngestResult:
     res = IngestResult(source_kind=source_kind)
@@ -107,6 +206,7 @@ def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
         row: dict[str, Any] = {}
         handled: set[str] = {"_ctx"}
         mapped_here = 0
+        trace_start, unmapped_start = len(res.trace), len(res.unmapped)
 
         for m in mappings:
             # --- pivot mapping (categorical field selects the target column) ---
@@ -164,34 +264,27 @@ def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
                 prev = row.get(m.carry_to, "")
                 row[m.carry_to] = (f"{prev}; " if prev else "") + f"{carry_src.split('.')[-1]}={_get(rec, carry_src)}"
 
-        # --- quantity_map: pivot source `data` rows into property columns ---
-        for q, spec in (quantity_map or {}).items():
-            mean_path = f"data.{q}.mean"
-            if mean_path in rec:
-                handled.add(mean_path)
-                units_path = f"data.{q}.units"; std_path = f"data.{q}.std"
-                handled.add(units_path)
-                val = _get(rec, mean_path)
-                if val is not None:
-                    src_unit = _get(rec, units_path)
-                    tr = transforms.apply("unit_convert", val, ctx=ctx,
-                                          from_unit=src_unit, to_unit=spec.get("to_unit"))
-                    row[spec["open3dcp"]] = tr.value
+        # --- data records: scalars -> property columns; curves/images -> *_file columns ---
+        # data_type is consumed as routing metadata (not dropped); a curve's axis-unit
+        # descriptor (e.g. data.strain.units) is folded into provenance_notes.
+        mapped_here += _route_data_records(rec, row, handled, res, i, quantity_map, ctx)
+
+        # --- derive test age from the casting date when an explicit age is absent ---
+        # date_of_pouring is t=0 of the curing clock; with a test date it yields the age.
+        if "test_age_days" not in row:
+            pour = _get(rec, "material_batches.date_of_pouring")
+            test_date = _get(rec, "tests.date_of_testing") or _get(rec, "tests.test_date")
+            handled.add("tests.date_of_testing"); handled.add("tests.test_date")
+            if pour is not None and test_date is not None:
+                try:
+                    age = (test_date - pour).days
+                    row["test_age_days"] = age
                     mapped_here += 1
-                    res.trace.append(CellTrace(i, spec["open3dcp"], mean_path, tr.fidelity, tr.assumed, tr.note))
-                # v1.6: std-dev maps to the matching *_stddev_* column when defined
-                if rec.get(std_path) is not None:
-                    handled.add(std_path)
-                    std_col = spec.get("stddev")
-                    if std_col:
-                        trs = transforms.apply("unit_convert", rec[std_path], ctx=ctx,
-                                               from_unit=_get(rec, units_path), to_unit=spec.get("to_unit"))
-                        row[std_col] = trs.value
-                        mapped_here += 1
-                        res.trace.append(CellTrace(i, std_col, std_path, trs.fidelity, trs.assumed, trs.note))
-                    else:
-                        res.unmapped.append(Unmapped(i, std_path, rec[std_path], transforms.NONE,
-                                                     "per-measurement std-dev: no matching *_stddev column"))
+                    res.trace.append(CellTrace(i, "test_age_days", "tests.date_of_testing",
+                                               transforms.DERIVED, True,
+                                               "age = test date - date_of_pouring"))
+                except (TypeError, AttributeError):
+                    pass
 
         # --- everything left over -> triage sidecar (drop nothing) ---
         for src, value in rec.items():
@@ -210,7 +303,19 @@ def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
         if ctx.get("total_binder_kg_m3") is not None:
             row.setdefault("total_binder_kg_m3", ctx.get("total_binder_kg_m3"))
 
+        # Selector/plumbing fields consumed by a mapping (pivot key, refine key, carry source,
+        # data_type, folded curve descriptor) are `handled` yet write no column of their own and
+        # are not sidecar'd -- like foreign keys, they are not coverage failures, so exclude them
+        # from the coverage denominator (see fidelity.field_coverage).
+        non_null = {k for k, v in rec.items() if k != "_ctx" and v is not None}
+        mapped_src = {t.source for t in res.trace[trace_start:]}
+        sidecar_src = {u.source for u in res.unmapped[unmapped_start:]}
+        consumed = {s for s in non_null
+                    if s in handled and s not in mapped_src and s not in sidecar_src
+                    and not _is_key(s)}
+
         res.rows.append(row)
-        res.n_source_fields += sum(1 for k, v in rec.items() if k != "_ctx" and v is not None)
+        res.n_source_fields += len(non_null)
         res.n_mapped_fields += mapped_here
+        res.n_consumed_fields += len(consumed)
     return res

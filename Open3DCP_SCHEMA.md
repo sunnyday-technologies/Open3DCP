@@ -4,7 +4,7 @@
 
 > **Status: Draft** — under working-group review; the schema may change before ratification.
 >
-> **v1.7 (2026-06-04):** **Aggregate-conditioning columns added** so effective (free) mix water is recoverable when aggregates are batched off SSD: `aggregate_moisture_state`, `aggregate_absorption_pct`, `aggregate_moisture_content_pct` (ASTM C127/C128, C566), plus a process flag `aggregate_prewetted` for the common practice of pre-wetting aggregate to a damp condition. Tooling/fidelity fixes: imperial-tonnage units (`lb_yd3`, US short ton, UK long ton) added and a bare "ton" rejected as ambiguous; ingestion fidelity refined so relational foreign keys no longer count against coverage; test-method crosswalk completed. Backward-compatible (additive); v1.6 datasets remain valid.
+> **v1.7 (2026-06-04):** **Aggregate-conditioning columns added** so effective (free) mix water is recoverable when aggregates are batched off SSD: `aggregate_moisture_state`, `aggregate_absorption_pct`, `aggregate_moisture_content_pct` (ASTM C127/C128, C566), plus a process flag `aggregate_prewetted` for the common practice of pre-wetting aggregate to a damp condition. **Classification & batch timeline:** `material_class` (mix/binder system), `batch_label` (physical batch sub-identifier), and `date_of_casting` (t=0 of the curing clock — with the test date the ingestor can derive `test_age_days`) — three fields previously routed to the ingestion sidecar now have columns. **Intelligent ingestion:** the ingestor now maps these, routes `data` records by their `data_type` (scalar → property column; curve/image → the right `*_file` column; curve axis-unit descriptors → `provenance_notes`), corrects the wet-mass denominator to include admixtures/SCMs, and excludes consumed selector/metadata fields from the fidelity coverage denominator. Tooling/fidelity fixes: imperial-tonnage units (`lb_yd3`, US short ton, UK long ton) added and a bare "ton" rejected as ambiguous; ingestion fidelity refined so relational foreign keys no longer count against coverage; test-method crosswalk completed (and an `is_3d_printed`/curing enum-mapping bug fixed). Backward-compatible (additive); v1.6 datasets remain valid.
 >
 > **v1.6 (2026-06-03):** **kg/m³ adopted as the primary reporting basis** (industry/field standard); mass-% retained as a derived secondary representation. New columns: `original_basis`, `mix_density_kg_m3`, `total_binder_kg_m3` (lossless basis conversion); `compressive_strength_stddev_mpa`, `flexural_strength_stddev_mpa`, `tensile_strength_stddev_mpa`, `elastic_modulus_stddev_gpa`, `interlayer_bond_stddev_mpa` (per-measurement uncertainty); `raw_data_doi`, `stress_strain_file`, `rheology_curve_file`, `microstructure_image`, `raw_data_file` (raw-data references). Backward-compatible (additive). Improves interoperability and ingestion fidelity for relational concrete datasets.
 >
@@ -62,6 +62,9 @@ Use `NULL` when a value is unknown, not reported, not applicable, or not measure
 | `name` | varchar | Descriptive name |
 | `parent_mix_id` | varchar | Links to parent formulation if this is a variant or iteration |
 | `version` | varchar | Formulation version string |
+| `material_class` | varchar | Mix/binder system classification: `OPC` / `blended_OPC` / `AAM` / `CAC` / `CSA` / `UHPC` / `mortar` / `paste` / `concrete`. A primary classification (also lets ingestion route by chemistry), not free metadata. |
+| `batch_label` | varchar | Physical batch sub-identifier within a mix design (provenance; distinguishes repeat batches of one formulation) |
+| `date_of_casting` | date | Casting/pour date = t=0 of the curing clock; with the test date it yields `test_age_days`. Distinct from `created_at` (record creation). |
 | `created_at` | timestamptz | Record creation timestamp |
 
 ### Binder Materials (mass-% of total wet mix)
@@ -72,7 +75,7 @@ Cements are classified by ASTM C150 / EN 197-1 type. SCMs follow their respectiv
 |--------|------|-------------|----------|
 | `cement_type_1` | real | General purpose Portland cement | ASTM C150 Type I |
 | `cement_type_1_2` | real | General purpose / moderate sulfate resistance (most commonly sold cement in the US) | ASTM C150 Type I/II |
-| `cement_type_1l` | real | Portland-limestone cement (6-20% limestone) | ASTM C595 / EN 197-1 CEM II/A-L |
+| `cement_type_1l` | real | Portland-limestone cement (ASTM C595 Type IL: >5–15% limestone; EN 197-1 CEM II/A-L: 6–20%) | ASTM C595 / EN 197-1 CEM II/A-L |
 | `cement_type_2` | real | Moderate sulfate resistance, moderate heat of hydration | ASTM C150 Type II |
 | `cement_type_3` | real | High early strength / rapid hardening | ASTM C150 Type III |
 | `cement_type_4` | real | Low heat of hydration (rarely manufactured) | ASTM C150 Type IV |
@@ -179,7 +182,7 @@ Note: Most 3DCP systems are limited to Size #8 or smaller due to pump and nozzle
 | `superplasticizer` | real | High-range water reducer (PCE, SNF, SMF) -- ASTM C494 Type F/G. Record as solids content. |
 | `water_reducer` | real | Mid/normal-range water reducer -- ASTM C494 Type A |
 | `accelerator` | real | Set/strength accelerator -- ASTM C494 Type C/E |
-| `calcium_formate` | real | Organic salt accelerator (Ca(HCOO)2), promotes early C3S hydration. Used as set accelerator; not formally classified under ASTM C494 |
+| `calcium_formate` | real | Organic salt accelerator (Ca(HCOO)2), promotes early C3S hydration. Used as set accelerator; not formally classified under the C494 admixture standard (no governing standard) |
 | `retarder` | real | Set retarder -- ASTM C494 Type B/D |
 | `air_entrainer` | real | Air-entraining admixture -- ASTM C260 |
 | `vma` | real | Viscosity-modifying admixture (generic) |
@@ -353,13 +356,13 @@ These columns capture the full extrusion printing process. Null for cast specime
 | Column | Type | Description | Unit | Test Method |
 |--------|------|-------------|------|-------------|
 | `compressive_strength_mpa` | real | Compressive strength | MPa | ASTM C39 / EN 12390-3 |
-| `tensile_strength_mpa` | real | Direct tensile strength | MPa | ASTM C496 |
-| `splitting_tensile_mpa` | real | Splitting tensile (Brazilian) | MPa | ASTM C496 |
+| `tensile_strength_mpa` | real | Direct (uniaxial) tensile strength | MPa | — (no consensus ASTM method for concrete; RILEM dog-bone / pull-off ASTM C1583) |
+| `splitting_tensile_mpa` | real | Splitting (Brazilian / indirect) tensile | MPa | ASTM C496 |
 | `flexural_strength_mpa` | real | Flexural (modulus of rupture) | MPa | ASTM C78 |
 | `elastic_modulus_gpa` | real | Static elastic modulus | GPa | ASTM C469 |
 | `bond_strength_mpa` | real | Bond / pull-off strength | MPa | ASTM C1583 |
-| `fracture_energy_n_m` | real | Fracture energy (GF) | N/m | RILEM FMC-50 |
-| `toughness_index` | real | Toughness index (I5, I10, I20) | -- | ASTM C1018 |
+| `fracture_energy_n_m` | real | Fracture energy (GF) | N/m | RILEM TC 50-FMC (1985) |
+| `toughness_index` | real | Toughness index (I5, I10, I20) | -- | ASTM C1018 (withdrawn 2006; current ASTM C1609/C1399) |
 | `impact_resistance_j` | real | Impact energy | J | ACI 544.2R |
 | `fatigue_life_cycles` | real | Fatigue life (cycles to failure) | -- | -- |
 | `density_hardened_kg_m3` | real | Hardened density | kg/m3 | ASTM C642 |
@@ -384,7 +387,7 @@ These columns capture the full extrusion printing process. Null for cast specime
 | `chloride_rcpt_coulombs` | real | Rapid chloride permeability (total charge) | Coulombs | ASTM C1202 |
 | `chloride_migration_coeff` | real | Non-steady-state chloride migration | m2/s | NT BUILD 492 |
 | `chloride_diffusion_coeff` | real | Apparent chloride diffusion | m2/s | ASTM C1556 |
-| `carbonation_depth_1yr_mm` | real | Carbonation front depth at 1 year | mm | EN 12390-12 |
+| `carbonation_depth_1yr_mm` | real | Carbonation front depth (accelerated; EN 12390-12 elevated-CO2 — use EN 12390-10 for natural 1-yr exposure) | mm | EN 12390-12 |
 | `carbonation_rate_coeff` | real | Carbonation rate coefficient (KAC) | mm/sqrt(day) | EN 12390-12 |
 | `drying_shrinkage_28d_ue` | real | 28-day drying shrinkage | microstrain | ASTM C157 |
 | `autogenous_shrinkage_ue` | real | Autogenous shrinkage | microstrain | ASTM C1698 |
@@ -399,7 +402,7 @@ These columns capture the full extrusion printing process. Null for cast specime
 | `abrasion_depth_mm` | real | Abrasion depth | mm | ASTM C779 |
 | `water_penetration_depth_mm` | real | Water penetration under pressure | mm | EN 12390-8 |
 | `electrical_resistivity_kohm_cm` | real | Surface resistivity | kohm.cm | ASTM C1876 |
-| `porosity_pct` | real | Total porosity (MIP or vacuum saturation) | % | ASTM C642 |
+| `porosity_pct` | real | Permeable (open) voids by immersion/boiling — open porosity, not total (MIP/vacuum is a separate method) | % | ASTM C642 |
 | `water_absorption_pct` | real | Water absorption by immersion | % | ASTM C642 |
 | `sorptivity_mm_sqrt_s` | real | Sorptivity — initial rate (first 6 hours) | mm/sqrt(s) | ASTM C1585 |
 | `sorptivity_secondary_mm_sqrt_s` | real | Sorptivity — secondary rate (day 1–7). Critical for 3DCP interlayer moisture transport. | mm/sqrt(s) | ASTM C1585 |
