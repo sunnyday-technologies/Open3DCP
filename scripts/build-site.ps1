@@ -6,11 +6,10 @@ param(
 #
 # Open3DCP serves from the repo ROOT (GitHub Pages, .nojekyll). This allowlist
 # copies the public web content into a clean publish dir for Cloudflare Pages.
-# Repo machinery (scripts/, tools/, .github/) and the local-only in-dev material
-# that now lives in ../Open3DCP-private (drafts/, reference_docs/, intake-demo/,
-# playbooks/, docs/, the 2 private crosswalk CSVs) are never referenced here, so
-# they cannot reach the deploy. Fail-loud checks abort if a blocked dir, CAD
-# file, oversized file, or secret-looking string lands in the publish dir.
+# Repo machinery (scripts/, tools/, .github/) and local-only in-development material
+# kept outside this public repo are never referenced here, so they cannot reach the
+# deploy. Fail-loud checks abort if a blocked dir, CAD file, oversized file, or
+# secret-looking string lands in the publish dir.
 
 $ErrorActionPreference = "Stop"
 
