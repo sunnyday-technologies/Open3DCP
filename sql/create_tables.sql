@@ -25,6 +25,9 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     name                        VARCHAR(200) NOT NULL,
     parent_mix_id               VARCHAR(50),
     version                     VARCHAR(20),
+    material_class              VARCHAR(30),        -- (v1.7) Mix/binder system: OPC | blended_OPC | AAM | CAC | CSA | UHPC | mortar | paste | concrete. A classification (also lets ingestion route by chemistry), not free metadata.
+    batch_label                 VARCHAR(100),       -- (v1.7) Physical batch sub-identifier within a mix design (provenance; distinguishes repeat batches of one formulation)
+    date_of_casting             DATE,               -- (v1.7) Casting/pour date = t=0 of the curing clock; with the test date it yields test_age_days. Distinct from created_at (record creation).
     created_at                  TIMESTAMPTZ DEFAULT NOW(),
 
     -- -----------------------------------------
@@ -78,10 +81,12 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- Aggregate Materials (mass-%)
     -- Sand: US industry ordering terms, FM ranges adapted from ASTM C33 principles
     -- ASTM C33 defines fine aggregate as FM 2.3-3.1; subdivisions below are Open3DCP conventions
-    mason_sand                  REAL,     -- FM 1.0-1.8 (mason sand / plaster sand)
-    fine_sand                   REAL,     -- FM 1.6-2.2
-    concrete_sand               REAL,     -- FM 2.3-3.0 (concrete sand / C33 sand)
-    coarse_sand                 REAL,     -- FM 3.1-3.7 (torpedo sand)
+    -- Sand FM bins are a non-overlapping Open3DCP partition (half-open intervals, no gaps/overlaps);
+    -- tie-break = lower bin. These are Open3DCP conventions, not ASTM C33 (C33 fine = FM 2.3-3.1).
+    mason_sand                  REAL,     -- FM [1.0,1.6) (mason / plaster sand)
+    fine_sand                   REAL,     -- FM [1.6,2.3)
+    concrete_sand               REAL,     -- FM [2.3,3.1) (concrete sand / C33 sand)
+    coarse_sand                 REAL,     -- FM [3.1,3.7] (torpedo sand)
     -- Coarse aggregate: ASTM C33 size numbers
     agg_size_89                 REAL,     -- #89: 3/8"-#16 sieve (9.5-1.18 mm)
     agg_size_8                  REAL,     -- #8:  3/8"-#8 sieve (9.5-2.36 mm) — pea gravel, 3DCP limit for most systems
@@ -193,7 +198,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     is_3d_printed               BOOLEAN,
     print_speed_mm_s            REAL,
     layer_height_mm             REAL,
-    layer_time_gap_s            REAL,               -- Interlayer time interval
+    layer_time_gap_s            REAL,               -- Interlayer time interval AT A POINT (local return time path_length/print_speed, and/or an operator-imposed rest); a primary control on interlayer bond via surface dehydration
     nozzle_diameter_mm          REAL,
     nozzle_shape                VARCHAR(20),        -- circular | rectangular | custom
     nozzle_area_mm2             REAL,
@@ -259,13 +264,13 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- -----------------------------------------
     design_strength_mpa         REAL,               -- Target/specified compressive strength (f'c)
     compressive_strength_mpa    REAL,               -- Measured compressive strength, ASTM C39 / EN 12390-3
-    tensile_strength_mpa        REAL,               -- ASTM C496
-    splitting_tensile_mpa       REAL,               -- ASTM C496
+    tensile_strength_mpa        REAL,               -- Direct (uniaxial) tensile strength; no consensus ASTM method for concrete (RILEM dog-bone / pull-off ASTM C1583). NOT C496 (splitting).
+    splitting_tensile_mpa       REAL,               -- Splitting (Brazilian/indirect) tensile, ASTM C496
     flexural_strength_mpa       REAL,               -- ASTM C78
     elastic_modulus_gpa         REAL,               -- ASTM C469
     bond_strength_mpa           REAL,               -- ASTM C1583
     fracture_energy_n_m         REAL,               -- RILEM FMC-50
-    toughness_index             REAL,               -- ASTM C1018
+    toughness_index             REAL,               -- Toughness index I5/I10/I20 (ASTM C1018, WITHDRAWN 2006; current methods ASTM C1609/C1399)
     impact_resistance_j         REAL,               -- ACI 544.2R
     fatigue_life_cycles         REAL,
     density_hardened_kg_m3      REAL,               -- ASTM C642
@@ -288,7 +293,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     chloride_rcpt_coulombs      REAL,               -- ASTM C1202
     chloride_migration_coeff    REAL,               -- NT BUILD 492 (m2/s)
     chloride_diffusion_coeff    REAL,               -- ASTM C1556 (m2/s)
-    carbonation_depth_1yr_mm    REAL,               -- EN 12390-12
+    carbonation_depth_1yr_mm    REAL,               -- Carbonation front depth; EN 12390-12 is ACCELERATED (elevated CO2) -- use EN 12390-10 for natural 1-year exposure
     carbonation_rate_coeff      REAL,               -- mm/sqrt(day)
     drying_shrinkage_28d_ue     REAL,               -- ASTM C157 (microstrain)
     autogenous_shrinkage_ue     REAL,               -- ASTM C1698 (microstrain)
@@ -303,7 +308,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     abrasion_depth_mm           REAL,               -- ASTM C779
     water_penetration_depth_mm  REAL,               -- EN 12390-8
     electrical_resistivity_kohm_cm REAL,            -- ASTM C1876
-    porosity_pct                REAL,               -- ASTM C642
+    porosity_pct                REAL,               -- Permeable (open) voids by immersion/boiling, ASTM C642 (open porosity, not total; MIP/vacuum is a separate method)
     water_absorption_pct        REAL,               -- ASTM C642
     sorptivity_mm_sqrt_s        REAL,               -- ASTM C1585 (initial rate, first 6 hours)
     sorptivity_secondary_mm_sqrt_s REAL,            -- ASTM C1585 (secondary rate, day 1-7)

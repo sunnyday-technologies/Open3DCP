@@ -13,7 +13,7 @@ normalize to that canonical term. Per term, the table gives its governing standa
 where one exists — its relational-schema crosswalk. 3DCP-only terms are justified against
 RILEM TC 276-DFC / TC 304-ADC.
 
-**Coverage:** 241 canonical `mix_designs` terms, grouped into 25 sections.
+**Coverage:** 244 canonical `mix_designs` terms, grouped into 25 sections.
 
 ---
 
@@ -25,6 +25,9 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `name` | varchar(200) | Descriptive name | — | Open3DCP-specific. |
 | `parent_mix_id` | varchar(50) | Links to parent formulation if this is a variant or iteration | — | Open3DCP-specific. |
 | `version` | varchar(20) | Formulation version string | — | Open3DCP-specific. |
+| `material_class` | varchar(30) | Mix/binder system classification: `OPC` / `blended_OPC` / `AAM` / `CAC` / `CSA` / `UHPC` / `mortar` / `paste` / `concrete`. A primary classification (also lets ingestion route by chemistry), not free metadata. | — | Relational: `material_batches.material_class` |
+| `batch_label` | varchar(100) | Physical batch sub-identifier within a mix design (provenance; distinguishes repeat batches of one formulation) | — | Relational: `material_batches.batch_label` |
+| `date_of_casting` | date | Casting/pour date = t=0 of the curing clock; with the test date it yields `test_age_days`. Distinct from `created_at` (record creation). | — | Relational: `material_batches.date_of_pouring` |
 | `created_at` | timestamptz | Record creation timestamp | — | Open3DCP-specific. |
 
 ## Binder Materials
@@ -33,7 +36,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 |---|---|---|---|---|
 | `cement_type_1` | real | General purpose Portland cement | ASTM C150 Type I | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C150_Type_I) |
 | `cement_type_1_2` | real | General purpose / moderate sulfate resistance (most commonly sold cement in the US) | ASTM C150 Type I/II | Open3DCP-specific. |
-| `cement_type_1l` | real | Portland-limestone cement (6-20% limestone) | ASTM C595 / EN 197-1 CEM II/A-L | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C595_Type_IL) |
+| `cement_type_1l` | real | Portland-limestone cement (ASTM C595 Type IL: >5–15% limestone; EN 197-1 CEM II/A-L: 6–20%) | ASTM C595 / EN 197-1 CEM II/A-L | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C595_Type_IL) |
 | `cement_type_2` | real | Moderate sulfate resistance, moderate heat of hydration | ASTM C150 Type II | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C150_Type_II) |
 | `cement_type_3` | real | High early strength / rapid hardening | ASTM C150 Type III | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C150_Type_III) |
 | `cement_type_4` | real | Low heat of hydration (rarely manufactured) | ASTM C150 Type IV | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C150_Type_IV) |
@@ -125,7 +128,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `superplasticizer` | real | High-range water reducer (PCE, SNF, SMF) -- ASTM C494 Type F/G. Record as solids content. | ASTM C494 | Relational: `material_batches.superplasticizer_content_kg_m3` |
 | `water_reducer` | real | Mid/normal-range water reducer -- ASTM C494 Type A | ASTM C494 | Relational: `material_batches.water_reducer_content_ml_m3` |
 | `accelerator` | real | Set/strength accelerator -- ASTM C494 Type C/E | ASTM C494 | Relational: `material_batches.hydration_accelerator_content_ml_m3` |
-| `calcium_formate` | real | Organic salt accelerator (Ca(HCOO)2), promotes early C3S hydration. Used as set accelerator; not formally classified under ASTM C494 | ASTM C494 | Open3DCP-specific. |
+| `calcium_formate` | real | Organic salt accelerator (Ca(HCOO)2), promotes early C3S hydration. Used as set accelerator; not formally classified under the C494 admixture standard (no governing standard) | — | Open3DCP-specific. |
 | `retarder` | real | Set retarder -- ASTM C494 Type B/D | ASTM C494 | Open3DCP-specific. |
 | `air_entrainer` | real | Air-entraining admixture -- ASTM C260 | ASTM C260 | Relational: `material_batches.air_entrainment_content_ml_m3` |
 | `vma` | real | Viscosity-modifying admixture (generic) | — | Relational: `material_batches.rheology_modifier_content_kg_m3` |
@@ -174,7 +177,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 |---|---|---|---|---|
 | `test_age_days` | integer | Age at testing (default: 28) | — | Relational: `tests.age_days` |
 | `specimen_prep` | varchar(50) | Specimen preparation method | — | Open3DCP-specific. |
-| `specimen_geometry` | varchar(50) | Specimen shape (see standard geometries below) | — | Open3DCP-specific. |
+| `specimen_geometry` | varchar(50) | Specimen shape (see standard geometries below) | — | Relational: `specimens.specimen_geometry` |
 | `specimen_length_mm` | real | Specimen dimension L | — | Open3DCP-specific. |
 | `specimen_width_mm` | real | Specimen dimension W | — | Open3DCP-specific. |
 | `specimen_height_mm` | real | Specimen dimension H | — | Open3DCP-specific. |
@@ -270,13 +273,13 @@ RILEM TC 276-DFC / TC 304-ADC.
 |---|---|---|---|---|
 | `design_strength_mpa` | real | Specified/target compressive strength (f'c) the mix is designed to achieve. This is the number on a concrete order ticket. | — | Open3DCP-specific. |
 | `compressive_strength_mpa` | real | Compressive strength | ASTM C39 / EN 12390-3 | Relational: `data` where `quantity_reported=compressive_strength` |
-| `tensile_strength_mpa` | real | Direct tensile strength | ASTM C496 | Relational: `data` where `quantity_reported=tensile_strength` |
-| `splitting_tensile_mpa` | real | Splitting tensile (Brazilian) | ASTM C496 | Open3DCP-specific. |
+| `tensile_strength_mpa` | real | Direct (uniaxial) tensile strength | — (no consensus ASTM method for concrete; RILEM dog-bone / pull-off ASTM C1583) | Relational: `data` where `quantity_reported=tensile_strength` |
+| `splitting_tensile_mpa` | real | Splitting (Brazilian / indirect) tensile | ASTM C496 | Open3DCP-specific. |
 | `flexural_strength_mpa` | real | Flexural (modulus of rupture) | ASTM C78 | Open3DCP-specific. |
 | `elastic_modulus_gpa` | real | Static elastic modulus | ASTM C469 | Relational: `data` where `quantity_reported=elastic_modulus` |
 | `bond_strength_mpa` | real | Bond / pull-off strength | ASTM C1583 | Open3DCP-specific. |
-| `fracture_energy_n_m` | real | Fracture energy (GF) | RILEM FMC-50 | Open3DCP-specific. |
-| `toughness_index` | real | Toughness index (I5, I10, I20) | ASTM C1018 | Open3DCP-specific. |
+| `fracture_energy_n_m` | real | Fracture energy (GF) | RILEM TC 50-FMC (1985) | Open3DCP-specific. |
+| `toughness_index` | real | Toughness index (I5, I10, I20) | ASTM C1018 (withdrawn 2006; current ASTM C1609/C1399) | Open3DCP-specific. |
 | `impact_resistance_j` | real | Impact energy | ACI 544.2R | Open3DCP-specific. |
 | `fatigue_life_cycles` | real | Fatigue life (cycles to failure) | — | Open3DCP-specific. |
 | `density_hardened_kg_m3` | real | Hardened density | ASTM C642 | Relational: `data` where `quantity_reported=density` |
@@ -301,7 +304,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `chloride_rcpt_coulombs` | real | Rapid chloride permeability (total charge) | ASTM C1202 | Open3DCP-specific. |
 | `chloride_migration_coeff` | real | Non-steady-state chloride migration | NT BUILD 492 | Open3DCP-specific. |
 | `chloride_diffusion_coeff` | real | Apparent chloride diffusion | ASTM C1556 | Open3DCP-specific. |
-| `carbonation_depth_1yr_mm` | real | Carbonation front depth at 1 year | EN 12390-12 | Open3DCP-specific. |
+| `carbonation_depth_1yr_mm` | real | Carbonation front depth (accelerated; EN 12390-12 elevated-CO2 — use EN 12390-10 for natural 1-yr exposure) | EN 12390-12 | Open3DCP-specific. |
 | `carbonation_rate_coeff` | real | Carbonation rate coefficient (KAC) | EN 12390-12 | Open3DCP-specific. |
 | `drying_shrinkage_28d_ue` | real | 28-day drying shrinkage | ASTM C157 | Open3DCP-specific. |
 | `autogenous_shrinkage_ue` | real | Autogenous shrinkage | ASTM C1698 | Open3DCP-specific. |
@@ -316,7 +319,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `abrasion_depth_mm` | real | Abrasion depth | ASTM C779 | Open3DCP-specific. |
 | `water_penetration_depth_mm` | real | Water penetration under pressure | EN 12390-8 | Open3DCP-specific. |
 | `electrical_resistivity_kohm_cm` | real | Surface resistivity | ASTM C1876 | Open3DCP-specific. |
-| `porosity_pct` | real | Total porosity (MIP or vacuum saturation) | ASTM C642 | Relational: `data` where `quantity_reported=porosity` |
+| `porosity_pct` | real | Permeable (open) voids by immersion/boiling — open porosity, not total (MIP/vacuum is a separate method) | ASTM C642 | Relational: `data` where `quantity_reported=porosity` |
 | `water_absorption_pct` | real | Water absorption by immersion | ASTM C642 | Open3DCP-specific. |
 | `sorptivity_mm_sqrt_s` | real | Sorptivity — initial rate (first 6 hours) | ASTM C1585 | Relational: `data` where `quantity_reported=sorptivity` |
 | `sorptivity_secondary_mm_sqrt_s` | real | Sorptivity — secondary rate (day 1–7). Critical for 3DCP interlayer moisture transport. | ASTM C1585 | Open3DCP-specific. |
@@ -353,7 +356,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `stress_strain_file` | varchar(255) | Load-displacement / stress-strain curve file | — | Open3DCP-specific. |
 | `rheology_curve_file` | varchar(255) | Flow / structuration curve file | — | Open3DCP-specific. |
 | `microstructure_image` | varchar(255) | SEM / CT / crack-pattern image file | — | Open3DCP-specific. |
-| `raw_data_file` | varchar(255) | Generic table / HDF5 raw-data reference | — | Relational: `data.file_name` |
+| `raw_data_file` | varchar(255) | Generic table / HDF5 raw-data reference | — | Open3DCP-specific. |
 
 ## DATA PROVENANCE
 

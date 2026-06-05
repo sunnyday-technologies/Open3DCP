@@ -79,18 +79,29 @@ def score(result: IngestResult) -> FidelityReport:
     # 1. field coverage --------------------------------------------------------
     src = result.n_source_fields
     mapped = result.n_mapped_fields
-    # Relational plumbing (foreign keys / identifiers) is intentionally not carried by the
-    # flat row, so it is excluded from the coverage denominator rather than counted as a loss.
+    # Plumbing the flat row legitimately does not carry as its own column is excluded from the
+    # coverage denominator rather than counted as loss: (a) relational foreign keys / IDs in the
+    # sidecar, and (b) selector/metadata fields consumed by a mapping (pivot key, refine key,
+    # carry source, data_type, folded curve descriptor) -- counted in result.n_consumed_fields.
     keys = [u for u in result.unmapped if _is_relational_key(u.source)]
     real_dropped = [u for u in result.unmapped if not _is_relational_key(u.source)]
-    eff_src = max(0, src - len(keys))
+    consumed = result.n_consumed_fields
+    eff_src = max(0, src - len(keys) - consumed)
     cov = min(100.0, (mapped / eff_src * 100.0) if eff_src else 100.0)
-    key_note = (f" {len(keys)} relational keys/IDs excluded from coverage (a flat row needs none)."
-                if keys else "")
+    excl = []
+    if keys:
+        excl.append(f"{len(keys)} relational keys/IDs")
+    if consumed:
+        excl.append(f"{consumed} consumed selector/metadata fields")
+    key_note = (f" Excluded from coverage (a flat row carries none as its own column): "
+                f"{', '.join(excl)}." if excl else "")
+    raw = (mapped / src * 100.0) if src else 100.0
+    raw_note = (f" Raw coverage over all {src} populated fields (no exclusions): {raw:.0f}%."
+                if (keys or consumed) else "")
     dims.append(Dimension(
         "field_coverage", cov,
         f"{mapped} of {eff_src} mappable source fields mapped to Open3DCP columns "
-        f"({len(real_dropped)} routed to triage sidecar).{key_note}",
+        f"({len(real_dropped)} routed to triage sidecar).{key_note}{raw_note}",
         not_preserved=sorted(set(u.source for u in real_dropped)),
         triage="Sidecar fields are preserved in <dataset>.unmapped.jsonl; review for schema extension.",
     ))
@@ -100,13 +111,17 @@ def score(result: IngestResult) -> FidelityReport:
     if traced:
         assumed = [t for t in traced if t.assumed or t.fidelity == transforms.LOSSY]
         vf = (len(traced) - len(assumed)) / len(traced) * 100.0
+        # NOTE: count exact/assumed from the `assumed` LIST (same basis as the score), not the
+        # deduplicated `examples` set -- otherwise repeated (target, note) pairs make the prose
+        # undercount assumptions and disagree with vf on multi-row datasets.
         examples = sorted({f"{t.target} ({t.note})" for t in assumed})
     else:
-        vf, examples = 100.0, []
+        assumed, examples = [], []
+        vf = 100.0
     dims.append(Dimension(
         "value_fidelity", vf,
         f"{len(traced)} values written; "
-        f"{len(traced) - len(examples) if traced else 0} exact, {len(examples)} required an assumption.",
+        f"{len(traced) - len(assumed)} exact, {len(assumed)} required an assumption.",
         not_preserved=examples,
         triage="Assumed conversions (e.g. kg/m3<->mass-%, liquid->solids) need the missing "
                "density / solids fraction to become exact. Record mix_density_kg_m3 at source.",

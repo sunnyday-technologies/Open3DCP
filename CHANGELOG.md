@@ -15,6 +15,26 @@ Schema versioning follows these rules:
 
 Additive, backward-compatible changes. Existing v1.6 datasets remain valid unchanged.
 
+### Added — classification & batch timeline
+- `material_class` -- mix/binder system classification (`OPC` | `blended_OPC` | `AAM` | `CAC` |
+  `CSA` | `UHPC` | `mortar` | `paste` | `concrete`). A primary classification, not free metadata;
+  it also lets the ingestor route by chemistry (e.g. an AAM row expects activators, water ≈ 0).
+- `batch_label` -- physical batch sub-identifier within a mix design (provenance; distinguishes
+  repeat batches of one formulation). Not a foreign key.
+- `date_of_casting` -- casting/pour date = t=0 of the curing clock; with the test date the
+  ingestor can derive `test_age_days`. Distinct from `created_at` (record creation).
+
+### Changed — intelligent ingestion (relational sources)
+- The ingestor now maps `material_class` / `date_of_casting` / `batch_label` (was: triage
+  sidecar) and routes `data` records by their `data_type`: scalar → property column, curve/image
+  → the matching `*_file` column, and a curve's axis-unit descriptor (e.g. `data.strain.units`)
+  → `provenance_notes`. The wet-mass denominator now includes admixtures/SCMs (was: binder +
+  water + aggregate only, which biased mass-% and over-reported "exact"). Consumed
+  selector/metadata fields (pivot keys, `data_type`, carried descriptors) are excluded from the
+  fidelity coverage denominator, like foreign keys.
+- A committed, reproducible relational fixture (`tools/ingest/tests/fixtures/`) now anchors the
+  relational ingestion example: 83.1 (B) → **97.4 (A)** after the above; UCI stays 96.7 (A).
+
 ### Added — aggregate conditioning (water accounting)
 - `aggregate_moisture_state` -- as-batched aggregate condition: `oven_dry` | `air_dry` | `SSD` | `wet`.
 - `aggregate_absorption_pct` -- 24-h aggregate absorption, % of oven-dry mass (ASTM C127/C128).
@@ -28,9 +48,13 @@ Additive, backward-compatible changes. Existing v1.6 datasets remain valid uncha
 ### Fixed — ingestion fidelity & crosswalk
 - Fidelity `field_coverage` no longer penalizes relational foreign keys / identifiers (a flat row
   carries none); they are excluded from the coverage denominator and still preserved in the
-  triage sidecar.
+  triage sidecar. As of this release, consumed selector/metadata fields are likewise excluded.
 - Crosswalk test-method map completed (e.g. `four_point_bending` -> `ASTM_C78`), so standard test
   methods canonicalize instead of passing through unmapped.
+- Fixed a crosswalk enum bug: unquoted YAML `yes`/`no` keys were parsed as booleans, so
+  `is_3d_printed` mapping never matched the source string `"yes"`; keys are now quoted. Curing
+  codes adopted verbatim are recorded as an exact identity copy (no longer flagged as an
+  assumption), so `value_fidelity` reflects only genuine conversions.
 
 ### Fixed — unit converter (ingestion tool)
 - Added imperial-tonnage factors: `lb_yd3` (US batch-ticket concentration unit), US `short_ton`,
