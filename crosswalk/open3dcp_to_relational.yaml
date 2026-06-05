@@ -14,7 +14,7 @@
 #   none        - source field has no flat Open3DCP home -> triage sidecar
 meta:
   name: open3dcp_to_relational
-  open3dcp_version: "1.6"   # MUST match the schema version in Open3DCP_SCHEMA.md / CHANGELOG.md
+  open3dcp_version: "1.7"   # MUST match the schema version in Open3DCP_SCHEMA.md / CHANGELOG.md
   source_schema: "relational concrete database (15-tab spreadsheet template)"
   direction: bidirectional_where_possible
   notes: >
@@ -107,7 +107,13 @@ mappings:
   - { open3dcp: curing_temperature_c, src: tests.initial_env_temperature_C, transform: identity, fidelity: exact }
   - { open3dcp: curing_humidity_pct, src: tests.initial_env_relative_humidity_percent, transform: identity, fidelity: exact }
   - { open3dcp: test_method_code, src: tests.test_type, transform: enum_map, fidelity: categorical,
-      notes: "The source test_type list (ASTM/EN designations) maps to Open3DCP free-text test_method_code." }
+      map: {
+        compression: ASTM_C39, compressive_strength: ASTM_C39, cube_compression: ASTM_C39,
+        cylinder_compression: ASTM_C39, three_point_bending: ASTM_C293,
+        four_point_bending: ASTM_C78, flexure: ASTM_C78, flexural_strength: ASTM_C78,
+        splitting_tensile: ASTM_C496, brazilian: ASTM_C496, direct_tension: ASTM_C307,
+        elastic_modulus: ASTM_C469, pull_off: ASTM_C1583, interlayer_bond: ASTM_C1583 },
+      notes: "Source test_type members canonicalize to Open3DCP standard test codes (US/ASTM by default; four-point bending = third-point loading = ASTM C78). Unmapped members pass through and are flagged." }
 
   # data -> Open3DCP measured properties (value-keyed by quantity_reported)
   - { open3dcp: n_specimens, src: data.number_of_specimens, transform: identity, fidelity: exact }

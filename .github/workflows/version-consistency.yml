@@ -1,0 +1,53 @@
+name: Version consistency
+
+# Guards that every place stating the CURRENT schema version matches the top CHANGELOG.md
+# entry. The canonical list of version-bearing files lives in scripts/check_version.py — a
+# bump means editing those files, and this check fails the build if any one drifts.
+on:
+  push:
+    paths:
+      - CHANGELOG.md
+      - Open3DCP_SCHEMA.md
+      - crosswalk/**
+      - tools/ingest/**
+      - index.html
+      - schema-reference/**
+      - llms.txt
+      - README.md
+      - AGENTS.md
+      - intake/**
+      - .well-known/**
+      - .zenodo.json
+      - examples/**
+      - scripts/check_version.py
+  pull_request:
+    paths:
+      - CHANGELOG.md
+      - Open3DCP_SCHEMA.md
+      - crosswalk/**
+      - tools/ingest/**
+      - index.html
+      - schema-reference/**
+      - llms.txt
+      - README.md
+      - AGENTS.md
+      - intake/**
+      - .well-known/**
+      - .zenodo.json
+      - examples/**
+      - scripts/check_version.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check version-label consistency
+        run: python scripts/check_version.py
