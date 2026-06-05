@@ -112,7 +112,7 @@ Pigments are ultra-fine particles (~1 um) used at 1-5% in architectural 3DCP wit
 
 ### Notes
 - Canonical column list is maintained in `Open3DCP_SCHEMA.md`.
-- Future CEMFORGE algorithm update needed to model pigment surface area interactions with SCMs (silica fume, metakaolin) — tracked separately.
+- Modeling pigment/SCM (silica fume, metakaolin) surface-area interactions is out of scope for the schema and is tracked separately.
 
 ---
 

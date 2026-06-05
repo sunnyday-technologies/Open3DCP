@@ -80,7 +80,7 @@ Additional binder columns in the full schema include `pumice` (natural volcanic 
 
 ### Aggregates -- The Skeleton
 
-Aggregates provide bulk, dimensional stability, and reduce cost. In conventional concrete, coarse aggregates (10-20 mm) dominate. In 3DCP, aggregates must pass through a pump and nozzle, so maximum particle size is typically limited to 2-4 mm for standard equipment. This makes sand the primary aggregate, though large-nozzle systems (military, infrastructure) can accommodate coarser material.
+Aggregates provide bulk, dimensional stability, and reduce cost. In conventional concrete, coarse aggregates (10-20 mm) dominate. In 3DCP, aggregates must pass through a pump and nozzle, so maximum particle size is typically limited to 2-4 mm for standard equipment. This makes sand the primary aggregate, though large-nozzle infrastructure systems can accommodate coarser material.
 
 **Fine aggregates** are classified using US industry ordering terms. FM ranges are adapted from ASTM C33 grading principles; note that ASTM C33 defines fine aggregate as FM 2.3-3.1 without further subdivision:
 
