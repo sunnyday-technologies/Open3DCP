@@ -1,5 +1,5 @@
 -- ====================================================================
--- Open3DCP v1.5 — Reference SQL Implementation
+-- Open3DCP v1.7 — Reference SQL Implementation
 -- https://github.com/sunnyday-technologies/Open3DCP
 --
 -- Apache License 2.0 — Sunnyday Technologies

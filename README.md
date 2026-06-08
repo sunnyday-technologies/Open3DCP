@@ -6,7 +6,7 @@
 <p align="center"><strong>Open Data Standard for 3D Concrete Printing</strong></p>
 <p align="center"><em>Status: Draft — under working-group review; the schema may change before ratification.</em></p>
 <p align="center">
-  <a href="https://doi.org/10.5281/zenodo.19647471"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.19647471.svg" alt="DOI"></a>
+  <a href="https://doi.org/10.5281/zenodo.19647470"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.19647470.svg" alt="DOI"></a>
 </p>
 <p align="center">
   <a href="https://open3dcp.org">open3dcp.org</a> ·
@@ -367,7 +367,7 @@ If you use Open3DCP in your research, please cite:
 Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete
 Printing. Sunnyday Technologies.
 https://github.com/sunnyday-technologies/Open3DCP
-DOI: 10.5281/zenodo.19647471
+DOI: 10.5281/zenodo.19647470
 ```
 
 A [`CITATION.cff`](CITATION.cff) file is included for automated citation tooling.
