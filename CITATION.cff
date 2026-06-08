@@ -18,7 +18,7 @@ repository-code: "https://github.com/sunnyday-technologies/Open3DCP"
 url: "https://github.com/sunnyday-technologies/Open3DCP"
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.19647471
+    value: 10.5281/zenodo.19647470
     description: Zenodo concept DOI (all versions)
 keywords:
   - 3DCP
