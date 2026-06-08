@@ -58,7 +58,7 @@ foreach ($f in $rootFiles) { Copy-PublicFile $f }
 
 $publicDirs = @(
   "assets", "examples", "schema-reference", "intake",
-  "submissions", "crosswalk", "sql", ".well-known"
+  "submissions", "crosswalk", "sql", ".well-known", "research"
 )
 foreach ($d in $publicDirs) { Copy-PublicDirectory $d }
 
