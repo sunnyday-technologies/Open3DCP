@@ -6,7 +6,7 @@
 --
 -- This file creates the Open3DCP schema in PostgreSQL.
 -- Adapt column types and constraints for your database engine.
--- All material quantities in mass-% of total wet mix (0-100).
+-- Material quantities recorded on a kg/m3-primary basis; mass-% of total wet mix is a derived secondary representation.
 -- Use NULL for unknown / not reported / not applicable values.
 -- Use 0 only when the source explicitly reports zero dosage or absence.
 -- Strengths in MPa, elastic modulus in GPa.
