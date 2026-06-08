@@ -69,7 +69,7 @@ field reference in a paper, attribute it:
 
 > Sonnentag, N. (2026). *Open3DCP: Open Data Standard for 3D
 > Concrete Printing.* Sunnyday Technologies. DOI:
-> [10.5281/zenodo.19647471](https://doi.org/10.5281/zenodo.19647471)
+> [10.5281/zenodo.19647470](https://doi.org/10.5281/zenodo.19647470)
 
 The CITATION.cff at the repo root is the canonical citation source
 and resolves automatically in many citation tools.
@@ -105,8 +105,11 @@ schema is a citable artifact; contributors should be too.
 1. Identify the source schema and its conventions.
 2. Map material columns to canonical Open3DCP names. Use the
    cross-reference table in `Open3DCP_SCHEMA.md` when present.
-3. Convert all material quantities to mass-% of total wet mix.
-   Record the original basis in a notes column.
+3. Preserve the source's reporting basis. Record `original_basis` and the
+   density/binder totals (`mix_density_kg_m3`, `total_binder_kg_m3`) so kg/m³
+   (the primary basis) and mass-% of total wet mix remain losslessly
+   interconvertible. Never silently convert; if a density assumption is
+   unavoidable, flag it.
 4. Verify all cement / SCM / aggregate columns satisfy the
    referenced ASTM grading or chemistry constraints.
 5. Drop nothing silently. If a source field has no Open3DCP
@@ -146,18 +149,16 @@ If you propose adding a column:
 - **Site:** [open3dcp.org](https://open3dcp.org)
 - **Repository:** [github.com/sunnyday-technologies/Open3DCP](https://github.com/sunnyday-technologies/Open3DCP)
 - **License:** [Apache-2.0](LICENSE)
-- **DOI (concept):** [10.5281/zenodo.19647471](https://doi.org/10.5281/zenodo.19647471)
+- **DOI (concept):** [10.5281/zenodo.19647470](https://doi.org/10.5281/zenodo.19647470)
 - **Maintainer:** Sunnyday Technologies LLC, Appleton WI
 - **Schema lead:** Nicholas Sonnentag — `nick@sunn3d.com` — ORCID [0009-0002-1897-384X](https://orcid.org/0009-0002-1897-384X)
 - **Project contact:** `open3dcp@sunn3d.com`
 
 ---
 
-## Companion projects
+## Ecosystem stance
 
-- **CEMFORGE** ([cemforge.ai](https://cemforge.ai)) — formulation engine that consumes Open3DCP-shaped records for predictive mix design.
-- **M3-CRETE** ([m3-crete.com](https://m3-crete.com)) — open-hardware concrete 3D printer reference platform that produces Open3DCP-shaped records.
-- **CADCLAW** ([cadclaw.io](https://cadclaw.io)) — CAD validation harness used in the M3-CRETE design loop.
-
-These are companion projects, not gatekeepers. Open3DCP is supplier-,
-hardware-, and platform-agnostic.
+Open3DCP is **supplier-, hardware-, and platform-agnostic**. It is an open
+schema with no required tooling: any formulation engine, printer, laboratory,
+or repository may produce or consume Open3DCP-shaped records. Do not treat any
+particular product as a prerequisite for using the schema.

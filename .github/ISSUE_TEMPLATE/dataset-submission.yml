@@ -14,6 +14,11 @@ body:
         maintainer curates it (`intake:staging` → `intake:reviewed` → `intake:published`).
 
         Tip: the [submission page](https://open3dcp.org/intake/) pre-fills most of this form for you.
+
+        **Data handling.** On acceptance, this submission becomes part of a permanent, publicly-archived
+        metadata record. That record includes your **GitHub identity** and the **attribution you enter below**
+        (lead author / lab, and ORCID if provided). Submit only attribution you are content to publish openly;
+        a curator reviews free-text fields for inadvertent personal information before publication.
   - type: input
     id: dataset_title
     attributes:
@@ -76,7 +81,7 @@ body:
     attributes:
       label: Open3DCP schema version targeted
       description: The Open3DCP schema version your records map to.
-      value: "1.6"
+      value: "1.7"
     validations:
       required: true
   - type: textarea
@@ -99,4 +104,11 @@ body:
       label: Archive
       options:
         - label: The dataset is deposited in a public archive and the DOI above resolves to it.
+          required: true
+  - type: checkboxes
+    id: attribution_consent
+    attributes:
+      label: Attribution & data handling
+      options:
+        - label: I understand that an accepted submission becomes part of a permanent, publicly-archived metadata record — including my GitHub identity and the attribution I provide above — and I am content to publish that attribution openly.
           required: true

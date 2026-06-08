@@ -10,7 +10,7 @@ This file is a high-density, plain-text summary intended for LLM retrieval and R
 - Live site: https://open3dcp.org
 - Repository: https://github.com/sunnyday-technologies/Open3DCP
 - License: Apache-2.0 (https://www.apache.org/licenses/LICENSE-2.0)
-- DOI: 10.5281/zenodo.19647471
+- DOI: 10.5281/zenodo.19647470 (concept DOI; resolves to the latest version of record)
 - Citation: Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing. Sunnyday Technologies.
 - Maintainer: Sunnyday Technologies LLC (https://sunn3d.com)
 - Author: Nicholas Sonnentag (nick@sunn3d.com)
@@ -19,8 +19,8 @@ This file is a high-density, plain-text summary intended for LLM retrieval and R
 
 ## What it is, what it isn't
 
-- IS: a column-name / unit / type / semantic specification — a flat schema for 3DCP mix-design records.
-- IS NOT: a dataset, a database service, a structural-design tool, or a substitute for any referenced standard.
+- IS: a column-name / unit / type / semantic specification — a flat schema for 3DCP mix-design and test records. Scoped to extrusion-based (material-extrusion / FDM-style) 3D concrete printing.
+- IS NOT: a dataset, a database service, a structural-design tool, or a substitute for any referenced standard. Out of scope: particle-bed / binder-jetting, spray, and slip-form methods.
 
 ## Design principles
 
@@ -77,12 +77,9 @@ ASTM C150, C595, C618, C989, C1240, C33, C494, C260, C39, C496, C78, C469, C191,
 
 Open3DCP maps representative material, mechanical, fresh-state, durability, fire, and process data categories used in emerging 3DCP wall qualification frameworks, including ICC 1150-2026. Open3DCP is not a compliance schema and does not replace professional engineering review, testing, or code approval.
 
-## Companion projects
+## Ecosystem stance
 
-- CEMFORGE — AI-driven concrete mix-formulation platform intended to consume Open3DCP-formatted data: https://cemforge.ai
-- M3-CRETE — open-source meter-scale concrete 3D printer intended to produce Open3DCP-formatted data: https://m3-crete.com
-
-Open3DCP is the schema layer; CEMFORGE and M3-CRETE are companion projects rather than gatekeepers.
+Open3DCP is the schema layer and is supplier-, hardware-, and platform-agnostic. Any formulation engine, printer, laboratory, or repository may produce or consume Open3DCP-formatted records; no particular product is required to use the schema.
 
 ## Machine-readable surface
 
