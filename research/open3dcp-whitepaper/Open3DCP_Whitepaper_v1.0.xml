@@ -1,0 +1,1388 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.2 20190208//EN"
+                  "JATS-publishing1.dtd">
+<article xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" dtd-version="1.2" article-type="other">
+<front>
+<journal-meta>
+<journal-id></journal-id>
+<journal-title-group>
+</journal-title-group>
+<issn></issn>
+<publisher>
+<publisher-name></publisher-name>
+</publisher>
+</journal-meta>
+<article-meta>
+<title-group>
+<article-title>Open3DCP: A Public Data Schema for 3D Concrete
+Printing</article-title>
+<subtitle>Design, rationale, and the measurement gaps of an
+analysis-ready record for extrusion 3D concrete printing</subtitle>
+</title-group>
+<contrib-group>
+<contrib contrib-type="author">
+<string-name>Nicholas Sonnentag — Sunnyday Technologies, Appleton, WI,
+USA</string-name>
+</contrib>
+</contrib-group>
+<pub-date date-type="pub" publication-format="electronic" iso-8601-date="2026-06-08">
+<day>8</day>
+<month>6</month>
+<year>2026</year>
+</pub-date>
+<permissions>
+</permissions>
+</article-meta>
+</front>
+<body>
+<sec id="abstract">
+  <title>Abstract</title>
+  <p>Three-dimensional concrete printing (3DCP) is a coupled
+  material–process problem: a printable cementitious system is defined
+  by composition, rheology, equipment, toolpath, environmental exposure,
+  curing, specimen extraction, test orientation, and measured
+  performance. The literature reports many of these facts, but
+  distributes them across prose, tables, figures, and supplementary
+  files using inconsistent names and unit bases — which makes
+  cross-study comparison, meta-analysis, and machine-learning workflows
+  harder than the underlying measurements require. Open3DCP is an open,
+  flat schema for recording extrusion-based 3DCP mix-design and test
+  records. Version 1.7 defines <bold>244 columns</bold> in its primary
+  record, spanning composition, fibers, admixtures, fresh-state
+  rheology, 3DCP process parameters, hardened mechanical and durability
+  properties, interlayer bond, specimen/test metadata, environmental
+  conditions, and provenance. Quantities are recorded on a
+  <bold>kg/m³-primary basis</bold> (the field standard), with
+  mass-percent of total wet mix retained as a losslessly-derived
+  secondary representation; missingness is represented as
+  <monospace>NULL</monospace>, with <monospace>0</monospace> reserved
+  for explicit source-reported zero. Open3DCP is a <italic>reporting
+  layer</italic>, not a test method or a substitute for ASTM, EN, ACI,
+  ICC, ISO, or RILEM standards: it lets 3DCP records be assembled into
+  interoperable datasets for scientific review, Integrated Computational
+  Materials Engineering (ICME)–style process–structure–property
+  analysis, digital-twin reconstruction, and downstream modeling where
+  sufficient validated data exist. We give the design rationale for each
+  major decision and <bold>demonstrate ingestion</bold> on two
+  openly-licensed public datasets — a cast-concrete benchmark and a real
+  ~30-laboratory 3DCP database — into one schema, including a
+  cross-study print-anisotropy result. We argue — analytically, fitting
+  no predictive model — that classical single-predictor strength models
+  cannot represent 3DCP’s process- and orientation-dependence,
+  motivating multi-feature models and the comprehensive record that
+  supports them. We also identify a taxonomy of features that are
+  physically important but cannot yet be measured reliably — an agenda
+  for instrumentation.</p>
+</sec>
+<sec id="contributions">
+  <title>Contributions</title>
+  <list list-type="bullet">
+    <list-item>
+      <p>An open, <bold>3DCP-native flat data schema</bold> (v1.7, 244
+      columns) with first-class columns for print process parameters,
+      fresh-state rheology, and interlayer-bond properties — the
+      features that distinguish printed concrete from cast.</p>
+    </list-item>
+    <list-item>
+      <p>A <bold>design rationale</bold> for each consequential choice:
+      flat table over graph, kg/m³-primary <italic>dual-basis</italic>
+      recording, fineness-modulus over maximum aggregate size, and
+      <monospace>NULL</monospace> ≠ <monospace>0</monospace>.</p>
+    </list-item>
+    <list-item>
+      <p>A <bold>measurement-gap taxonomy</bold> — real-time process
+      monitoring, in-situ material state, and post-process
+      characterization gaps — framed as a research agenda for
+      instrumentation.</p>
+    </list-item>
+    <list-item>
+      <p>An argument that <bold>classical single-predictor strength
+      models</bold> (Abrams, Bolomey, Féret, Powers) cannot represent
+      3DCP’s process- and orientation-dependence, motivating
+      multi-feature models and the comprehensive record that supports
+      them. This is an analytical argument, not an empirical one: we do
+      not fit or benchmark models, nor claim these 244 columns are the
+      necessary or sufficient set (§7, §12).</p>
+    </list-item>
+    <list-item>
+      <p>A <bold>worked demonstration</bold> ingesting two
+      openly-licensed public datasets — a cast-concrete benchmark and a
+      real ~30-laboratory 3DCP database — into one schema, yielding a
+      cross-study print-anisotropy result that the schema’s orientation
+      field makes expressible (§6).</p>
+    </list-item>
+  </list>
+  <sec id="introduction">
+    <title>1. Introduction</title>
+    <p>3D concrete printing has moved from laboratory demonstrations
+    toward construction-scale experimentation; printed residential
+    structures, bridges, and architectural elements have been produced
+    in many countries worldwide using systems ranging from gantry
+    extruders to six-axis robotic arms [1, 2, 3]. The technical
+    literature now spans printable mortars, alkali-activated binders,
+    fiber-reinforced systems, recycled aggregates, interlayer bond,
+    anisotropic strength, rheology, buildability, and durability. The
+    public record is large enough to support comparative analysis, but
+    not yet consistently shaped enough to make that analysis
+    straightforward.</p>
+    <p>The central problem is not that researchers fail to report data —
+    many papers report substantial detail — but that the detail is not
+    represented in a common structure. A material may appear as “GGBFS,”
+    “slag,” “ground granulated blast-furnace slag,” or a supplier name;
+    a dosage may be reported in kg/m³, percent of binder, or percent of
+    total mass; a compressive strength may refer to a cast cube, a
+    printed prism, a cored specimen, or a coupon loaded across the layer
+    interface. These distinctions matter scientifically, yet they are
+    often not preserved in a machine-readable way. The consequence is
+    direct: datasets from different groups cannot be combined without
+    extensive manual harmonization, so the field cannot easily build the
+    large, multi-source corpora that modern analysis needs. The most
+    widely used concrete dataset for machine learning — Yeh’s UCI
+    Concrete Compressive Strength set [4] — captures only composition
+    and age, with no process, rheology, or orientation fields, and
+    predates 3DCP entirely (§3).</p>
+    <p>What makes 3DCP fundamentally different from cast concrete can be
+    stated in four points:</p>
+    <list list-type="order">
+      <list-item>
+        <p><bold>Process–property coupling.</bold> The same mix, printed
+        at different speeds, layer heights, and time gaps, can produce
+        substantially different mechanical properties. Process
+        parameters are design variables, not noise.</p>
+      </list-item>
+      <list-item>
+        <p><bold>Anisotropy.</bold> Printed concrete is
+        direction-dependent; specimens tested across the layer interface
+        can be 20–40 % weaker than those tested parallel to the layers
+        [5, 6]. A strength value without an orientation is
+        ambiguous.</p>
+      </list-item>
+      <list-item>
+        <p><bold>Rheological demands.</bold> The mix must be
+        simultaneously pumpable and buildable; yield stress, thixotropy,
+        and open time are critical performance parameters absent from
+        conventional concrete datasets [7].</p>
+      </list-item>
+      <list-item>
+        <p><bold>Interlayer bond.</bold> The weakest link in a printed
+        element is usually the interface between layers, where bond
+        depends on surface moisture, time gap, ambient conditions, and
+        degree of hydration at deposition [8, 9].</p>
+      </list-item>
+    </list>
+    <p>Classical single-predictor strength models — Abrams’ law [10],
+    Bolomey’s equation [11], Féret’s formula [12], and the
+    Powers–Brownyard gel–space ratio [49] — were developed for cast
+    concrete and predict strength from a single scalar. They encode an
+    assumption that composition dominates and processing is held
+    constant by standard practice. For 3DCP that assumption breaks down
+    (§7), which motivates multi-feature models and, by extension, a
+    record that captures the full feature space those models need.</p>
+  </sec>
+  <sec id="scope-and-non-scope">
+    <title>2. Scope and non-scope</title>
+    <p>Open3DCP is a schema specification: it defines
+    <italic>how</italic> to record data; it does not provide the data.
+    It is scoped to <bold>extrusion-based (material-extrusion /
+    FDM-style) 3D concrete printing</bold> — the process whose pump,
+    nozzle, layer schedule, and toolpath the schema captures.
+    Particle-bed / binder-jetting, spray, and slip-form methods are out
+    of scope: they have different process variables and would need their
+    own process block.</p>
+    <p>Open3DCP <bold>is</bold>:</p>
+    <list list-type="bullet">
+      <list-item>
+        <p>A public column vocabulary for 3DCP mix-design and test
+        records.</p>
+      </list-item>
+      <list-item>
+        <p>A kg/m³-primary, SI-unit reporting convention (with a
+        losslessly-derived mass-percent view).</p>
+      </list-item>
+      <list-item>
+        <p>A standards-aligned cross-reference layer for common material
+        classes and test methods.</p>
+      </list-item>
+      <list-item>
+        <p>A flat structure for CSV, SQL, Parquet, dataframe, and
+        repository-deposit workflows.</p>
+      </list-item>
+      <list-item>
+        <p>A citable artifact with a DOI and Apache-2.0 licensing.</p>
+      </list-item>
+    </list>
+    <p>Open3DCP <bold>is not</bold>:</p>
+    <list list-type="bullet">
+      <list-item>
+        <p>A dataset or benchmark, a database service, or an API.</p>
+      </list-item>
+      <list-item>
+        <p>A structural-design method or a code-compliance path.</p>
+      </list-item>
+      <list-item>
+        <p>A replacement for ASTM, EN, ACI, ICC, RILEM, ISO, or
+        jurisdiction-specific requirements.</p>
+      </list-item>
+      <list-item>
+        <p>Evidence that any particular mix is safe, durable, printable,
+        or construction-ready.</p>
+      </list-item>
+    </list>
+    <p>The schema can record data used in qualification or research
+    workflows, but any construction use still requires appropriate
+    laboratory validation, professional engineering review, and approval
+    under the governing jurisdiction.</p>
+  </sec>
+  <sec id="background-and-related-work">
+    <title>3. Background and related work</title>
+    <p><bold>The ICME paradigm and lessons from metals additive
+    manufacturing.</bold> The idea that materials can be designed from
+    performance requirements backward through
+    processing–structure–property relationships was advanced by Olson’s
+    work on hierarchical, systems-based materials design [18, 19]; this
+    approach was later formalized as Integrated Computational Materials
+    Engineering (ICME). The Materials Genome Initiative [20] sought to
+    extend it through data infrastructure, funding repositories,
+    ontologies, and schema patterns. In parallel, the FAIR principles
+    for scientific data — Findable, Accessible, Interoperable, Reusable
+    — were articulated by Wilkinson et al. [21]; together they shaped
+    the data-stewardship practices Open3DCP follows. Metals additive
+    manufacturing offers a particularly instructive parallel: early
+    laser-powder-bed and directed-energy-deposition work used ad-hoc
+    formats until ASTM F3049 [13] and the NIST AM Bench program
+    established common reporting practices that enabled cross-laboratory
+    comparison. That effort took most of a decade; 3DCP is at the start
+    of a similar trajectory. The key insight carried over is that
+    <bold>the manufacturing process is a design variable, not a
+    constraint</bold> — printable concrete should be purpose-designed
+    for layer-by-layer deposition, and capturing that requires a record
+    of what makes extrusion different from casting.</p>
+    <p><bold>Seminal work in 3D concrete printing.</bold> Automated
+    construction with cementitious materials dates to Pegna’s
+    solid-freeform work [22]; Khoshnevis developed Contour Crafting [23]
+    and Cesaretti et al. demonstrated binder-jetting of regolith
+    simulant [24]. The modern extrusion era began with two groups in
+    parallel: at Loughborough, Buswell, Lim, Le and colleagues published
+    early mix-design and construction-scale studies [25, 26]; at TU
+    Eindhoven, Bos, Wolfs, Ahmed and Salet produced early structural
+    printed elements — including a 3D-printed concrete bridge designed
+    by testing [1, 27] — with Wolfs et al. on early-age behaviour [5]
+    and Suiker on wall stability [28]. Roussel established the
+    rheological framework for printable concrete [7], and Perrot et
+    al. quantified structural build-up [29]. The NTU Singapore group
+    contributed systematic rheology studies including geopolymers [30,
+    31], printability regions [32], and fresh/hardened characterization
+    [33]. Interlayer bond — the defining weakness — has been studied by
+    Kruger, van Zijl and colleagues on porosity [6], Sanjayan et al. on
+    surface moisture [8], Moelich et al. on quantitative bond models
+    [9], Van Der Putten et al. on surface modification [34], and
+    Marchment and Sanjayan on mesh reinforcement [35]. Structural
+    implications were addressed by Asprone et al. [36] and Gebhard et
+    al. [37]. Broader reviews include Mechtcherine et al. on production
+    physics [38], Buswell et al.’s research roadmap [3], Nerella et
+    al. on strain-based build-up [39], De Schutter et al. on
+    technical/economic/environmental potentials [2], large-scale UHPC
+    work [40], a classification of building systems [41], particle-bed
+    printing [42], fiber-reinforced and recycled-aggregate formulations
+    [43, 44], the 3DCP.fyi citation network [45], and Wangler et al.’s
+    digital-concrete review [46]; the RILEM TC 276-DFC state-of-the-art
+    report consolidates digital-fabrication practice [50].</p>
+    <p><bold>Standards development.</bold> RILEM TC 304-ADC has driven
+    test-method standardization for 3DCP; its interlaboratory study
+    coordinated testing across roughly thirty laboratories and
+    quantified inter-laboratory variability [14, 15, 16], with an
+    accompanying database system for sharing experimental data [17].
+    Vasilić reviewed the state of standardization, identifying the gap
+    between established <italic>test methods</italic> (which RILEM
+    provides) and a unified <italic>data schema</italic> for
+    analysis-ready storage (which no formal standard yet provides) [47].
+    Conventional standards — ACI 318 for structural design, ASTM C39
+    (compressive), C496 (splitting tensile), C1583 (pull-off direct
+    tension), C78 (flexural), C469 (modulus), C191 (setting), C1611
+    (slump flow), and the EN 197/206/12390 series — supply the
+    measurement framework 3DCP inherits, but were written for cast
+    concrete; the test methods remain valid while the
+    <italic>conditions</italic> of production and the
+    <italic>metadata</italic> needed to interpret results differ.</p>
+    <p><bold>Existing datasets and their limitations.</bold> The most
+    cited ML concrete dataset, Yeh’s UCI set [4], captures only
+    composition and age in kg/m³ (requiring a density assumption for
+    formulation-level comparison) and no process, rheology, orientation,
+    specimen, or provenance fields. Repositories such as Mendeley Data
+    and Zenodo host specialized concrete datasets, but — to our
+    knowledge — none provide a general-purpose 3DCP-native schema with
+    first-class process parameters. The closest prior art is the RILEM
+    TC 304-ADC interlaboratory database system [17], the first
+    multi-laboratory 3DCP dataset with standardized protocols; its
+    schema, however, is scoped to that interlaboratory study (its entity
+    model covers materials, specimens, and tests but not a general
+    printing-process vocabulary), whereas Open3DCP aims at a reusable,
+    analysis-ready record across studies. We position Open3DCP as
+    complementary to [17], not a replacement.</p>
+  </sec>
+  <sec id="why-3dcp-needs-a-3dcp-native-record">
+    <title>4. Why 3DCP needs a 3DCP-native record</title>
+    <p>Conventional concrete datasets focus on composition, age, and one
+    or more hardened properties — useful for cast concrete, where
+    placement and compaction are treated as standardized. 3DCP makes
+    that assumption unsafe: the manufacturing process is part of the
+    material definition. At minimum, a 3DCP record must distinguish what
+    was weighed into the mix; how it was prepared and modified over
+    time; how it was pumped and extruded; what geometry was deposited;
+    how much time elapsed between adjacent layers; the environmental
+    conditions during deposition; how the specimen was cured and
+    extracted; the loading direction relative to the layer interface;
+    the test method or local protocol; and whether each value was
+    measured, calculated, estimated, or merely reported. Without these
+    attributes, two identical-looking compressive strengths may describe
+    physically different experiments — a cast cube and a printed coupon
+    loaded across interlayers should not collapse into one data point
+    merely because both report MPa.</p>
+  </sec>
+  <sec id="schema-design-principles">
+    <title>5. Schema design principles</title>
+    <p>Open3DCP is governed by a small set of principles, each motivated
+    by the practical requirements of analysis and the lessons of data
+    standardization in adjacent fields.</p>
+    <p><bold>5.1 Flat schema.</bold> Every stored feature is a named
+    column in a single table — no JSON nesting, no graph structure, no
+    join required for basic analysis. This prioritizes adoption by the
+    researchers, curators, and ML practitioners who overwhelmingly work
+    with tabular data (pandas, CSV, SQL) over the representational
+    elegance of graph models such as GEMD, which capture provenance
+    chains and measurement hierarchies but add friction for the common
+    “load a table and train a model” use case. A graph view can be
+    constructed from the flat schema for the structure it captures;
+    conversely, the flat row deliberately omits the full
+    relational/provenance tree (§10), so flat→graph reconstruction is
+    faithful only for the subset the row holds — the two are
+    complementary, not equivalent.</p>
+    <p><bold>5.2 Dual-basis, kg/m³-primary.</bold> Open3DCP records
+    material quantities on a <bold>kg/m³ primary basis</bold> — the
+    convention the concrete industry and field actually use — while
+    retaining <bold>mass-percent of total wet mix</bold> as a
+    losslessly-derived secondary representation. Three columns make the
+    two interconvertible without assumption:
+    <monospace>original_basis</monospace> records what the source
+    reported (<monospace>kg_m3</monospace> |
+    <monospace>mass_pct</monospace> | <monospace>volume</monospace> |
+    <monospace>lb_yd3</monospace>), and
+    <monospace>mix_density_kg_m3</monospace> and
+    <monospace>total_binder_kg_m3</monospace> carry the density and
+    binder totals needed to convert exactly in either direction. This
+    resolves a real tension: kg/m³ is what practitioners report and
+    need, but normally requires a density assumption for cross-dataset
+    comparison when density is unreported; mass-percent is
+    self-normalizing (Σ ≈ 100 %) and ideal for pooled ML, but is foreign
+    to field practice. Storing the source basis plus the density bridge
+    serves both without discarding information. (Schema versions ≤ v1.5
+    used mass-percent as the primary basis; v1.6 made kg/m³ primary and
+    added the bridge columns. Admixtures are recorded as <bold>solids
+    content</bold> by mass: a PCE superplasticizer dosed at 1.0 % liquid
+    with 30 % solids is recorded as 0.3 %.)</p>
+    <p><bold>5.3 <monospace>NULL</monospace> is not zero.</bold>
+    Open3DCP distinguishes missingness from absence.
+    <monospace>NULL</monospace> marks a value that is unknown, not
+    reported, not applicable, not measured, or not recoverable without
+    an assumption; <monospace>0</monospace> is reserved for an explicit
+    source-reported zero or absence.
+    <monospace>steel_fiber = 0</monospace> is appropriate when a paper
+    states no steel fiber was used;
+    <monospace>steel_fiber = NULL</monospace> when the paper is simply
+    silent. The distinction is critical for statistics and model
+    training, because false zeros bias means, correlations, feature
+    importance, and learned absence effects.</p>
+    <p><bold>5.4 Standards alignment without standards
+    substitution.</bold> Column names and descriptions reference
+    established standards where they define material classes or test
+    methods — ASTM C150 (cement types), C618 (fly-ash classes), C989
+    (slag), C1240 (silica fume), C33 (aggregate grading by fineness
+    modulus), C39 and EN 12390-3 (compressive testing), and RILEM TC
+    304-ADC orientation terminology. These are interoperability hooks,
+    not endorsement or certification: a column can record that a result
+    was produced under a given method, but the schema cannot verify the
+    method was performed correctly.</p>
+    <p><bold>5.5 Provenance by design and multi-age support.</bold>
+    Every record carries a DOI or source citation, a
+    measurement-confidence flag (measured / calculated / estimated /
+    reported), and a laboratory identifier, so downstream users can
+    filter by data quality and trace results to their source. A
+    companion <monospace>strength_measurements</monospace> table stores
+    results at multiple ages (one hour through 365 days) linked by
+    formulation, supporting strength-development analysis — early-age
+    strength governs buildability while 28-day strength governs
+    structural adequacy, and most datasets report only the latter.</p>
+    <p><bold>5.6 Documented trade-offs.</bold> Two further choices are
+    deliberate departures from convention. <italic>Fineness modulus over
+    maximum aggregate size:</italic> because 3DCP uses only fine
+    aggregate (constrained by pump and nozzle, generally below 4 mm),
+    Open3DCP classifies sand by <bold>fineness modulus</bold> (FM — the
+    summed cumulative mass-percent retained on the standard sieve
+    series, divided by 100; a single index of overall fineness), which
+    is more discriminating than maximum particle size for the fine
+    aggregate (well below the 4.75 mm sand boundary, often under ~4 mm)
+    that printing uses — two sands of equal maximum size can have very
+    different gradations and packing. Trade sand classes (mason / fine /
+    concrete / coarse), mapped onto ASTM C33 grading, are one
+    realization; EN/ISO grading maps onto the same field. <italic>SCM
+    reactivity factors excluded:</italic> the schema stores what was
+    weighed — the mass of each SCM — and leaves reactivity estimation to
+    downstream feature engineering, because reactivity factors are
+    modeling decisions, not raw data.</p>
+  </sec>
+  <sec id="what-v1.7-records">
+    <title>6. What v1.7 records</title>
+    <p>Open3DCP v1.7 defines 244 columns in its primary
+    <monospace>mix_designs</monospace> record (companion tables —
+    <monospace>strength_measurements</monospace>,
+    <monospace>sources</monospace>, <monospace>test_methods</monospace>,
+    <monospace>curing_regimes</monospace>,
+    <monospace>material_aliases</monospace> — add linked rows and are
+    not in this count). Figure 1 places the columns in the ICME chain;
+    Figure 2 inventories them under a
+    <bold>Composition–Processing–Conditions–Properties–Provenance
+    (CPPC)</bold> view — a reporting-oriented refinement of the ICME
+    process–structure–property chain that adds explicit Conditions and
+    Provenance legs, not a competing standard. The canonical
+    column-by-column specification is the repository’s
+    <monospace>Open3DCP_SCHEMA.md</monospace> and
+    <monospace>sql/create_tables.sql</monospace>; this section
+    summarizes the categories.</p>
+    <p>The 244 is best read as a <italic>vocabulary</italic>, not a
+    per-record dimensionality. It enumerates every reportable field —
+    each cement type, each aggregate size, each fiber, each durability
+    test is its own column — so a typical record leaves most columns
+    <monospace>NULL</monospace> (the schema is sparse by design). Only
+    four columns are computed from others
+    (<monospace>w_c_ratio</monospace>, <monospace>w_b_ratio</monospace>,
+    <monospace>a_b_ratio</monospace>,
+    <monospace>fiber_aspect_ratio</monospace>); the rest are independent
+    recorded fields, with five carrying measurement uncertainty, five
+    referencing external files, and the remainder provenance/identity
+    metadata (Figure 4). About three in four columns describe material
+    and performance properties shared with conventional cast concrete;
+    the printing-process and interlayer columns are the additive,
+    3DCP-specific part (Figure 3).</p>
+    <fig>
+      <caption><p>Open3DCP records the full ICME chain — composition,
+      processing, structure/state, properties, and provenance — for one
+      specimen in a single flat, analysis-ready row. The schema is the
+      substrate for ICME-style process–structure–property analysis: it
+      preserves the inputs and outcomes of a printed experiment without
+      joins or file parsing.</p></caption>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="figures/fig1_cppc_chain.png" />
+    </fig>
+    <fig>
+      <caption><p>The 244 columns of Open3DCP v1.7 mapped to the CPPC
+      framework. Counts are parsed from
+      <monospace>sql/create_tables.sql</monospace>, the schema’s source
+      of truth. <italic>Composition</italic> (91): binders, SCMs,
+      activators, aggregates, fibers, admixtures, pigments, water,
+      ratios, aggregate conditioning. <italic>Properties</italic> (86):
+      fresh-state, mechanical, interlayer bond, durability, thermal,
+      microstructure. <italic>Processing</italic> (27): 3DCP process
+      parameters, pumping, mixing. <italic>Conditions</italic> (24):
+      test conditions / specimen, environment, exposure class.
+      <italic>Provenance</italic> (16): identity / versioning, source
+      DOI, quality flags.</p></caption>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="figures/fig2_column_inventory.png" />
+    </fig>
+    <fig>
+      <caption><p>What is specific to 3D concrete printing, and what it
+      shares with conventional concrete. Of the 244 columns, ~183
+      describe composition and performance properties shared with cast
+      concrete (and therefore crosswalk to a relational concrete
+      database); ~39 are specific to extrusion 3DCP (printing process,
+      pumping, interlayer bond, printing-state rheology) with no
+      conventional-concrete counterpart; the remaining ~22 are
+      provenance. (This is a different cut of the same 244 than the CPPC
+      inventory in Figure 2 — by origin rather than reporting role — and
+      also sums to 244.) The amber annex lists extrusion-process inputs
+      identified but not yet captured — a future-work
+      agenda.</p></caption>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="figures/fig3_data_classes.png" />
+    </fig>
+    <fig>
+      <caption><p>Schema growth has stabilized (top): the last two
+      tagged releases added only +8 and +12 columns, all
+      backward-compatible (interoperability, uncertainty, and
+      convenience fields). Composition of the 244 (bottom): only four
+      columns are derived from others, so the count is a sparse measured
+      vocabulary — the union of every reportable field, most NULL in any
+      record — not 244 independent measurements. Only the git-tagged
+      releases (v1.5–v1.7) carry exact counts; v1.0 is the changelog’s
+      stated first-release figure (~175). The 244 are data columns,
+      excluding the SERIAL primary key.</p></caption>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="figures/fig4_schema_growth.png" />
+    </fig>
+    <p><bold>Composition.</bold> Portland and blended cements,
+    calcium-aluminate and calcium-sulfoaluminate cements, fly ash
+    (generic, Class F, Class C as separate columns per ASTM C618
+    oxide-sum classification), slag, silica fume, metakaolin, limestone,
+    pumice, bottom ash, rice-husk ash, alkali activators, nanoscale
+    modifiers, mineral powders, recycled sand, pigments, aggregates,
+    fibers, admixtures, clay rheology modifiers, water, and derived
+    ratios. The schema preserves chemically meaningful distinctions
+    rather than collapsing all cementitious material into a single
+    “binder” field, because fly-ash class, slag, silica fume, limestone,
+    and metakaolin are not interchangeable in hydration, packing,
+    rheology, or long-term performance.</p>
+    <p><bold>Fibers.</bold> Eight core families —
+    <monospace>steel_fiber</monospace>, <monospace>pp_fiber</monospace>,
+    <monospace>pva_fiber</monospace>,
+    <monospace>glass_fiber</monospace>,
+    <monospace>basalt_fiber</monospace>,
+    <monospace>carbon_fiber</monospace>,
+    <monospace>nylon_fiber</monospace>,
+    <monospace>aramid_fiber</monospace> — plus
+    <monospace>cellulose_fiber</monospace> for natural-fiber
+    compatibility (relevant to emerging 3DCP wall-qualification
+    frameworks such as ICC 1150 [51]), with geometry captured separately
+    (<monospace>fiber_length_mm</monospace>,
+    <monospace>fiber_diameter_mm</monospace>,
+    <monospace>fiber_aspect_ratio</monospace>,
+    <monospace>fiber_tensile_strength_mpa</monospace>). Aspect ratio is
+    the single strongest predictor of fiber contribution to post-crack
+    toughness and is rarely derivable from papers that report only type
+    and dosage.</p>
+    <p><bold>Fresh-state and rheology.</bold> Slump, spread, J-ring,
+    V-funnel, L-box, setting times, air content, fresh unit weight,
+    bleeding, yield stress (static and dynamic), plastic viscosity,
+    thixotropy / structuration rate, open time, and green strength.
+    Printability is not a single property: pumpability, extrudability,
+    shape stability, and open time can move in different directions as
+    water, superplasticizer, VMA, accelerator, grading, and ambient
+    conditions change.</p>
+    <p><bold>Process parameters.</bold> Print speed, layer height and
+    width, layer time gap, nozzle diameter / shape / area, filament
+    width, extrusion rate, number of layers, path length, infill
+    pattern, contour count, print direction, and
+    pumping/mixing/environmental conditions — the processing leg of the
+    ICME chain, absent from prior concrete datasets. The process columns
+    and their typical downstream outcomes are specified in the
+    repository.</p>
+    <p><bold>Specimen and test context.</bold> Specimen preparation,
+    geometry, dimensions, extraction method, curing conditions, test
+    age, test method, number of specimens averaged, and <bold>test
+    orientation</bold> — especially important because printed concrete
+    is anisotropic. Orientation is a controlled vocabulary (Table
+    1).</p>
+    <table-wrap>
+      <caption>
+        <p>Test-orientation controlled vocabulary. Strength ordering is
+        typical; specific values depend on mix design and process
+        parameters [5, 6].</p>
+      </caption>
+      <table>
+        <colgroup>
+          <col width="25%" />
+          <col width="25%" />
+          <col width="25%" />
+          <col width="25%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Axis</th>
+            <th>Description</th>
+            <th>Typical strength</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><monospace>X</monospace></td>
+            <td>Longitudinal</td>
+            <td>Parallel to extrusion direction</td>
+            <td>Highest</td>
+          </tr>
+          <tr>
+            <td><monospace>Y</monospace></td>
+            <td>Transverse</td>
+            <td>Perpendicular, within layer plane</td>
+            <td>Moderate</td>
+          </tr>
+          <tr>
+            <td><monospace>Z</monospace></td>
+            <td>Interlayer</td>
+            <td>Perpendicular to layer interfaces</td>
+            <td>Lowest</td>
+          </tr>
+          <tr>
+            <td><monospace>XY_45</monospace></td>
+            <td>In-plane</td>
+            <td>45° diagonal in layer plane</td>
+            <td>X–Y intermediate</td>
+          </tr>
+          <tr>
+            <td><monospace>XZ_45</monospace></td>
+            <td>Cross-layer</td>
+            <td>45° diagonal across layers</td>
+            <td>X–Z intermediate</td>
+          </tr>
+          <tr>
+            <td><monospace>CAST</monospace></td>
+            <td>Isotropic</td>
+            <td>Moulded reference specimen</td>
+            <td>Baseline</td>
+          </tr>
+        </tbody>
+      </table>
+    </table-wrap>
+    <p><bold>Hardened, durability, and interlayer.</bold> Compressive,
+    tensile, splitting tensile, flexural, modulus, bond, fracture
+    energy, toughness, impact, fatigue, density, and Poisson’s ratio; a
+    durability suite covering chloride transport, carbonation,
+    shrinkage, creep, freeze–thaw, sulfate and ASR expansion,
+    permeability, absorption, sorptivity, scaling, corrosion indicators,
+    thermal properties, and fire resistance; and interlayer columns for
+    bond, shear, void-area fraction, deposited air content, surface
+    roughness, surface moisture state, and surface treatment. The schema
+    does not assert that every dataset measures all of these; it
+    provides stable homes when the measurements exist.</p>
+    <p><bold>Provenance, basis, and uncertainty.</bold> Beyond DOI,
+    citation, confidence, lab, and quality flags, v1.6 added
+    per-measurement uncertainty columns
+    (e.g. <monospace>compressive_strength_stddev_mpa</monospace>),
+    raw-data references that keep large payloads external
+    (<monospace>raw_data_doi</monospace>,
+    <monospace>stress_strain_file</monospace>,
+    <monospace>rheology_curve_file</monospace>,
+    <monospace>microstructure_image</monospace>,
+    <monospace>raw_data_file</monospace>), and the basis columns of
+    §5.2. Version 1.7 added a <monospace>material_class</monospace>
+    classification, a batch timeline
+    (<monospace>batch_label</monospace>,
+    <monospace>date_of_casting</monospace>), and aggregate-conditioning
+    columns (<monospace>aggregate_moisture_state</monospace>,
+    <monospace>aggregate_absorption_pct</monospace>,
+    <monospace>aggregate_moisture_content_pct</monospace>,
+    <monospace>aggregate_prewetted</monospace>) that make effective mix
+    water recoverable when aggregates are batched off the SSD
+    reference.</p>
+    <p><bold>Quantifying the cost of flattening.</bold> Projecting a
+    heterogeneous or relational source onto one flat row can lose
+    information. Rather than hide that, the fidelity of the mapping can
+    be scored against the source and reported — a proposed,
+    not-yet-calibrated convention (§11) — so the cost of each conversion
+    is recorded rather than hidden. A machine-readable crosswalk to a
+    normalized relational concrete database, and a specification of the
+    process-parameter columns that have no conventional relational
+    counterpart, are included in the repository.</p>
+    <p><bold>Worked demonstration: two public datasets in one
+    schema.</bold> To show the schema works on real data — not only by
+    design — we ingested two openly-licensed public datasets into
+    Open3DCP and report the result (Figure 5). The UCI/Yeh (1998)
+    concrete dataset [4], a <italic>cast</italic>-concrete benchmark,
+    maps onto the composition and hardened-strength columns and ingests
+    at a fidelity of <bold>96.7/100 (A)</bold> over its 126 source
+    fields. The RILEM TC 304-ADC interlaboratory study on the mechanical
+    properties of 3D-printed concrete [52] — a <italic>real
+    3DCP</italic> database from roughly thirty laboratories, stored as a
+    normalized relational SQLite export — was curated into Open3DCP and
+    populates the columns UCI leaves empty: 3DCP process, fresh-state
+    rheology, hardened mechanical, <bold>orientation</bold>, and the
+    per-measurement uncertainty columns (mean ± standard deviation ± n).
+    (An automated fidelity score for the RILEM source awaits a SQLite
+    reader; the present ingestion is curated through the relational
+    structure.) Together the two sources light up complementary slices
+    of the record, and Open3DCP spans their union (Figure 5, left).</p>
+    <p>The demonstration also yields a result that <bold>cannot be
+    expressed without an orientation field, nor compared across
+    laboratories without a shared schema</bold>: print anisotropy.
+    Mapping the RILEM U/V/W loading codes onto Open3DCP’s
+    <monospace>test_orientation_code</monospace> (X/Y/Z/CAST), the same
+    printed mortar is <bold>32–55 % weaker loaded along the
+    layers</bold> than the cast reference, consistently across three
+    independent laboratories (Figure 5, right) — direct empirical
+    support for the argument of §7. This is a demonstration of
+    <italic>ingestion and interoperability</italic>, not a
+    predictive-model benchmark; fitting models on pooled Open3DCP data
+    is future work (§12).</p>
+    <fig>
+      <caption><p><bold>Worked demonstration.</bold>
+      <italic>Left:</italic> two openly-licensed public datasets
+      ingested into Open3DCP — UCI/Yeh (cast) and the RILEM TC 304-ADC
+      interlaboratory study (real 3DCP, ~30 labs) — each populating
+      complementary slices of the record (dark = populated, light =
+      partial), with Open3DCP spanning the union.
+      <italic>Right:</italic> a real cross-study result from the RILEM
+      data, expressible only because the schema records loading
+      orientation — printed concrete loaded along the layers (X) is
+      32–55 % weaker than the cast reference, consistently across three
+      independent laboratories (flexural strength, ~28 d; error bars are
+      ± one standard deviation).</p></caption>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="figures/fig5_demonstration.png" />
+    </fig>
+  </sec>
+  <sec id="the-case-for-multi-feature-models">
+    <title>7. The case for multi-feature models</title>
+    <p>The concrete industry has relied on empirical strength models for
+    over a century: Abrams’ law [10], Bolomey’s equation [11], Féret’s
+    formula [12], and the Powers–Brownyard gel–space ratio [49] (the
+    last a function of degree of hydration rather than a pure
+    composition ratio) predict strength from a single scalar, on the
+    assumption that composition dominates and processing is held
+    constant by standard practice. For cast concrete under controlled
+    conditions, this is reasonable. For 3DCP the assumption is violated
+    in at least four ways: <bold>process variation</bold> (two specimens
+    of identical composition but different print speed, layer height,
+    and time gap can differ substantially in compressive strength — the
+    process-parameter literature reports strength changes of order 10–30
+    % from time-gap and speed alone [7, 38]), <bold>anisotropy</bold>
+    (printed specimens are direction-dependent, with cross-layer
+    strength commonly 20–40 % below in-plane [5, 6], a spread a
+    one-output model cannot represent), <bold>SCM complexity</bold>
+    (modern mixes contain three to five binders whose reactivities
+    differ by orders of magnitude, which a single w/b ratio treats
+    equally), and <bold>rheological constraints</bold> (the admixture
+    cocktail that achieves printability may differ from what optimizes
+    strength at the same w/b). The RILEM TC 304-ADC interlaboratory
+    study [14, 15] supplies evidence at scale: the same mix design,
+    printed across laboratories with different equipment and process
+    parameters, produced inter-laboratory variability substantially
+    larger than cast-concrete round-robins, driven primarily by process
+    differences — exactly the variables single-predictor models ignore.
+    The worked demonstration in §6 (Figure 5) shows this directly: the
+    same mortar is 32–55 % weaker loaded along the print layers than
+    cast, consistently across three laboratories.</p>
+    <p>This is an <italic>analytical</italic> motivation, not an
+    empirical demonstration: it shows that single-predictor models
+    <italic>cannot represent</italic> 3DCP’s process- and
+    orientation-dependence, which makes multi-feature models necessary,
+    and a multi-feature model can only use features that were recorded —
+    hence the value of a comprehensive record. It does <bold>not</bold>
+    establish that <italic>these</italic> 244 columns are the necessary
+    or sufficient set; that is an empirical question the schema is built
+    to let others answer through feature-ablation studies as data
+    coverage improves (§12). We fit no model and benchmark no predictor
+    here.</p>
+  </sec>
+  <sec id="digital-twin-and-icme-framing">
+    <title>8. Digital twin and ICME framing</title>
+    <p>A full digital twin of a 3DCP process spans at least four layers
+    of information: a <bold>material definition</bold> (composition,
+    product identity, particle characteristics, water/admixture basis,
+    fiber geometry); a <bold>process definition</bold> (mixing, pumping,
+    nozzle geometry, motion, extrusion rate, layer schedule,
+    environment, curing); <bold>state and structure</bold> (fresh
+    rheology, thixotropic recovery, interlayer surface condition,
+    porosity, moisture, temperature, hydration, fiber orientation,
+    microstructure); and <bold>performance and provenance</bold>
+    (mechanical and durability properties, test method, specimen
+    geometry, orientation, lab, confidence, source). Open3DCP covers
+    much of the first, second, and fourth, and a useful subset of the
+    third (Figure 1). <bold>Open3DCP is not a digital twin.</bold> A
+    digital twin, as the digital-fabrication community uses the term,
+    requires live, bidirectional coupling to the running process; a
+    static, scalar, single-row schema has none. Open3DCP is better
+    described as a <italic>structured experiment record</italic> — a
+    substrate from which many aspects of published 3DCP work can be
+    reconstructed and compared, and on which future digital twins could
+    be built. Full process twins will additionally require time-series
+    machine logs, synchronized sensor data, imaging, and richer links to
+    raw files.</p>
+  </sec>
+  <sec id="what-we-cannot-capture-and-why">
+    <title>9. What we cannot capture — and why</title>
+    <p>This section identifies features that are physically important
+    for 3DCP but cannot currently be measured reliably. The taxonomy is
+    intended to guide instrumentation research and future schema
+    extensions, not to claim the schema is complete.</p>
+    <p><bold>9.1 Real-time process-monitoring gaps.</bold> The schema
+    stores rheology as point measurements (typically a pre-print
+    laboratory rheometer reading), but the material’s rheological state
+    changes continuously from mixer through pump, hose, and nozzle; no
+    inline rheometer exists for cementitious materials at production
+    scale. Pump pressure is a single scalar, yet in practice it
+    fluctuates with consistency and toolpath back-pressure in ways that
+    correlate with segregation and flow discontinuities. Nozzle standoff
+    is a nominal value that varies with robot positioning and substrate
+    deformation. And print-head dynamics — acceleration, deceleration,
+    cornering — cause local variation in deposition rate not captured by
+    a single print-speed value.</p>
+    <p><bold>9.2 In-situ material-state gaps.</bold> The actual
+    interlayer moisture at the moment of deposition is a continuous
+    field depending on ambient humidity, wind, time gap, and
+    diffusivity; Sanjayan et al. [8] showed it affects bond by 20–40 %
+    and Moelich et al. [9] modeled it quantitatively, yet no
+    standardized protocol measures it in production. The degree of
+    hydration at each interface forms a gradient across layers, but the
+    schema stores a single destructively-measured value.
+    Fiber-orientation distribution critically affects directional
+    strength but can only be measured destructively by micro-CT after
+    hardening. Aggregate packing within the filament and the internal
+    temperature field during exothermic curing are likewise not
+    measurable in-situ.</p>
+    <p><bold>9.3 Characterization-protocol gaps.</bold> Interlayer void
+    fraction requires destructive cross-sectional imaging with no
+    standardized analysis; surface roughness at layer interfaces has no
+    standard protocol for 3DCP; and ambient conditions reported as room
+    averages may differ from the point of deposition in large-scale or
+    outdoor printing.</p>
+    <p><bold>9.4 Process inputs not yet captured.</bold> Beyond the
+    real-time signals above, several extrusion-process
+    <italic>inputs</italic> an operator sets are not yet schema columns:
+    in-line accelerator dosing (set-on-demand), colorant / pigment
+    dosing, print-head auger / screw extruder speed (distinct from the
+    bulk-mixer speed the schema records), and vibratory-assist or
+    compaction modules — alongside nozzle standoff, print acceleration /
+    jerk, surface dehydration of the resting layer (the dominant
+    interlayer-bond control), and material age at deposition (Figure 3,
+    annex). These are an explicit future-work agenda; the schema extends
+    additively as they are specified.</p>
+    <p><bold>9.5 The digital-twin horizon.</bold> A complete twin would
+    require on the order of 300+ parameters, including time-series data
+    that cannot be represented as scalar columns. Open3DCP captures the
+    formulation, process, and performance layers of a record well, plus
+    a useful part of the in-situ state layer; the largest remaining gap
+    is the real-time process data that current hardware does not
+    routinely capture. As sensor technology improves — inline
+    rheometers, thermal imaging tied to print-head motion, machine
+    vision for filament geometry — the flat schema can extend additively
+    without breaking existing queries or models. The gap analysis is not
+    a criticism of the schema’s completeness: <bold>the features we
+    cannot measure today are, in many cases, the features that would
+    most improve predictive models</bold>, and closing these gaps
+    requires instrumentation, not schema design.</p>
+  </sec>
+  <sec id="adoption-path-and-community">
+    <title>10. Adoption path and community</title>
+    <p>Adoption does not require populating every column — null columns
+    are ignored during analysis. A laboratory can adopt the schema by
+    (1) mapping local column names to canonical Open3DCP names; (2)
+    recording material quantities with the source basis preserved
+    (<monospace>original_basis</monospace>) so kg/m³ ↔ mass-percent
+    remains exact; (3) preserving missing values as
+    <monospace>NULL</monospace> and using <monospace>0</monospace> only
+    for explicit zeros; (4) filling provenance fields before analysis
+    fields; (5) recording test method, specimen geometry, age, and
+    orientation for every mechanical result; (6) depositing the dataset
+    in a public repository when rights allow; and (7) citing the schema
+    and the original test methods. The flat schema is database-agnostic
+    (PostgreSQL, SQLite, CSV, Parquet, pandas/polars/R) and pairs
+    naturally with standard ML libraries for an end-to-end, open-source
+    pipeline. By design it is <bold>FAIR-aligned</bold> [21]: every
+    record carries a DOI or citation (Findable), the schema is open
+    under Apache-2.0 (Accessible), naming follows ASTM/EN/RILEM with SI
+    units and controlled vocabularies (Interoperable), and the license
+    plus provenance metadata supports reuse (Reusable).</p>
+    <p>Because most of the schema is shared with conventional concrete
+    (§6), Open3DCP interoperates closely with a normalized relational
+    concrete database (Figure 6). Material composition and test results
+    map both ways — exactly for ages, geometry, and ratios; with a
+    recorded density for the kg/m³ ↔ mass-percent step. The correlation
+    is close but the round-trip is <italic>not</italic> lossless:
+    relational structure that a flat row cannot hold (parametrized
+    geometry, reinforcement layouts, devices, loading histories)
+    collapses to a side record, and the extrusion-3DCP process and
+    interlayer columns have no conventional relational table to map
+    into. Stating these boundaries is what makes the mapping auditable
+    rather than asserted.</p>
+    <fig>
+      <caption><p>Interoperability with a normalized relational concrete
+      database. Material and test data map both ways by fidelity class
+      (exact / lossy / categorical); the round-trip is not lossless —
+      relational structure (geometry, reinforcement, devices, loading
+      history) collapses to a side record, and the extrusion-3DCP block
+      has no conventional relational counterpart.</p></caption>
+      <graphic mimetype="image" mime-subtype="png" xlink:href="figures/fig6_crosswalk.png" />
+    </fig>
+    <p>We invite the 3DCP community to adopt common column names and
+    units in published datasets — even partial adoption of shared names
+    for fields like <monospace>compressive_strength_mpa</monospace>,
+    <monospace>w_b_ratio</monospace>,
+    <monospace>layer_height_mm</monospace>, and
+    <monospace>test_orientation_code</monospace> would sharply reduce
+    the effort of combining datasets — and we encourage standards bodies
+    and the community to evaluate Open3DCP (or a derivative) as one
+    input to future 3DCP data-reporting practice, extending the RILEM TC
+    304-ADC database approach [17] from interlaboratory studies to
+    routine publication.</p>
+  </sec>
+  <sec id="limitations">
+    <title>11. Limitations</title>
+    <p>These limitations bound the claims above; §12 maps each to
+    planned work.</p>
+    <list list-type="order">
+      <list-item>
+        <p><bold>Coverage is a v1.7 snapshot.</bold> The 244-column
+        count and per-category figures reflect
+        <monospace>sql/create_tables.sql</monospace> at v1.7; the schema
+        is under active, additive development and these numbers evolve.
+        The canonical reference is always the repository.</p>
+      </list-item>
+      <list-item>
+        <p><bold>Single-maintainer governance and unquantified curation
+        reliability.</bold> The schema and its controlled vocabularies
+        are maintained by one author; column choices and any scoring
+        conventions are an expert convention, not yet ratified by a
+        working group or calibrated against a labelled benchmark. The
+        reliability of human curation —
+        <monospace>NULL</monospace>-vs-<monospace>0</monospace>
+        judgements, confidence flags, basis assignment, and the
+        resolution of conflicting or duplicate source values — is
+        likewise not yet quantified (no inter-curator agreement
+        study).</p>
+      </list-item>
+      <list-item>
+        <p><bold>The measurement-gap taxonomy is qualitative.</bold> §9
+        names gaps and their physical importance but does not quantify
+        how much each would improve a model; that ordering awaits
+        feature-ablation studies on datasets built with the schema.</p>
+      </list-item>
+      <list-item>
+        <p><bold>Typical ranges and orientation orderings are
+        indicative</bold>, not gates, and not yet sourced to a fixed
+        citation set; Table 1’s strength ordering is typical, not
+        measured here.</p>
+      </list-item>
+      <list-item>
+        <p><bold>Adoption at scale is unproven.</bold> Cross-dataset
+        interoperability is asserted by design; no large, heterogeneous,
+        multi-source corpus has yet been assembled and modeled
+        end-to-end on the public schema.</p>
+      </list-item>
+      <list-item>
+        <p><bold>The schema is not a substitute for validation.</bold>
+        It records what was done and measured; it does not certify
+        structures, validate models, or establish that a mix is
+        printable, durable, or safe.</p>
+      </list-item>
+    </list>
+  </sec>
+  <sec id="future-work">
+    <title>12. Future work</title>
+    <list list-type="order">
+      <list-item>
+        <p>Assemble and publish a <bold>multi-source corpus</bold> on
+        the public schema and report cross-dataset model performance and
+        the data-coverage distribution across the CPPC categories.</p>
+      </list-item>
+      <list-item>
+        <p><bold>Validate the source-to-schema mapping</bold> — tie any
+        fidelity scoring of the mapping to a labelled benchmark or a
+        measured downstream consequence, and add a sensitivity
+        analysis.</p>
+      </list-item>
+      <list-item>
+        <p><bold>Quantify the measurement gaps</bold> of §9 through
+        feature-ablation studies, converting the qualitative taxonomy
+        into a ranked instrumentation agenda.</p>
+      </list-item>
+      <list-item>
+        <p>Move governance toward a <bold>working-group / standards
+        process</bold> (with RILEM, ACI, or ASTM) so the vocabulary and
+        grade bands are community-ratified rather than single-author
+        conventions.</p>
+      </list-item>
+      <list-item>
+        <p>Extend additively as instrumentation matures (inline
+        rheometry, thermal imaging, machine vision), keeping the
+        flat-schema backward-compatibility guarantee.</p>
+      </list-item>
+    </list>
+  </sec>
+  <sec id="data-and-code-availability">
+    <title>13. Data and code availability</title>
+    <list list-type="bullet">
+      <list-item>
+        <p><bold>Schema &amp; tooling:</bold> Open3DCP v1.7 [48] —
+        <monospace>github.com/sunnyday-technologies/Open3DCP</monospace>
+        (Apache-2.0); Zenodo concept DOI
+        <monospace>10.5281/zenodo.19647470</monospace> (always resolves
+        to the latest version of record). The canonical column list is
+        <monospace>Open3DCP_SCHEMA.md</monospace> /
+        <monospace>sql/create_tables.sql</monospace>; companion tables
+        include <monospace>strength_measurements</monospace>,
+        <monospace>sources</monospace>,
+        <monospace>test_methods</monospace>,
+        <monospace>curing_regimes</monospace>, and
+        <monospace>material_aliases</monospace>.</p>
+      </list-item>
+      <list-item>
+        <p><bold>Reproducing the figures:</bold> the column counts in
+        Figures 2 and 4 are parsed from
+        <monospace>sql/create_tables.sql</monospace>, the schema’s
+        single source of truth; the figures are regenerated by the
+        committed figure scripts (matplotlib, PNG ≥ 200 dpi + SVG).</p>
+      </list-item>
+      <list-item>
+        <p><bold>Supporting material:</bold> a machine-readable
+        crosswalk to a normalized relational concrete database and a
+        specification of the 3DCP process-parameter columns are included
+        in the repository.</p>
+      </list-item>
+    </list>
+  </sec>
+  <sec id="manuscript-license-and-author-statements">
+    <title>14. Manuscript license and author statements</title>
+    <p><bold>Manuscript license.</bold> Copyright © 2026 Sunnyday
+    Technologies LLC and Nicholas Sonnentag. This manuscript is licensed
+    under CC BY 4.0
+    (<ext-link ext-link-type="uri" xlink:href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</ext-link>).
+    The Open3DCP schema, SQL definitions, machine-readable metadata, and
+    repository artifacts remain under the Apache License 2.0 unless a
+    specific file states otherwise; third-party standards, publications,
+    figures, and trademarks remain the property of their respective
+    rights holders.</p>
+    <p><bold>Author contributions.</bold> Nicholas Sonnentag:
+    conceptualization, methodology, software, data curation, writing —
+    original draft, review &amp; editing.</p>
+    <p><bold>Competing interest.</bold> The author is the founder of
+    Sunnyday Technologies, which develops Open3DCP and related 3DCP
+    tools. Open3DCP is released under an open-source license (Apache
+    2.0) with no commercial restriction on use.</p>
+    <p><bold>Acknowledgments.</bold> The author thanks the RILEM TC
+    304-ADC committee for foundational work on 3DCP test standardization
+    and interlaboratory data sharing, and the broader 3DCP research
+    community whose published data motivated and informed the
+    schema.</p>
+  </sec>
+  <sec id="references">
+    <title>15. References</title>
+    <list list-type="order">
+      <list-item>
+        <p>F. Bos, R. Wolfs, Z. Ahmed, T. Salet (2016). Additive
+        manufacturing of concrete in construction: potentials and
+        challenges of 3D concrete printing. <italic>Virtual and Physical
+        Prototyping</italic> 11(3) 209–225.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1080/17452759.2016.1209867">https://doi.org/10.1080/17452759.2016.1209867</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>G. De Schutter, K. Lesage, V. Mechtcherine, V. N. Nerella, G.
+        Habert, I. Agustí-Juan (2018). Vision of 3D printing with
+        concrete — technical, economic and environmental potentials.
+        <italic>Cement and Concrete Research</italic> 112 25–36.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.cemconres.2018.06.001">https://doi.org/10.1016/j.cemconres.2018.06.001</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>R. A. Buswell, W. R. Leal de Silva, S. Z. Jones, J.
+        Dirrenberger (2018). 3D printing using concrete extrusion: a
+        roadmap for research. <italic>Cement and Concrete
+        Research</italic> 112 37–49.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.cemconres.2018.05.006">https://doi.org/10.1016/j.cemconres.2018.05.006</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>I-C. Yeh (1998). Modeling of strength of high-performance
+        concrete using artificial neural networks. <italic>Cement and
+        Concrete Research</italic> 28(12) 1797–1808.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/S0008-8846(98)00165-3">https://doi.org/10.1016/S0008-8846(98)00165-3</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>R. J. M. Wolfs, F. P. Bos, T. A. M. Salet (2018). Early age
+        mechanical behaviour of 3D printed concrete: numerical modelling
+        and experimental testing. <italic>Cement and Concrete
+        Research</italic> 106 103–116.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.cemconres.2018.02.001">https://doi.org/10.1016/j.cemconres.2018.02.001</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>J. Kruger, A. du Plessis, G. van Zijl (2021). An
+        investigation into the porosity of extrusion-based 3D printed
+        concrete. <italic>Additive Manufacturing</italic> 37 101740.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.addma.2020.101740">https://doi.org/10.1016/j.addma.2020.101740</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>N. Roussel (2018). Rheological requirements for printable
+        concretes. <italic>Cement and Concrete Research</italic> 112
+        76–85.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.cemconres.2018.04.005">https://doi.org/10.1016/j.cemconres.2018.04.005</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>J. G. Sanjayan, B. Nematollahi, M. Xia, T. Marchment (2018).
+        Effect of surface moisture on inter-layer strength of 3D printed
+        concrete. <italic>Construction and Building Materials</italic>
+        172 468–475.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.conbuildmat.2018.03.232">https://doi.org/10.1016/j.conbuildmat.2018.03.232</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>G. M. Moelich, J. Kruger, R. Combrinck (2021). Modelling the
+        interlayer bond strength of 3D printed concrete with surface
+        moisture. <italic>Cement and Concrete Research</italic> 150
+        106559.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.cemconres.2021.106559">https://doi.org/10.1016/j.cemconres.2021.106559</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>D. A. Abrams (1918). <italic>Design of Concrete
+        Mixtures.</italic> Bulletin 1, Structural Materials Research
+        Laboratory, Lewis Institute.</p>
+      </list-item>
+      <list-item>
+        <p>J. Bolomey (1935). Granulation et prévision de la résistance
+        probable des bétons. <italic>Travaux</italic> 19(230)
+        228–232.</p>
+      </list-item>
+      <list-item>
+        <p>R. Féret (1892). Sur la compacité des mortiers hydrauliques.
+        <italic>Annales des Ponts et Chaussées</italic> 4 5–164.</p>
+      </list-item>
+      <list-item>
+        <p>ASTM International (2014). <italic>ASTM F3049 — Standard
+        Guide for Characterizing Properties of Metal Powder
+        Feedstock.</italic> ASTM International, West Conshohocken,
+        PA.</p>
+      </list-item>
+      <list-item>
+        <p>RILEM TC 304-ADC (2025). Interlaboratory study on 3D printed
+        concrete: approach and main results. <italic>Materials and
+        Structures.</italic>
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1617/s11527-025-02686-x">https://doi.org/10.1617/s11527-025-02686-x</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>RILEM TC 304-ADC (2025). Compressive strength and modulus of
+        elasticity of 3D printed concrete: interlaboratory study
+        results. <italic>Materials and Structures.</italic>
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1617/s11527-025-02688-9">https://doi.org/10.1617/s11527-025-02688-9</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>RILEM TC 304-ADC (2025). Flexural and tensile strength of 3D
+        printed concrete: interlaboratory study results.
+        <italic>Materials and Structures.</italic>
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1617/s11527-025-02687-w">https://doi.org/10.1617/s11527-025-02687-w</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>RILEM TC 304-ADC (2025). Design and implementation of a
+        database system for querying, sharing, and analyzing
+        experimental data from interlaboratory studies on 3D printed
+        concrete. <italic>Materials and Structures.</italic>
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1617/s11527-025-02650-9">https://doi.org/10.1617/s11527-025-02650-9</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>G. B. Olson (1997). Computational design of hierarchically
+        structured materials. <italic>Science</italic> 277(5330)
+        1237–1242.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1126/science.277.5330.1237">https://doi.org/10.1126/science.277.5330.1237</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>G. B. Olson (2000). Designing a new material world.
+        <italic>Science</italic> 288(5468) 993–998.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1126/science.288.5468.993">https://doi.org/10.1126/science.288.5468.993</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>National Science and Technology Council (2011).
+        <italic>Materials Genome Initiative for Global
+        Competitiveness.</italic> Executive Office of the President,
+        Washington, DC.</p>
+      </list-item>
+      <list-item>
+        <p>M. D. Wilkinson, M. Dumontier, I. J. Aalbersberg, G.
+        Appleton, et al. (2016). The FAIR Guiding Principles for
+        scientific data management and stewardship. <italic>Scientific
+        Data</italic> 3 160018.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1038/sdata.2016.18">https://doi.org/10.1038/sdata.2016.18</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>J. Pegna (1997). Exploratory investigation of solid freeform
+        construction. <italic>Automation in Construction</italic> 5(5)
+        427–437.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/S0926-5805(96)00166-5">https://doi.org/10.1016/S0926-5805(96)00166-5</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>B. Khoshnevis (2004). Automated construction by contour
+        crafting — related robotics and information technologies.
+        <italic>Automation in Construction</italic> 13(1) 5–19.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.autcon.2003.08.012">https://doi.org/10.1016/j.autcon.2003.08.012</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>G. Cesaretti, E. Dini, X. De Kestelier, V. Colla, L.
+        Pambaguian (2014). Building components for an outpost on the
+        lunar soil by means of a novel 3D printing technology.
+        <italic>Acta Astronautica</italic> 93 430–450.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.actaastro.2013.07.034">https://doi.org/10.1016/j.actaastro.2013.07.034</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>T. T. Le, S. A. Austin, S. Lim, R. A. Buswell, A. G. F. Gibb,
+        T. Thorpe (2012). Mix design and fresh properties for
+        high-performance printing concrete. <italic>Materials and
+        Structures</italic> 45(8) 1221–1232.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1617/s11527-012-9828-z">https://doi.org/10.1617/s11527-012-9828-z</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>S. Lim, R. A. Buswell, T. T. Le, S. A. Austin, A. G. F. Gibb,
+        T. Thorpe (2012). Developments in construction-scale additive
+        manufacturing processes. <italic>Automation in
+        Construction</italic> 21 262–268.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.autcon.2011.06.010">https://doi.org/10.1016/j.autcon.2011.06.010</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>T. A. M. Salet, Z. Y. Ahmed, F. P. Bos, H. L. M. Laagland
+        (2018). Design of a 3D printed concrete bridge by testing.
+        <italic>Virtual and Physical Prototyping</italic> 13(3) 222–236.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1080/17452759.2018.1476064">https://doi.org/10.1080/17452759.2018.1476064</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>A. S. J. Suiker (2018). Mechanical performance of wall
+        structures in 3D printing processes: theory, design tools and
+        experiments. <italic>International Journal of Mechanical
+        Sciences</italic> 137 145–170.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.ijmecsci.2018.01.010">https://doi.org/10.1016/j.ijmecsci.2018.01.010</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>A. Perrot, D. Rangeard, A. Pierre (2016). Structural built-up
+        of cement-based materials used for 3D-printing extrusion
+        techniques. <italic>Materials and Structures</italic> 49(4)
+        1213–1220.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1617/s11527-015-0571-0">https://doi.org/10.1617/s11527-015-0571-0</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>B. Panda, C. Unluer, M. J. Tan (2018). Investigation of the
+        rheology and strength of geopolymer mixtures for extrusion-based
+        3D printing. <italic>Cement and Concrete Composites</italic> 94
+        307–314.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.cemconcomp.2018.10.002">https://doi.org/10.1016/j.cemconcomp.2018.10.002</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>B. Panda, C. Unluer, M. J. Tan (2019). Extrusion and rheology
+        characterization of geopolymer nanocomposites used in 3D
+        printing. <italic>Composites Part B: Engineering</italic> 176
+        107290.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.compositesb.2019.107290">https://doi.org/10.1016/j.compositesb.2019.107290</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>Y. W. D. Tay, Y. Qian, M. J. Tan (2019). Printability region
+        for 3D concrete printing using slump and slump flow test.
+        <italic>Composites Part B: Engineering</italic> 174 106968.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.compositesb.2019.106968">https://doi.org/10.1016/j.compositesb.2019.106968</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>S. C. Paul, Y. W. D. Tay, B. Panda, M. J. Tan (2018). Fresh
+        and hardened properties of 3D printable cementitious materials
+        for building and construction. <italic>Archives of Civil and
+        Mechanical Engineering</italic> 18(1) 311–319.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.acme.2017.02.008">https://doi.org/10.1016/j.acme.2017.02.008</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>J. Van Der Putten, G. De Schutter, K. Van Tittelboom (2019).
+        Surface modification as a technique to improve inter-layer
+        bonding strength in 3D printed cementitious materials.
+        <italic>RILEM Technical Letters</italic> 4 33–38.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.21809/rilemtechlett.2019.84">https://doi.org/10.21809/rilemtechlett.2019.84</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>T. Marchment, J. Sanjayan (2020). Mesh reinforcing method for
+        3D concrete printing. <italic>Automation in
+        Construction</italic> 109 102992.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.autcon.2019.102992">https://doi.org/10.1016/j.autcon.2019.102992</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>D. Asprone, C. Menna, F. P. Bos, T. A. M. Salet, J.
+        Mata-Falcón, W. Kaufmann (2018). Rethinking reinforcement for
+        digital fabrication with concrete. <italic>Cement and Concrete
+        Research</italic> 112 111–121.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.cemconres.2018.05.020">https://doi.org/10.1016/j.cemconres.2018.05.020</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>L. Gebhard, J. Mata-Falcón, A. Anton, B. Dillenburger, W.
+        Kaufmann (2021). Structural behaviour of 3D printed concrete
+        beams with various reinforcement strategies. <italic>Engineering
+        Structures</italic> 240 112380.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.engstruct.2021.112380">https://doi.org/10.1016/j.engstruct.2021.112380</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>V. Mechtcherine, F. P. Bos, A. Perrot, W. R. Leal da Silva,
+        V. N. Nerella, S. Fataei, R. J. M. Wolfs, M. Sonebi, N. Roussel
+        (2020). Extrusion-based additive manufacturing with cement-based
+        materials — production steps, processes, and their underlying
+        physics: a review. <italic>Cement and Concrete Research</italic>
+        132 106037.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.cemconres.2020.106037">https://doi.org/10.1016/j.cemconres.2020.106037</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>V. N. Nerella, M. A. B. Beigh, S. Fataei, V. Mechtcherine
+        (2019). Strain-based approach for measuring structural build-up
+        of cement pastes in the context of digital construction.
+        <italic>Cement and Concrete Research</italic> 115 530–544.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.cemconres.2018.08.003">https://doi.org/10.1016/j.cemconres.2018.08.003</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>C. Gosselin, R. Duballet, P. Roux, N. Gaudillière, J.
+        Dirrenberger, P. Morel (2016). Large-scale 3D printing of
+        ultra-high performance concrete — a new processing route for
+        architects and builders. <italic>Materials &amp; Design</italic>
+        100 102–109.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.matdes.2016.03.097">https://doi.org/10.1016/j.matdes.2016.03.097</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>R. Duballet, O. Baverel, J. Dirrenberger (2017).
+        Classification of building systems for concrete 3D printing.
+        <italic>Automation in Construction</italic> 83 247–258.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.autcon.2017.08.018">https://doi.org/10.1016/j.autcon.2017.08.018</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>D. Lowke, E. Dini, A. Perrot, D. Weger, C. Gehlen, B.
+        Dillenburger (2018). Particle-bed 3D printing in concrete
+        construction — possibilities and challenges. <italic>Cement and
+        Concrete Research</italic> 112 50–65.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.cemconres.2018.05.018">https://doi.org/10.1016/j.cemconres.2018.05.018</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>G. Ma, Z. Li, L. Wang (2018). Printable properties of
+        cementitious material containing copper tailings for
+        extrusion-based 3D printing. <italic>Construction and Building
+        Materials</italic> 162 613–627.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.conbuildmat.2017.12.051">https://doi.org/10.1016/j.conbuildmat.2017.12.051</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>T. Ding, J. Xiao, S. Zou, Y. Wang (2020). Hardened properties
+        of layered 3D printed concrete with recycled sand.
+        <italic>Cement and Concrete Composites</italic> 113 103724.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.cemconcomp.2020.103724">https://doi.org/10.1016/j.cemconcomp.2020.103724</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>3DCP.fyi contributors (2024). 3DCP.fyi — a comprehensive
+        citation network graph on the state of the art in 3D concrete
+        printing. <italic>Fourth RILEM International Conference on
+        Concrete and Digital Fabrication (DC2024).</italic>
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1007/978-3-031-70031-6_62">https://doi.org/10.1007/978-3-031-70031-6_62</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>T. Wangler, N. Roussel, F. P. Bos, T. A. M. Salet, R. J.
+        Flatt (2019). Digital concrete: a review. <italic>Cement and
+        Concrete Research</italic> 123 105780.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1016/j.cemconres.2019.105780">https://doi.org/10.1016/j.cemconres.2019.105780</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>K. Vasilić (2025). Standardization aspects of concrete 3D
+        printing: state of the art, requirements and first steps towards
+        standardization. <italic>RILEM Technical Letters</italic> 9
+        98–105.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.21809/rilemtechlett.2024.201">https://doi.org/10.21809/rilemtechlett.2024.201</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>Sunnyday Technologies (2026). <italic>Open3DCP: Open Data
+        Standard for 3D Concrete Printing</italic> (v1.7).
+        <ext-link ext-link-type="uri" xlink:href="https://github.com/sunnyday-technologies/Open3DCP">https://github.com/sunnyday-technologies/Open3DCP</ext-link>.
+        Apache License 2.0; Zenodo concept DOI
+        <monospace>10.5281/zenodo.19647470</monospace>.</p>
+      </list-item>
+      <list-item>
+        <p>T. C. Powers, T. L. Brownyard (1946). Studies of the physical
+        properties of hardened Portland cement paste. <italic>Journal of
+        the American Concrete Institute</italic> 43 101–132.</p>
+      </list-item>
+      <list-item>
+        <p>N. Roussel, D. Lowke (eds.) (2022). <italic>Digital
+        Fabrication with Cement-Based Materials: State-of-the-Art Report
+        of RILEM TC 276-DFC.</italic> RILEM SOAR Vol. 36, Springer.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.1007/978-3-030-90535-4">https://doi.org/10.1007/978-3-030-90535-4</ext-link></p>
+      </list-item>
+      <list-item>
+        <p>International Code Council (2026). <italic>ICC 1150-2026
+        Standard for Automated Construction Technology for 3D Printing
+        Walls.</italic> ICC. ISBN 978-1-971077-70-3.</p>
+      </list-item>
+      <list-item>
+        <p>RILEM TC 304-ADC (2024). <italic>Database of the RILEM TC
+        304-ADC interlaboratory study on mechanical properties of 3D
+        printed concrete</italic> [Dataset]. Zenodo.
+        <ext-link ext-link-type="uri" xlink:href="https://doi.org/10.5281/zenodo.12200570">https://doi.org/10.5281/zenodo.12200570</ext-link>
+        (CC BY 4.0).</p>
+      </list-item>
+    </list>
+    <p><italic>Corresponding author: Nicholas Sonnentag, Sunnyday
+    Technologies (nick@sunn3d.com).</italic></p>
+  </sec>
+</sec>
+</body>
+<back>
+</back>
+</article>
