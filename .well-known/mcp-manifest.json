@@ -63,10 +63,5 @@
       "media_type": "text/markdown"
     }
   ],
-  "related": {
-    "cemforge.ai": "CEMFORGE — companion AI mix-formulation platform intended to consume Open3DCP-formatted data",
-    "m3-crete.com": "M3-CRETE — companion meter-scale concrete 3D printer platform intended to produce Open3DCP-formatted data",
-    "sunn3d.com": "Sunnyday Technologies — parent organization"
-  },
   "contact": "open3dcp@sunn3d.com"
 }
