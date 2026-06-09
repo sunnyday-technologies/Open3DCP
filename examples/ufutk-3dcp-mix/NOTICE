@@ -1,0 +1,16 @@
+This example includes a curated excerpt derived from:
+
+  3D Printing Concrete Mix Design Open Dataset (v0.3)
+  Jianhao Gao, Zijie Wang, Chaofeng Wang (University of Florida)
+  Zenodo — https://doi.org/10.5281/zenodo.6828947
+
+Licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0):
+  https://creativecommons.org/licenses/by/4.0/
+
+Changes made: a 10-row excerpt (printable Portland-cement mixes from several primary studies) was derived
+from the standardized dataset by reading its fresh-rheology, water/binder, and compressive-strength fields
+and re-formatting them into the Open3DCP flat schema; static and dynamic yield stress were converted
+kPa -> Pa. The source records constituents on a ratio-to-binder basis (binder = 1) with no absolute kg/m3
+binder content, so constituent mass-% of the total mix is not formed (kg/m3 is not recoverable); this is
+documented in each row's provenance note. Underlying values are unchanged; the source table is not
+redistributed (download it from the DOI). See SOURCE.md and build/extract.py.
