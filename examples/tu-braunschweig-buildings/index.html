@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Worked example: the TU-Braunschweig Database of 3D Concrete Printed Buildings — the project/process layer of the digital twin, a different slice the connective schema must reach."/>
+<link rel="canonical" href="https://open3dcp.org/examples/tu-braunschweig-buildings/"/>
+<title>TU-Braunschweig 3DCP Buildings → Open3DCP</title>
+<link rel="stylesheet" href="../styles.css"/>
+</head>
+<body>
+<header class="pb-header"><div class="in">
+  <span class="mark">Open3DCP</span><span class="sep">·</span><span class="tag">Example entry</span>
+  <a href="../">← all examples</a>
+</div></header>
+
+<main class="sheet">
+  <div class="kicker">Example entry · the project / process layer</div>
+  <h1>TU-Braunschweig 3DCP Buildings → Open3DCP</h1>
+  <p class="lede">A catalogue of <strong>as-built printed buildings</strong> — not mixes, not strengths. It
+  lights up a different slice of the digital twin: the project/process layer the connective schema has to
+  reach next. <em>The missing materials data is the whole point.</em></p>
+  <p class="meta">
+    <span class="badge b-store">storable · CC BY 4.0</span> <span class="badge b-3dcp">3D-printed buildings</span>
+    · Source: <a href="https://zenodo.org/records/14214812">Zenodo</a>
+    · DOI <a href="https://doi.org/10.5281/zenodo.14214812">10.5281/zenodo.14214812</a>
+    · <a href="SOURCE.md">provenance</a> · <a href="NOTICE">attribution</a>
+  </p>
+
+  <h2>1 · Native structure</h2>
+  <p><strong>Storage medium:</strong> a single flat table (<code>.xlsx</code>), one row per built project,
+  22 project/process categories. ~175 projects (2013–2023) in the source; a 10-record, landmark excerpt is
+  committed here.</p>
+  <table>
+    <thead><tr><th>Source field (data class)</th><th>Role in the digital twin</th></tr></thead>
+    <tbody>
+      <tr><td>Year · Country · City</td><td>when / where (provenance)</td></tr>
+      <tr><td>Project Consortium · Building Company</td><td>who (provenance)</td></tr>
+      <tr><td>Printer · Printer Type</td><td>process — the printing system</td></tr>
+      <tr><td>Fabrication / Printing Strategy</td><td>process — off-site vs in-situ, segmentation</td></tr>
+      <tr><td>Storeys · Square Meter · Purpose · Type of Building</td><td>the as-built artefact</td></tr>
+      <tr><td><em>(no mix, rheology, or strength fields)</em></td><td>— absent by design —</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note"><strong>Why this matters even with no materials data.</strong> Open3DCP's flat schema is
+  mix-centric, so almost none of these project fields has a typed home today — they are curated as named
+  project-layer columns + provenance, with <strong>no fidelity score</strong>. That gap is the signal: a full
+  digital twin must link the <em>as-built project</em> (this layer) to the <em>mixes</em> (UCI / Meta / UNSW)
+  and the <em>prints</em> (UF/UTK / RILEM). No single source spans all three; the union does.</div>
+
+  <h2>2 · The landmark records (excerpt)</h2>
+  <table>
+    <thead><tr><th>Project</th><th>Year</th><th>Country</th><th>Consortium</th><th>System</th><th>Strategy</th><th>Storeys</th></tr></thead>
+    <tbody>
+      <tr><td>The Office of the Future</td><td>2016</td><td>UAE</td><td>WinSun</td><td>—</td><td>Off-site</td><td>1</td></tr>
+      <tr><td>3D Printed House</td><td>2017</td><td>Russia</td><td>Apis Cor</td><td>Apis Cor</td><td>In-situ · one go</td><td>1</td></tr>
+      <tr><td>The BOD</td><td>2017</td><td>Denmark</td><td>COBOD</td><td>BOD 1</td><td>Off-site · one go</td><td>1</td></tr>
+      <tr><td>Patchogue, NY</td><td>2019</td><td>USA</td><td>SQ4D</td><td>ARCS</td><td>In-situ · one go</td><td>1</td></tr>
+      <tr><td>Dubai Municipality</td><td>2019</td><td>UAE</td><td>Apis Cor</td><td>Apis Cor</td><td>In-situ · flexible</td><td>2</td></tr>
+      <tr><td>World's first 3DP community</td><td>2019</td><td>Mexico</td><td>ICON · New Story</td><td>Vulcan II</td><td>In-situ · one go</td><td>1</td></tr>
+      <tr><td>World's first 3DP school</td><td>2020</td><td>Malawi</td><td>14trees · PERI · Holcim</td><td>COBOD BOD 2</td><td>In-situ · one go</td><td>1</td></tr>
+      <tr><td>KIEM (C3PO)</td><td>2020</td><td>Belgium</td><td>Kamp C</td><td>COBOD BOD 2</td><td>In-situ · h. segmentation</td><td>2</td></tr>
+      <tr><td>Community First! — Homes</td><td>2020</td><td>USA</td><td>ICON</td><td>Vulcan II</td><td>In-situ · one go</td><td>1</td></tr>
+      <tr><td>The Fibonacci House</td><td>2020</td><td>Canada</td><td>Twente AM</td><td>—</td><td>Off-site · wall</td><td>1.5</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Full file: <a href="tu-braunschweig-buildings.open3dcp.csv">tu-braunschweig-buildings.open3dcp.csv</a>.</p>
+
+  <h2>3 · Result in Open3DCP</h2>
+  <div class="note" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+    <span class="badge b-3dcp">project layer · no mix score</span>
+    <span class="small"><code>is_3d_printed</code> is set; everything else is a project/process-layer field
+    recorded as named columns + provenance. <strong>No fidelity score</strong> — this is a layer beyond the
+    current flat mix schema, not a lossy mix conversion. A future Open3DCP project/process table would type
+    these fields and link them to the mixes and prints used.</span>
+  </div>
+
+  <h3>Digital-twin coverage</h3>
+  <div class="cov">
+    <div class="cell on"><span class="lab">Provenance</span><span class="mk">✓</span></div>
+    <div class="cell off"><span class="lab">Mix design</span><span class="mk">▢</span></div>
+    <div class="cell off"><span class="lab">Rheology</span><span class="mk">▢</span></div>
+    <div class="cell half"><span class="lab">3DCP process</span><span class="mk">◐</span></div>
+    <div class="cell off"><span class="lab">Hardened mech.</span><span class="mk">▢</span></div>
+    <div class="cell off"><span class="lab">Multi-age</span><span class="mk">▢</span></div>
+    <div class="cell off"><span class="lab">Durability</span><span class="mk">▢</span></div>
+    <div class="cell off"><span class="lab">Environment</span><span class="mk">▢</span></div>
+  </div>
+  <p class="small">Only provenance and (partial) process are populated — the rest is the layer the next
+  schema version will reach. <em>The empty cells are the roadmap, not a failure.</em></p>
+
+  <h2>4 · How this was built</h2>
+  <pre><code>python build/extract.py "Database_3D-printed-buildings.xlsx"
+# → tu-braunschweig-buildings.open3dcp.csv  (project/process-layer records; no mix score)</code></pre>
+  <p class="small">A sample, not a re-host. Source © Placzek &amp; Dahlberg, TU Braunschweig, CC BY 4.0 —
+  see <a href="NOTICE">NOTICE</a>. Get the full catalogue from the
+  <a href="https://doi.org/10.5281/zenodo.14214812">DOI</a>.</p>
+</main>
+
+<footer class="pb-footer">
+  <span><a href="../">← all examples</a> · TU-Braunschweig 3DCP Buildings</span>
+  <span>Open3DCP · schema v1.7</span>
+</footer>
+</body>
+</html>

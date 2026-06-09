@@ -1,0 +1,14 @@
+This example includes a curated excerpt derived from:
+
+  Database of 3D Concrete Printed Buildings
+  Gerrit Placzek, Maike Dahlberg — TU Braunschweig (Institut für Bauwirtschaft und Baubetrieb), Germany
+  Zenodo — https://doi.org/10.5281/zenodo.14214812
+
+Licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0):
+  https://creativecommons.org/licenses/by/4.0/
+
+Changes made: a 10-record excerpt (landmark extrusion-printed buildings, 2016-2020) was selected from the
+source catalogue and re-formatted into named project/process-layer columns. The source carries no mix
+composition, rheology, or strength data; these are project-layer records and carry no mix-fidelity score.
+Underlying values are unchanged; the source table is not redistributed (download it from the DOI). See
+SOURCE.md and build/extract.py. Companion paper: doi:10.3390/buildings14113410.

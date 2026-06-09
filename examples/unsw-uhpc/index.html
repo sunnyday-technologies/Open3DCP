@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Worked example: the UNSW global UHPC mix-design dataset re-formatted into the Open3DCP flat schema — silica-fume binders, steel fibres, and the full mechanical column set from ~130 to ~281 MPa."/>
+<link rel="canonical" href="https://open3dcp.org/examples/unsw-uhpc/"/>
+<title>UNSW Global UHPC → Open3DCP</title>
+<link rel="stylesheet" href="../styles.css"/>
+</head>
+<body>
+<header class="pb-header"><div class="in">
+  <span class="mark">Open3DCP</span><span class="sep">·</span><span class="tag">Example entry</span>
+  <a href="../">← all examples</a>
+</div></header>
+
+<main class="sheet">
+  <div class="kicker">Example entry · ultra-high-performance concrete</div>
+  <h1>UNSW Global UHPC → Open3DCP</h1>
+  <p class="lede">How the high end of the strength range — silica-fume UHPC, steel-fibre reinforced, ~130 to
+  ~281 MPa — re-formats into Open3DCP, exercising the SCM, fibre, and multi-mechanical columns the
+  normal-strength benchmarks never reach.</p>
+  <p class="meta">
+    <span class="badge b-store">storable · CC BY 4.0</span> <span class="badge b-cast">UHPC (cast)</span>
+    · Source: <a href="https://data.mendeley.com/datasets/czb7ww5pkz/2">Mendeley Data</a>
+    · DOI <a href="https://doi.org/10.17632/czb7ww5pkz.2">10.17632/czb7ww5pkz.2</a>
+    · <a href="SOURCE.md">provenance</a> · <a href="NOTICE">attribution</a>
+  </p>
+
+  <h2>1 · Native structure</h2>
+  <p><strong>Storage medium:</strong> a single flat table (<code>.xlsx</code>, 3-row hierarchical header),
+  one row per mix, every constituent in <strong>kg/m³</strong>. 2,188 mixes from 168 publications in the
+  source; a 19-row, seven-mix excerpt is committed here.</p>
+  <table>
+    <thead><tr><th>Source field (data class)</th><th>Unit</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td>Cement</td><td>kg/m³</td><td>binder</td></tr>
+      <tr><td>Silica Fume</td><td>kg/m³</td><td>SCM (UHPC hallmark)</td></tr>
+      <tr><td>Fly Ash · GGBFS/Slag · Metakaolin</td><td>kg/m³</td><td>SCM</td></tr>
+      <tr><td>Quartz Powder</td><td>kg/m³</td><td>mineral filler</td></tr>
+      <tr><td>Water · Superplasticizer</td><td>kg/m³</td><td>liquid / admixture</td></tr>
+      <tr><td>Sand</td><td>kg/m³</td><td>fine aggregate (no coarse in UHPC)</td></tr>
+      <tr><td>Fibre (type · amount · length · diameter)</td><td>kg/m³ · mm</td><td>steel fibre reinforcement</td></tr>
+      <tr><td>Compressive strength 1–90 d</td><td>MPa</td><td>multi-age result</td></tr>
+      <tr><td>Flexural (MOR) · Splitting tensile · Elastic modulus</td><td>MPa · GPa</td><td>mechanical</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2 · Re-formatting into Open3DCP</h2>
+  <figure>
+  <svg viewBox="0 0 760 410" role="img" aria-label="UNSW UHPC flat kg/m3 table through open3dcp-ingest into the Open3DCP flat row, populating silica fume, metakaolin, mineral powder, steel fiber, and the flexural, splitting-tensile and elastic-modulus columns; rheology, 3DCP, durability, environment and provenance remain null.">
+    <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#1f6fb2"/></marker></defs>
+    <rect class="svg-node" x="8" y="34" width="212" height="220" rx="7"/>
+    <text class="svg-head" x="20" y="54">Source — UNSW UHPC</text>
+    <text class="svg-sub" x="20" y="70">flat .xlsx · kg/m³ · row per mix</text>
+    <text class="svg-sub" x="20" y="92">Cement · Silica Fume</text>
+    <text class="svg-sub" x="20" y="108">Fly Ash · Slag · Metakaolin</text>
+    <text class="svg-sub" x="20" y="124">Quartz Powder · Sand</text>
+    <text class="svg-sub" x="20" y="140">Water · Superplasticizer</text>
+    <text class="svg-sub" x="20" y="156">Steel fibre (kg/m³, mm)</text>
+    <text class="svg-sub" x="20" y="172">Compressive 1–90 d</text>
+    <text class="svg-sub" x="20" y="188">MOR · split tensile · E</text>
+    <rect class="svg-node-2" x="276" y="62" width="208" height="160" rx="7"/>
+    <text class="svg-head" x="288" y="82">open3dcp-ingest</text>
+    <text class="svg-sub" x="288" y="102">kg/m³ → mass-%</text>
+    <text class="svg-sub" x="288" y="117">  exact (water closes total)</text>
+    <text class="svg-sub" x="288" y="137">fibre kg/m³ → steel_fiber</text>
+    <text class="svg-sub" x="288" y="157">quartz → mineral_powder</text>
+    <text class="svg-sub" x="288" y="177">multi-age → one row per age</text>
+    <text class="svg-sub" x="288" y="197">preserve kg/m³ basis · w/b</text>
+    <rect class="svg-node-accent" x="540" y="20" width="212" height="244" rx="7"/>
+    <text class="svg-head" x="552" y="40">Open3DCP flat row</text>
+    <text class="svg-sub" x="552" y="60">cement_type_1 · silica_fume</text>
+    <text class="svg-sub" x="552" y="76">fly_ash · slag · metakaolin</text>
+    <text class="svg-sub" x="552" y="92">mineral_powder · concrete_sand</text>
+    <text class="svg-sub" x="552" y="108">water · superplasticizer · w_b_ratio</text>
+    <text class="svg-sub" x="552" y="124">steel_fiber · fiber_length_mm</text>
+    <text class="svg-sub" x="552" y="140">compressive_strength_mpa</text>
+    <text class="svg-sub" x="552" y="156">flexural_strength_mpa</text>
+    <text class="svg-sub" x="552" y="172">splitting_tensile_mpa · elastic_modulus_gpa</text>
+    <line x1="552" y1="182" x2="744" y2="182" stroke="#cfe7d8"/>
+    <text class="svg-sub" x="552" y="198" font-style="italic">derived: mix_density · total_binder</text>
+    <text class="svg-sub" x="552" y="214">original_basis = kg_m3</text>
+    <path class="svg-edge" d="M222,150 L274,150"/>
+    <path class="svg-edge" d="M486,150 L538,150"/>
+    <rect class="svg-node-null" x="8" y="280" width="744" height="118" rx="7"/>
+    <text class="svg-head" x="20" y="300">NULL — digital-twin groups not present in this source</text>
+    <text class="svg-sub" x="20" y="322">▢ Raw-material provenance · ▢ Fresh-state rheology · ▢ 3DCP process</text>
+    <text class="svg-sub" x="20" y="340">▢ Interlayer bond · ▢ Durability · ▢ Environment (embodied carbon)</text>
+    <text class="svg-sub" x="20" y="364" font-style="italic">These stay NULL (never 0). UHPC fills the high-strength + fibre + multi-mechanical slice; other sources fill the rest.</text>
+  </svg>
+  <figcaption>Every constituent is reported in kg/m³, so the kg/m³ → mass-% projection is
+  <strong>exact</strong>; steel fibre maps by mass to <code>steel_fiber</code>, quartz powder to
+  <code>mineral_powder</code>, and the flexural / splitting-tensile / elastic-modulus results land in their
+  dedicated columns.</figcaption>
+  </figure>
+
+  <h2>3 · Result in Open3DCP</h2>
+  <div class="note ok" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+    <span class="gauge">98.2<span class="g"> / 100 · A</span></span>
+    <span class="small">Fidelity computed by <code>open3dcp-ingest</code> — kg/m³ closes the wet mass, so mass-% is exact;
+    the one assumption is the superplasticizer solids fraction. Full report: <a href="unsw-uhpc.fidelity.md">fidelity.md</a>.</span>
+  </div>
+
+  <h3>Digital-twin coverage</h3>
+  <div class="cov">
+    <div class="cell off"><span class="lab">Provenance</span><span class="mk">▢</span></div>
+    <div class="cell on"><span class="lab">Mix design</span><span class="mk">✓</span></div>
+    <div class="cell off"><span class="lab">Rheology</span><span class="mk">▢</span></div>
+    <div class="cell off"><span class="lab">3DCP process</span><span class="mk">▢</span></div>
+    <div class="cell on"><span class="lab">Hardened mech.</span><span class="mk">✓</span></div>
+    <div class="cell on"><span class="lab">Multi-age</span><span class="mk">✓</span></div>
+    <div class="cell off"><span class="lab">Durability</span><span class="mk">▢</span></div>
+    <div class="cell off"><span class="lab">Environment</span><span class="mk">▢</span></div>
+  </div>
+
+  <h3>Converted rows (excerpt; mass-% of total wet mix)</h3>
+  <p class="small">UHPC spans the high-strength range and carries fibres + multi-mechanical results. Full file:
+  <a href="unsw-uhpc.open3dcp.csv">unsw-uhpc.open3dcp.csv</a>.</p>
+  <table>
+    <thead><tr><th>mix</th><th>cement</th><th>silica_fume</th><th>steel_fiber</th><th>w/b</th><th>age</th><th>f<sub>c</sub> (MPa)</th><th>MOR / split / E</th></tr></thead>
+    <tbody>
+      <tr><td>F0 (no fibre)</td><td class="num">38.6</td><td class="num">10.4</td><td class="num">0</td><td class="num">0.16</td><td class="num">28</td><td class="num">198.9</td><td class="num">split 11.7 · E 53.1</td></tr>
+      <tr><td>S10-F10</td><td class="num">36.7</td><td class="num">4.5</td><td class="num">5.2</td><td class="num">0.14</td><td class="num">28</td><td class="num">135.0</td><td class="num">MOR 18.7</td></tr>
+      <tr><td>B-S0</td><td class="num">33.4</td><td class="num">10.0</td><td class="num">8.3</td><td class="num">0.10</td><td class="num">90</td><td class="num">219.0</td><td class="num">—</td></tr>
+      <tr><td>G10F10</td><td class="num">26.6</td><td class="num">8.2</td><td class="num">9.4</td><td class="num">0.15</td><td class="num">28</td><td class="num">281.0</td><td class="num">—</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4 · How this was built</h2>
+  <pre><code>python build/extract.py "UHPC Dataset  (Version-2).xlsx"   # selects 7 mixes by Mix-ID
+open3dcp-ingest convert build/unsw-uhpc.csv --kind flat --out .
+# → unsw-uhpc.open3dcp.csv  .unmapped.jsonl  .fidelity.md  .fidelity.json</code></pre>
+  <p class="small">A sample, not a re-host. Source © the UNSW authors, CC BY 4.0 — see
+  <a href="NOTICE">NOTICE</a>. Get the full 2,188-mix table from the
+  <a href="https://doi.org/10.17632/czb7ww5pkz.2">DOI</a>.</p>
+</main>
+
+<footer class="pb-footer">
+  <span><a href="../">← all examples</a> · UNSW Global UHPC</span>
+  <span>Open3DCP · schema v1.7</span>
+</footer>
+</body>
+</html>

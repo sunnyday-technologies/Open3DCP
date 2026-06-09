@@ -67,6 +67,15 @@ mappings:
       notes: "fly_ash_class refines to the F/C-specific Open3DCP column when present." }
   - { open3dcp: silica_fume, src: material_batches.silica_fume_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy }
   - { open3dcp: slag,        src: material_batches.slag_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy }
+  # v1.7 additional SCMs / fillers + explicit water, for flat kg/m3 sources (UCI/Meta/UHPC tables).
+  # New src paths only -> the relational fixture (which carries none of these) is unaffected.
+  - { open3dcp: metakaolin,  src: material_batches.metakaolin_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy }
+  - { open3dcp: limestone,   src: material_batches.limestone_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy }
+  - { open3dcp: nano_silica, src: material_batches.nano_silica_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy }
+  - { open3dcp: mineral_powder, src: material_batches.mineral_powder_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy,
+      notes: "Generic mineral filler (e.g. quartz powder / glass powder reported by mass in UHPC tables)." }
+  - { open3dcp: water,       src: material_batches.water_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy,
+      notes: "Explicit free-water mass when a flat source reports it in kg/m3 (closes the wet-mass total -> exact). w/b is also derived into w_b_ratio." }
 
   # Aggregates: source has 2 lumped fields (+ densities + max size + type); Open3DCP is graded.
   - { open3dcp: concrete_sand, src: material_batches.fine_aggregate_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy,
@@ -94,6 +103,16 @@ mappings:
         glass: glass_fiber, carbon: carbon_fiber, polyvinyl_alcohol: pva_fiber,
         basalt: basalt_fiber, aramid: aramid_fiber, natural: cellulose_fiber },
       fidelity: lossy, notes: "volume fraction -> mass-% needs fiber & mix densities." }
+  # Flat kg/m3 sources (UHPC tables) report fiber by MASS (kg/m3), not volume fraction.
+  - { src: material_batches.fiber_content_kg_m3, transform: vocab_pivot,
+      pivot_on: material_batches.fiber_type, transform_value: kg_m3_to_mass_pct,
+      pivot_map: {
+        steel: steel_fiber, steel_hooked: steel_fiber, steel_crimped: steel_fiber,
+        steel_straight: steel_fiber, steel_twisted: steel_fiber, steel_hybrid: steel_fiber,
+        polypropylene: pp_fiber, polypropylene_macro: pp_fiber, polypropylene_micro: pp_fiber, pp: pp_fiber,
+        glass: glass_fiber, pva: pva_fiber, polyvinyl_alcohol: pva_fiber,
+        basalt: basalt_fiber, carbon: carbon_fiber },
+      fidelity: lossy, notes: "kg/m3 fiber mass -> mass-% of the wet mix (exact when the batch closes)." }
   - { open3dcp: fiber_length_mm,   src: material_batches.fiber_length_mm,   transform: identity, fidelity: exact }
   - { open3dcp: fiber_diameter_mm, src: material_batches.fiber_diameter_mm, transform: identity, fidelity: exact }
   - { open3dcp: air_content_fresh_pct, src: material_batches.air_content_percent_volume_concrete, transform: identity, fidelity: exact }
@@ -118,6 +137,8 @@ mappings:
       notes: "Casting/pour date = t=0 of the curing clock; with a test date the engine can derive test_age_days. Distinct from created_at (record creation)." }
   - { open3dcp: batch_label, src: material_batches.batch_label, transform: identity, fidelity: exact,
       notes: "Physical batch sub-identifier within a mix design (provenance; distinguishes repeat batches of one formulation). Not a foreign key." }
+  - { open3dcp: embodied_carbon_kg_co2_m3, src: material_batches.embodied_carbon_kg_co2_m3, transform: identity, fidelity: exact,
+      notes: "Cradle-to-gate embodied carbon per m3 when the source reports a GWP/CO2 figure (e.g. Meta SustainableConcrete GWP)." }
 
   # tests -> Open3DCP test conditions
   - { open3dcp: specimen_geometry, src: specimens.specimen_geometry, transform: identity, fidelity: exact,
@@ -153,6 +174,8 @@ mappings:
 quantity_map:
   compressive_strength: { open3dcp: compressive_strength_mpa, to_unit: MPa, stddev: compressive_strength_stddev_mpa }
   tensile_strength:     { open3dcp: tensile_strength_mpa, to_unit: MPa, stddev: tensile_strength_stddev_mpa }
+  flexural_strength:    { open3dcp: flexural_strength_mpa, to_unit: MPa }
+  splitting_tensile:    { open3dcp: splitting_tensile_mpa, to_unit: MPa }
   elastic_modulus:      { open3dcp: elastic_modulus_gpa, to_unit: GPa, stddev: elastic_modulus_stddev_gpa }
   slump:                { open3dcp: slump_mm, to_unit: mm }
   yield_stress:         { open3dcp: yield_stress_pa, to_unit: Pa }

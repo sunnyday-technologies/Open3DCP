@@ -76,6 +76,7 @@ figcaption{font-size:12px;color:var(--muted);margin-top:6px}
 .cov .cell .lab{font-weight:700;display:block;margin-bottom:3px}
 .cov .cell.on{background:#eef7f1;border-color:#cfe7d8;color:var(--accent)}
 .cov .cell.off{background:#f5f7fa;border-color:#e3e8ee;color:var(--muted)}
+.cov .cell.half{background:#fbf6ec;border-color:#ecdcc0;color:#9a6a1a}
 .cov .cell .mk{font-size:14px;font-weight:800}
 
 /* two-column panel row (native structure / result) */
