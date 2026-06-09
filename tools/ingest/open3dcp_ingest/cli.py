@@ -61,7 +61,7 @@ def main(argv=None) -> int:
     sub = p.add_subparsers(dest="cmd", required=True)
     c = sub.add_parser("convert", help="convert a dataset and score fidelity")
     c.add_argument("source")
-    c.add_argument("--kind", choices=["relational", "uci"], default=None)
+    c.add_argument("--kind", choices=["relational", "uci", "flat"], default=None)
     c.add_argument("--out", default=None, help="output directory (default: alongside source)")
     c.add_argument("--crosswalk", default=None, help="path to crosswalk YAML")
     args = p.parse_args(argv)

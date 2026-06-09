@@ -1,0 +1,18 @@
+This example includes a curated excerpt derived from:
+
+  A global dataset of UHPC mix designs with supplementary cementitious materials,
+  nano additives, and sustainable fillers (Version 2)
+  Malik, U. J.; Lee, C. K.; Mohotti, D.; Mo, H. — University of New South Wales (UNSW Canberra)
+  Mendeley Data — https://doi.org/10.17632/czb7ww5pkz.2
+
+Licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0):
+  https://creativecommons.org/licenses/by/4.0/
+
+Changes made: a 19-row excerpt (seven mixes) was selected from the 2,188-mix source table by reading
+its fixed kg/m3 constituent and strength columns, and re-formatted into the Open3DCP flat schema. Each
+(mix x reported compressive age) becomes one row; 28-day flexural, elastic-modulus and splitting-tensile
+results are attached to the latest-age row. Constituent masses (kg/m3) and mechanical values (MPa, GPa)
+are copied unchanged; the source table is not redistributed (download it from the DOI). See SOURCE.md
+and build/extract.py.
+
+The companion data paper is published in Data in Brief (doi:10.1016/j.dib.2025.112179).

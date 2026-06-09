@@ -18,36 +18,50 @@ carbon → strength over decades.
 
 ## Coverage — each source lights up a slice; Open3DCP spans the whole
 
-| Source | Provenance | Mix design | Rheology | 3DCP process | Hardened mech. | Multi-age | Durability | Environment |
-|---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| [UCI Concrete Strength (Yeh 1998)](uci-yeh-1998/) — *cast* | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ▢ | ▢ |
-| [RILEM TC 304-ADC ILS-mech](rilem-tc304-ils-mech/) — *3DCP* | ✓ | ▢¹ | ✓ | ✓ | ✓ | ▢ | ▢ | ▢ |
-| *AAC (BAM/TU-Berlin)* — planned | ✓ | ✓ | ▢ | ▢ | ✓ | ▢ | ▢ | ✓ |
-| *UF/UTK 3DCP mix-design* — planned | ✓ | ✓ | ▢ | ◐ | ▢ | ▢ | ▢ | ▢ |
-| *NIST Construction Materials (LCA)* — planned | ✓ | ▢ | ▢ | ▢ | ▢ | ▢ | ▢ | ✓ |
+| Source | Provenance | Mix design | Rheology | 3DCP process | Hardened mech. | Multi-age | Environment |
+|---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| [UCI Concrete Strength (Yeh 1998)](uci-yeh-1998/) — *cast, **98.8/A*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ▢ |
+| [Meta SustainableConcrete](meta-sustainableconcrete/) — *cast, **98.9/A*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ✓ |
+| [UNSW Global UHPC](unsw-uhpc/) — *UHPC, **98.2/A*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ▢ |
+| [RILEM TC 304-ADC ILS-mech](rilem-tc304-ils-mech/) — *3DCP* | ✓ | ▢¹ | ✓ | ✓ | ✓ | ▢ | ▢ |
+| [UF/UTK 3DCP mix-design](ufutk-3dcp-mix/) — *3DCP* | ▢ | ◐ | ✓ | ✓ | ✓ | ▢ | ▢ |
+| [TU-Braunschweig 3DCP buildings](tu-braunschweig-buildings/) — *project layer* | ✓ | ▢ | ▢ | ◐ | ▢ | ▢ | ▢ |
 
 ¹ commercial premix — w/b and yield stress captured, constituent dosages not disclosed. The **gaps between
-slices are the connective-layer argument**: no single source spans quarry → decades; the union does.
+slices are the connective-layer argument**: no single source spans quarry → decades; the union does. *Three
+sources carry a real `open3dcp-ingest` fidelity score (kg/m³ tables); the 3DCP-mix and project-layer sources
+are hand-curated because their native bases (ratio-to-binder; project metadata) are not yet auto-scored.* A
+seventh source, **Stevens UHPC** (Mahjoubi & Bao, US — CC BY 4.0), is cited reference-only: its mix variables
+are published as a coded ML feature matrix whose legend is paywalled, so it is not re-ingested here.
 
 ## Storable vs reference-only
 
 **The rule:** store only when the license clearly permits redistribution — **CC BY 4.0**, **CC0**, **US-government
-public domain**, or **GODL-India** — with attribution. Anything copyrighted, registration-gated, or unclear is
+public domain**, **GODL-India**, or a **permissive software license** (MIT/BSD/Apache) that allows redistribution — with attribution. Anything copyrighted, registration-gated, or unclear is
 **reference-only** and cited respectfully (never stored).
 
-**Storable** (built / verified): UCI Concrete Strength & Slump (CC BY 4.0) · RILEM TC 304-ADC ILS-mech (CC BY 4.0) ·
-BAM/TU-Berlin AAC (CC BY 4.0) · UF/UTK 3DCP mix-design (CC BY 4.0) · NIST Construction Materials Repository
-(US public domain) · JCI–JACT articles (CC BY 4.0, per-paper).
+**Storable** (built / verified): UCI Concrete Strength (CC BY 4.0) · Meta SustainableConcrete (MIT) · UNSW
+Global UHPC (CC BY 4.0) · RILEM TC 304-ADC ILS-mech (CC BY 4.0) · UF/UTK 3DCP mix-design (CC BY 4.0) ·
+TU-Braunschweig 3DCP Buildings (CC BY 4.0) · NIST Construction Materials Repository (US public domain) ·
+JCI–JACT articles (CC BY 4.0, per-paper).
 
-**Reference-only** (cited, not stored): ACI (copyrighted / request-gated) · NIMS MatNavi (self-use-only terms) ·
-China NMDMS / Materials Genome platforms (no data license, registration-gated) · Russia GOST standards
-(copyrighted) · RILEM recommendations & durability ILS article (copyrighted) · EU NOMAD / Materials Project
-(atomistic, no concrete) · image-only datasets (no mix/mechanical scalars).
+**Reference-only** (cited, not stored): Stevens UHPC (Mahjoubi & Bao — CC BY 4.0 but a *coded ML feature
+matrix*; variable legend paywalled, so not honestly re-ingestible) · TU/e interlayer-bond + sensory set
+(Versteege & Wolfs — **CC BY-SA**, copyleft ShareAlike rather than plain CC BY) · ACI (copyrighted /
+request-gated) · NIMS MatNavi (self-use-only terms) · China NMDMS / Materials Genome platforms (no data
+license, registration-gated) · Russia GOST standards (copyrighted) · EU NOMAD / Materials Project (atomistic,
+no concrete) · image-only datasets (no mix/mechanical scalars).
+
+**Out of scope (chemistry):** low-calcium fly-ash **geopolymers** (N-A-S-H gel — not hydraulic) are
+excluded; alkali-activated-concrete corpora that are predominantly geopolymer (e.g. the BAM/TU-Berlin AAC
+set, predominantly low-calcium fly-ash geopolymer) are therefore not ingested. Open3DCP covers hydraulic cementitious systems (Portland,
+blended, CAC/CSA, and high-calcium alkali-activated slag).
 
 ## National map — open concrete & materials-data efforts
 
 - **USA** — NIST (Materials Genome Initiative; Federal LCA Commons = storable, env) · UCI ML Repository (CC BY 4.0,
-  storable) · ACI (reference-only).
+  storable) · **Meta SustainableConcrete** (Meta + UIUC + Amrize; MIT, storable — mix design + per-mix CO₂) ·
+  Stevens UHPC (CC BY 4.0; coded matrix → reference) · UF/UTK 3DCP mix-design (CC BY 4.0, storable) · ACI (reference).
 - **International / EU** — **RILEM** TC 304-ADC (the 3DCP standards anchor; ILS-mech is storable) · NOMAD (FAIR
   exemplar, no concrete).
 - **Germany** — BAM + NFDI-MatWerk (FAIR infrastructure); their Zenodo concrete deposits are CC BY 4.0 storable.

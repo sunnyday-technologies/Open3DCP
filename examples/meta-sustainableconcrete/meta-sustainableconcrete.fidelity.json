@@ -1,0 +1,51 @@
+{
+  "overall_score": 98.9,
+  "grade": "A (high fidelity)",
+  "rows": 28,
+  "source_fields": 600,
+  "unmapped_fields": 0,
+  "dimensions": [
+    {
+      "name": "field_coverage",
+      "score": 100.0,
+      "weight": 0.3,
+      "detail": "524 of 524 mappable source fields mapped to Open3DCP columns (0 routed to triage sidecar). Excluded from coverage (a flat row carries none as its own column): 76 consumed selector/metadata fields. Raw coverage over all 600 populated fields (no exclusions): 87%.",
+      "not_preserved_examples": [],
+      "triage": "Sidecar fields are preserved in <dataset>.unmapped.jsonl; review for schema extension."
+    },
+    {
+      "name": "value_fidelity",
+      "score": 96.4,
+      "weight": 0.3,
+      "detail": "524 values written; 505 exact, 19 required an assumption.",
+      "not_preserved_examples": [
+        "superplasticizer (solids fraction unknown; recorded as-delivered mass-% (not solids))"
+      ],
+      "triage": "Assumed conversions (e.g. kg/m3<->mass-%, liquid->solids) need the missing density / solids fraction to become exact. Record mix_density_kg_m3 at source."
+    },
+    {
+      "name": "relational_integrity",
+      "score": 100.0,
+      "weight": 0.15,
+      "detail": "0 relational fields (reinforcement, geometry parametrization, devices, loading histories) had no flat home.",
+      "not_preserved_examples": [],
+      "triage": "Retain these in the source relational record; the flat row is a projection."
+    },
+    {
+      "name": "file_data_capture",
+      "score": 100.0,
+      "weight": 0.15,
+      "detail": "0 curve/table/image/raw-file references cannot be held by the flat schema (pre-v1.6).",
+      "not_preserved_examples": [],
+      "triage": "Link originals in the sidecar; proposed v1.6 *_file columns close this gap."
+    },
+    {
+      "name": "vocabulary_match",
+      "score": 100.0,
+      "weight": 0.1,
+      "detail": "84 categorical values resolved, 0 unresolved against the crosswalk.",
+      "not_preserved_examples": [],
+      "triage": "Add the unresolved vocab members to the crosswalk pivot/enum maps."
+    }
+  ]
+}
