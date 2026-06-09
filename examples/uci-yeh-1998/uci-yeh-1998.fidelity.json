@@ -1,5 +1,5 @@
 {
-  "overall_score": 96.7,
+  "overall_score": 98.8,
   "grade": "A (high fidelity)",
   "rows": 14,
   "source_fields": 126,
@@ -15,9 +15,9 @@
     },
     {
       "name": "value_fidelity",
-      "score": 88.9,
+      "score": 96.0,
       "weight": 0.3,
-      "detail": "126 values written; 125 exact, 1 required an assumption.",
+      "detail": "126 values written; 121 exact, 5 required an assumption.",
       "not_preserved_examples": [
         "superplasticizer (solids fraction unknown; recorded as-delivered mass-% (not solids))"
       ],

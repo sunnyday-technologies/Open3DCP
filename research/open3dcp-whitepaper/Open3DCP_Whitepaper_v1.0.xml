@@ -21,7 +21,7 @@ analysis-ready record for extrusion 3D concrete printing</subtitle>
 </title-group>
 <contrib-group>
 <contrib contrib-type="author">
-<string-name>Nicholas Sonnentag — Sunnyday Technologies, Appleton, WI,
+<string-name>Nicholas Sonnentag — Sunnyday Technologies, Wisconsin,
 USA</string-name>
 </contrib>
 </contrib-group>
@@ -674,7 +674,7 @@ USA</string-name>
     Open3DCP and report the result (Figure 5). The UCI/Yeh (1998)
     concrete dataset [4], a <italic>cast</italic>-concrete benchmark,
     maps onto the composition and hardened-strength columns and ingests
-    at a fidelity of <bold>96.7/100 (A)</bold> over its 126 source
+    at a fidelity of <bold>98.8/100 (A)</bold> over its 126 source
     fields. The RILEM TC 304-ADC interlaboratory study on the mechanical
     properties of 3D-printed concrete [52] — a <italic>real
     3DCP</italic> database from roughly thirty laboratories, stored as a
