@@ -1,4 +1,4 @@
-# Source — UF/UTK 3D-Printing-Concrete Mix-Design Open Dataset
+# Source — UF 3D-Printing-Concrete Mix-Design Open Dataset
 
 | | |
 |---|---|
@@ -30,7 +30,7 @@ span.*
 
 ## What we committed
 
-A hand-curated **10-row excerpt** (`ufutk-3dcp-mix.open3dcp.csv`) of printable Portland mixes drawn from
+A hand-curated **10-row excerpt** (`uf-3dcp-mix.open3dcp.csv`) of printable Portland mixes drawn from
 several primary studies, spanning static yield stress **~0.4–4.6 kPa**, w/b **0.30–0.45**, and 28-day
 compressive strength **28–72 MPa**. It is a **sample, not a re-host**; download the full table from the DOI.
 

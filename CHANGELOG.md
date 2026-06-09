@@ -11,7 +11,7 @@ Schema versioning follows these rules:
 
 ---
 
-## [1.7.0] - 2026-06-04
+## [1.7.0] - 2026-06-05
 
 Additive, backward-compatible changes. Existing v1.6 datasets remain valid unchanged.
 
@@ -45,6 +45,17 @@ Additive, backward-compatible changes. Existing v1.6 datasets remain valid uncha
 - `aggregate_prewetted` -- process flag for pre-wetting aggregate to a damp condition before
   batching (a common 3DCP practice).
 
+### Added — interoperability: basis, uncertainty, raw-data references
+- **kg/m³ is the primary reporting basis** (industry/field standard); mass-% of total wet mix is
+  retained as a losslessly-derived secondary view. No existing column was renamed or redefined.
+- Mix basis (lossless conversion): `original_basis` (`kg_m3` | `mass_pct` | `volume` | `lb_yd3`),
+  `mix_density_kg_m3` (total fresh wet-mix density), `total_binder_kg_m3` (total cementitious kg/m³).
+- Per-measurement uncertainty (mean + std-dev + N): `compressive_strength_stddev_mpa`,
+  `flexural_strength_stddev_mpa`, `tensile_strength_stddev_mpa`, `elastic_modulus_stddev_gpa`,
+  `interlayer_bond_stddev_mpa`.
+- Raw-data references (FAIR; payloads stay external): `raw_data_doi`, `stress_strain_file`,
+  `rheology_curve_file`, `microstructure_image`, `raw_data_file`.
+
 ### Fixed — ingestion fidelity & crosswalk
 - Fidelity `field_coverage` no longer penalizes relational foreign keys / identifiers (a flat row
   carries none); they are excluded from the coverage denominator and still preserved in the
@@ -65,35 +76,36 @@ Additive, backward-compatible changes. Existing v1.6 datasets remain valid uncha
 - Ingestion-tool MAJOR.MINOR bumped to 1.7 to track the schema (`TARGET_SCHEMA_VERSION`).
 - Canonical column list remains `Open3DCP_SCHEMA.md` / `sql/create_tables.sql`.
 
-## [1.6.0] - 2026-06-03
+## [1.6.5] - 2026-06-05 — SCM taxonomy consolidation
 
-### Interoperability — basis, uncertainty, raw-data references
+Consolidation of the v1.6.0 per-grade SCM split, folded into the 1.7.0 release (**no separate git
+tag**). The fine-grained per-grade/per-form columns added in 1.6.0 fragmented a sparse vocabulary
+without analytical benefit and were reverted to the generic binder columns; grade/purity is now
+recorded in `provenance_notes` instead.
 
-Additive, backward-compatible changes that align Open3DCP with relational concrete databases
-and raise ingestion fidelity. Existing v1.5 datasets remain valid unchanged.
-
-### Changed
-- **kg/m³ is now the primary reporting basis** (industry/field standard). mass-% of total wet
-  mix is retained as a derived secondary representation. No existing column was renamed or
-  redefined; the change is one of stated convention plus the new basis columns below.
-
-### Added — mix basis (lossless conversion)
-- `original_basis` -- basis the source reported: `kg_m3` (primary) | `mass_pct` | `volume` | `lb_yd3`.
-- `mix_density_kg_m3` -- total fresh wet-mix density; enables exact mass-% ↔ kg/m³ conversion.
-- `total_binder_kg_m3` -- total cementitious content (kg/m³).
-
-### Added — per-measurement uncertainty (mirrors mean + std-dev + N)
-- `compressive_strength_stddev_mpa`, `flexural_strength_stddev_mpa`,
-  `tensile_strength_stddev_mpa`, `elastic_modulus_stddev_gpa`, `interlayer_bond_stddev_mpa`.
-
-### Added — raw-data references (FAIR; payloads stay external)
-- `raw_data_doi`, `stress_strain_file`, `rheology_curve_file`, `microstructure_image`, `raw_data_file`.
+### Removed
+- `slag_grade_80`, `slag_grade_100`, `slag_grade_120` — reverted to generic `slag` (ASTM C989 grade in notes).
+- `metakaolin_high_purity`, `metakaolin_standard` — reverted to generic `metakaolin`.
+- `pumice_coarse`, `pumice_powder`, `pumice_sand` — reverted to generic `pumice`.
 
 ### Notes
-- Canonical column list remains `Open3DCP_SCHEMA.md` / `sql/create_tables.sql`.
-- Crosswalk updated so the source `data` std-dev and file references map to columns instead of
-  the ingestion triage sidecar; `original_basis`/`mix_density_kg_m3`/`total_binder_kg_m3` are
-  populated by the ingestion tool from the source batch.
+- Net count returned to the v1.5 level (224) before the 1.7.0 additions. This episode is why the
+  git-tag snapshots read **v1.5 = 224 → v1.6 = 232 → v1.7 = 244** with no intermediate tag — the 232
+  reflects the grade split, which was consolidated away before the 1.7.0 feature columns landed.
+
+---
+
+## [1.6.0] - 2026-05-05 — SCM per-grade taxonomy split (experimental, superseded)
+
+An experimental refinement that split three supplementary cementitious materials into per-grade /
+per-form columns (+8). Tagged V1.6.0; **superseded and removed in the consolidation above (1.6.5)**
+before the 1.7.0 feature work. Recorded here so the version history matches the git tags rather than
+papering over the episode.
+
+### Added
+- `slag_grade_80`, `slag_grade_100`, `slag_grade_120` — GGBFS by ASTM C989 activity grade.
+- `metakaolin_high_purity`, `metakaolin_standard` — metakaolin by reactivity/purity.
+- `pumice_coarse`, `pumice_powder`, `pumice_sand` — pumice by particle form.
 
 ---
 

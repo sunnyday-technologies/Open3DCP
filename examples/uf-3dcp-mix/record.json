@@ -1,6 +1,6 @@
 {
-  "id": "ufutk-3dcp-mix",
-  "dataset": "UF/UTK 3D-Printing-Concrete Mix-Design Open Dataset (v0.3)",
+  "id": "uf-3dcp-mix",
+  "dataset": "UF 3D-Printing-Concrete Mix-Design Open Dataset (v0.3)",
   "source_url": "https://zenodo.org/records/8070144",
   "doi": "10.5281/zenodo.6828947",
   "license": "CC BY 4.0",

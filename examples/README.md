@@ -24,7 +24,7 @@ carbon → strength over decades.
 | [Meta SustainableConcrete](meta-sustainableconcrete/) — *cast, **98.9/A*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ✓ |
 | [UNSW Global UHPC](unsw-uhpc/) — *UHPC, **98.2/A*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ▢ |
 | [RILEM TC 304-ADC ILS-mech](rilem-tc304-ils-mech/) — *3DCP* | ✓ | ▢¹ | ✓ | ✓ | ✓ | ▢ | ▢ |
-| [UF/UTK 3DCP mix-design](ufutk-3dcp-mix/) — *3DCP* | ▢ | ◐ | ✓ | ✓ | ✓ | ▢ | ▢ |
+| [UF 3DCP mix-design](uf-3dcp-mix/) — *3DCP* | ▢ | ◐ | ✓ | ✓ | ✓ | ▢ | ▢ |
 | [TU-Braunschweig 3DCP buildings](tu-braunschweig-buildings/) — *project layer* | ✓ | ▢ | ▢ | ◐ | ▢ | ▢ | ▢ |
 
 ¹ commercial premix — w/b and yield stress captured, constituent dosages not disclosed. The **gaps between
@@ -41,7 +41,7 @@ public domain**, **GODL-India**, or a **permissive software license** (MIT/BSD/A
 **reference-only** and cited respectfully (never stored).
 
 **Storable** (built / verified): UCI Concrete Strength (CC BY 4.0) · Meta SustainableConcrete (MIT) · UNSW
-Global UHPC (CC BY 4.0) · RILEM TC 304-ADC ILS-mech (CC BY 4.0) · UF/UTK 3DCP mix-design (CC BY 4.0) ·
+Global UHPC (CC BY 4.0) · RILEM TC 304-ADC ILS-mech (CC BY 4.0) · UF 3DCP mix-design (CC BY 4.0) ·
 TU-Braunschweig 3DCP Buildings (CC BY 4.0) · NIST Construction Materials Repository (US public domain) ·
 JCI–JACT articles (CC BY 4.0, per-paper).
 
@@ -61,7 +61,7 @@ blended, CAC/CSA, and high-calcium alkali-activated slag).
 
 - **USA** — NIST (Materials Genome Initiative; Federal LCA Commons = storable, env) · UCI ML Repository (CC BY 4.0,
   storable) · **Meta SustainableConcrete** (Meta + UIUC + Amrize; MIT, storable — mix design + per-mix CO₂) ·
-  Stevens UHPC (CC BY 4.0; coded matrix → reference) · UF/UTK 3DCP mix-design (CC BY 4.0, storable) · ACI (reference).
+  Stevens UHPC (CC BY 4.0; coded matrix → reference) · UF 3DCP mix-design (CC BY 4.0, storable) · ACI (reference).
 - **International / EU** — **RILEM** TC 304-ADC (the 3DCP standards anchor; ILS-mech is storable) · NOMAD (FAIR
   exemplar, no concrete).
 - **Germany** — BAM + NFDI-MatWerk (FAIR infrastructure); their Zenodo concrete deposits are CC BY 4.0 storable.
