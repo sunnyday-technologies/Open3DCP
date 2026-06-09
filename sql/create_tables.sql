@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     num_layers                  INTEGER,
     path_length_mm              REAL,
     infill_pattern              VARCHAR(50),        -- solid | zigzag | contour
-    contour_count               INTEGER,
+    contour_count               INTEGER,            -- Perimeter wall passes per layer (slicer terms: wall line count / wall layers / perimeters / shells). Distinct from num_layers (vertical layers).
     print_direction             VARCHAR(20),
 
     -- Pumping System
