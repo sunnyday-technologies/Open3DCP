@@ -371,7 +371,7 @@ USA</string-name>
     self-normalizing (Σ ≈ 100 %) and ideal for pooled ML, but is foreign
     to field practice. Storing the source basis plus the density bridge
     serves both without discarding information. (Schema versions ≤ v1.5
-    used mass-percent as the primary basis; v1.6 made kg/m³ primary and
+    used mass-percent as the primary basis; v1.7 made kg/m³ primary and
     added the bridge columns. Admixtures are recorded as <bold>solids
     content</bold> by mass: a PCE superplasticizer dosed at 1.0 % liquid
     with 30 % solids is recorded as 0.3 %.)</p>
@@ -726,8 +726,8 @@ USA</string-name>
         uncertainty columns (mean ± standard deviation ± n).</p>
       </list-item>
       <list-item>
-        <p>The <bold>UF/UTK 3D-Printing-Concrete Mix-Design</bold>
-        dataset [51] supplies the extrusion-3DCP
+        <p>The <bold>University of Florida 3D-Printing-Concrete
+        Mix-Design</bold> dataset [51] supplies the extrusion-3DCP
         <italic>printability</italic> slice — static and dynamic yield
         stress and plastic viscosity — and is an honest illustration of
         a basis mismatch: it reports constituents as ratios to binder
@@ -773,8 +773,8 @@ USA</string-name>
       <italic>Left:</italic> six openly-licensed public datasets
       ingested into Open3DCP — UCI/Yeh (cast benchmark), Meta
       SustainableConcrete (cast, carbon-aware), UNSW UHPC, the RILEM TC
-      304-ADC interlaboratory study (real 3DCP, ~30 labs), the UF/UTK
-      3DCP mix-design set (printability), and the TU-Braunschweig 3DCP
+      304-ADC interlaboratory study (real 3DCP, ~30 labs), the UF 3DCP
+      mix-design set (printability), and the TU-Braunschweig 3DCP
       buildings catalogue (project layer) — each populating a different
       slice of the record (dark = populated, light = partial/absent),
       with Open3DCP spanning the union; the empty cells are recorded,
@@ -1067,9 +1067,17 @@ USA</string-name>
     2.0) with no commercial restriction on use.</p>
     <p><bold>Acknowledgments.</bold> The author thanks the RILEM TC
     304-ADC committee for foundational work on 3DCP test standardization
-    and interlaboratory data sharing, and the broader 3DCP research
-    community whose published data motivated and informed the
-    schema.</p>
+    and interlaboratory data sharing; the National Institute of
+    Standards and Technology (NIST), the American Concrete Institute
+    (ACI), Oak Ridge National Laboratory (ORNL) and its Manufacturing
+    Demonstration Facility (MDF), and the ISO/ASTM 52939 committee
+    together with its associated ASTM contributors, for advancing the
+    measurement science, standards, and qualification frameworks on
+    which additive construction depends; and the broader 3DCP research
+    community whose published data motivated and informed the schema.
+    Acknowledgment of these organizations reflects the standards and
+    measurement foundations the schema builds on and does not imply
+    their endorsement.</p>
   </sec>
   <sec id="references">
     <title>14. References</title>

@@ -22,7 +22,7 @@ Open3DCP flat schema is **mix-centric**, so most of these building-project field
 home** today; they are curated here as named **project-layer columns** plus provenance, with **no
 mix-fidelity score**, to make the boundary explicit.
 
-The union is the argument: UCI/Meta/UNSW supply mix design and strength, UF/UTK and RILEM supply
+The union is the argument: UCI/Meta/UNSW supply mix design and strength, UF and RILEM supply
 printability and printed-specimen mechanics, and this source supplies the **as-built project record** that
 a full digital twin must eventually link to its mixes and prints.
 

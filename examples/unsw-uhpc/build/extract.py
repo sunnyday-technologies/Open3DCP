@@ -70,8 +70,16 @@ def main(src):
     from openpyxl import load_workbook
     wb = load_workbook(src, read_only=True, data_only=True)
     ws = wb["UHPC Dataset "]
-    data = list(ws.iter_rows(values_only=True))[3:]
+    all_rows = list(ws.iter_rows(values_only=True))
     wb.close()
+    # header fingerprint: fail loudly if an upstream re-export shifts columns (never emit wrong data)
+    hdr = [str(c).strip() if c is not None else "" for c in all_rows[2]]
+    for pos, token in {1: "Cement", 4: "Silica Fume", 5: "Flayash", 53: "28-Day",
+                       57: "Elastic Modulus", 68: "MOR"}.items():
+        if token.lower() not in hdr[pos].lower():
+            raise SystemExit(f"UNSW source header changed at col {pos}: expected ~{token!r}, found "
+                             f"{hdr[pos]!r}. Verify the IX column positions before re-running.")
+    data = all_rows[3:]
     chosen = []
     for mix_id, cem in SELECT:
         for r in data:

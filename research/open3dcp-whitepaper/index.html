@@ -527,7 +527,7 @@ cross-dataset comparison when density is unreported; mass-percent is
 self-normalizing (Σ ≈ 100 %) and ideal for pooled ML, but is foreign to
 field practice. Storing the source basis plus the density bridge serves
 both without discarding information. (Schema versions ≤ v1.5 used
-mass-percent as the primary basis; v1.6 made kg/m³ primary and added the
+mass-percent as the primary basis; v1.7 made kg/m³ primary and added the
 bridge columns. Admixtures are recorded as <strong>solids
 content</strong> by mass: a PCE superplasticizer dosed at 1.0 % liquid
 with 30 % solids is recorded as 0.3 %.)</p>
@@ -842,12 +842,12 @@ relational SQLite export — populates 3DCP process, fresh-state rheology,
 hardened mechanical, <strong>orientation</strong>, and the
 per-measurement uncertainty columns (mean ± standard deviation ±
 n).</li>
-<li>The <strong>UF/UTK 3D-Printing-Concrete Mix-Design</strong> dataset
-[51] supplies the extrusion-3DCP <em>printability</em> slice — static
-and dynamic yield stress and plastic viscosity — and is an honest
-illustration of a basis mismatch: it reports constituents as ratios to
-binder with no absolute kg/m³, so a constituent mass-% of the mix is
-left NULL rather than invented.</li>
+<li>The <strong>University of Florida 3D-Printing-Concrete
+Mix-Design</strong> dataset [51] supplies the extrusion-3DCP
+<em>printability</em> slice — static and dynamic yield stress and
+plastic viscosity — and is an honest illustration of a basis mismatch:
+it reports constituents as ratios to binder with no absolute kg/m³, so a
+constituent mass-% of the mix is left NULL rather than invented.</li>
 <li>The <strong>TU-Braunschweig Database of 3D Concrete Printed
 Buildings</strong> [52] supplies the <em>project / process layer</em> —
 as-built printed structures by consortium, country, and system — a slice
@@ -880,13 +880,13 @@ predictive-model benchmark; assembling and modelling a pooled
 multi-source corpus is future work (§11).</p>
 <figure>
 <img src="figures/fig5_demonstration.png" style="width:6.4in"
-alt="Worked demonstration. Left: six openly-licensed public datasets ingested into Open3DCP — UCI/Yeh (cast benchmark), Meta SustainableConcrete (cast, carbon-aware), UNSW UHPC, the RILEM TC 304-ADC interlaboratory study (real 3DCP, ~30 labs), the UF/UTK 3DCP mix-design set (printability), and the TU-Braunschweig 3DCP buildings catalogue (project layer) — each populating a different slice of the record (dark = populated, light = partial/absent), with Open3DCP spanning the union; the empty cells are recorded, not hidden. Three kg/m³ sources carry an automated open3dcp-ingest fidelity score (98.2–98.9 / A); the rest are curated through their native structure. Right: a cross-study characterization result from the RILEM data, expressible only because the schema records loading orientation — printed concrete loaded along the layers (X) is 32–55 % weaker than the cast reference, consistently across three independent laboratories (flexural strength, ~28 d; error bars are ± one standard deviation)." />
+alt="Worked demonstration. Left: six openly-licensed public datasets ingested into Open3DCP — UCI/Yeh (cast benchmark), Meta SustainableConcrete (cast, carbon-aware), UNSW UHPC, the RILEM TC 304-ADC interlaboratory study (real 3DCP, ~30 labs), the UF 3DCP mix-design set (printability), and the TU-Braunschweig 3DCP buildings catalogue (project layer) — each populating a different slice of the record (dark = populated, light = partial/absent), with Open3DCP spanning the union; the empty cells are recorded, not hidden. Three kg/m³ sources carry an automated open3dcp-ingest fidelity score (98.2–98.9 / A); the rest are curated through their native structure. Right: a cross-study characterization result from the RILEM data, expressible only because the schema records loading orientation — printed concrete loaded along the layers (X) is 32–55 % weaker than the cast reference, consistently across three independent laboratories (flexural strength, ~28 d; error bars are ± one standard deviation)." />
 <figcaption aria-hidden="true"><strong>Figure 5.</strong> <strong>Worked demonstration.</strong>
 <em>Left:</em> six openly-licensed public datasets ingested into
 Open3DCP — UCI/Yeh (cast benchmark), Meta SustainableConcrete (cast,
 carbon-aware), UNSW UHPC, the RILEM TC 304-ADC interlaboratory study
-(real 3DCP, ~30 labs), the UF/UTK 3DCP mix-design set (printability),
-and the TU-Braunschweig 3DCP buildings catalogue (project layer) — each
+(real 3DCP, ~30 labs), the UF 3DCP mix-design set (printability), and
+the TU-Braunschweig 3DCP buildings catalogue (project layer) — each
 populating a different slice of the record (dark = populated, light =
 partial/absent), with Open3DCP spanning the union; the empty cells are
 recorded, not hidden. Three kg/m³ sources carry an automated
@@ -1129,8 +1129,16 @@ Open3DCP is released under an open-source license (Apache 2.0) with no
 commercial restriction on use.</p>
 <p><strong>Acknowledgments.</strong> The author thanks the RILEM TC
 304-ADC committee for foundational work on 3DCP test standardization and
-interlaboratory data sharing, and the broader 3DCP research community
-whose published data motivated and informed the schema.</p>
+interlaboratory data sharing; the National Institute of Standards and
+Technology (NIST), the American Concrete Institute (ACI), Oak Ridge
+National Laboratory (ORNL) and its Manufacturing Demonstration Facility
+(MDF), and the ISO/ASTM 52939 committee together with its associated
+ASTM contributors, for advancing the measurement science, standards, and
+qualification frameworks on which additive construction depends; and the
+broader 3DCP research community whose published data motivated and
+informed the schema. Acknowledgment of these organizations reflects the
+standards and measurement foundations the schema builds on and does not
+imply their endorsement.</p>
 </section>
 <section id="references" class="level2">
 <h2>14. References</h2>
