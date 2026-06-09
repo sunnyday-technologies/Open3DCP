@@ -30,7 +30,7 @@ kg/m³ → mass-% projection is **exact** and the kg/m³ basis is preserved via 
 open3dcp-ingest convert build/uci-yeh-1998.csv --kind uci --out .
 ```
 
-Fidelity **96.7 / 100 (A)**. It populates the **mix-design**, **hardened-compressive**, and
+Fidelity **98.8 / 100 (A)**. It populates the **mix-design**, **hardened-compressive**, and
 **multi-age strength** groups; every 3DCP-process, rheology, interlayer-bond, durability, environment,
 and raw-material-provenance column stays **NULL** — see [`index.html`](index.html) for the full
 structure → schema graphic.
