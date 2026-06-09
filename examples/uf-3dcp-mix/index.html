@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<meta name="description" content="Worked example: the UF/UTK 3D-Printing-Concrete Mix-Design Open Dataset re-formatted into the Open3DCP flat schema — the extrusion-3DCP printability slice (yield stress, viscosity) on a ratio-to-binder basis."/>
-<link rel="canonical" href="https://open3dcp.org/examples/ufutk-3dcp-mix/"/>
-<title>UF/UTK 3DCP Mix-Design → Open3DCP</title>
+<meta name="description" content="Worked example: the UF 3D-Printing-Concrete Mix-Design Open Dataset re-formatted into the Open3DCP flat schema — the extrusion-3DCP printability slice (yield stress, viscosity) on a ratio-to-binder basis."/>
+<link rel="canonical" href="https://open3dcp.org/examples/uf-3dcp-mix/"/>
+<title>UF 3DCP Mix-Design → Open3DCP</title>
 <link rel="stylesheet" href="../styles.css"/>
 </head>
 <body>
@@ -15,7 +15,7 @@
 
 <main class="sheet">
   <div class="kicker">Example entry · extrusion 3D-printed concrete</div>
-  <h1>UF/UTK 3DCP Mix-Design → Open3DCP</h1>
+  <h1>UF 3DCP Mix-Design → Open3DCP</h1>
   <p class="lede">The genuine extrusion-3DCP slice: printable Portland mixes with the fresh-state
   <strong>rheology that governs printability</strong> — and an honest illustration of a <strong>basis
   mismatch</strong> (ratio-to-binder, no kg/m³) that the connective layer exists to span.</p>
@@ -51,10 +51,10 @@
 
   <h2>2 · Re-formatting into Open3DCP</h2>
   <figure>
-  <svg viewBox="0 0 760 360" role="img" aria-label="UF/UTK ratio-to-binder 3DCP table through open3dcp-ingest into the Open3DCP flat row, populating is_3d_printed, yield stress, viscosity, w/b and compressive strength; constituent mass-%, durability and environment remain null.">
+  <svg viewBox="0 0 760 360" role="img" aria-label="UF ratio-to-binder 3DCP table through open3dcp-ingest into the Open3DCP flat row, populating is_3d_printed, yield stress, viscosity, w/b and compressive strength; constituent mass-%, durability and environment remain null.">
     <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#1f6fb2"/></marker></defs>
     <rect class="svg-node" x="8" y="34" width="212" height="176" rx="7"/>
-    <text class="svg-head" x="20" y="54">Source — UF/UTK</text>
+    <text class="svg-head" x="20" y="54">Source — UF</text>
     <text class="svg-sub" x="20" y="70">flat .xlsx · ratio-to-binder</text>
     <text class="svg-sub" x="20" y="92">Binder system (ratios)</text>
     <text class="svg-sub" x="20" y="108">Water-Binder Ratio</text>
@@ -111,7 +111,7 @@
 
   <h3>Curated rows (excerpt)</h3>
   <p class="small">Yield stress (the printability control) vs strength, across primary studies. Full file:
-  <a href="ufutk-3dcp-mix.open3dcp.csv">ufutk-3dcp-mix.open3dcp.csv</a>.</p>
+  <a href="uf-3dcp-mix.open3dcp.csv">uf-3dcp-mix.open3dcp.csv</a>.</p>
   <table>
     <thead><tr><th>w/b</th><th>static yield (Pa)</th><th>dynamic yield (Pa)</th><th>plastic visc. (Pa·s)</th><th>age (d)</th><th>f<sub>c</sub> (MPa)</th></tr></thead>
     <tbody>
@@ -124,14 +124,14 @@
 
   <h2>4 · How this was built</h2>
   <pre><code>python build/extract.py "3D concrete printing mix design dataset v0.3.xlsx"
-# → ufutk-3dcp-mix.open3dcp.csv  (kPa→Pa; ratio-to-binder basis noted per row)</code></pre>
-  <p class="small">A sample, not a re-host. Source © the UF/UTK authors, CC BY 4.0 — see
+# → uf-3dcp-mix.open3dcp.csv  (kPa→Pa; ratio-to-binder basis noted per row)</code></pre>
+  <p class="small">A sample, not a re-host. Source © the UF authors, CC BY 4.0 — see
   <a href="NOTICE">NOTICE</a>. Get the full table from the
   <a href="https://doi.org/10.5281/zenodo.6828947">DOI</a>.</p>
 </main>
 
 <footer class="pb-footer">
-  <span><a href="../">← all examples</a> · UF/UTK 3DCP Mix-Design</span>
+  <span><a href="../">← all examples</a> · UF 3DCP Mix-Design</span>
   <span>Open3DCP · schema v1.7</span>
 </footer>
 </body>
