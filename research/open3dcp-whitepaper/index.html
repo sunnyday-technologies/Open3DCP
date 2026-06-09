@@ -613,7 +613,7 @@ and interlayer columns are the additive, 3DCP-specific part (Figure
 <figure>
 <img src="figures/fig1_cppc_chain.png" style="width:6.2in"
 alt="Open3DCP records the full ICME chain — composition, processing, structure/state, properties, and provenance — for one specimen in a single flat, analysis-ready row. The schema is the substrate for ICME-style process–structure–property analysis: it preserves the inputs and outcomes of a printed experiment without joins or file parsing." />
-<figcaption aria-hidden="true">Open3DCP records the full ICME chain —
+<figcaption aria-hidden="true"><strong>Figure 1.</strong> Open3DCP records the full ICME chain —
 composition, processing, structure/state, properties, and provenance —
 for one specimen in a single flat, analysis-ready row. The schema is the
 substrate for ICME-style process–structure–property analysis: it
@@ -623,7 +623,7 @@ or file parsing.</figcaption>
 <figure>
 <img src="figures/fig2_column_inventory.png" style="width:5.6in"
 alt="The 244 columns of Open3DCP v1.7 mapped to the CPPC framework. Counts are parsed from sql/create_tables.sql, the schema’s source of truth. Composition (91): binders, SCMs, activators, aggregates, fibers, admixtures, pigments, water, ratios, aggregate conditioning. Properties (86): fresh-state, mechanical, interlayer bond, durability, thermal, microstructure. Processing (27): 3DCP process parameters, pumping, mixing. Conditions (24): test conditions / specimen, environment, exposure class. Provenance (16): identity / versioning, source DOI, quality flags." />
-<figcaption aria-hidden="true">The 244 columns of Open3DCP v1.7 mapped
+<figcaption aria-hidden="true"><strong>Figure 2.</strong> The 244 columns of Open3DCP v1.7 mapped
 to the CPPC framework. Counts are parsed from
 <code>sql/create_tables.sql</code>, the schema’s source of truth.
 <em>Composition</em> (91): binders, SCMs, activators, aggregates,
@@ -637,7 +637,7 @@ conditions / specimen, environment, exposure class. <em>Provenance</em>
 <figure>
 <img src="figures/fig3_data_classes.png" style="width:6.3in"
 alt="What is specific to 3D concrete printing, and what it shares with conventional concrete. Of the 244 columns, ~183 describe composition and performance properties shared with cast concrete (and therefore crosswalk to a relational concrete database); ~39 are specific to extrusion 3DCP (printing process, pumping, interlayer bond, printing-state rheology) with no conventional-concrete counterpart; the remaining ~22 are provenance. (This is a different cut of the same 244 than the CPPC inventory in Figure 2 — by origin rather than reporting role — and also sums to 244.) The amber annex lists extrusion-process inputs identified but not yet captured — a future-work agenda." />
-<figcaption aria-hidden="true">What is specific to 3D concrete printing,
+<figcaption aria-hidden="true"><strong>Figure 3.</strong> What is specific to 3D concrete printing,
 and what it shares with conventional concrete. Of the 244 columns, ~183
 describe composition and performance properties shared with cast
 concrete (and therefore crosswalk to a relational concrete database);
@@ -652,7 +652,7 @@ agenda.</figcaption>
 <figure>
 <img src="figures/fig4_schema_growth.png" style="width:5.8in"
 alt="Schema growth has stabilized (top): the last two tagged releases added only +8 and +12 columns, all backward-compatible (interoperability, uncertainty, and convenience fields). Composition of the 244 (bottom): only four columns are derived from others, so the count is a sparse measured vocabulary — the union of every reportable field, most NULL in any record — not 244 independent measurements. Only the git-tagged releases (v1.5–v1.7) carry exact counts; v1.0 is the changelog’s stated first-release figure (~175). The 244 are data columns, excluding the SERIAL primary key." />
-<figcaption aria-hidden="true">Schema growth has stabilized (top): the
+<figcaption aria-hidden="true"><strong>Figure 4.</strong> Schema growth has stabilized (top): the
 last two tagged releases added only +8 and +12 columns, all
 backward-compatible (interoperability, uncertainty, and convenience
 fields). Composition of the 244 (bottom): only four columns are derived
@@ -828,7 +828,7 @@ models on pooled Open3DCP data is future work (§12).</p>
 <figure>
 <img src="figures/fig5_demonstration.png" style="width:6.4in"
 alt="Worked demonstration. Left: two openly-licensed public datasets ingested into Open3DCP — UCI/Yeh (cast) and the RILEM TC 304-ADC interlaboratory study (real 3DCP, ~30 labs) — each populating complementary slices of the record (dark = populated, light = partial), with Open3DCP spanning the union. Right: a real cross-study result from the RILEM data, expressible only because the schema records loading orientation — printed concrete loaded along the layers (X) is 32–55 % weaker than the cast reference, consistently across three independent laboratories (flexural strength, ~28 d; error bars are ± one standard deviation)." />
-<figcaption aria-hidden="true"><strong>Worked demonstration.</strong>
+<figcaption aria-hidden="true"><strong>Figure 5.</strong> <strong>Worked demonstration.</strong>
 <em>Left:</em> two openly-licensed public datasets ingested into
 Open3DCP — UCI/Yeh (cast) and the RILEM TC 304-ADC interlaboratory study
 (real 3DCP, ~30 labs) — each populating complementary slices of the
@@ -1000,7 +1000,7 @@ rather than asserted.</p>
 <figure>
 <img src="figures/fig6_crosswalk.png" style="width:6.2in"
 alt="Interoperability with a normalized relational concrete database. Material and test data map both ways by fidelity class (exact / lossy / categorical); the round-trip is not lossless — relational structure (geometry, reinforcement, devices, loading history) collapses to a side record, and the extrusion-3DCP block has no conventional relational counterpart." />
-<figcaption aria-hidden="true">Interoperability with a normalized
+<figcaption aria-hidden="true"><strong>Figure 6.</strong> Interoperability with a normalized
 relational concrete database. Material and test data map both ways by
 fidelity class (exact / lossy / categorical); the round-trip is not
 lossless — relational structure (geometry, reinforcement, devices,
