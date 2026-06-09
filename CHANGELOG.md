@@ -33,7 +33,7 @@ Additive, backward-compatible changes. Existing v1.6 datasets remain valid uncha
   selector/metadata fields (pivot keys, `data_type`, carried descriptors) are excluded from the
   fidelity coverage denominator, like foreign keys.
 - A committed, reproducible relational fixture (`tools/ingest/tests/fixtures/`) now anchors the
-  relational ingestion example: 83.1 (B) → **97.4 (A)** after the above; UCI stays 96.7 (A).
+  relational ingestion example: 83.1 (B) → **97.4 (A)** after the above; UCI **98.8 (A)** (corrected tool).
 
 ### Added — aggregate conditioning (water accounting)
 - `aggregate_moisture_state` -- as-batched aggregate condition: `oven_dry` | `air_dry` | `SSD` | `wet`.

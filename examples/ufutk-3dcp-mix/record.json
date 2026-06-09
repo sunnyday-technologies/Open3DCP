@@ -1,0 +1,20 @@
+{
+  "id": "ufutk-3dcp-mix",
+  "dataset": "UF/UTK 3D-Printing-Concrete Mix-Design Open Dataset (v0.3)",
+  "source_url": "https://zenodo.org/records/8070144",
+  "doi": "10.5281/zenodo.6828947",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Gao, J., Wang, Z., & Wang, C. (2022). 3D Printing Concrete Mix Design Open Dataset (v0.3) [Dataset]. University of Florida. Zenodo. DOI 10.5281/zenodo.6828947. CC BY 4.0.",
+  "classification": "storable",
+  "country": "USA (University of Florida)",
+  "storage_medium": "single flat table (.xlsx), one row per mix, constituents on a ratio-to-binder basis (binder = 1)",
+  "is_3d_printed": true,
+  "rows_in_source": "extrusion-3DCP mixes standardized from many primary studies",
+  "rows_committed": 10,
+  "open3dcp_coverage": ["3dcp_printability", "fresh_rheology", "mix_design_partial", "hardened_mechanical"],
+  "null_groups": ["mix_design_constituents_kg_m3", "multi_age", "interlayer_bond", "durability", "environment", "raw_material_provenance"],
+  "fidelity": { "method": "hand-curated ratio-to-binder excerpt; constituent mass-% not formed (no kg/m³ binder content); automated open3dcp-ingest score pending a ratio-to-binder reader (follow-up)" },
+  "build_cmd": "python build/extract.py <3D concrete printing mix design dataset v0.3.xlsx downloaded from the DOI>",
+  "retrieved": "2026-06-09"
+}

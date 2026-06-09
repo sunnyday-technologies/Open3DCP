@@ -223,6 +223,121 @@ def read_relational_xlsx(path: str) -> list[dict[str, Any]]:
     return records
 
 
+# ---------------------------------------------------------------------------
+# generic flat kg/m3 mix table -- a curated CSV with canonical column tokens
+# ---------------------------------------------------------------------------
+# Many open datasets are a single flat table that reports every constituent in
+# kg/m3 of a 1 m3 batch (UCI, Meta SustainableConcrete, the UNSW UHPC corpus, ...).
+# This reader consumes a curated excerpt whose headers are canonical tokens we
+# control (so the reader is dataset-agnostic) and emits source records using the
+# SAME field paths as the relational reader, so the shared relational crosswalk
+# maps them. It computes the wet-mass balance from ALL kg/m3 constituents (the
+# denominator of every mass-%), so kg/m3 -> mass-% is exact when the batch closes.
+_FLAT_BINDERS = {  # canonical CSV column -> material_batches.<field>
+    "cement_kg_m3": "cement_content_kg_m3",
+    "fly_ash_kg_m3": "fly_ash_content_kg_m3",
+    "slag_kg_m3": "slag_content_kg_m3",
+    "silica_fume_kg_m3": "silica_fume_content_kg_m3",
+    "metakaolin_kg_m3": "metakaolin_content_kg_m3",
+    "limestone_kg_m3": "limestone_content_kg_m3",
+    "nano_silica_kg_m3": "nano_silica_content_kg_m3",
+    "mineral_powder_kg_m3": "mineral_powder_content_kg_m3",
+}
+_FLAT_OTHER_MASS = {  # kg/m3 constituents that add mass but are not binder
+    "water_kg_m3": "water_content_kg_m3",
+    "superplasticizer_kg_m3": "superplasticizer_content_kg_m3",
+    "coarse_agg_kg_m3": "coarse_aggregate_content_kg_m3",
+    "fine_agg_kg_m3": "fine_aggregate_content_kg_m3",
+    "fiber_kg_m3": "fiber_content_kg_m3",
+}
+# binders that contribute to the binder total (denominator of w/b, total_binder)
+_FLAT_BINDER_TOTAL = ["cement_kg_m3", "fly_ash_kg_m3", "slag_kg_m3", "silica_fume_kg_m3",
+                      "metakaolin_kg_m3", "nano_silica_kg_m3"]
+# data quantities: canonical CSV column -> (quantity_reported, units)
+_FLAT_QUANTITIES = {
+    "compressive_strength_mpa": ("compressive_strength", "MPa"),
+    "flexural_strength_mpa": ("flexural_strength", "MPa"),
+    "tensile_strength_mpa": ("tensile_strength", "MPa"),
+    "splitting_tensile_mpa": ("splitting_tensile", "MPa"),
+    "elastic_modulus_gpa": ("elastic_modulus", "GPa"),
+    "slump_mm": ("slump", "mm"),
+}
+
+
+def read_flat_csv(path: str) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    with open(path, newline="", encoding="utf-8-sig") as fh:
+        for raw in csv.DictReader(fh):
+            row = {k.strip(): (v.strip() if isinstance(v, str) else v) for k, v in raw.items()}
+            rec: dict[str, Any] = {}
+            # mix-design constituents (kg/m3)
+            for col, field in {**_FLAT_BINDERS, **_FLAT_OTHER_MASS}.items():
+                val = _num(row.get(col))
+                if val is not None:
+                    rec[f"material_batches.{field}"] = val
+            # categorical / identity batch fields
+            for col, field in (("cement_type", "cement_type"), ("fly_ash_class", "fly_ash_class"),
+                               ("material_class", "material_class"), ("fiber_type", "fiber_type"),
+                               ("printable", "printable")):
+                v = row.get(col)
+                if v not in (None, ""):
+                    rec[f"material_batches.{field}"] = v
+            # default cement type to ASTM C150 Type I only when cement is present (UCI convention)
+            if rec.get("material_batches.cement_content_kg_m3") and "material_batches.cement_type" not in rec:
+                rec["material_batches.cement_type"] = "ASTM_C150_Type_I"
+            for col, field in (("fiber_length_mm", "fiber_length_mm"),
+                               ("fiber_diameter_mm", "fiber_diameter_mm"),
+                               ("max_agg_size_mm", "max_aggregate_size_mm"),
+                               ("embodied_carbon_kg_co2_m3", "embodied_carbon_kg_co2_m3")):
+                val = _num(row.get(col))
+                if val is not None:
+                    rec[f"material_batches.{field}"] = val
+            # water/binder ratio (derived; both the water column and the ratio are kept)
+            binder = sum(_num(row.get(c)) or 0.0 for c in _FLAT_BINDER_TOTAL)
+            water = _num(row.get("water_kg_m3"))
+            if binder > 0 and water is not None:
+                rec["material_batches.water_binder_ratio"] = round(water / binder, 4)
+            # specimen / test conditions
+            if row.get("specimen_geometry"):
+                rec["specimens.specimen_geometry"] = row["specimen_geometry"]
+            if row.get("test_method"):
+                rec["tests.test_type"] = row["test_method"]
+            for col, field in (("age_days", "tests.age_days"),
+                               ("curing_temp_c", "tests.initial_env_temperature_C"),
+                               ("curing_humidity_pct", "tests.initial_env_relative_humidity_percent")):
+                val = _num(row.get(col))
+                if val is not None:
+                    rec[field] = val
+            # measured quantities -> data.<q>.{mean,std,units}
+            for col, (q, unit) in _FLAT_QUANTITIES.items():
+                mean = _num(row.get(col))
+                if mean is None:
+                    continue
+                rec[f"data.{q}.mean"] = mean
+                rec[f"data.{q}.units"] = unit
+                if q == "compressive_strength":
+                    std = _num(row.get("compressive_strength_std_mpa"))
+                    if std is not None:
+                        rec[f"data.{q}.std"] = std
+            n = _num(row.get("n_specimens"))
+            if n is not None:
+                rec["data.number_of_specimens"] = int(n)
+            rec["data.extraction_methods"] = row.get("extraction_method") or "direct"
+            # wet-mass balance: every constituent is a kg/m3 mass, so the total closes
+            mass_fields = list(_FLAT_BINDERS) + list(_FLAT_OTHER_MASS)
+            total = sum(_num(row.get(c)) or 0.0 for c in mass_fields)
+            complete = binder > 0 and total > 0
+            rec["_ctx"] = {
+                "total_wet_mass_kg_m3": total if total > 0 else None,
+                "total_wet_mass_is_complete": complete,
+                "total_binder_kg_m3": binder if binder > 0 else None,
+                "mix_density_kg_m3": total if total > 0 else None,
+                "source": "flat",
+            }
+            records.append(rec)
+    return records
+
+
 def detect_and_read(path: str, kind: str | None = None) -> tuple[str, list[dict[str, Any]]]:
     """Dispatch on file type / explicit kind. Returns (kind, records)."""
     ext = os.path.splitext(path)[1].lower()
@@ -232,4 +347,6 @@ def detect_and_read(path: str, kind: str | None = None) -> tuple[str, list[dict[
         return kind, read_relational_xlsx(path)
     if kind == "uci":
         return kind, read_uci_csv(path)
+    if kind == "flat":
+        return kind, read_flat_csv(path)
     raise ValueError(f"unknown source kind {kind!r}")

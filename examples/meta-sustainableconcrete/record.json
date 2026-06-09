@@ -1,0 +1,20 @@
+{
+  "id": "meta-sustainableconcrete",
+  "dataset": "Meta SustainableConcrete (BOxCrete dataset)",
+  "source_url": "https://github.com/facebookresearch/SustainableConcrete",
+  "doi": null,
+  "license": "MIT",
+  "license_url": "https://github.com/facebookresearch/SustainableConcrete/blob/main/LICENSE",
+  "attribution": "SustainableConcrete / BOxCrete [Dataset & code]. Meta Platforms, Inc. / University of Illinois Urbana-Champaign / Amrize. github.com/facebookresearch/SustainableConcrete. MIT License.",
+  "classification": "storable",
+  "country": "USA (Meta / UIUC / Amrize)",
+  "storage_medium": "single flat table (.csv), one row per mix·curing-age, constituents in kg/m³ of a 1 m³ batch",
+  "is_3d_printed": false,
+  "rows_in_source": 727,
+  "rows_committed": 28,
+  "open3dcp_coverage": ["mix_design", "hardened_mechanical", "multi_age_strength", "embodied_carbon", "measurement_uncertainty"],
+  "null_groups": ["3dcp_process", "rheology", "interlayer_bond", "durability", "raw_material_provenance"],
+  "fidelity": { "overall": 98.9, "grade": "A" },
+  "build_cmd": "open3dcp-ingest convert build/meta-sustainableconcrete.csv --kind flat --out .",
+  "retrieved": "2026-06-09"
+}
