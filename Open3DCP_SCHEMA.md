@@ -292,7 +292,7 @@ These columns capture the full extrusion printing process. Null for cast specime
 | `num_layers` | integer | Total number of printed layers | -- |
 | `path_length_mm` | real | Total toolpath length per layer | mm |
 | `infill_pattern` | varchar | Internal fill pattern (solid, zigzag, contour) | -- |
-| `contour_count` | integer | Number of perimeter contours | -- |
+| `contour_count` | integer | Perimeter contours (wall passes) per layer; slicer synonyms: wall line count / wall layers / perimeters / shells — distinct from `num_layers` | -- |
 | `print_direction` | varchar | Primary print path direction | -- |
 
 ### Pumping System

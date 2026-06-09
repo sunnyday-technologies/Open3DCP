@@ -208,7 +208,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `num_layers` | integer | Total number of printed layers | — | 3DCP-native (RILEM TC 276-DFC / 304-ADC). |
 | `path_length_mm` | real | Total toolpath length per layer | — | 3DCP-native (RILEM TC 276-DFC / 304-ADC). |
 | `infill_pattern` | varchar(50) | Internal fill pattern (solid, zigzag, contour) | — | 3DCP-native (RILEM TC 276-DFC / 304-ADC). |
-| `contour_count` | integer | Number of perimeter contours | — | 3DCP-native (RILEM TC 276-DFC / 304-ADC). |
+| `contour_count` | integer | Perimeter contours (wall passes) per layer; slicer synonyms: wall line count / wall layers / perimeters / shells — distinct from `num_layers` | — | 3DCP-native (RILEM TC 276-DFC / 304-ADC). |
 | `print_direction` | varchar(20) | Primary print path direction | — | 3DCP-native (RILEM TC 276-DFC / 304-ADC). |
 
 ## Pumping System

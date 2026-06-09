@@ -980,6 +980,14 @@ USA</string-name>
         rheometry, thermal imaging, machine vision), keeping the
         flat-schema backward-compatibility guarantee.</p>
       </list-item>
+      <list-item>
+        <p>Add the <bold>3DCP-native structural columns</bold> the
+        relational crosswalk surfaces as gaps rather than dead ends: a
+        reinforcement block beyond fibers (penetrating bar, entrained
+        cable, inter-layer mesh/textile) and embedded-sensor / in-situ
+        print-monitoring references — additive and
+        backward-compatible.</p>
+      </list-item>
     </list>
   </sec>
   <sec id="data-and-code-availability">
