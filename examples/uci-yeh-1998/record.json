@@ -14,7 +14,7 @@
   "rows_committed": 14,
   "open3dcp_coverage": ["mix_design", "hardened_mechanical", "multi_age_strength"],
   "null_groups": ["3dcp_process", "rheology", "interlayer_bond", "durability", "environment", "raw_material_provenance"],
-  "fidelity": { "overall": 96.7, "grade": "A" },
+  "fidelity": { "overall": 98.8, "grade": "A" },
   "build_cmd": "open3dcp-ingest convert build/uci-yeh-1998.csv --kind uci --out .",
   "retrieved": "2026-06-04"
 }
