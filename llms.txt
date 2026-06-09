@@ -1,6 +1,6 @@
 # Open3DCP
 
-> Open data standard / flat schema for 3D-printable concrete (3DCP) mix design and test records. Defines canonical column names, types, units, and engineering context for binders, alkali activators, aggregates, fibers, admixtures, pigments, fresh-state rheology, hardened mechanical properties, durability, 3DCP process parameters, and interlayer bond. kg/m³-primary basis (mass-% derivable). Designed for analysis and ML-oriented workflows. Apache 2.0. Maintained by Sunnyday Technologies LLC, Appleton WI.
+> Open data standard / flat schema for 3D-printable concrete (3DCP) mix design and test records. Defines canonical column names, types, units, and engineering context for binders, alkali activators, aggregates, fibers, admixtures, pigments, fresh-state rheology, hardened mechanical properties, durability, 3DCP process parameters, and interlayer bond. kg/m³-primary basis (mass-% derivable). Designed for analysis and ML-oriented workflows. Apache 2.0. Maintained by Sunnyday Technologies LLC, Wisconsin.
 
 This file is a high-density, plain-text summary intended for LLM retrieval and RAG indexing. Authoritative source is the GitHub repository and the schema document linked below. Open3DCP is a schema definition only — it does not contain mix-design data.
 
