@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reproduce the UF/UTK 3D-Printing-Concrete Mix-Design Open Dataset -> Open3DCP excerpt.
+"""Reproduce the UF 3D-Printing-Concrete Mix-Design Open Dataset -> Open3DCP excerpt.
 
 This example is HAND-CURATED (like the RILEM one). The source is reported on a **ratio-to-binder**
 basis (binder = 1; every constituent given as a fraction of binder), with NO absolute binder content in
@@ -19,7 +19,7 @@ Source (CC BY 4.0), NOT re-hosted -- download it from the DOI and run:
 
 It selects printable Portland-cement mixes that report fresh rheology + strength (up to two per source
 study, spanning the yield-stress and strength range), maps kPa -> Pa, and writes
-../ufutk-3dcp-mix.open3dcp.csv. Values are real; nothing is synthesized.
+../uf-3dcp-mix.open3dcp.csv. Values are real; nothing is synthesized.
 """
 import csv
 import os
@@ -52,8 +52,16 @@ def main(src):
     from openpyxl import load_workbook
     wb = load_workbook(src, read_only=True, data_only=True)
     ws = wb["Sheet1"]
-    data = list(ws.iter_rows(values_only=True))[1:]
+    rows = list(ws.iter_rows(values_only=True))
     wb.close()
+    # header fingerprint: fail loudly if an upstream re-export shifts columns (never emit wrong data)
+    hdr = [str(c).strip().replace(chr(10), " ") if c is not None else "" for c in rows[0]]
+    for pos, token in {6: "Binder1", 40: "Water-Binder", 97: "Static Yield Stress",
+                       99: "Plastic Viscosity", 103: "28days"}.items():
+        if token.lower() not in hdr[pos].lower():
+            raise SystemExit(f"UF source header changed at col {pos}: expected ~{token!r}, found "
+                             f"{hdr[pos]!r}. Verify the IX column positions before re-running.")
+    data = rows[1:]
     out, per_ref = [], {}
     for r in data:
         g = lambda k: num(r[IX[k]])
@@ -76,7 +84,7 @@ def main(src):
                 + f". Primary study: {ref}.")
         for d, cs in ages:
             out.append({
-                "source_dataset": "UF/UTK 3DCP Mix-Design Open Dataset",
+                "source_dataset": "UF 3DCP Mix-Design Open Dataset",
                 "is_3d_printed": True,
                 "material_class": "blended_OPC" if scm else "OPC",
                 "w_b_ratio": w_b,
@@ -89,7 +97,7 @@ def main(src):
         if len(out) >= MAX_ROWS:
             break
     dest = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                        "ufutk-3dcp-mix.open3dcp.csv")
+                        "uf-3dcp-mix.open3dcp.csv")
     with open(dest, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=COLS)
         w.writeheader()
