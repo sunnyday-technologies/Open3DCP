@@ -17,7 +17,7 @@
 This is the genuine **extrusion-3DCP mix slice**: printable Portland-cement mixes reported with the
 fresh-state **rheology that governs printability** — static and dynamic yield stress and plastic viscosity
 — plus water/binder and compressive strength. It fills `is_3d_printed`, `static_yield_stress_pa`,
-`dynamic_yield_stress_pa`, and `plastic_viscosity_pa_s` — columns the cast benchmarks (UCI, Meta, UNSW)
+`dynamic_yield_stress_pa`, and `plastic_viscosity_pa_s` — columns the cast benchmarks (UCI, Meta)
 leave empty.
 
 It is also an honest illustration of a **basis mismatch**, which is the whole point of a connective
@@ -51,5 +51,5 @@ python build/extract.py "3D concrete printing mix design dataset v0.3.xlsx"
 
 ## Citation
 
-Gao, J., Wang, Z., & Wang, C. (2022). *3D Printing Concrete Mix Design Open Dataset* (v0.3) [Dataset].
+Gao, J., Wang, Z., & Wang, C. (2023). *3D Printing Concrete Mix Design Open Dataset* (v0.3) [Dataset].
 Zenodo. DOI [10.5281/zenodo.6828947](https://doi.org/10.5281/zenodo.6828947). Licensed CC BY 4.0.

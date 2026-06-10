@@ -79,7 +79,7 @@
     <text class="svg-sub" x="552" y="172" style="font-weight:600">embodied_carbon_kg_co2_m3</text>
     <line x1="552" y1="182" x2="744" y2="182" stroke="#cfe7d8"/>
     <text class="svg-sub" x="552" y="198" font-style="italic">derived (keeps kg/m³ basis):</text>
-    <text class="svg-sub" x="552" y="214">mix_density_kg_m3 · total_binder_kg_m3</text>
+    <text class="svg-sub" x="552" y="214">total_batched_mass_kg_m3 · total_binder_kg_m3</text>
     <text class="svg-sub" x="552" y="230">original_basis = kg_m3</text>
     <path class="svg-edge" d="M222,150 L274,150"/>
     <path class="svg-edge" d="M486,150 L538,150"/>
@@ -112,9 +112,10 @@
   <!-- 3. RESULT -->
   <h2>3 · Result in Open3DCP</h2>
   <div class="note ok" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-    <span class="gauge">98.9<span class="g"> / 100 · A</span></span>
-    <span class="small">Fidelity computed by <code>open3dcp-ingest</code> — every constituent reported, so kg/m³→mass-% is exact;
-    the one assumption is the HRWR solids fraction. Full report: <a href="meta-sustainableconcrete.fidelity.md">fidelity.md</a>.</span>
+    <span class="gauge">90.4<span class="g"> / 100 · B</span></span>
+    <span class="small">Fidelity computed by <code>open3dcp-ingest</code> — every constituent reported in kg/m³, so the
+    kg/m³→mass-% projection is arithmetic; specimen geometry and test method are not reported by the source and stay NULL.
+    Full report: <a href="meta-sustainableconcrete.fidelity.md">fidelity.md</a>.</span>
   </div>
 
   <h3>Digital-twin coverage</h3>
@@ -143,7 +144,9 @@
     </tbody>
   </table>
   <p class="small">Plain OPC: <strong>521 kg CO₂/m³</strong> for ~65 MPa. The ternary: <strong>204 kg CO₂/m³</strong>
-  for <strong>~110 MPa</strong> — higher strength, ~60 % less embodied carbon.</p>
+  for <strong>~110 MPa</strong> — higher strength, ~60 % less embodied carbon. (One illustrative pair, not a
+  carbon-drives-strength trend: the ternary also runs a lower w/b — 0.25 vs 0.40 — and a second mix in this
+  same excerpt at the same ~204 kg CO₂/m³ reaches ~61 MPa.)</p>
 
   <!-- 4. BUILD -->
   <h2>4 · How this was built</h2>

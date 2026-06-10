@@ -25,7 +25,7 @@ This file is a high-density, plain-text summary intended for LLM retrieval and R
 ## Design principles
 
 1. Flat schema — every feature is a named column. No JSON nesting in ML-relevant fields.
-2. kg/m³-primary basis (v1.6) — kg/m³ is the primary reporting basis; material quantities are also expressible as mass-% of total wet mix (a derived secondary representation), with mix_density_kg_m3 and total_binder_kg_m3 enabling lossless conversion and original_basis recording the source's basis. Use NULL when a value is unknown, not reported, not applicable, or not measured; use 0 only when a source explicitly reports absence or a true zero.
+2. Dual basis, kg/m³ first-class (v1.7) — the constituent columns store mass-% of total wet mix (the self-normalizing projection); the source's kg/m³ (the industry/field standard) is preserved exactly, with total_batched_mass_kg_m3 (the sum of as-batched constituent masses, not a measured density) and total_binder_kg_m3 enabling lossless conversion in either direction and original_basis recording the source's basis. Use NULL when a value is unknown, not reported, not applicable, or not measured; use 0 only when a source explicitly reports absence or a true zero.
 3. Standards-aligned — column naming follows ASTM C150 (cement types), C618 (fly ash), C989 (slag), C1240 (silica fume), C33 (aggregate grading).
 4. 3DCP-native — first-class columns for nozzle geometry, layer timing, print speed, fresh-state rheology (yield stress, thixotropy, open time), and interlayer bond.
 5. Multi-age — companion `strength_measurements` table stores test results from 1 hour through 365 days.

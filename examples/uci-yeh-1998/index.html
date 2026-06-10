@@ -91,7 +91,7 @@
     <text class="svg-sub" x="552" y="180">compressive_strength_mpa</text>
     <line x1="552" y1="190" x2="744" y2="190" stroke="#cfe7d8"/>
     <text class="svg-sub" x="552" y="206" font-style="italic">derived (keeps kg/m³ basis):</text>
-    <text class="svg-sub" x="552" y="221">mix_density_kg_m3</text>
+    <text class="svg-sub" x="552" y="221">total_batched_mass_kg_m3</text>
     <text class="svg-sub" x="552" y="236">total_binder_kg_m3</text>
     <text class="svg-sub" x="552" y="251">original_basis = kg_m3</text>
 
@@ -128,16 +128,17 @@
       <tr><td>Fine Aggregate</td><td>kg/m³ → mass-%</td><td><code>concrete_sand</code></td><td>fineness assumed</td></tr>
       <tr><td>Age</td><td>identity</td><td><code>test_age_days</code></td><td>exact</td></tr>
       <tr><td>Compressive strength</td><td>identity</td><td><code>compressive_strength_mpa</code></td><td>exact</td></tr>
-      <tr><td><em>(derived)</em></td><td>sum constituents</td><td><code>mix_density_kg_m3</code>, <code>total_binder_kg_m3</code>, <code>original_basis</code></td><td>exact</td></tr>
+      <tr><td><em>(derived)</em></td><td>sum constituents</td><td><code>total_batched_mass_kg_m3</code>, <code>total_binder_kg_m3</code>, <code>original_basis</code></td><td>exact</td></tr>
     </tbody>
   </table>
 
   <!-- 3. RESULT -->
   <h2>3 · Result in Open3DCP</h2>
   <div class="note ok" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-    <span class="gauge">98.8<span class="g"> / 100 · A</span></span>
-    <span class="small">Fidelity computed by <code>open3dcp-ingest</code> — every constituent reported, so kg/m³→mass-% is exact;
-    the one assumption is the superplasticizer solids fraction. Full report: <a href="uci-yeh-1998.fidelity.md">fidelity.md</a>.</span>
+    <span class="gauge">79.9<span class="g"> / 100 · C</span></span>
+    <span class="small">Fidelity computed by <code>open3dcp-ingest</code> — the constituent masses are exact, but the grade is held
+    down by four classifications the source does not record (cement type, the fine- and coarse-aggregate gradation
+    buckets, and the superplasticizer solids fraction). Full report: <a href="uci-yeh-1998.fidelity.md">fidelity.md</a>.</span>
   </div>
 
   <h3>Digital-twin coverage</h3>
@@ -153,7 +154,7 @@
   </div>
 
   <h3>Converted rows (excerpt)</h3>
-  <p class="small">Constituents as mass-% of total wet mix; <code>mix_density_kg_m3</code> / <code>total_binder_kg_m3</code> /
+  <p class="small">Constituents as mass-% of total wet mix; <code>total_batched_mass_kg_m3</code> / <code>total_binder_kg_m3</code> /
   <code>original_basis</code> retain the kg/m³ basis. Full file: <a href="uci-yeh-1998.open3dcp.csv">uci-yeh-1998.open3dcp.csv</a>.</p>
   <table>
     <thead><tr><th>cement_type_1</th><th>slag</th><th>fly_ash</th><th>water</th><th>super&shy;plast.</th><th>agg_size_57</th><th>concrete_sand</th><th>age_days</th><th>strength_mpa</th></tr></thead>

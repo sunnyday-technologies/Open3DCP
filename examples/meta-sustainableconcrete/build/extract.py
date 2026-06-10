@@ -54,7 +54,6 @@ def main(src):
         mean_psi = num(r["Strength (Mean)"])
         std_psi = num(r["Strength (Std)"])
         slump_in = num(r["Slump (in)"])
-        is_concrete = coarse > 0
         out.append({
             "mix_id": r["Mix Name"],
             # Portland system; blended when an SCM (fly ash / slag) is present.
@@ -65,8 +64,13 @@ def main(src):
             "fine_agg_kg_m3": num(r["Fine Aggregate (kg/m3)"]),
             "coarse_agg_kg_m3": coarse,
             "age_days": num(r["Time"]),
-            "specimen_geometry": "cylinder" if is_concrete else "cube",
-            "test_method": "cylinder_compression" if is_concrete else "cube_compression",
+            # The source has no specimen-geometry or test-method column, so these are recorded as NULL
+            # (not inferred). An earlier version guessed cylinder/cube from coarse-aggregate presence and
+            # coded it EN 12390-3 — an invented assumption that violated the schema's "NULL is not zero,
+            # and not a stand-in for an assumption" rule. If the upstream testing description is later
+            # confirmed (US mortar cubes would be ASTM C109), populate these from that source.
+            "specimen_geometry": None,
+            "test_method": None,
             "curing_temp_c": num(r["Temp (C)"]),
             "compressive_strength_mpa": round(mean_psi * PSI_TO_MPA, 2) if mean_psi is not None else None,
             "compressive_strength_std_mpa": round(std_psi * PSI_TO_MPA, 2) if std_psi is not None else None,

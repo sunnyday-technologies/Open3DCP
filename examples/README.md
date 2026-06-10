@@ -20,19 +20,19 @@ carbon → strength over decades.
 
 | Source | Provenance | Mix design | Rheology | 3DCP process | Hardened mech. | Multi-age | Environment |
 |---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| [UCI Concrete Strength (Yeh 1998)](uci-yeh-1998/) — *cast, **98.8/A*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ▢ |
-| [Meta SustainableConcrete](meta-sustainableconcrete/) — *cast, **98.9/A*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ✓ |
-| [UNSW Global UHPC](unsw-uhpc/) — *UHPC, **98.2/A*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ▢ |
+| [UCI Concrete Strength (Yeh 1998)](uci-yeh-1998/) — *cast, **79.9/C*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ▢ |
+| [Meta SustainableConcrete](meta-sustainableconcrete/) — *cast, **90.4/B*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ✓ |
 | [RILEM TC 304-ADC ILS-mech](rilem-tc304-ils-mech/) — *3DCP* | ✓ | ▢¹ | ✓ | ✓ | ✓ | ▢ | ▢ |
 | [UF 3DCP mix-design](uf-3dcp-mix/) — *3DCP* | ▢ | ◐ | ✓ | ✓ | ✓ | ▢ | ▢ |
 | [TU-Braunschweig 3DCP buildings](tu-braunschweig-buildings/) — *project layer* | ✓ | ▢ | ▢ | ◐ | ▢ | ▢ | ▢ |
 
 ¹ commercial premix — w/b and yield stress captured, constituent dosages not disclosed. The **gaps between
-slices are the connective-layer argument**: no single source spans quarry → decades; the union does. *Three
-sources carry a real `open3dcp-ingest` fidelity score (kg/m³ tables); the 3DCP-mix and project-layer sources
-are hand-curated because their native bases (ratio-to-binder; project metadata) are not yet auto-scored.* A
-seventh source, **Stevens UHPC** (Mahjoubi & Bao, US — CC BY 4.0), is cited reference-only: its mix variables
-are published as a coded ML feature matrix whose legend is paywalled, so it is not re-ingested here.
+slices are the connective-layer argument**: no single source spans the whole record; the union does. *Two
+sources carry a real `open3dcp-ingest` fidelity score (kg/m³ tables — UCI 79.9/C, Meta 90.4/B); the 3DCP-mix
+and project-layer sources are hand-curated because their native bases (ratio-to-binder; project metadata) are
+not yet auto-scored.* A surveyed UHPC source, **Stevens UHPC** (Mahjoubi & Bao, US — CC BY 4.0), was excluded
+as reference-only: its mix variables are published as a coded ML feature matrix whose legend is paywalled, so
+it is not re-ingested here.
 
 ## Storable vs reference-only
 
@@ -40,8 +40,8 @@ are published as a coded ML feature matrix whose legend is paywalled, so it is n
 public domain**, **GODL-India**, or a **permissive software license** (MIT/BSD/Apache) that allows redistribution — with attribution. Anything copyrighted, registration-gated, or unclear is
 **reference-only** and cited respectfully (never stored).
 
-**Storable** (built / verified): UCI Concrete Strength (CC BY 4.0) · Meta SustainableConcrete (MIT) · UNSW
-Global UHPC (CC BY 4.0) · RILEM TC 304-ADC ILS-mech (CC BY 4.0) · UF 3DCP mix-design (CC BY 4.0) ·
+**Storable** (built / verified): UCI Concrete Strength (CC BY 4.0) · Meta SustainableConcrete (MIT) ·
+RILEM TC 304-ADC ILS-mech (CC BY 4.0) · UF 3DCP mix-design (CC BY 4.0) ·
 TU-Braunschweig 3DCP Buildings (CC BY 4.0) · NIST Construction Materials Repository (US public domain) ·
 JCI–JACT articles (CC BY 4.0, per-paper).
 

@@ -36,13 +36,15 @@ This makes it difficult to combine datasets from different research groups for m
 
 The schema follows **FAIR data principles** (Findable, Accessible, Interoperable, Reusable) and the **Processing-Structure-Property-Performance** pattern, consistent with the NASA GRC ICME Schema philosophy for materials data management (Hearley & Arnold, 2023). Column organization aligns with NIST Materials Data Repository guidelines, RILEM TC 304-ADC recommendations, and Citrine GEMD conventions.
 
+**Scope.** Open3DCP is scoped to **extrusion-based 3D concrete printing** (material-extrusion / MEX, ISO/ASTM 52900:2021) and **hydraulic cementitious systems** — Portland and blended cements, calcium-aluminate and calcium-sulfoaluminate cements, and high-calcium alkali-activated slag (whose C-(A-)S-H binding gel is chemically continuous with Portland hydrates). Low-calcium fly-ash **geopolymers** (N-A-S-H gel) are a distinct binder chemistry and are out of scope; particle-bed / binder-jetting, spray, and slip-form processes are out of process scope.
+
 ---
 
 ## Design Principles
 
 1. **Flat schema** -- Every feature is a named column. No JSON nesting for ML-relevant data.
 
-2. **kg/m³-primary basis (v1.6)** -- kg/m³ is the primary reporting basis (the industry and literature standard). Material quantities are also expressible as mass-% of the total wet mix (a derived secondary representation); `mix_density_kg_m3` and `total_binder_kg_m3` make the two losslessly interconvertible with no density assumption, and `original_basis` records what the source reported.
+2. **Dual basis, kg/m³ first-class (v1.7)** -- the constituent columns store mass-% of total wet mix (the self-normalizing projection); the source's kg/m³ — the industry and literature standard — is preserved exactly via `total_batched_mass_kg_m3` (the sum of as-batched constituent masses — the bridge denominator, not a measured density) and `total_binder_kg_m3`, with `original_basis` recording what the source reported. Either basis is recoverable with no density assumption.
 
 3. **Standards-aligned** -- Column naming follows established test standards: ASTM C150 for cement types, ASTM C618 for fly ash, ASTM C989 for slag, ASTM C1240 for silica fume, ASTM C33 for aggregate grading by fineness modulus.
 
@@ -64,9 +66,9 @@ Binders are the reactive powders that harden when mixed with water. Portland cem
 
 | Column | What It Is | Why It Matters for 3DCP |
 |--------|------------|------------------------|
-| `cement_type_1` | General purpose Portland cement, ASTM C150 Type I. | Primary source of early strength. Most 3DCP mixes use 20-40% by total mass. |
+| `cement_type_1` | General purpose Portland cement, ASTM C150 Type I. | Primary source of early strength. Dosage varies widely with the binder system — roughly 7–25% of total wet mass in the demonstration datasets, higher in rich pastes. |
 | `cement_type_1_2` | General purpose / moderate sulfate resistance, ASTM C150 Type I/II. | The most commonly sold cement in the US. Many suppliers don't stock pure Type I. |
-| `cement_type_1l` | Portland-limestone cement, ASTM C595 / EN 197-1 CEM II/A-L. Contains 6-20% limestone. | Lower carbon than OPC. Distinct product, not just "cement with limestone filler." |
+| `cement_type_1l` | Portland-limestone cement. ASTM C595 Type IL: >5–15% limestone; EN 197-1 CEM II/A-L: 6–20%. | Lower carbon than OPC. Distinct product, not just "cement with limestone filler." |
 | `cement_type_2` | Moderate sulfate resistance / moderate heat, ASTM C150 Type II. | Used in environments with moderate sulfate exposure. |
 | `cement_type_3` | High early strength / rapid hardening, ASTM C150 Type III. Finer grind, faster hydration. | Useful when early strength gain is critical for layer-on-layer buildability. |
 | `cement_type_5` | High sulfate resistance, ASTM C150 Type V. | Required in sulfate-rich soils, common in western US. |
@@ -202,7 +204,7 @@ What makes Open3DCP different from conventional concrete databases is first-clas
 | `nozzle_shape` | Cross-section: circular, rectangular, or custom | Rectangular nozzles produce flatter layers with better interlayer contact. |
 | `nozzle_area_mm2` | Calculated exit area | Used to derive volumetric flow rate from print speed. |
 | `layer_height_mm` | Height of each deposited layer | Typical 5-15 mm. Thinner layers = better surface finish, more layers needed. |
-| `layer_time_gap_s` | Seconds between successive layers at the same location | The cold joint indicator. Longer gaps allow surface drying, which weakens interlayer bond. |
+| `layer_time_gap_s` | Seconds between successive layers at the same location | The cold joint indicator. Longer gaps allow surface drying, which weakens interlayer bond — but the outcome depends on the gap *together with* ambient temperature, humidity, and wind (see the environment columns): the same gap is benign in cool, humid air and a cold joint in hot, dry air. |
 | `print_speed_mm_s` | Nozzle travel speed | Affects layer geometry, surface quality, and production rate. |
 
 ### Why Direction Matters
@@ -331,7 +333,7 @@ Open3DCP captures the materials, fresh-state, hardened-mechanical, interlayer, d
 | Material specs | ASTM C150, C595, C33, C494, A820, D7508, D7357 | 37+ material columns (binders, aggregates, fibers, admixtures, pigments, AAM activators, water) |
 | Fresh properties | ASTM C143, C1437, C231, C138, C403 | `slump_mm`, `spread_mm`, `air_content_fresh_pct`, `unit_weight_fresh_kg_m3`, `setting_time_initial_min` |
 | Hardened mechanical | ASTM C39, C109, C469, C157 | `compressive_strength_mpa`, `elastic_modulus_gpa`, `drying_shrinkage_28d_ue` |
-| 3DCP interlayer | ASTM C1583, E518 | `interlayer_bond_mpa`, `interlayer_shear_mpa` + `test_orientation_code` for all directions |
+| 3DCP interlayer | ASTM C1583 | `interlayer_bond_mpa`, `interlayer_shear_mpa` + `test_orientation_code` for all directions |
 | Durability | ASTM C666, C1260, C1202, C1585 | `freeze_thaw_durability_factor`, `asr_expansion_14d_pct`, `chloride_rcpt_coulombs`, `sorptivity_*` |
 | Fire performance | ASTM E119 | `fire_resistance_min` (concrete is non-combustible; E84 flame/smoke indices omitted) |
 | Process params | (3DCP-native, no single legacy method) | `nozzle_diameter_mm`, `layer_height_mm`, `print_speed_mm_s`, `layer_time_gap_s`, `test_orientation` |

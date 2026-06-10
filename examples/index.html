@@ -20,31 +20,26 @@
   national datasets — each shows the source's data classes and storage medium, and how it re-formats into the
   Open3DCP flat schema.</p>
 
-  <div class="note"><strong>The national flywheel.</strong> Shared open production data raises the production value
-  of construction — a national flywheel for development. Concrete data is scattered across benchmarks, national
+  <div class="note"><strong>Why one shape matters.</strong> Concrete data is scattered across benchmarks, national
   repositories, and standards bodies in incompatible shapes (flat vs relational vs file-based) and bases (kg/m³ vs
-  mass-%). Open3DCP is the connective layer spanning the full digital twin: <em>quarry → mix → 3DCP process → fresh
-  rheology → hardened mechanical → durability → interlayer bond → embodied carbon → strength over decades.</em></p>
+  mass-%). Open3DCP is the connective layer across the experiment record: <em>mix → 3DCP process → fresh
+  rheology → hardened mechanical → durability → interlayer bond → embodied carbon → multi-age strength.</em>
+  Put in one shape, openly licensed, each contributed record becomes usable alongside every other.</p>
 
   <h2>Examples</h2>
   <div class="cols">
     <div class="panel">
       <h3><a href="uci-yeh-1998/">UCI Concrete Compressive Strength →</a></h3>
       <p class="small"><span class="badge b-store">CC BY 4.0</span> <span class="badge b-cast">cast concrete</span></p>
-      <p class="small">A flat kg/m³ benchmark (Yeh 1998). Exact kg/m³→mass-% projection; fidelity <strong>98.8/A</strong>.
-      Fills mix-design + hardened + multi-age; 3DCP/process/durability stay null.</p>
+      <p class="small">A flat kg/m³ benchmark (Yeh 1998). Constituent masses ingest exactly; fidelity <strong>79.9/C</strong>
+      — held down honestly by four classifications the source never records (cement type, two gradation buckets,
+      SP solids). Fills mix-design + hardened + multi-age; 3DCP/process/durability stay null.</p>
     </div>
     <div class="panel">
       <h3><a href="meta-sustainableconcrete/">Meta SustainableConcrete →</a></h3>
       <p class="small"><span class="badge b-store">MIT</span> <span class="badge b-cast">cast · corporate</span></p>
-      <p class="small">A carbon-aware kg/m³ table from Meta + UIUC + Amrize. Fidelity <strong>98.9/A</strong>; adds
+      <p class="small">A carbon-aware kg/m³ table from Meta + UIUC + Amrize. Fidelity <strong>90.4/B</strong>; adds
       <strong>per-mix CO₂</strong> + measurement uncertainty — the environment slice UCI leaves empty.</p>
-    </div>
-    <div class="panel">
-      <h3><a href="unsw-uhpc/">UNSW Global UHPC →</a></h3>
-      <p class="small"><span class="badge b-store">CC BY 4.0</span> <span class="badge b-cast">UHPC (cast)</span></p>
-      <p class="small">The high-strength end: silica-fume, steel-fibre UHPC, 120–285 MPa. Fidelity <strong>98.2/A</strong>;
-      fills silica fume, steel fibre, flexural + splitting-tensile + elastic-modulus columns.</p>
     </div>
     <div class="panel">
       <h3><a href="rilem-tc304-ils-mech/">RILEM TC 304-ADC ILS-mech →</a></h3>
@@ -70,26 +65,26 @@
   <table>
     <thead><tr><th>Source</th><th>Prov.</th><th>Mix</th><th>Rheo.</th><th>3DCP</th><th>Mech.</th><th>Age</th><th>Env.</th></tr></thead>
     <tbody>
-      <tr><td><a href="uci-yeh-1998/">UCI (Yeh) — cast · 98.8/A</a></td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>✓</td><td>▢</td></tr>
-      <tr><td><a href="meta-sustainableconcrete/">Meta SustainableConcrete — cast · 98.9/A</a></td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>✓</td><td>✓</td></tr>
-      <tr><td><a href="unsw-uhpc/">UNSW UHPC — cast · 98.2/A</a></td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>✓</td><td>▢</td></tr>
+      <tr><td><a href="uci-yeh-1998/">UCI (Yeh) — cast · 79.9/C</a></td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>✓</td><td>▢</td></tr>
+      <tr><td><a href="meta-sustainableconcrete/">Meta SustainableConcrete — cast · 90.4/B</a></td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>✓</td><td>✓</td></tr>
       <tr><td><a href="rilem-tc304-ils-mech/">RILEM ILS-mech — 3DCP</a></td><td>✓</td><td>▢¹</td><td>✓</td><td>✓</td><td>✓</td><td>▢</td><td>▢</td></tr>
       <tr><td><a href="uf-3dcp-mix/">UF 3DCP mix — 3DCP</a></td><td>▢</td><td>◐</td><td>✓</td><td>✓</td><td>✓</td><td>▢</td><td>▢</td></tr>
       <tr><td><a href="tu-braunschweig-buildings/">TU-Braunschweig — project layer</a></td><td>✓</td><td>▢</td><td>▢</td><td>◐</td><td>▢</td><td>▢</td><td>▢</td></tr>
     </tbody>
   </table>
   <p class="small">¹ commercial premix — w/b and yield stress captured, constituent dosages not disclosed. The gaps
-  between slices are the connective-layer argument: no single source spans quarry → decades; the union does. Three
-  kg/m³ sources carry a real <code>open3dcp-ingest</code> score; the 3DCP-mix (ratio-to-binder) and project-layer
-  sources are hand-curated. A seventh, <strong>Stevens UHPC</strong> (US, CC BY 4.0), is cited reference-only — its
-  mix variables ship as a coded matrix with a paywalled legend.</p>
+  between slices are the connective-layer argument: no single source spans the whole record; the union does. Two
+  kg/m³ sources carry a real <code>open3dcp-ingest</code> score (UCI 79.9/C, Meta 90.4/B); the 3DCP-mix
+  (ratio-to-binder) and project-layer sources are hand-curated. A surveyed UHPC source, <strong>Stevens UHPC</strong>
+  (US, CC BY 4.0), was excluded as reference-only — its mix variables ship as a coded matrix with a paywalled legend.</p>
 
   <h2>Storable vs reference-only</h2>
   <p><strong>The rule:</strong> store only when the license clearly permits redistribution — <strong>CC BY 4.0</strong>,
-  <strong>CC0</strong>, <strong>US-government public domain</strong>, or <strong>GODL-India</strong> — with attribution.
+  <strong>CC0</strong>, <strong>US-government public domain</strong>, <strong>GODL-India</strong>, or a
+  <strong>permissive software license (MIT/BSD/Apache)</strong> — with attribution.
   Anything copyrighted, registration-gated, or unclear is <strong>reference-only</strong> and cited respectfully.</p>
   <p class="small"><strong>Storable</strong> (built / verified): UCI Concrete Strength · Meta SustainableConcrete (MIT)
-  · UNSW Global UHPC · RILEM TC 304-ADC ILS-mech · UF 3DCP mix-design · TU-Braunschweig 3DCP Buildings · NIST
+  · RILEM TC 304-ADC ILS-mech · UF 3DCP mix-design · TU-Braunschweig 3DCP Buildings · NIST
   Construction Materials (US public domain) · JCI–JACT (per-paper). &nbsp; <strong>Reference-only</strong> (cited,
   not stored): Stevens UHPC (coded matrix, paywalled legend) · TU/e interlayer-bond set (CC BY-<em>SA</em> copyleft)
   · ACI · NIMS MatNavi · China NMDMS / Materials-Genome platforms · Russia GOST · EU NOMAD / Materials Project ·
