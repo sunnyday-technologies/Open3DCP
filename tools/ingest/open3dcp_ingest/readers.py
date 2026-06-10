@@ -65,7 +65,7 @@ def read_uci_csv(path: str) -> list[dict[str, Any]]:
                 "total_wet_mass_kg_m3": total if total > 0 else None,
                 "total_wet_mass_is_complete": True,  # UCI reports every constituent incl. water
                 "total_binder_kg_m3": binder if binder > 0 else None,
-                "mix_density_kg_m3": total if total > 0 else None,
+                "total_batched_mass_kg_m3": total if total > 0 else None,
                 "source": "uci_yeh_1998",
             }
             records.append(rec)
@@ -204,7 +204,7 @@ def read_relational_xlsx(path: str) -> list[dict[str, Any]]:
                 "total_wet_mass_kg_m3": total,
                 "total_wet_mass_is_complete": complete,
                 "total_binder_kg_m3": binder,
-                "mix_density_kg_m3": total,
+                "total_batched_mass_kg_m3": total,
                 "source": "relational",
                 "source_id": batch.get("source_id") or spec.get("source_id"),
             }
@@ -217,7 +217,7 @@ def read_relational_xlsx(path: str) -> list[dict[str, Any]]:
         total, complete, binder = _batch_total_wet_mass(batch)
         rec = {f"material_batches.{k}": v for k, v in batch.items()}
         rec["_ctx"] = {"total_wet_mass_kg_m3": total, "total_wet_mass_is_complete": complete,
-                       "total_binder_kg_m3": binder, "mix_density_kg_m3": total,
+                       "total_binder_kg_m3": binder, "total_batched_mass_kg_m3": total,
                        "source": "relational", "source_id": batch.get("source_id")}
         records.append(rec)
     return records
@@ -227,7 +227,7 @@ def read_relational_xlsx(path: str) -> list[dict[str, Any]]:
 # generic flat kg/m3 mix table -- a curated CSV with canonical column tokens
 # ---------------------------------------------------------------------------
 # Many open datasets are a single flat table that reports every constituent in
-# kg/m3 of a 1 m3 batch (UCI, Meta SustainableConcrete, the UNSW UHPC corpus, ...).
+# kg/m3 of a 1 m3 batch (UCI, Meta SustainableConcrete, ...).
 # This reader consumes a curated excerpt whose headers are canonical tokens we
 # control (so the reader is dataset-agnostic) and emits source records using the
 # SAME field paths as the relational reader, so the shared relational crosswalk
@@ -262,6 +262,16 @@ _FLAT_QUANTITIES = {
     "elastic_modulus_gpa": ("elastic_modulus", "GPa"),
     "slump_mm": ("slump", "mm"),
 }
+# Typical specific gravities for an absolute-volume YIELD check. The sum of constituent kg/m3 is the
+# batched MASS, not a fresh density: if the constituents do not occupy ~1 m3 the source rows are
+# design proportions (e.g. water added on top of a ~1 m3 dry recipe), not a yielded batch -- recorded
+# as a provenance note, never stored as a "density".
+_FLAT_SG = {
+    "cement_kg_m3": 3.15, "fly_ash_kg_m3": 2.30, "slag_kg_m3": 2.90, "silica_fume_kg_m3": 2.20,
+    "metakaolin_kg_m3": 2.50, "limestone_kg_m3": 2.70, "nano_silica_kg_m3": 2.20,
+    "mineral_powder_kg_m3": 2.65, "water_kg_m3": 1.00, "superplasticizer_kg_m3": 1.07,
+    "coarse_agg_kg_m3": 2.70, "fine_agg_kg_m3": 2.65, "fiber_kg_m3": 7.85,
+}
 
 
 def read_flat_csv(path: str) -> list[dict[str, Any]]:
@@ -282,9 +292,11 @@ def read_flat_csv(path: str) -> list[dict[str, Any]]:
                 v = row.get(col)
                 if v not in (None, ""):
                     rec[f"material_batches.{field}"] = v
-            # default cement type to ASTM C150 Type I only when cement is present (UCI convention)
+            # default cement type to ASTM C150 Type I only when cement is present, and FLAG it as an
+            # assumption (the source stated no type) so the fidelity scorer counts it -- not silently exact.
             if rec.get("material_batches.cement_content_kg_m3") and "material_batches.cement_type" not in rec:
                 rec["material_batches.cement_type"] = "ASTM_C150_Type_I"
+                rec.setdefault("_assumed_fields", set()).add("material_batches.cement_type")
             for col, field in (("fiber_length_mm", "fiber_length_mm"),
                                ("fiber_diameter_mm", "fiber_diameter_mm"),
                                ("max_agg_size_mm", "max_aggregate_size_mm"),
@@ -326,12 +338,30 @@ def read_flat_csv(path: str) -> list[dict[str, Any]]:
             # wet-mass balance: every constituent is a kg/m3 mass, so the total closes
             mass_fields = list(_FLAT_BINDERS) + list(_FLAT_OTHER_MASS)
             total = sum(_num(row.get(c)) or 0.0 for c in mass_fields)
-            complete = binder > 0 and total > 0
+            # The wet-mass total only "closes" (and the kg/m3 -> mass-% projection is only exact) when
+            # water is actually present; a binder+aggregate row with no water would otherwise be scored
+            # against a waterless denominator and mis-rated EXACT. Mirror the relational guard.
+            complete = binder > 0 and total > 0 and water is not None
+            # Absolute-volume YIELD check: `total` is the batched MASS, not a fresh density. If the
+            # constituents do not occupy ~1 m3, the source rows are design proportions (commonly: water
+            # dosed on top of a ~1 m3 dry recipe), not a yielded batch. Record the true derived density
+            # and the over/under-yield as a provenance note -- never store `total` as a "density".
+            note = None
+            abs_vol = sum((_num(row.get(c)) or 0.0) / _FLAT_SG[c]
+                          for c in mass_fields if c in _FLAT_SG and _num(row.get(c)))
+            if complete and abs_vol > 0:
+                yield_m3 = abs_vol / 1000.0
+                if abs(yield_m3 - 1.0) > 0.03:
+                    note = (f"design proportions: absolute-volume yield {yield_m3:.3f} m3 "
+                            f"({(yield_m3 - 1) * 100:+.0f}% vs a closed 1 m3 batch) -> derived fresh "
+                            f"density ~{total / yield_m3:.0f} kg/m3; total_batched_mass_kg_m3 is the "
+                            f"batched mass, not a measured density")
             rec["_ctx"] = {
                 "total_wet_mass_kg_m3": total if total > 0 else None,
                 "total_wet_mass_is_complete": complete,
                 "total_binder_kg_m3": binder if binder > 0 else None,
-                "mix_density_kg_m3": total if total > 0 else None,
+                "total_batched_mass_kg_m3": total if total > 0 else None,
+                "provenance_notes": note,
                 "source": "flat",
             }
             records.append(rec)

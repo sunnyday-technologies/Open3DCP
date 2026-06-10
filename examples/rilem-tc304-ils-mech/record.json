@@ -5,7 +5,7 @@
   "doi": "10.5281/zenodo.12200570",
   "license": "CC BY 4.0",
   "license_url": "https://creativecommons.org/licenses/by/4.0/",
-  "attribution": "RILEM TC 304-ADC (2024). Database of the RILEM TC 304-ADC interlaboratory study on mechanical properties of 3D printed concrete [Dataset]. Zenodo. DOI 10.5281/zenodo.12200570. CC BY 4.0.",
+  "attribution": "Bos, F., Robens-Radermacher, A., Muthukrishnan, S., Versteegen, J., Wolfs, R., Santhanam, M., Menna, C., & Mechtcherine, V. / RILEM TC 304-ADC (2024). Database of the RILEM TC 304-ADC interlaboratory study on mechanical properties of 3D printed concrete (ILS-mech) [Dataset]. Zenodo. DOI 10.5281/zenodo.12200570. CC BY 4.0.",
   "classification": "storable",
   "country": "International (RILEM TC 304-ADC; 30 labs, DE/NL/IT/IN, ...)",
   "storage_medium": "relational openBIS-exported SQLite (2024-06-21_openbis.db, 31 tables/views), one row per tested specimen",

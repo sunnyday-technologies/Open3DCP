@@ -27,7 +27,7 @@ COLS = ["lab_name", "is_3d_printed", "test_orientation", "test_orientation_code"
         "tensile_strength_stddev_mpa", "n_specimens", "static_yield_stress_pa", "spread_mm",
         "w_b_ratio", "layer_height_mm", "layer_time_gap_s", "extrusion_rate_l_min", "num_layers",
         "nozzle_shape", "nozzle_area_mm2", "density_hardened_kg_m3", "measurement_confidence",
-        "doi", "source_citation", "provenance_notes", "mix_density_kg_m3", "total_binder_kg_m3",
+        "doi", "source_citation", "provenance_notes", "total_binder_kg_m3",
         "original_basis"]
 CITE = ("RILEM TC 304-ADC interlaboratory study on mechanical properties of 3D printed concrete "
         "(2024). DOI 10.5281/zenodo.12200570.")
@@ -45,9 +45,12 @@ def orient(code):
     if code == "CAST":
         return (False, "cast (moulded reference)", "CAST")
     first = code.split(".")[0]
-    return {"W": (True, "perpendicular to layers (load along build axis)", "Z"),
-            "U": (True, "parallel to layers (load along print path)", "X"),
-            "V": (True, "parallel to layers (load transverse)", "Y")}.get(
+    # Field-unambiguous labels: U and V both lie IN the layer plane, so "parallel to layers" alone
+    # would not distinguish them. What predicts the flexural number is which interface the load bends:
+    # along the print path (X) bends the interlayer planes; the build axis (Z) crosses them.
+    return {"W": (True, "across layers (build axis)", "Z"),
+            "U": (True, "along print path (in-plane longitudinal; flexure loads the interlayer planes)", "X"),
+            "V": (True, "in-plane transverse", "Y")}.get(
             first, (True, f"printed ({code})", "?"))
 
 
@@ -108,7 +111,9 @@ def main(db):
                          "nozzle_area_mm2": narea, "density_hardened_kg_m3": dens, "measurement_confidence": "measured",
                          "doi": "10.5281/zenodo.12200570", "source_citation": CITE,
                          "provenance_notes": f"{note} RILEM orientation code: {o}.",
-                         "mix_density_kg_m3": dens, "original_basis": "as_reported"})
+                         })  # original_basis stays NULL: commercial premixes disclose no constituent
+                             # masses, so no reporting basis exists to record (NULL != 0 doctrine).
+                             # Density is in density_hardened_kg_m3; no total_batched_mass either.
     con.close()
     with open("../rilem-tc304-ils-mech.open3dcp.csv", "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=COLS); w.writeheader()

@@ -39,17 +39,18 @@ embodied carbon* — exactly the trade-off a connective schema is meant to make 
 ## How it maps to Open3DCP
 
 Every constituent (including water) is reported in kg/m³, so the wet-mix total closes and the kg/m³ →
-mass-% projection is **exact**; the kg/m³ basis is preserved via `mix_density_kg_m3` / `total_binder_kg_m3`
+mass-% projection is **exact**; the kg/m³ basis is preserved via `total_batched_mass_kg_m3` / `total_binder_kg_m3`
 / `original_basis=kg_m3`, and `w_b_ratio` is derived. Converted with:
 
 ```
 open3dcp-ingest convert build/meta-sustainableconcrete.csv --kind flat --out .
 ```
 
-Fidelity **98.9 / 100 (A)**. It populates the **mix-design**, **hardened-compressive**, **multi-age
-strength**, **embodied-carbon (environment)**, and **measurement-uncertainty** groups; the only assumption
-is the superplasticizer (HRWR) solids fraction. Every 3DCP-process, rheology, interlayer-bond, durability,
-and raw-material-provenance column stays **NULL** — see [`index.html`](index.html).
+Fidelity **90.4 / 100 (B)**. It populates the **mix-design**, **hardened-compressive**, **multi-age
+strength**, **embodied-carbon (environment)**, and **measurement-uncertainty** groups. Specimen geometry
+and test method are **not reported by the source** and are recorded as `NULL` (not inferred); the
+superplasticizer (HRWR) is recorded as-delivered (solids fraction unknown). Every 3DCP-process, rheology,
+interlayer-bond, durability, and raw-material-provenance column stays **NULL** — see [`index.html`](index.html).
 
 ## Citation
 

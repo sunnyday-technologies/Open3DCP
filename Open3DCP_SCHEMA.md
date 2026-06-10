@@ -4,9 +4,9 @@
 
 > **Status: Draft** — under working-group review; the schema may change before ratification.
 >
-> **v1.7 (2026-06-04):** **Aggregate-conditioning columns added** so effective (free) mix water is recoverable when aggregates are batched off SSD: `aggregate_moisture_state`, `aggregate_absorption_pct`, `aggregate_moisture_content_pct` (ASTM C127/C128, C566), plus a process flag `aggregate_prewetted` for the common practice of pre-wetting aggregate to a damp condition. **Classification & batch timeline:** `material_class` (mix/binder system), `batch_label` (physical batch sub-identifier), and `date_of_casting` (t=0 of the curing clock — with the test date the ingestor can derive `test_age_days`) — three fields previously routed to the ingestion sidecar now have columns. **Intelligent ingestion:** the ingestor now maps these, routes `data` records by their `data_type` (scalar → property column; curve/image → the right `*_file` column; curve axis-unit descriptors → `provenance_notes`), corrects the wet-mass denominator to include admixtures/SCMs, and excludes consumed selector/metadata fields from the fidelity coverage denominator. Tooling/fidelity fixes: imperial-tonnage units (`lb_yd3`, US short ton, UK long ton) added and a bare "ton" rejected as ambiguous; ingestion fidelity refined so relational foreign keys no longer count against coverage; test-method crosswalk completed (and an `is_3d_printed`/curing enum-mapping bug fixed). Backward-compatible (additive); v1.6 datasets remain valid.
+> **v1.7 (2026-06-04):** **kg/m³ adopted as the primary reporting basis** (industry/field standard; mass-% retained as a derived secondary representation), with lossless-conversion columns `original_basis`, `total_batched_mass_kg_m3`, `total_binder_kg_m3`; **per-measurement uncertainty** columns (`compressive_strength_stddev_mpa`, `flexural_strength_stddev_mpa`, `tensile_strength_stddev_mpa`, `elastic_modulus_stddev_gpa`, `interlayer_bond_stddev_mpa`); and **raw-data references** (`raw_data_doi`, `stress_strain_file`, `rheology_curve_file`, `microstructure_image`, `raw_data_file`). **Aggregate-conditioning columns added** so effective (free) mix water is recoverable when aggregates are batched off SSD: `aggregate_moisture_state`, `aggregate_absorption_pct`, `aggregate_moisture_content_pct` (ASTM C127/C128, C566), plus a process flag `aggregate_prewetted` for the common practice of pre-wetting aggregate to a damp condition. **Classification & batch timeline:** `material_class` (mix/binder system), `batch_label` (physical batch sub-identifier), and `date_of_casting` (t=0 of the curing clock — with the test date the ingestor can derive `test_age_days`) — three fields previously routed to the ingestion sidecar now have columns. **Intelligent ingestion:** the ingestor now maps these, routes `data` records by their `data_type` (scalar → property column; curve/image → the right `*_file` column; curve axis-unit descriptors → `provenance_notes`), corrects the wet-mass denominator to include admixtures/SCMs, and excludes consumed selector/metadata fields from the fidelity coverage denominator. Tooling/fidelity fixes: imperial-tonnage units (`lb_yd3`, US short ton, UK long ton) added and a bare "ton" rejected as ambiguous; ingestion fidelity refined so relational foreign keys no longer count against coverage; test-method crosswalk completed (and an `is_3d_printed`/curing enum-mapping bug fixed). Backward-compatible (additive); v1.6 datasets remain valid.
 >
-> **v1.6 (2026-06-03):** **kg/m³ adopted as the primary reporting basis** (industry/field standard); mass-% retained as a derived secondary representation. New columns: `original_basis`, `mix_density_kg_m3`, `total_binder_kg_m3` (lossless basis conversion); `compressive_strength_stddev_mpa`, `flexural_strength_stddev_mpa`, `tensile_strength_stddev_mpa`, `elastic_modulus_stddev_gpa`, `interlayer_bond_stddev_mpa` (per-measurement uncertainty); `raw_data_doi`, `stress_strain_file`, `rheology_curve_file`, `microstructure_image`, `raw_data_file` (raw-data references). Backward-compatible (additive). Improves interoperability and ingestion fidelity for relational concrete datasets.
+> **v1.6 (2026-05-05):** Experimental SCM per-grade taxonomy split (`slag_grade_80/100/120`, `metakaolin_high_purity/standard`, `pumice_coarse/powder/sand`; +8 columns, tagged V1.6.0) — **consolidated away in 1.6.5** before the v1.7 feature columns landed, with grade/purity now recorded in `provenance_notes`. The git-tag column counts therefore read v1.5 = 224 → v1.6 = 232 → v1.7 = 244, the 232 reflecting the since-reverted split. See CHANGELOG for detail.
 >
 > **v1.5 (2026-04-16):** Pigment columns: `iron_oxide_pigment`, `titanium_dioxide_pigment`, `chromium_oxide_pigment`, `carbon_black_pigment`, `pigment_other`. Pigments are ultra-fine (~1 um), used at 1-5% in architectural 3DCP, with significant impact on packing, water demand, and microstructure. The canonical column list below is the source of truth for the public v1.5 schema.
 >
@@ -25,7 +25,7 @@ A flat database schema for 3D-printable concrete (3DCP) mix design data. Open3DC
 ## Design Principles
 
 1. **Flat schema** -- Every feature is a named column, no JSON parsing required for ML.
-2. **kg/m³-primary basis (v1.6)** -- kg/m³ is the primary reporting basis (the industry/field standard). Material quantities are also expressible as mass-% of total wet mix (a derived secondary representation); `mix_density_kg_m3` and `total_binder_kg_m3` make the two losslessly interconvertible, and `original_basis` records what the source reported.
+2. **Dual basis, kg/m³ first-class (v1.7)** -- the constituent columns store mass-% of total wet mix (the self-normalizing projection); the source's kg/m³ — the industry/field standard — is preserved exactly via `total_batched_mass_kg_m3` (the sum of as-batched constituent masses — the bridge denominator, not a measured density) and `total_binder_kg_m3`, with `original_basis` recording what the source reported. Either basis is recoverable with no density assumption.
 3. **ASTM/RILEM-aligned** -- Column naming follows established standards: ASTM C150 (cement types), ASTM C618 (fly ash), ASTM C989 (slag), ASTM C1240 (silica fume), ASTM C33 (aggregate grading by fineness modulus).
 4. **3DCP-native** -- First-class columns for print process parameters (nozzle, layer, speed, pump), rheology (yield stress, thixotropy, open time), and interlayer properties that don't exist in conventional concrete schemas.
 5. **Multi-age** -- Companion `strength_measurements` table stores multi-age data (1, 3, 7, 14, 28, 56, 90, 365 days).
@@ -167,7 +167,7 @@ Note: Most 3DCP systems are limited to Size #8 or smaller due to pump and nozzle
 | `basalt_fiber` | real | Basalt fiber |
 | `nylon_fiber` | real | Nylon fiber |
 | `aramid_fiber` | real | Aramid fiber (Kevlar) |
-| `cellulose_fiber` | real | Natural cellulose fiber per ASTM D7357 |
+| `cellulose_fiber` | real | Cellulose fibers for FRC (ASTM D7357); natural plant/bast fibers recorded here, type in `provenance_notes` |
 | `fiber_length_mm` | real | Fiber length (mm). Industry example: Dramix 3D 65/35 = 35 mm |
 | `fiber_diameter_mm` | real | Fiber diameter (mm). Required to calculate aspect ratio |
 | `fiber_aspect_ratio` | real | Length-to-diameter ratio (L/d). Common fiber bridging and ordering parameter. Example: Dramix 65/35 has L/d = 65 |
@@ -226,14 +226,14 @@ column this makes the water accounting unambiguous without duplicating the w/c a
 | `aggregate_absorption_pct` | real | 24-h aggregate absorption, % of oven-dry mass | ASTM C127 / C128 |
 | `aggregate_moisture_content_pct` | real | Total as-batched aggregate moisture, % of oven-dry mass (free moisture = this − absorption) | ASTM C566 |
 
-### Mix Basis (v1.6)
+### Mix Basis (v1.7)
 
 kg/m³ is the primary basis; the mass-% composition columns are a derived secondary representation. Record the source's native basis and the mix density so the two convert without any assumption.
 
 | Column | Type | Description |
 |--------|------|-------------|
 | `original_basis` | varchar | Basis the source reported: `kg_m3` (primary), `mass_pct`, `volume`, or `lb_yd3` |
-| `mix_density_kg_m3` | real | Total fresh wet-mix density (sum of kg/m³ constituents); enables exact mass-% ↔ kg/m³ conversion |
+| `total_batched_mass_kg_m3` | real | Sum of as-batched constituent masses per m³ — the mass-% ↔ kg/m³ bridge denominator (NOT a measured fresh density; use `unit_weight_fresh_kg_m3` for ASTM C138). Where the as-batched masses are design proportions, an absolute-volume yield note is recorded in `provenance_notes`. |
 | `total_binder_kg_m3` | real | Total cementitious content (kg/m³); supports w/b and absolute back-conversion |
 
 ### Test Conditions
@@ -331,7 +331,7 @@ These columns capture the full extrusion printing process. Null for cast specime
 | Column | Type | Description | Unit | Test Method |
 |--------|------|-------------|------|-------------|
 | `slump_mm` | real | Slump height | mm | ASTM C143 |
-| `spread_mm` | real | Slump flow spread diameter | mm | ASTM C1611 |
+| `spread_mm` | real | Spread / flow diameter | mm | ASTM C1611 (SCC slump flow) / C1437 (mortar flow table) |
 | `yield_stress_pa` | real | Static yield stress | Pa | Rheometer |
 | `plastic_viscosity_pa_s` | real | Plastic viscosity | Pa.s | Rheometer |
 | `static_yield_stress_pa` | real | Static yield stress (at rest) | Pa | Rheometer |
@@ -342,8 +342,8 @@ These columns capture the full extrusion printing process. Null for cast specime
 | `green_strength_kpa` | real | Strength of fresh concrete (buildability) | kPa | -- |
 | `air_content_fresh_pct` | real | Fresh-state air content | % | ASTM C231 |
 | `unit_weight_fresh_kg_m3` | real | Fresh unit weight | kg/m3 | ASTM C138 |
-| `setting_time_initial_min` | real | Initial set (Vicat needle) | minutes | ASTM C191 |
-| `setting_time_final_min` | real | Final set (Vicat needle) | minutes | ASTM C191 |
+| `setting_time_initial_min` | real | Initial set | minutes | ASTM C191 (paste, Vicat) / C403 (mortar-concrete, penetration) |
+| `setting_time_final_min` | real | Final set | minutes | ASTM C191 (paste, Vicat) / C403 (mortar-concrete, penetration) |
 | `bleeding_pct` | real | Bleeding water (% of mix water) | % | ASTM C232 |
 | `temperature_fresh_c` | real | Concrete temperature at discharge | C | -- |
 | `j_ring_mm` | real | J-Ring passing ability | mm | ASTM C1621 |
@@ -431,7 +431,7 @@ These columns capture the full extrusion printing process. Null for cast specime
 | `calcium_hydroxide_pct` | real | Ca(OH)2 content (TGA/XRD) | % |
 | `pore_size_distribution_nm` | real | Critical pore diameter (MIP) | nm |
 
-### Measurement Uncertainty (v1.6)
+### Measurement Uncertainty (v1.7)
 
 Mirrors the common `mean + standard_deviation + number_of_specimens` reporting convention. Each std-dev uses the same unit as its base column; `n_specimens` is recorded under Test Conditions.
 
@@ -443,7 +443,7 @@ Mirrors the common `mean + standard_deviation + number_of_specimens` reporting c
 | `elastic_modulus_stddev_gpa` | real | Std-dev of elastic modulus |
 | `interlayer_bond_stddev_mpa` | real | Std-dev of interlayer bond strength |
 
-### Raw Data References (v1.6)
+### Raw Data References (v1.7)
 
 Links to curve/image/HDF5 files that the flat schema cannot hold inline. Payloads stay external (FAIR); the reference is preserved so the raw data remains discoverable.
 
@@ -487,14 +487,14 @@ Links to curve/image/HDF5 files that the flat schema cannot hold inline. Payload
 
 ## Units Convention
 
-**As of v1.6, kg/m³ is the primary reporting basis** (the industry and literature standard: UCI/Yeh, RILEM/NU, RILEM TC 281-CCC, and fib all use kg/m³). Material quantities are also expressible as **mass-% of total wet mix** (cement + SCMs + aggregates + water + admixtures + fibers = ~100%) as a derived secondary representation. Record `mix_density_kg_m3` and `total_binder_kg_m3` so the two bases convert with no assumed density, and set `original_basis` to the basis the source reported.
+**As of v1.7 the record is dual-basis with kg/m³ first-class** (kg/m³ is the industry and literature standard: UCI/Yeh, RILEM/NU, RILEM TC 281-CCC, and fib all use it). The constituent columns store **mass-% of total wet mix** (cement + SCMs + aggregates + water + admixtures + fibers = ~100%), the self-normalizing projection; record `total_batched_mass_kg_m3` (the sum of as-batched constituent masses, not a measured density) and `total_binder_kg_m3` so the source's kg/m³ is preserved exactly and the two bases convert with no assumed density, and set `original_basis` to the basis the source reported.
 
 Use `NULL` when a value is unknown, not reported, not applicable, or not measured. Use `0` only when the source explicitly reports that the material or property was absent or zero. This preserves the distinction between missing data and true zero dosage for statistical analysis and machine-learning pipelines.
 
 The mass-% representation is retained because:
 - It is directly comparable across datasets with different total binder contents
 - It normalizes naturally to a fixed scale (0-100%), convenient for ML
-- With `mix_density_kg_m3` stored, it converts back to kg/m³ exactly (no density assumption)
+- With `total_batched_mass_kg_m3` stored, it converts back to kg/m³ exactly (no density assumption)
 
 ---
 
@@ -522,7 +522,7 @@ Users are responsible for obtaining and complying with the full text of any appl
 
 ### Trademarks
 
-ASTM and ASTM International are trademarks of ASTM International. ACI is a trademark of the American Concrete Institute. RILEM is a trademark of the International Union of Laboratories and Experts in Construction Materials, Systems and Structures. All other trademarks are the property of their respective owners. Use of these names in Open3DCP is for identification purposes only and does not imply endorsement.
+ASTM and ASTM International are trademarks of ASTM International. ACI is a trademark of the American Concrete Institute. RILEM is a trademark of the International Union of Laboratories and Experts in Construction Materials, Systems and Structures. ICC and the International Code Council are trademarks of the International Code Council, Inc. ISO is a trademark of the International Organization for Standardization; EN standards are published by CEN (the European Committee for Standardization). All other trademarks are the property of their respective owners. Use of these names in Open3DCP is for identification purposes only and does not imply endorsement.
 
 ### Data Accuracy
 

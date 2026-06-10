@@ -23,14 +23,14 @@ full dataset from the DOI above.
 ## How it maps to Open3DCP
 
 Because every constituent (including water) is reported in kg/m³, the wet-mix total is complete, so the
-kg/m³ → mass-% projection is **exact** and the kg/m³ basis is preserved via `mix_density_kg_m3` /
+kg/m³ → mass-% projection is **exact** and the kg/m³ basis is preserved via `total_batched_mass_kg_m3` /
 `total_binder_kg_m3` / `original_basis=kg_m3`. Converted with:
 
 ```
 open3dcp-ingest convert build/uci-yeh-1998.csv --kind uci --out .
 ```
 
-Fidelity **98.8 / 100 (A)**. It populates the **mix-design**, **hardened-compressive**, and
+Fidelity **79.9 / 100 (C)** — the constituent masses are exact, but four classifications the source does not record (cement type, the two aggregate gradation buckets, and the superplasticizer solids fraction) are inferred, which the value-fidelity term counts. It populates the **mix-design**, **hardened-compressive**, and
 **multi-age strength** groups; every 3DCP-process, rheology, interlayer-bond, durability, environment,
 and raw-material-provenance column stays **NULL** — see [`index.html`](index.html) for the full
 structure → schema graphic.

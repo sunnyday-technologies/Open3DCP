@@ -26,7 +26,7 @@ import os
 import sys
 
 DATASET_DOI = "10.5281/zenodo.6828947"
-CITE = ("Gao, J.; Wang, Z.; Wang, C. (2022). 3D Printing Concrete Mix Design Open Dataset (v0.3). "
+CITE = ("Gao, J.; Wang, Z.; Wang, C. (2023). 3D Printing Concrete Mix Design Open Dataset (v0.3). "
         "Zenodo. DOI 10.5281/zenodo.6828947.")
 
 COLS = ["source_dataset", "is_3d_printed", "material_class", "w_b_ratio",

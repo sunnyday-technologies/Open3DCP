@@ -46,7 +46,22 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://open3dcp.org/examples/meta-sustainableconcrete/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://open3dcp.org/examples/rilem-tc304-ils-mech/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://open3dcp.org/examples/uf-3dcp-mix/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://open3dcp.org/examples/tu-braunschweig-buildings/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>

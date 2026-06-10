@@ -21,6 +21,23 @@ COLLAPSE = "collapse"
 FILE_REF = "file_ref"
 NONE = "none"
 
+# Badness order: a higher rank is a worse (less faithful) fidelity class.
+_BADNESS = {EXACT: 0, DERIVED: 1, CATEGORICAL: 2, LOSSY: 3, COLLAPSE: 4, FILE_REF: 5, NONE: 6}
+
+
+def worst(a: str, b: str) -> str:
+    """Combine a mapping's DECLARED assumption with the runtime TRANSFORM fidelity: the realized
+    fidelity is the worse of the two. A crosswalk-declared bucketing assumption (`lossy`) is never
+    laundered to `exact` just because the unit arithmetic happened to be reversible; conversely a
+    clean column declared `exact` still downgrades if its transform reports a runtime loss."""
+    return a if _BADNESS.get(a, 6) >= _BADNESS.get(b, 6) else b
+
+
+def is_assumption(fidelity: str) -> bool:
+    """A realized class that means the stored value rests on an assumption / lost information --
+    counts against value_fidelity. CATEGORICAL clean matches and EXACT/DERIVED do not."""
+    return _BADNESS.get(fidelity, 6) >= _BADNESS[LOSSY]
+
 
 @dataclass
 class TransformResult:
@@ -67,11 +84,11 @@ def kg_m3_to_mass_pct(value, ctx=None, **kw) -> TransformResult:
 def mass_pct_to_kg_m3(value, ctx=None, **kw) -> TransformResult:
     if value is None:
         return TransformResult(None, EXACT)
-    rho = (ctx or {}).get("mix_density_kg_m3")
+    rho = (ctx or {}).get("total_batched_mass_kg_m3")
     if rho and rho > 0:
         return TransformResult(float(value) / 100.0 * rho, LOSSY, assumed=True,
-                               note="used mix_density")
-    return TransformResult(None, LOSSY, assumed=True, note="mix_density unknown")
+                               note="used total batched mass")
+    return TransformResult(None, LOSSY, assumed=True, note="total batched mass unknown")
 
 
 def as_delivered_to_solids_pct(value, ctx=None, solids_fraction=None, **kw) -> TransformResult:
@@ -104,7 +121,7 @@ def vol_fraction_to_mass_pct(value, ctx=None, **kw) -> TransformResult:
     if value is None:
         return TransformResult(None, EXACT)
     fiber_rho = (ctx or {}).get("fiber_density")
-    mix_rho = (ctx or {}).get("mix_density_kg_m3")
+    mix_rho = (ctx or {}).get("total_batched_mass_kg_m3")
     if fiber_rho and mix_rho:
         # value is a volume fraction (0-1 or %); normalize if given as %
         vf = float(value) / 100.0 if float(value) > 1.0 else float(value)

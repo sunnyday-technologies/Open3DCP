@@ -56,9 +56,9 @@ def test_curve_axis_descriptor_folded_into_provenance():
 
 
 def test_wet_mass_denominator_includes_admixtures():
-    """mix_density must include the superplasticizer mass (400+30+60+800+900+4 + water 171.5)."""
+    """total_batched_mass must include the superplasticizer mass (400+30+60+800+900+4 + water 171.5)."""
     result, _ = _convert()
-    assert result.rows[0]["mix_density_kg_m3"] == pytest.approx(2365.5)
+    assert result.rows[0]["total_batched_mass_kg_m3"] == pytest.approx(2365.5)
 
 
 def test_structural_form_type_is_the_only_real_drop():

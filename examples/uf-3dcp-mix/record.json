@@ -5,7 +5,7 @@
   "doi": "10.5281/zenodo.6828947",
   "license": "CC BY 4.0",
   "license_url": "https://creativecommons.org/licenses/by/4.0/",
-  "attribution": "Gao, J., Wang, Z., & Wang, C. (2022). 3D Printing Concrete Mix Design Open Dataset (v0.3) [Dataset]. University of Florida. Zenodo. DOI 10.5281/zenodo.6828947. CC BY 4.0.",
+  "attribution": "Gao, J., Wang, Z., & Wang, C. (2023). 3D Printing Concrete Mix Design Open Dataset (v0.3) [Dataset]. University of Florida. Zenodo. DOI 10.5281/zenodo.6828947. CC BY 4.0.",
   "classification": "storable",
   "country": "USA (University of Florida)",
   "storage_medium": "single flat table (.xlsx), one row per mix, constituents on a ratio-to-binder basis (binder = 1)",
