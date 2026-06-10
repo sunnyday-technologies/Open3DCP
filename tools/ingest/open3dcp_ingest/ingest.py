@@ -204,7 +204,8 @@ def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
     for i, rec in enumerate(records):
         ctx = rec.get("_ctx", {})
         row: dict[str, Any] = {}
-        handled: set[str] = {"_ctx"}
+        handled: set[str] = {"_ctx", "_assumed_fields"}
+        assumed_fields = rec.get("_assumed_fields") or set()
         mapped_here = 0
         trace_start, unmapped_start = len(res.trace), len(res.unmapped)
 
@@ -227,7 +228,11 @@ def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
                     continue
                 row[target] = tr.value
                 mapped_here += 1
-                res.trace.append(CellTrace(i, target, m.source, tr.fidelity, tr.assumed, tr.note))
+                realized = transforms.worst(m.declared_fidelity, tr.fidelity)
+                assumed = (tr.assumed or transforms.is_assumption(realized)
+                           or m.source in assumed_fields or m.pivot_on in assumed_fields)
+                note = tr.note + ("; assumed (defaulted selector)" if m.pivot_on in assumed_fields else "")
+                res.trace.append(CellTrace(i, target, m.source, realized, assumed, note))
                 continue
 
             # --- simple / enum / refine mapping ---
@@ -244,11 +249,22 @@ def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
             if m.refine_by:
                 rb_field = m.refine_by.get("src")
                 if rb_field:
-                    handled.add(rb_field)
                     rb_val = _get(rec, rb_field)
                     rb_map = m.refine_by.get("map", {})
-                    if rb_val in rb_map:
-                        target = rb_map[rb_val]
+                    rb_key = None
+                    if rb_val is not None:
+                        cands = [str(rb_val)]
+                        if isinstance(rb_val, float) and rb_val.is_integer():
+                            cands.append(str(int(rb_val)))
+                        rb_key = next((c for c in cands if c in rb_map), None)
+                    if rb_key is not None:
+                        target = rb_map[rb_key]
+                        handled.add(rb_field)  # consumed as a selector; keep the exact value as a note
+                        _n = f"{rb_field.rsplit('.', 1)[-1]}={rb_val}"
+                        row["provenance_notes"] = ((row.get("provenance_notes", "") + "; ")
+                                                   if row.get("provenance_notes") else "") + _n
+                    # else: rb_field stays UNHANDLED -> falls through to the sidecar (drop nothing,
+                    # rather than silently consuming an unmapped refinement value)
             if target is None:
                 continue
             kwargs = {k: v for k, v in m.transform_kwargs.items() if not k.startswith("_")}
@@ -258,7 +274,11 @@ def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
                 continue
             row[target] = tr.value
             mapped_here += 1
-            res.trace.append(CellTrace(i, target, m.source, tr.fidelity, tr.assumed, tr.note))
+            realized = transforms.worst(m.declared_fidelity, tr.fidelity)
+            assumed = tr.assumed or transforms.is_assumption(realized) or m.source in assumed_fields
+            note = tr.note + ("; assumed (engine default, not source-stated)"
+                              if (m.source in assumed_fields and "default" not in tr.note) else "")
+            res.trace.append(CellTrace(i, target, m.source, realized, assumed, note))
             # carry a vocab type into a notes column
             if m.carry_to and carry_src and _get(rec, carry_src) is not None:
                 prev = row.get(m.carry_to, "")
@@ -295,11 +315,17 @@ def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
             fidelity = (reason_entry or {}).get("fidelity", transforms.NONE)
             res.unmapped.append(Unmapped(i, src, value, fidelity, reason))
 
-        # v1.6: make kg/m3 (primary basis) recoverable from the flat row (engine-populated)
+        # v1.7: make kg/m3 (primary basis) recoverable from the flat row (engine-populated).
+        # total_batched_mass_kg_m3 is the honest denominator for the mass-% <-> kg/m3 bridge -- the sum
+        # of the as-batched constituent masses -- NOT a fresh density. The reader's absolute-volume yield
+        # check (when the batch does not close to ~1 m3) is carried in provenance_notes.
         if ctx.get("total_wet_mass_kg_m3") is not None:
-            row.setdefault("mix_density_kg_m3",
-                           ctx.get("mix_density_kg_m3") or ctx.get("total_wet_mass_kg_m3"))
+            row.setdefault("total_batched_mass_kg_m3",
+                           ctx.get("total_batched_mass_kg_m3") or ctx.get("total_wet_mass_kg_m3"))
             row.setdefault("original_basis", "kg_m3")
+            if ctx.get("provenance_notes"):
+                prev = row.get("provenance_notes", "")
+                row["provenance_notes"] = (f"{prev}; " if prev else "") + ctx["provenance_notes"]
         if ctx.get("total_binder_kg_m3") is not None:
             row.setdefault("total_binder_kg_m3", ctx.get("total_binder_kg_m3"))
 
@@ -307,7 +333,7 @@ def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
         # data_type, folded curve descriptor) are `handled` yet write no column of their own and
         # are not sidecar'd -- like foreign keys, they are not coverage failures, so exclude them
         # from the coverage denominator (see fidelity.field_coverage).
-        non_null = {k for k, v in rec.items() if k != "_ctx" and v is not None}
+        non_null = {k for k, v in rec.items() if k not in ("_ctx", "_assumed_fields") and v is not None}
         mapped_src = {t.source for t in res.trace[trace_start:]}
         sidecar_src = {u.source for u in res.unmapped[unmapped_start:]}
         consumed = {s for s in non_null

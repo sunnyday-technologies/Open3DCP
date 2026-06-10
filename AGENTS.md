@@ -44,10 +44,11 @@ downstream ML pipelines and is the most common ingestion failure mode.
 
 ### 2. Preserve the source's basis. Do not silently convert units.
 
-As of v1.6, **kg/m³ is the primary reporting basis**; material quantities
-are also expressible as mass-% of total wet mix (a derived secondary
-representation). Record `original_basis` (what the source reported) and
-`mix_density_kg_m3` / `total_binder_kg_m3` so the two bases convert
+As of v1.7 the record is **dual-basis with kg/m³ first-class**: the
+constituent columns store mass-% of total wet mix (the self-normalizing
+projection), and the source's kg/m³ (the industry standard) is preserved
+exactly. Record `original_basis` (what the source reported) and
+`total_batched_mass_kg_m3` / `total_binder_kg_m3` so the two bases convert
 losslessly with no density assumption. If you receive a record in a
 different basis (water-cement ratio, volume fraction), convert and
 document the conversion in a notes column — never silently rewrite the
@@ -106,7 +107,7 @@ schema is a citable artifact; contributors should be too.
 2. Map material columns to canonical Open3DCP names. Use the
    cross-reference table in `Open3DCP_SCHEMA.md` when present.
 3. Preserve the source's reporting basis. Record `original_basis` and the
-   density/binder totals (`mix_density_kg_m3`, `total_binder_kg_m3`) so kg/m³
+   density/binder totals (`total_batched_mass_kg_m3`, `total_binder_kg_m3`) so kg/m³
    (the primary basis) and mass-% of total wet mix remain losslessly
    interconvertible. Never silently convert; if a density assumption is
    unavoidable, flag it.

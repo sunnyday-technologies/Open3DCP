@@ -5,7 +5,7 @@
   "doi": "10.5281/zenodo.14214812",
   "license": "CC BY 4.0",
   "license_url": "https://creativecommons.org/licenses/by/4.0/",
-  "attribution": "Placzek, G., & Dahlberg, M. (2024). Database of 3D Concrete Printed Buildings [Dataset]. Zenodo. DOI 10.5281/zenodo.14214812. CC BY 4.0.",
+  "attribution": "Placzek, G. (2024). Database of 3D Concrete Printed Buildings [Dataset]. Zenodo. DOI 10.5281/zenodo.14214812. CC BY 4.0. Data collection: M. Dahlberg.",
   "classification": "storable",
   "country": "International catalogue (compiled at TU Braunschweig, Germany)",
   "storage_medium": "single flat table (.xlsx), one row per built project, 22 project/process categories",

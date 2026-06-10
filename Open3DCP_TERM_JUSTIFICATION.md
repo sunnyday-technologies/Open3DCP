@@ -120,7 +120,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `basalt_fiber` | real | Basalt fiber | — | Relational: `material_batches.fiber_volume_fraction` (by `material_batches.fiber_type`=basalt) |
 | `nylon_fiber` | real | Nylon fiber | — | Open3DCP-specific. |
 | `aramid_fiber` | real | Aramid fiber (Kevlar) | — | Relational: `material_batches.fiber_volume_fraction` (by `material_batches.fiber_type`=aramid) |
-| `cellulose_fiber` | real | Natural cellulose fiber per ASTM D7357 | ASTM D7357 | Relational: `material_batches.fiber_volume_fraction` (by `material_batches.fiber_type`=natural) |
+| `cellulose_fiber` | real | Cellulose fibers for FRC (ASTM D7357); natural plant/bast fibers recorded here with type in provenance notes | ASTM D7357 | Relational: `material_batches.fiber_volume_fraction` (by `material_batches.fiber_type`=natural) |
 | `fiber_length_mm` | real | Fiber length (mm). Industry example: Dramix 3D 65/35 = 35 mm | — | Relational: `material_batches.fiber_length_mm` |
 | `fiber_diameter_mm` | real | Fiber diameter (mm). Required to calculate aspect ratio | — | Relational: `material_batches.fiber_diameter_mm` |
 | `fiber_aspect_ratio` | real | Length-to-diameter ratio (L/d). Common fiber bridging and ordering parameter. Example: Dramix 65/35 has L/d = 65 | — | Open3DCP-specific. |
@@ -168,7 +168,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `aggregate_absorption_pct` | real | 24-h aggregate absorption, % of oven-dry mass | ASTM C127 / C128 | Open3DCP-specific. |
 | `aggregate_moisture_content_pct` | real | Total as-batched aggregate moisture, % of oven-dry mass (free moisture = this − absorption) | ASTM C566 | Open3DCP-specific. |
 | `original_basis` | varchar(20) | Basis the source reported: `kg_m3` (primary), `mass_pct`, `volume`, or `lb_yd3` | — | Open3DCP-specific. |
-| `mix_density_kg_m3` | real | Total fresh wet-mix density (sum of kg/m³ constituents); enables exact mass-% ↔ kg/m³ conversion | — | Open3DCP-specific. |
+| `total_batched_mass_kg_m3` | real | Sum of as-batched constituent masses per m³ — the mass-% ↔ kg/m³ bridge denominator (not a measured fresh density; use `unit_weight_fresh_kg_m3` for ASTM C138) | — | Open3DCP-specific. |
 | `total_binder_kg_m3` | real | Total cementitious content (kg/m³); supports w/b and absolute back-conversion | — | Open3DCP-specific. |
 
 ## TEST CONDITIONS

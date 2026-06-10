@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     basalt_fiber                REAL,
     nylon_fiber                 REAL,
     aramid_fiber                REAL,
-    cellulose_fiber             REAL,     -- Natural cellulose fiber, ASTM D7357 / ICC 1150 §301.1
+    cellulose_fiber             REAL,     -- Cellulose fibers for FRC (ASTM D7357); natural plant/bast fibers recorded here with type in provenance_notes
     -- Fiber characterization (dominant fiber in the mix)
     fiber_length_mm             REAL,               -- Fiber length (e.g., 13 mm)
     fiber_diameter_mm           REAL,               -- Fiber diameter (e.g., 0.2 mm)
@@ -160,13 +160,13 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     aggregate_moisture_content_pct REAL,            -- Total as-batched aggregate moisture, % of oven-dry mass — ASTM C566
 
     -- -----------------------------------------
-    -- MIX BASIS (v1.6)
+    -- MIX BASIS (v1.7)
     -- kg/m3 is the PRIMARY reporting basis (industry standard: UCI/Yeh, RILEM, fib).
     -- The mass-% composition columns above are a derived secondary representation; these
     -- columns make the two bases losslessly interconvertible (no assumed density).
     -- -----------------------------------------
     original_basis              VARCHAR(20),        -- kg_m3 (primary) | mass_pct | volume | lb_yd3
-    mix_density_kg_m3           REAL,               -- Total fresh wet-mix density (sum of kg/m3 constituents)
+    total_batched_mass_kg_m3    REAL,               -- Sum of as-batched constituent masses per m3 -- the mass-% <-> kg/m3 bridge denominator. NOT a measured fresh density (the masses may be design proportions that do not yield 1 m3); for a measured fresh density use unit_weight_fresh_kg_m3 (ASTM C138).
     total_binder_kg_m3          REAL,               -- Total cementitious content (kg/m3)
 
     -- -----------------------------------------
@@ -239,7 +239,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- FRESH-STATE PROPERTIES
     -- -----------------------------------------
     slump_mm                    REAL,               -- ASTM C143
-    spread_mm                   REAL,               -- ASTM C1611
+    spread_mm                   REAL,               -- ASTM C1611 (SCC slump flow) / C1437 (mortar flow table)
     yield_stress_pa             REAL,
     plastic_viscosity_pa_s      REAL,
     static_yield_stress_pa      REAL,
@@ -250,7 +250,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     green_strength_kpa          REAL,               -- Fresh buildability strength
     air_content_fresh_pct       REAL,               -- ASTM C231
     unit_weight_fresh_kg_m3     REAL,               -- ASTM C138
-    setting_time_initial_min    REAL,               -- ASTM C191 (Vicat)
+    setting_time_initial_min    REAL,               -- ASTM C191 (paste, Vicat) / C403 (mortar-concrete, penetration resistance)
     setting_time_final_min      REAL,               -- ASTM C191 (Vicat)
     bleeding_pct                REAL,               -- ASTM C232
     temperature_fresh_c         REAL,
@@ -269,7 +269,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     flexural_strength_mpa       REAL,               -- ASTM C78
     elastic_modulus_gpa         REAL,               -- ASTM C469
     bond_strength_mpa           REAL,               -- ASTM C1583
-    fracture_energy_n_m         REAL,               -- RILEM FMC-50
+    fracture_energy_n_m         REAL,               -- RILEM TC 50-FMC (1985 Recommendation, notched-beam work of fracture)
     toughness_index             REAL,               -- Toughness index I5/I10/I20 (ASTM C1018, WITHDRAWN 2006; current methods ASTM C1609/C1399)
     impact_resistance_j         REAL,               -- ACI 544.2R
     fatigue_life_cycles         REAL,
@@ -336,7 +336,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     pore_size_distribution_nm   REAL,               -- Critical pore diameter (MIP)
 
     -- -----------------------------------------
-    -- MEASUREMENT UNCERTAINTY (v1.6) — mirrors mean + standard_deviation + N
+    -- MEASUREMENT UNCERTAINTY (v1.7) — mirrors mean + standard_deviation + N
     -- Same unit as the corresponding base column. n_specimens already exists above.
     -- -----------------------------------------
     compressive_strength_stddev_mpa REAL,           -- Std-dev of compressive strength across specimens
@@ -346,7 +346,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     interlayer_bond_stddev_mpa      REAL,           -- Std-dev of interlayer bond strength
 
     -- -----------------------------------------
-    -- RAW DATA REFERENCES (v1.6) — link curve/image/HDF5 files the flat schema can't hold inline
+    -- RAW DATA REFERENCES (v1.7) — link curve/image/HDF5 files the flat schema can't hold inline
     -- File payloads stay external (CSV/HDF5/image); these columns preserve the reference (FAIR).
     -- -----------------------------------------
     raw_data_doi                VARCHAR(255),       -- DOI of a deposited raw-data record
@@ -461,6 +461,7 @@ VALUES
     ('EN_12390_3',  'EN 12390-3',        'compressive', 'Testing hardened concrete - Compressive strength', 'cube', '0.6 MPa/s'),
     ('EN_12390_5',  'EN 12390-5',        'flexural',    'Testing hardened concrete - Flexural strength', 'beam', '0.04-0.06 MPa/s'),
     ('EN_12390_6',  'EN 12390-6',        'tensile',     'Testing hardened concrete - Tensile splitting strength', 'cylinder', '0.04-0.06 MPa/s'),
+    ('ASTM_C109',   'ASTM C109/C109M',   'compressive', 'Compressive Strength of Hydraulic Cement Mortars (50 mm cube specimens)', 'cube', '0.9-1.8 kN/s'),
     ('RILEM_3DCP',  'RILEM TC 304-ADC',  'compressive', '3D Concrete Printing test method', 'printed', 'variable')
 ON CONFLICT (code) DO NOTHING;
 

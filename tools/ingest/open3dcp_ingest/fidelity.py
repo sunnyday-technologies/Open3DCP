@@ -31,6 +31,8 @@ class Dimension:
     detail: str
     not_preserved: list[str] = field(default_factory=list)
     triage: str = ""
+    applicable: bool = True   # a dimension the source could actually exercise; N/A dims are excluded
+                              # from the weighted average (weights renormalize over applicable dims)
 
 
 @dataclass
@@ -41,16 +43,23 @@ class FidelityReport:
     n_rows: int
     n_source_fields: int
     n_unmapped: int
+    weakest_link: str = ""
 
     def to_dict(self) -> dict[str, Any]:
+        app = [d for d in self.dimensions if d.applicable]
+        wsum = sum(WEIGHTS[d.name] for d in app) or 1.0
         return {
             "overall_score": round(self.overall, 1),
             "grade": self.grade,
+            "weakest_applicable_dimension": self.weakest_link,
             "rows": self.n_rows,
             "source_fields": self.n_source_fields,
             "unmapped_fields": self.n_unmapped,
+            "scored_over": "applicable dimensions only (weights renormalized)",
             "dimensions": [
-                {"name": d.name, "score": round(d.score, 1), "weight": WEIGHTS[d.name],
+                {"name": d.name, "score": round(d.score, 1),
+                 "weight": round(WEIGHTS[d.name] / wsum, 3) if d.applicable else 0.0,
+                 "nominal_weight": WEIGHTS[d.name], "applicable": d.applicable,
                  "detail": d.detail, "not_preserved_examples": d.not_preserved[:10],
                  "triage": d.triage}
                 for d in self.dimensions
@@ -65,16 +74,38 @@ def _is_relational_key(source: str) -> bool:
     return leaf == "id" or leaf.endswith("_id")
 
 
+_GRADE_LABEL = {
+    "A": "A (high fidelity)", "B": "B (good; review flagged items)",
+    "C": "C (partial; triage recommended)", "D": "D (significant loss; keep original)",
+    "F": "F (flat projection inadequate; use relational/original)",
+}
+_GRADE_ORDER = ["A", "B", "C", "D", "F"]
+
+
 def _grade(score: float) -> str:
-    if score >= 90: return "A (high fidelity)"
-    if score >= 75: return "B (good; review flagged items)"
-    if score >= 60: return "C (partial; triage recommended)"
-    if score >= 40: return "D (significant loss; keep original)"
-    return "F (flat projection inadequate; use relational/original)"
+    if score >= 90: return _GRADE_LABEL["A"]
+    if score >= 75: return _GRADE_LABEL["B"]
+    if score >= 60: return _GRADE_LABEL["C"]
+    if score >= 40: return _GRADE_LABEL["D"]
+    return _GRADE_LABEL["F"]
+
+
+def _cap_grade(grade: str, weakest: float) -> str:
+    """Weakest-link gate: the letter can be no better than the weakest APPLICABLE dimension warrants,
+    so a catastrophic single-dimension loss cannot read 'A' behind a high weighted average."""
+    cap = "A"
+    if weakest < 40: cap = "D"
+    elif weakest < 60: cap = "C"
+    elif weakest < 80: cap = "B"   # an 'A (high fidelity)' requires every applicable dimension to be
+                                   # genuinely strong; a weak value_fidelity caps the grade at B
+    if _GRADE_ORDER.index(grade[0]) < _GRADE_ORDER.index(cap):
+        return _GRADE_LABEL[cap] + " — capped by the weakest dimension"
+    return grade
 
 
 def score(result: IngestResult) -> FidelityReport:
     dims: list[Dimension] = []
+    traced = result.trace
 
     # 1. field coverage --------------------------------------------------------
     src = result.n_source_fields
@@ -106,70 +137,93 @@ def score(result: IngestResult) -> FidelityReport:
         triage="Sidecar fields are preserved in <dataset>.unmapped.jsonl; review for schema extension.",
     ))
 
-    # 2. value fidelity (over successfully mapped cells) -----------------------
-    traced = result.trace
-    if traced:
-        assumed = [t for t in traced if t.assumed or t.fidelity == transforms.LOSSY]
-        vf = (len(traced) - len(assumed)) / len(traced) * 100.0
-        # NOTE: count exact/assumed from the `assumed` LIST (same basis as the score), not the
-        # deduplicated `examples` set -- otherwise repeated (target, note) pairs make the prose
-        # undercount assumptions and disagree with vf on multi-row datasets.
-        examples = sorted({f"{t.target} ({t.note})" for t in assumed})
-    else:
-        assumed, examples = [], []
-        vf = 100.0
+    # 2. value fidelity = ASSUMPTION-FREE fraction of substantive value cells ----
+    # "Substantive" excludes (a) zero-dose absences (0 -> 0, an absent constituent, no conversion) and
+    # (b) file/relational cells (scored by their own dimensions) -- so the denominator can't be padded
+    # with trivially-exact cells. A cell rests on an assumption if its realized fidelity is LOSSY
+    # (a value approximation OR a crosswalk-declared bucketing, via worst(declared, runtime)) or it
+    # carries an engine assumption flag (a defaulted cement type, an enum pass-through).
+    def _trivial(t):
+        return ("zero dose" in t.note or "admixture absent" in t.note
+                or t.fidelity in (transforms.FILE_REF, transforms.COLLAPSE))
+    substantive = [t for t in traced if not _trivial(t)]
+    assumed = [t for t in substantive if t.assumed or t.fidelity == transforms.LOSSY]
+    vf = ((len(substantive) - len(assumed)) / len(substantive) * 100.0) if substantive else 100.0
+    examples = sorted({f"{t.target} ({t.note})" for t in assumed})
     dims.append(Dimension(
         "value_fidelity", vf,
-        f"{len(traced)} values written; "
-        f"{len(traced) - len(assumed)} exact, {len(assumed)} required an assumption.",
+        f"{len(substantive)} substantive value cells: {len(substantive) - len(assumed)} stored without "
+        f"an assumption, {len(assumed)} rest on one (liquid->solids admixture, FM/size aggregate bucket, "
+        f"defaulted cement type, or an incomplete-batch projection).",
         not_preserved=examples,
-        triage="Assumed conversions (e.g. kg/m3<->mass-%, liquid->solids) need the missing "
-               "density / solids fraction to become exact. Record mix_density_kg_m3 at source.",
+        triage="Assumed cells need the missing source detail (solids fraction, fineness modulus, "
+               "aggregate size, cement type) to become exact; the value is recorded, the attribute is inferred.",
+        applicable=bool(substantive),
     ))
 
-    # 3. relational integrity (cardinality collapse) --------------------------
+    # 3. relational integrity -- N/A for a flat/UCI source (no one-to-many to lose) ----
     collapse = [u for u in result.unmapped if u.fidelity == transforms.COLLAPSE]
-    # penalize proportional to how much relational structure was dropped
     ri = max(0.0, 100.0 - min(100.0, len(collapse) * 8.0))
     dims.append(Dimension(
         "relational_integrity", ri,
         f"{len(collapse)} relational fields (reinforcement, geometry parametrization, "
-        f"devices, loading histories) had no flat home.",
+        f"devices, loading histories) had no flat home."
+        + ("" if result.source_kind == "relational" else " N/A: a flat source has no relational cardinality."),
         not_preserved=sorted({u.source for u in collapse}),
         triage="Retain these in the source relational record; the flat row is a projection.",
+        applicable=(result.source_kind == "relational"),
     ))
 
-    # 4. file-referenced data capture -----------------------------------------
+    # 4. file-referenced data capture -- N/A unless the source carried file references ----
     fref = [u for u in result.unmapped if u.fidelity == transforms.FILE_REF]
+    file_traced = [t for t in traced if t.fidelity == transforms.FILE_REF]
+    has_files = bool(fref or file_traced)
     fd = 100.0 if not fref else max(0.0, 100.0 - len(fref) * 10.0)
     dims.append(Dimension(
         "file_data_capture", fd,
-        f"{len(fref)} curve/table/image/raw-file references cannot be held by the flat schema "
-        f"(pre-v1.6).",
+        f"{len(fref)} curve/table/image/raw-file references not captured; {len(file_traced)} routed to "
+        f"*_file columns." + ("" if has_files else " N/A: this source carries no file-referenced data."),
         not_preserved=sorted({u.source for u in fref}),
-        triage="Link originals in the sidecar; proposed v1.6 *_file columns close this gap.",
+        triage="Link originals in the sidecar; the v1.7 *_file columns close this gap.",
+        applicable=has_files,
     ))
 
-    # 5. vocabulary match ------------------------------------------------------
-    cat_cells = [t for t in traced if t.fidelity == transforms.CATEGORICAL]
-    cat_unres = [u for u in result.unmapped
-                 if "pivot_map" in u.reason or "enum entry" in u.reason]
-    denom = len(cat_cells) + len(cat_unres)
-    vm = (len(cat_cells) / denom * 100.0) if denom else 100.0
+    # 5. vocabulary match -- categorical resolution; unresolved = enum miss + pivot miss ----
+    cat_resolved = [t for t in traced
+                    if t.fidelity == transforms.CATEGORICAL and "no enum entry" not in t.note]
+    cat_unres_trace = [t for t in traced
+                       if t.fidelity == transforms.CATEGORICAL and "no enum entry" in t.note]
+    cat_unres_side = [u for u in result.unmapped
+                      if "pivot_map" in u.reason or "enum entry" in u.reason]
+    denom = len(cat_resolved) + len(cat_unres_trace) + len(cat_unres_side)
+    vm = (len(cat_resolved) / denom * 100.0) if denom else 100.0
     dims.append(Dimension(
         "vocabulary_match", vm,
-        f"{len(cat_cells)} categorical values resolved, {len(cat_unres)} unresolved against the crosswalk.",
-        not_preserved=sorted({f"{u.source}={u.value}" for u in cat_unres}),
+        f"{len(cat_resolved)} categorical values resolved to canonical codes, "
+        f"{len(cat_unres_trace) + len(cat_unres_side)} unresolved (enum/pivot miss, passed through)."
+        + ("" if denom else " N/A: this source has no categorical vocabulary to resolve."),
+        not_preserved=sorted({f"{u.source}={u.value}" for u in cat_unres_side}
+                             | {f"{t.target} ({t.note})" for t in cat_unres_trace}),
         triage="Add the unresolved vocab members to the crosswalk pivot/enum maps.",
+        applicable=(denom > 0),
     ))
 
-    overall = sum(d.score * WEIGHTS[d.name] for d in dims)
-    return FidelityReport(overall, _grade(overall), dims,
+    # overall: renormalize the weights over the APPLICABLE dimensions only, so a flat table is not
+    # floated to an 'A' by three structural 100s it never had a chance to fail.
+    app = [d for d in dims if d.applicable]
+    wsum = sum(WEIGHTS[d.name] for d in app)
+    overall = (sum(d.score * WEIGHTS[d.name] for d in app) / wsum) if wsum else 100.0
+    weakest = min(app, key=lambda d: d.score) if app else dims[0]
+    grade = _cap_grade(_grade(overall), weakest.score)
+    return FidelityReport(overall, grade, dims,
                           n_rows=len(result.rows), n_source_fields=src,
-                          n_unmapped=len(result.unmapped))
+                          n_unmapped=len(result.unmapped),
+                          weakest_link=f"{weakest.name} ({weakest.score:.0f})")
 
 
 def to_markdown(report: FidelityReport, dataset_name: str) -> str:
+    app = [d for d in report.dimensions if d.applicable]
+    wsum = sum(WEIGHTS[d.name] for d in app) or 1.0
     lines = [
         f"# Ingestion Fidelity Report — {dataset_name}",
         "",
@@ -178,12 +232,17 @@ def to_markdown(report: FidelityReport, dataset_name: str) -> str:
         f"- Rows produced: {report.n_rows}",
         f"- Source fields seen: {report.n_source_fields}",
         f"- Fields routed to triage sidecar: {report.n_unmapped}",
+        f"- Weakest applicable dimension: {report.weakest_link}",
+        f"- Scored over the **applicable** dimensions only "
+        f"({', '.join(d.name for d in app)}); weights renormalized.",
         "",
-        "| Dimension | Score | Weight | Detail |",
-        "|---|---:|---:|---|",
+        "| Dimension | Score | Eff. weight | Applicable | Detail |",
+        "|---|---:|---:|:--:|---|",
     ]
     for d in report.dimensions:
-        lines.append(f"| {d.name} | {d.score:.0f} | {WEIGHTS[d.name]:.2f} | {d.detail} |")
+        ew = f"{WEIGHTS[d.name] / wsum:.2f}" if d.applicable else "—"
+        app_mark = "yes" if d.applicable else "N/A"
+        lines.append(f"| {d.name} | {d.score:.0f} | {ew} | {app_mark} | {d.detail} |")
     lines.append("")
     for d in report.dimensions:
         if d.not_preserved:
