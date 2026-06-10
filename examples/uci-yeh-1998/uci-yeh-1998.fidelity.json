@@ -1,7 +1,7 @@
 {
-  "overall_score": 79.9,
-  "grade": "C (partial; triage recommended) \u2014 capped by the weakest dimension",
-  "weakest_applicable_dimension": "value_fidelity (60)",
+  "overall_score": 100.0,
+  "grade": "A (high fidelity)",
+  "weakest_applicable_dimension": "field_coverage (100)",
   "rows": 14,
   "source_fields": 126,
   "unmapped_fields": 0,
@@ -19,17 +19,12 @@
     },
     {
       "name": "value_fidelity",
-      "score": 59.8,
+      "score": 100.0,
       "weight": 0.5,
       "nominal_weight": 0.3,
       "applicable": true,
-      "detail": "117 substantive value cells: 70 stored without an assumption, 47 rest on one (liquid->solids admixture, FM/size aggregate bucket, defaulted cement type, or an incomplete-batch projection).",
-      "not_preserved_examples": [
-        "agg_size_57 (full batch known)",
-        "cement_type_1 (full batch known)",
-        "concrete_sand (full batch known)",
-        "superplasticizer (solids fraction unknown; recorded as-delivered mass-% (not solids))"
-      ],
+      "detail": "117 substantive value cells: 117 stored without an assumption, 0 rest on one (a guessed conversion input such as a solids fraction or product density, or an incomplete-batch projection). 47 of these are recorded generically (classification or solids basis not stated by the source; the value is exact and the classification stays NULL).",
+      "not_preserved_examples": [],
       "triage": "Assumed cells need the missing source detail (solids fraction, fineness modulus, aggregate size, cement type) to become exact; the value is recorded, the attribute is inferred."
     },
     {

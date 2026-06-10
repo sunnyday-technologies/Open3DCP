@@ -150,11 +150,19 @@ def score(result: IngestResult) -> FidelityReport:
     assumed = [t for t in substantive if t.assumed or t.fidelity == transforms.LOSSY]
     vf = ((len(substantive) - len(assumed)) / len(substantive) * 100.0) if substantive else 100.0
     examples = sorted({f"{t.target} ({t.note})" for t in assumed})
+    # v1.7.5 disclosure: cells stored generically (mass exact, classification/basis NULL because the
+    # source stated none) are NOT assumptions -- but they are surfaced so a perfect score cannot
+    # hide what the source left unclassified.
+    generic = [t for t in substantive if t.target.endswith("_unspecified")
+               or "stored generic" in t.note or "as-delivered mass-%" in t.note]
+    gen_note = (f" {len(generic)} of these are recorded generically (classification or solids basis "
+                f"not stated by the source; the value is exact and the classification stays NULL)."
+                if generic else "")
     dims.append(Dimension(
         "value_fidelity", vf,
         f"{len(substantive)} substantive value cells: {len(substantive) - len(assumed)} stored without "
-        f"an assumption, {len(assumed)} rest on one (liquid->solids admixture, FM/size aggregate bucket, "
-        f"defaulted cement type, or an incomplete-batch projection).",
+        f"an assumption, {len(assumed)} rest on one (a guessed conversion input such as a solids "
+        f"fraction or product density, or an incomplete-batch projection).{gen_note}",
         not_preserved=examples,
         triage="Assumed cells need the missing source detail (solids fraction, fineness modulus, "
                "aggregate size, cement type) to become exact; the value is recorded, the attribute is inferred.",

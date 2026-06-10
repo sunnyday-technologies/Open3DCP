@@ -1,10 +1,10 @@
 uci_column,uci_unit,open3dcp_column,transform,fidelity,notes
-Cement (component 1),kg/m3,cement_type_1,kg_m3_to_mass_pct,lossy,"UCI does not record cement type; defaults to Type I (most common)"
+Cement (component 1),kg/m3,cement_unspecified,kg_m3_to_mass_pct,exact,"UCI states no cement type; the mass is stored exactly in cement_unspecified (v1.7.5 preserve-don't-presume; nothing defaulted)"
 Blast Furnace Slag (component 2),kg/m3,slag,kg_m3_to_mass_pct,exact,"direct column; mass-% exact once the batched mass is known"
 Fly Ash (component 3),kg/m3,fly_ash,kg_m3_to_mass_pct,exact,"generic fly_ash column (F/C class optional); mass-% exact once the batched mass is known"
 Water (component 4),kg/m3,water,kg_m3_to_mass_pct,exact,"closes the wet-mass total -> mass-% exact"
-Superplasticizer (component 5),kg/m3,superplasticizer,as_delivered_to_solids_pct,lossy,"UCI value is as-delivered; solids fraction unknown"
-Coarse Aggregate (component 6),kg/m3,agg_size_57,kg_m3_to_mass_pct,lossy,"size not recorded -> default ASTM C33 #57"
-Fine Aggregate (component 7),kg/m3,concrete_sand,kg_m3_to_mass_pct,lossy,"fineness modulus not recorded -> default concrete_sand"
+Superplasticizer (component 5),kg/m3,superplasticizer,as_delivered_to_solids_pct,exact,"UCI states no solids fraction; the as-delivered mass is stored exactly with admixture_basis=as_delivered (v1.7.5)"
+Coarse Aggregate (component 6),kg/m3,coarse_agg_unspecified,kg_m3_to_mass_pct,exact,"UCI states no max size; mass stored exactly in coarse_agg_unspecified, size class NULL (v1.7.5)"
+Fine Aggregate (component 7),kg/m3,fine_agg_unspecified,kg_m3_to_mass_pct,exact,"UCI states no fineness modulus; mass stored exactly in fine_agg_unspecified, FM bucket NULL (v1.7.5)"
 Age,day,test_age_days,identity,exact,
 Concrete compressive strength,MPa,compressive_strength_mpa,identity,exact,"target variable"

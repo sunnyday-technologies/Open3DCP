@@ -18,6 +18,9 @@ class Mapping:
     declared_fidelity: str = transforms.EXACT
     pivot_on: Optional[str] = None   # categorical field selecting the target column
     pivot_map: dict = field(default_factory=dict)
+    pivot_default: Optional[str] = None  # v1.7.5 preserve-don't-presume: the *_unspecified column the
+                                         # content maps to (fidelity EXACT) when the selector is absent
+                                         # -- store the mass, leave the classification NULL, never guess
     pivot_transform: str = "identity"
     refine_by: Optional[dict] = None  # {field, map} to switch target by a secondary field
     carry_to: Optional[str] = None    # copy this source value into another Open3DCP column (notes)
@@ -63,7 +66,8 @@ def build_relational_mappings(cw: Crosswalk) -> list[Mapping]:
         if "pivot_on" in m:
             out.append(Mapping(
                 source=m["src"], target=None, pivot_on=m["pivot_on"],
-                pivot_map=m.get("pivot_map", {}), pivot_transform=m.get("transform_value", "identity"),
+                pivot_map=m.get("pivot_map", {}), pivot_default=m.get("pivot_default"),
+                pivot_transform=m.get("transform_value", "identity"),
                 declared_fidelity=m.get("fidelity", transforms.CATEGORICAL), note=m.get("notes", ""),
             ))
         else:
@@ -217,7 +221,14 @@ def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
                 handled.add(m.source); handled.add(m.pivot_on)
                 if content is None:
                     continue
-                target = m.pivot_map.get(category)
+                generic = False
+                if category is None and m.pivot_default:
+                    # v1.7.5 preserve-don't-presume: the source states no classification, so the
+                    # content goes to the *_unspecified column EXACTLY; nothing is guessed and the
+                    # classification stays NULL. Not an assumption -- a faithful record.
+                    target, generic = m.pivot_default, True
+                else:
+                    target = m.pivot_map.get(category)
                 if target is None:
                     res.unmapped.append(Unmapped(i, m.source, content, transforms.CATEGORICAL,
                                                   f"category {category!r} not in pivot_map"))
@@ -228,10 +239,14 @@ def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
                     continue
                 row[target] = tr.value
                 mapped_here += 1
-                realized = transforms.worst(m.declared_fidelity, tr.fidelity)
-                assumed = (tr.assumed or transforms.is_assumption(realized)
-                           or m.source in assumed_fields or m.pivot_on in assumed_fields)
-                note = tr.note + ("; assumed (defaulted selector)" if m.pivot_on in assumed_fields else "")
+                if generic:
+                    realized, assumed = tr.fidelity, tr.assumed
+                    note = tr.note + "; classification not stated by source -> stored generic (exact, NULL class)"
+                else:
+                    realized = transforms.worst(m.declared_fidelity, tr.fidelity)
+                    assumed = (tr.assumed or transforms.is_assumption(realized)
+                               or m.source in assumed_fields or m.pivot_on in assumed_fields)
+                    note = tr.note + ("; assumed (defaulted selector)" if m.pivot_on in assumed_fields else "")
                 res.trace.append(CellTrace(i, target, m.source, realized, assumed, note))
                 continue
 
@@ -328,6 +343,11 @@ def ingest(records: list[dict], mappings: list[Mapping], quantity_map: dict,
                 row["provenance_notes"] = (f"{prev}; " if prev else "") + ctx["provenance_notes"]
         if ctx.get("total_binder_kg_m3") is not None:
             row.setdefault("total_binder_kg_m3", ctx.get("total_binder_kg_m3"))
+        # v1.7.5: record the basis the admixture columns were stored on (solids | as_delivered) --
+        # set by the reader when an admixture is present, so an as-delivered value is a faithful
+        # record (with its basis visible) rather than an assumed solids conversion.
+        if ctx.get("admixture_basis"):
+            row.setdefault("admixture_basis", ctx["admixture_basis"])
 
         # Selector/plumbing fields consumed by a mapping (pivot key, refine key, carry source,
         # data_type, folded curve descriptor) are `handled` yet write no column of their own and
