@@ -101,13 +101,16 @@ def as_delivered_to_solids_pct(value, ctx=None, solids_fraction=None, **kw) -> T
     total = (ctx or {}).get("total_wet_mass_kg_m3")
     sf = solids_fraction if solids_fraction is not None else (ctx or {}).get("solids_fraction")
     if total and total > 0 and sf:
-        return TransformResult(float(value) * sf / total * 100.0, LOSSY, assumed=True,
-                               note=f"assumed solids fraction {sf}")
-    # store as-delivered mass-% if total known, else give up to sidecar
+        # a source-stated solids fraction makes the solids conversion a documented derivation
+        return TransformResult(float(value) * sf / total * 100.0, EXACT,
+                               note=f"solids basis (source-stated fraction {sf}; admixture_basis=solids)")
+    # v1.7.5 preserve-don't-presume: no fraction stated -> record the as-delivered mass EXACTLY and
+    # flag the basis in admixture_basis (set by the reader). A faithful record, not an assumption.
     if total and total > 0:
-        return TransformResult(float(value) / total * 100.0, LOSSY, assumed=True,
-                               note="solids fraction unknown; recorded as-delivered mass-% (not solids)")
-    return TransformResult(None, LOSSY, assumed=True, note="total wet mass + solids fraction unknown")
+        return TransformResult(float(value) / total * 100.0, EXACT,
+                               note="as-delivered mass-% (no solids fraction stated; basis recorded "
+                                    "in admixture_basis)")
+    return TransformResult(None, LOSSY, assumed=True, note="total wet mass unknown")
 
 
 def ml_m3_to_mass_pct(value, ctx=None, product_density=None, solids_fraction=None, **kw) -> TransformResult:

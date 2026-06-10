@@ -1,8 +1,10 @@
-# Open3DCP v1.7
+# Open3DCP v1.7.5
 
 **Open Data Standard for 3D Concrete Printing**
 
 > **Status: Draft** — under working-group review; the schema may change before ratification.
+>
+> **v1.7.5 (2026-06-10): preserve, don't presume.** Four columns (244 → **248**) that remove the schema's last forced guesses, driven by the honest ingestion-fidelity metric: `cement_unspecified`, `fine_agg_unspecified`, `coarse_agg_unspecified` (store the exact mass when the source states no type / FM / size — the generic-`fly_ash` pattern completed; classifications stay NULL instead of being defaulted) and `admixture_basis` (`solids` | `as_delivered` — record the as-delivered mass exactly with its basis instead of assuming a solids fraction). The ingestion tool no longer defaults an unstated cement type; unclassified constituents land in the `*_unspecified` columns with fidelity *exact*.
 >
 > **v1.7 (2026-06-04):** **kg/m³ adopted as the primary reporting basis** (industry/field standard; mass-% retained as a derived secondary representation), with lossless-conversion columns `original_basis`, `total_batched_mass_kg_m3`, `total_binder_kg_m3`; **per-measurement uncertainty** columns (`compressive_strength_stddev_mpa`, `flexural_strength_stddev_mpa`, `tensile_strength_stddev_mpa`, `elastic_modulus_stddev_gpa`, `interlayer_bond_stddev_mpa`); and **raw-data references** (`raw_data_doi`, `stress_strain_file`, `rheology_curve_file`, `microstructure_image`, `raw_data_file`). **Aggregate-conditioning columns added** so effective (free) mix water is recoverable when aggregates are batched off SSD: `aggregate_moisture_state`, `aggregate_absorption_pct`, `aggregate_moisture_content_pct` (ASTM C127/C128, C566), plus a process flag `aggregate_prewetted` for the common practice of pre-wetting aggregate to a damp condition. **Classification & batch timeline:** `material_class` (mix/binder system), `batch_label` (physical batch sub-identifier), and `date_of_casting` (t=0 of the curing clock — with the test date the ingestor can derive `test_age_days`) — three fields previously routed to the ingestion sidecar now have columns. **Intelligent ingestion:** the ingestor now maps these, routes `data` records by their `data_type` (scalar → property column; curve/image → the right `*_file` column; curve axis-unit descriptors → `provenance_notes`), corrects the wet-mass denominator to include admixtures/SCMs, and excludes consumed selector/metadata fields from the fidelity coverage denominator. Tooling/fidelity fixes: imperial-tonnage units (`lb_yd3`, US short ton, UK long ton) added and a bare "ton" rejected as ambiguous; ingestion fidelity refined so relational foreign keys no longer count against coverage; test-method crosswalk completed (and an `is_3d_printed`/curing enum-mapping bug fixed). Backward-compatible (additive); v1.6 datasets remain valid.
 >
@@ -82,6 +84,7 @@ Cements are classified by ASTM C150 / EN 197-1 type. SCMs follow their respectiv
 | `cement_type_5` | real | High sulfate resistance (required in sulfate-rich soils, common in western US) | ASTM C150 Type V |
 | `cac` | real | Calcium aluminate cement (Ciment Fondu) | EN 14647 |
 | `csa_cement` | real | Calcium sulfoaluminate cement | -- |
+| `cement_unspecified` | real | Cement whose ASTM/EN type the source does not state (v1.7.5). Mass stored exactly; the type stays NULL — never defaulted. Refine to a `cement_type_*` column only when the source states the type | -- |
 | `fly_ash` | real | Fly ash (class not specified in source) | -- |
 | `fly_ash_type_f` | real | Class F fly ash (SiO2+Al2O3+Fe2O3 ≥ 70%) | ASTM C618 |
 | `fly_ash_type_c` | real | Class C fly ash (SiO2+Al2O3+Fe2O3 ≥ 50%) | ASTM C618 |
@@ -139,6 +142,7 @@ Sand is classified using US industry ordering terms. Fineness modulus (FM) range
 | `fine_sand` | real | Fine concrete sand | FM 1.6-2.2 | Fine sand |
 | `concrete_sand` | real | Standard concrete sand (most common in US 3DCP) | FM 2.3-3.0 | Concrete sand / C33 sand |
 | `coarse_sand` | real | Coarse washed sand | FM 3.1-3.7 | Coarse sand / torpedo sand |
+| `fine_agg_unspecified` | real | Fine aggregate with no stated fineness modulus / grading (v1.7.5). Mass stored exactly; the FM bucket stays NULL — never guessed | -- | Fine aggregate / sand (grading unstated) |
 | `agg_size_89` | real | Very fine gravel (3/8" - #16 sieve, 9.5-1.18 mm) | ASTM C33 Size #89 | #89 stone |
 | `agg_size_8` | real | Fine pea gravel (3/8" - #8 sieve, 9.5-2.36 mm) | ASTM C33 Size #8 | Pea gravel / #8 stone |
 | `agg_size_7` | real | 1/2" - #4 (12.5-4.75 mm) | ASTM C33 Size #7 | #7 stone |
@@ -152,6 +156,7 @@ Sand is classified using US industry ordering terms. Fineness modulus (FM) range
 | `agg_size_3` | real | 2" - 1" (50-25 mm) | ASTM C33 Size #3 | #3 stone |
 | `agg_size_2` | real | 2.5" - 1.5" (63-37.5 mm) | ASTM C33 Size #2 | #2 stone |
 | `agg_size_1` | real | 3.5" - 1.5" (90-37.5 mm) | ASTM C33 Size #1 | Large stone |
+| `coarse_agg_unspecified` | real | Coarse aggregate with no stated maximum size / C33 size number (v1.7.5). Mass stored exactly; the size class stays NULL — never defaulted | -- | Coarse aggregate (size unstated) |
 
 Note: Most 3DCP systems are limited to Size #8 or smaller due to pump and nozzle constraints. Sizes #7 and above are included for large-nozzle systems, conventional concrete compatibility, and completeness as a global standard.
 
@@ -226,13 +231,14 @@ column this makes the water accounting unambiguous without duplicating the w/c a
 | `aggregate_absorption_pct` | real | 24-h aggregate absorption, % of oven-dry mass | ASTM C127 / C128 |
 | `aggregate_moisture_content_pct` | real | Total as-batched aggregate moisture, % of oven-dry mass (free moisture = this − absorption) | ASTM C566 |
 
-### Mix Basis (v1.7)
+### Mix Basis (v1.7; `admixture_basis` v1.7.5)
 
-kg/m³ is the primary basis; the mass-% composition columns are a derived secondary representation. Record the source's native basis and the mix density so the two convert without any assumption.
+The constituent columns store the mass-% projection; the source's kg/m³ basis is preserved exactly. Record the source's native basis and the batched-mass total so the two convert without any assumption.
 
 | Column | Type | Description |
 |--------|------|-------------|
 | `original_basis` | varchar | Basis the source reported: `kg_m3` (primary), `mass_pct`, `volume`, or `lb_yd3` |
+| `admixture_basis` | varchar | Basis of the row's admixture columns: `solids` \| `as_delivered` (v1.7.5). Recording the as-delivered mass WITH this flag preserves the source exactly when no solids fraction is stated; solids are derivable when the fraction is known |
 | `total_batched_mass_kg_m3` | real | Sum of as-batched constituent masses per m³ — the mass-% ↔ kg/m³ bridge denominator (NOT a measured fresh density; use `unit_weight_fresh_kg_m3` for ASTM C138). Where the as-batched masses are design proportions, an absolute-volume yield note is recorded in `provenance_notes`. |
 | `total_binder_kg_m3` | real | Total cementitious content (kg/m³); supports w/b and absolute back-conversion |
 

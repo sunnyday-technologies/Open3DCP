@@ -15,8 +15,10 @@ def test_uci_converts_and_scores_high():
 def test_uci_mass_pct_sums_to_about_100():
     result, _ = convert(FIX, kind="uci")
     row0 = result.rows[0]
-    mass_cols = ["cement_type_1", "slag", "fly_ash", "water",
-                 "agg_size_57", "concrete_sand"]
+    # v1.7.5 preserve-don't-presume: UCI states no cement type / FM / max size, so the masses land
+    # in the *_unspecified columns exactly (nothing defaulted).
+    mass_cols = ["cement_unspecified", "slag", "fly_ash", "water",
+                 "coarse_agg_unspecified", "fine_agg_unspecified"]
     total = sum(row0.get(c) or 0.0 for c in mass_cols)
     # superplasticizer (~0.1%) excluded; the six bulk constituents should be ~100%
     assert 99.0 <= total <= 100.5, total

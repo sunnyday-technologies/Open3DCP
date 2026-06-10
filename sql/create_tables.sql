@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     cement_type_5               REAL,     -- High sulfate resistance, ASTM C150 Type V
     cac                         REAL,     -- Calcium aluminate cement, EN 14647
     csa_cement                  REAL,     -- Calcium sulfoaluminate cement
+    cement_unspecified          REAL,     -- v1.7.5: Portland-type cement whose ASTM/EN type the source does NOT state. Preserve-don't-presume: store the mass exactly here rather than defaulting a type; refine to a cement_type_* column only when the source states the type.
     fly_ash                     REAL,     -- Fly ash (class not specified)
     fly_ash_type_f              REAL,     -- Class F (SiO2+Al2O3+Fe2O3 >= 70%), ASTM C618
     fly_ash_type_c              REAL,     -- Class C (SiO2+Al2O3+Fe2O3 >= 50%), ASTM C618
@@ -87,6 +88,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     fine_sand                   REAL,     -- FM [1.6,2.3)
     concrete_sand               REAL,     -- FM [2.3,3.1) (concrete sand / C33 sand)
     coarse_sand                 REAL,     -- FM [3.1,3.7] (torpedo sand)
+    fine_agg_unspecified        REAL,     -- v1.7.5: fine aggregate whose fineness modulus / grading the source does NOT state. Preserve-don't-presume: store the mass exactly here rather than guessing an FM bucket; use the FM columns above only when the source states FM or an equivalent grading.
     -- Coarse aggregate: ASTM C33 size numbers
     agg_size_89                 REAL,     -- #89: 3/8"-#16 sieve (9.5-1.18 mm)
     agg_size_8                  REAL,     -- #8:  3/8"-#8 sieve (9.5-2.36 mm) — pea gravel, 3DCP limit for most systems
@@ -101,6 +103,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     agg_size_3                  REAL,     -- #3:  2"-1" (50-25 mm)
     agg_size_2                  REAL,     -- #2:  2.5"-1.5" (63-37.5 mm)
     agg_size_1                  REAL,     -- #1:  3.5"-1.5" (90-37.5 mm) — large stone
+    coarse_agg_unspecified      REAL,     -- v1.7.5: coarse aggregate whose maximum size / ASTM C33 size number the source does NOT state. Preserve-don't-presume: store the mass exactly here rather than defaulting a size class; use the agg_size_* columns only when the source states the size.
 
     -- Fiber Reinforcement (mass-%)
     steel_fiber                 REAL,
@@ -166,6 +169,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- columns make the two bases losslessly interconvertible (no assumed density).
     -- -----------------------------------------
     original_basis              VARCHAR(20),        -- kg_m3 (primary) | mass_pct | volume | lb_yd3
+    admixture_basis             VARCHAR(20),        -- v1.7.5: basis of the admixture columns for this row: solids | as_delivered. Sources rarely state the solids fraction; recording the as-delivered (as-batched) mass WITH this flag preserves the source exactly (no assumed fraction). Solids are derivable when the fraction is known.
     total_batched_mass_kg_m3    REAL,               -- Sum of as-batched constituent masses per m3 -- the mass-% <-> kg/m3 bridge denominator. NOT a measured fresh density (the masses may be design proportions that do not yield 1 m3); for a measured fresh density use unit_weight_fresh_kg_m3 (ASTM C138).
     total_binder_kg_m3          REAL,               -- Total cementitious content (kg/m3)
 

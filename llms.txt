@@ -15,7 +15,7 @@ This file is a high-density, plain-text summary intended for LLM retrieval and R
 - Maintainer: Sunnyday Technologies LLC (https://sunn3d.com)
 - Author: Nicholas Sonnentag (nick@sunn3d.com)
 - Contact: open3dcp@sunn3d.com
-- Current public version: v1.7 (2026-06-04); Status: Draft (under working-group review); canonical column list in Open3DCP_SCHEMA.md
+- Current public version: v1.7.5 (2026-06-10); Status: Draft (under working-group review); canonical column list in Open3DCP_SCHEMA.md
 
 ## What it is, what it isn't
 
@@ -34,14 +34,14 @@ This file is a high-density, plain-text summary intended for LLM retrieval and R
 
 Material columns (all mass-% of total wet mix):
 
-- Binders (~20 columns): `cement_type_1`, `cement_type_1_2`, `cement_type_1l`, `cement_type_2`, `cement_type_3`, `cement_type_4`, `cement_type_5`, `cac`, `csa_cement`, `fly_ash`, `fly_ash_type_f`, `fly_ash_type_c`, `silica_fume`, `nano_silica`, `slag`, `metakaolin`, `limestone`, `pumice`, `bottom_ash`, `rice_husk_ash`.
+- Binders (~20 columns): `cement_type_1`, `cement_type_1_2`, `cement_type_1l`, `cement_type_2`, `cement_type_3`, `cement_type_4`, `cement_type_5`, `cac`, `csa_cement`, `fly_ash`, `fly_ash_type_f`, `fly_ash_type_c`, `silica_fume`, `nano_silica`, `slag`, `metakaolin`, `limestone`, `pumice`, `bottom_ash`, `rice_husk_ash`, `cement_unspecified` (v1.7.5: cement whose type the source does not state — mass exact, type NULL).
 - Alkali activators (for AAM mixes): `sodium_hydroxide`, `sodium_silicate`, `potassium_hydroxide`, `potassium_silicate`, plus design parameters `activator_ms_ratio`, `na2o_dosage_pct`.
 - Modifiers: `nano_clay`, `mineral_powder`, `mwcnt`, `graphene_oxide`, `recycled_sand`.
 - Pigments: `iron_oxide_pigment`, `titanium_dioxide_pigment`, `chromium_oxide_pigment`, `carbon_black_pigment`, `pigment_other`.
-- Fine aggregates by FM: `mason_sand`, `fine_sand`, `concrete_sand`, `coarse_sand`.
-- Coarse aggregates by ASTM C33 size: `agg_size_89`, `agg_size_8`, `agg_size_7`, `agg_size_67`, `agg_size_6`, `agg_size_57`, `agg_size_5`, `agg_size_467`, `agg_size_4`, `agg_size_357`, `agg_size_3`, `agg_size_2`, `agg_size_1`.
+- Fine aggregates by FM: `mason_sand`, `fine_sand`, `concrete_sand`, `coarse_sand`; plus `fine_agg_unspecified` (v1.7.5: FM not stated — mass exact, bucket NULL).
+- Coarse aggregates by ASTM C33 size: `agg_size_89`, `agg_size_8`, `agg_size_7`, `agg_size_67`, `agg_size_6`, `agg_size_57`, `agg_size_5`, `agg_size_467`, `agg_size_4`, `agg_size_357`, `agg_size_3`, `agg_size_2`, `agg_size_1`; plus `coarse_agg_unspecified` (v1.7.5: max size not stated — mass exact, size class NULL).
 - Fibers: `steel_fiber`, `pp_fiber`, `glass_fiber`, `carbon_fiber`, `pva_fiber`, `basalt_fiber`, `nylon_fiber`, `aramid_fiber`, `cellulose_fiber`, plus characterization (`fiber_length_mm`, `fiber_diameter_mm`, `fiber_aspect_ratio`, `fiber_tensile_strength_mpa`).
-- Admixtures (solids basis): `superplasticizer`, `water_reducer`, `accelerator`, `calcium_formate`, `retarder`, `air_entrainer`, `vma`, `shrinkage_reducer`, `corrosion_inhibitor`.
+- Admixtures (basis recorded per row in `admixture_basis`: solids | as_delivered, v1.7.5): `superplasticizer`, `water_reducer`, `accelerator`, `calcium_formate`, `retarder`, `air_entrainer`, `vma`, `shrinkage_reducer`, `corrosion_inhibitor`.
 - Clay/VMA additives: `hpmc`, `sepiolite_clay`, `attapulgite`, `calcium_bentonite`.
 - Water and key ratios: `water`, `w_c_ratio`, `w_b_ratio`, `a_b_ratio`.
 
@@ -95,4 +95,4 @@ Open3DCP is the schema layer and is supplier-, hardware-, and platform-agnostic.
 
 ## Status
 
-Status: Draft — under working-group review. Public schema version v1.7 released 2026-06-04. New columns are added in minor versions as new test methods or material classes become relevant to 3DCP research.
+Status: Draft — under working-group review. Public schema version v1.7.5 released 2026-06-10. New columns are added in minor versions as new test methods or material classes become relevant to 3DCP research.

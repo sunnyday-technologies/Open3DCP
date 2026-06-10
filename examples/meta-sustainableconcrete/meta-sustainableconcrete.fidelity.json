@@ -1,9 +1,9 @@
 {
-  "overall_score": 90.4,
-  "grade": "B (good; review flagged items) \u2014 capped by the weakest dimension",
-  "weakest_applicable_dimension": "value_fidelity (78)",
+  "overall_score": 100.0,
+  "grade": "A (high fidelity)",
+  "weakest_applicable_dimension": "field_coverage (100)",
   "rows": 28,
-  "source_fields": 544,
+  "source_fields": 516,
   "unmapped_fields": 0,
   "scored_over": "applicable dimensions only (weights renormalized)",
   "dimensions": [
@@ -13,23 +13,18 @@
       "weight": 0.429,
       "nominal_weight": 0.3,
       "applicable": true,
-      "detail": "468 of 468 mappable source fields mapped to Open3DCP columns (0 routed to triage sidecar). Excluded from coverage (a flat row carries none as its own column): 76 consumed selector/metadata fields. Raw coverage over all 544 populated fields (no exclusions): 86%.",
+      "detail": "468 of 468 mappable source fields mapped to Open3DCP columns (0 routed to triage sidecar). Excluded from coverage (a flat row carries none as its own column): 48 consumed selector/metadata fields. Raw coverage over all 516 populated fields (no exclusions): 91%.",
       "not_preserved_examples": [],
       "triage": "Sidecar fields are preserved in <dataset>.unmapped.jsonl; review for schema extension."
     },
     {
       "name": "value_fidelity",
-      "score": 77.6,
+      "score": 100.0,
       "weight": 0.429,
       "nominal_weight": 0.3,
       "applicable": true,
-      "detail": "459 substantive value cells: 356 stored without an assumption, 103 rest on one (liquid->solids admixture, FM/size aggregate bucket, defaulted cement type, or an incomplete-batch projection).",
-      "not_preserved_examples": [
-        "agg_size_57 (full batch known)",
-        "cement_type_1 (full batch known; assumed (defaulted selector))",
-        "concrete_sand (full batch known)",
-        "superplasticizer (solids fraction unknown; recorded as-delivered mass-% (not solids))"
-      ],
+      "detail": "459 substantive value cells: 459 stored without an assumption, 0 rest on one (a guessed conversion input such as a solids fraction or product density, or an incomplete-batch projection). 103 of these are recorded generically (classification or solids basis not stated by the source; the value is exact and the classification stays NULL).",
+      "not_preserved_examples": [],
       "triage": "Assumed cells need the missing source detail (solids fraction, fineness modulus, aggregate size, cement type) to become exact; the value is recorded, the attribute is inferred."
     },
     {
@@ -58,7 +53,7 @@
       "weight": 0.143,
       "nominal_weight": 0.1,
       "applicable": true,
-      "detail": "84 categorical values resolved to canonical codes, 0 unresolved (enum/pivot miss, passed through).",
+      "detail": "56 categorical values resolved to canonical codes, 0 unresolved (enum/pivot miss, passed through).",
       "not_preserved_examples": [],
       "triage": "Add the unresolved vocab members to the crosswalk pivot/enum maps."
     }
