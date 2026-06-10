@@ -30,7 +30,7 @@ except Exception:
 REQUIRED = ["id", "dataset", "license", "license_url", "attribution", "classification"]
 ALLOWED_LICENSES = {
     "cc by 4.0", "cc0 1.0", "cc0", "us public domain", "nist open license",
-    "nist open license (us public domain)", "godl-india",
+    "nist open license (us public domain)", "godl-india", "mit",
 }
 # Optional local blocklist (gitignored): one regex per line, '#' comments. The public script does
 # not enumerate sensitive/commercial terms; the maintainer keeps them out-of-tree.
@@ -55,7 +55,7 @@ def check_record(d, rec):
     lic = str(rec.get("license", "")).strip().lower()
     if lic not in ALLOWED_LICENSES:
         errors.append(f"{rel}: license '{rec.get('license')}' not in the redistributable allowlist "
-                      f"(CC BY 4.0 / CC0 / US public domain / GODL-India)")
+                      f"(CC BY 4.0 / CC0 / US public domain / GODL-India / MIT)")
     if not os.path.exists(os.path.join(d, "NOTICE")):
         errors.append(f"{rel}: missing NOTICE (attribution is mandatory for stored data)")
 
