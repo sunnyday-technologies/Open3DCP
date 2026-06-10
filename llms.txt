@@ -86,6 +86,7 @@ Open3DCP is the schema layer and is supplier-, hardware-, and platform-agnostic.
 - Sitemap: https://open3dcp.org/sitemap.xml
 - robots.txt: https://open3dcp.org/robots.txt (explicitly allows ClaudeBot, GPTBot, Google-Extended, PerplexityBot)
 - MCP manifest (experimental): https://open3dcp.org/.well-known/mcp-manifest.json
+- Local MCP-style wrapper source: https://github.com/sunnyday-technologies/Open3DCP/tree/main/tools/mcp
 - Dataset JSON-LD: embedded in https://open3dcp.org/ inside a `<script type="application/ld+json">` tag.
 - Canonical schema reference (Markdown): https://open3dcp.org/Open3DCP_SCHEMA.md
 - Reference SQL DDL (PostgreSQL): https://open3dcp.org/sql/create_tables.sql
