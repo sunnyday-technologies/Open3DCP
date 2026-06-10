@@ -14,7 +14,7 @@
 #   none        - source field has no flat Open3DCP home -> triage sidecar
 meta:
   name: open3dcp_to_relational
-  open3dcp_version: "1.7.5"   # MUST match the schema version in Open3DCP_SCHEMA.md / CHANGELOG.md
+  open3dcp_version: "1.7"     # MUST match the public schema minor version in Open3DCP_SCHEMA.md / CHANGELOG.md
   source_schema: "relational concrete database (15-tab spreadsheet template)"
   direction: bidirectional_where_possible
   notes: >

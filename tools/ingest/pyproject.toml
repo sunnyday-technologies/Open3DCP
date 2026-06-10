@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "open3dcp-ingest"
 # Version MAJOR.MINOR tracks the Open3DCP schema version this tool targets (currently v1.7).
-version = "1.7.0"
+version = "1.7.5"
 description = "Public ingestion / conversion tool that translates external concrete datasets into the Open3DCP flat schema, with an honest fidelity score and a drop-nothing triage sidecar. Tool MAJOR.MINOR tracks the schema version."
 readme = "README.md"
 requires-python = ">=3.9"
