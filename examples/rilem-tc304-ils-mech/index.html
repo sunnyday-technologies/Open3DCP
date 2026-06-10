@@ -115,22 +115,23 @@
 
   <!-- 3. RESULT -->
   <h2>3 · Result in Open3DCP — print anisotropy</h2>
-  <div class="note ok"><strong>The 3DCP story UCI can't tell:</strong> the same mix is markedly weaker loaded
-  <em>parallel to the layers</em> (X) than cast or loaded <em>perpendicular/transverse</em> — captured per
-  orientation with mean ± std-dev and n. No fabricated values; aggregated from real per-specimen data.</div>
+  <div class="note ok"><strong>The 3DCP story UCI can't tell:</strong> in flexure, the same mix is markedly
+  weaker loaded <em>along the print path</em> (X — bending loads the interlayer planes) than cast or the
+  other orientations — captured per orientation with mean ± std-dev and n. No fabricated values; aggregated
+  from real per-specimen data.</div>
 
   <table>
     <thead><tr><th>lab</th><th>printed?</th><th>orientation</th><th>age (d)</th><th>flexural (MPa)</th><th>± std-dev</th><th>n</th></tr></thead>
     <tbody>
       <tr><td>01</td><td>cast</td><td>CAST</td><td>28</td><td class="num">6.84</td><td class="num">1.09</td><td class="num">19</td></tr>
-      <tr><td>01</td><td>printed</td><td>X · ∥ layers</td><td>28</td><td class="num">4.09</td><td class="num">1.58</td><td class="num">34</td></tr>
-      <tr><td>01</td><td>printed</td><td>Z · ⟂ layers</td><td>28</td><td class="num">6.07</td><td class="num">0.74</td><td class="num">19</td></tr>
+      <tr><td>01</td><td>printed</td><td>X · along print path</td><td>28</td><td class="num">4.09</td><td class="num">1.58</td><td class="num">34</td></tr>
+      <tr><td>01</td><td>printed</td><td>Z · across layers</td><td>28</td><td class="num">6.07</td><td class="num">0.74</td><td class="num">19</td></tr>
       <tr><td>13</td><td>cast</td><td>CAST</td><td>28</td><td class="num">9.97</td><td class="num">0.84</td><td class="num">22</td></tr>
-      <tr><td>13</td><td>printed</td><td>X · ∥ layers</td><td>28</td><td class="num">6.80</td><td class="num">0.97</td><td class="num">40</td></tr>
-      <tr><td>13</td><td>printed</td><td>Y · ∥ layers</td><td>28</td><td class="num">9.93</td><td class="num">0.96</td><td class="num">20</td></tr>
+      <tr><td>13</td><td>printed</td><td>X · along print path</td><td>28</td><td class="num">6.80</td><td class="num">0.97</td><td class="num">40</td></tr>
+      <tr><td>13</td><td>printed</td><td>Y · in-plane transverse</td><td>28</td><td class="num">9.93</td><td class="num">0.96</td><td class="num">20</td></tr>
       <tr><td>19</td><td>cast</td><td>CAST</td><td>28</td><td class="num">14.76</td><td class="num">5.90</td><td class="num">12</td></tr>
-      <tr><td>19</td><td>printed</td><td>X · ∥ layers</td><td>28</td><td class="num">6.72</td><td class="num">2.47</td><td class="num">17</td></tr>
-      <tr><td>19</td><td>printed</td><td>Y · ∥ layers</td><td>28</td><td class="num">14.48</td><td class="num">2.52</td><td class="num">12</td></tr>
+      <tr><td>19</td><td>printed</td><td>X · along print path</td><td>28</td><td class="num">6.72</td><td class="num">2.47</td><td class="num">17</td></tr>
+      <tr><td>19</td><td>printed</td><td>Y · in-plane transverse</td><td>28</td><td class="num">14.48</td><td class="num">2.52</td><td class="num">12</td></tr>
     </tbody>
   </table>
   <p class="small">Full file: <a href="rilem-tc304-ils-mech.open3dcp.csv">rilem-tc304-ils-mech.open3dcp.csv</a>

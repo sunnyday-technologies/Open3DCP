@@ -45,7 +45,7 @@
   <div class="note"><strong>Why this matters even with no materials data.</strong> Open3DCP's flat schema is
   mix-centric, so almost none of these project fields has a typed home today — they are curated as named
   project-layer columns + provenance, with <strong>no fidelity score</strong>. That gap is the signal: a full
-  digital twin must link the <em>as-built project</em> (this layer) to the <em>mixes</em> (UCI / Meta / UNSW)
+  digital twin must link the <em>as-built project</em> (this layer) to the <em>mixes</em> (UCI / Meta)
   and the <em>prints</em> (UF / RILEM). No single source spans all three; the union does.</div>
 
   <h2>2 · The landmark records (excerpt)</h2>
@@ -92,7 +92,7 @@
   <h2>4 · How this was built</h2>
   <pre><code>python build/extract.py "Database_3D-printed-buildings.xlsx"
 # → tu-braunschweig-buildings.open3dcp.csv  (project/process-layer records; no mix score)</code></pre>
-  <p class="small">A sample, not a re-host. Source © Placzek &amp; Dahlberg, TU Braunschweig, CC BY 4.0 —
+  <p class="small">A sample, not a re-host. Source © G. Placzek, TU Braunschweig, CC BY 4.0 (data collection: M. Dahlberg) —
   see <a href="NOTICE">NOTICE</a>. Get the full catalogue from the
   <a href="https://doi.org/10.5281/zenodo.14214812">DOI</a>.</p>
 </main>

@@ -1,49 +1,64 @@
 {
-  "overall_score": 98.9,
-  "grade": "A (high fidelity)",
+  "overall_score": 90.4,
+  "grade": "B (good; review flagged items) \u2014 capped by the weakest dimension",
+  "weakest_applicable_dimension": "value_fidelity (78)",
   "rows": 28,
-  "source_fields": 600,
+  "source_fields": 544,
   "unmapped_fields": 0,
+  "scored_over": "applicable dimensions only (weights renormalized)",
   "dimensions": [
     {
       "name": "field_coverage",
       "score": 100.0,
-      "weight": 0.3,
-      "detail": "524 of 524 mappable source fields mapped to Open3DCP columns (0 routed to triage sidecar). Excluded from coverage (a flat row carries none as its own column): 76 consumed selector/metadata fields. Raw coverage over all 600 populated fields (no exclusions): 87%.",
+      "weight": 0.429,
+      "nominal_weight": 0.3,
+      "applicable": true,
+      "detail": "468 of 468 mappable source fields mapped to Open3DCP columns (0 routed to triage sidecar). Excluded from coverage (a flat row carries none as its own column): 76 consumed selector/metadata fields. Raw coverage over all 544 populated fields (no exclusions): 86%.",
       "not_preserved_examples": [],
       "triage": "Sidecar fields are preserved in <dataset>.unmapped.jsonl; review for schema extension."
     },
     {
       "name": "value_fidelity",
-      "score": 96.4,
-      "weight": 0.3,
-      "detail": "524 values written; 505 exact, 19 required an assumption.",
+      "score": 77.6,
+      "weight": 0.429,
+      "nominal_weight": 0.3,
+      "applicable": true,
+      "detail": "459 substantive value cells: 356 stored without an assumption, 103 rest on one (liquid->solids admixture, FM/size aggregate bucket, defaulted cement type, or an incomplete-batch projection).",
       "not_preserved_examples": [
+        "agg_size_57 (full batch known)",
+        "cement_type_1 (full batch known; assumed (defaulted selector))",
+        "concrete_sand (full batch known)",
         "superplasticizer (solids fraction unknown; recorded as-delivered mass-% (not solids))"
       ],
-      "triage": "Assumed conversions (e.g. kg/m3<->mass-%, liquid->solids) need the missing density / solids fraction to become exact. Record mix_density_kg_m3 at source."
+      "triage": "Assumed cells need the missing source detail (solids fraction, fineness modulus, aggregate size, cement type) to become exact; the value is recorded, the attribute is inferred."
     },
     {
       "name": "relational_integrity",
       "score": 100.0,
-      "weight": 0.15,
-      "detail": "0 relational fields (reinforcement, geometry parametrization, devices, loading histories) had no flat home.",
+      "weight": 0.0,
+      "nominal_weight": 0.15,
+      "applicable": false,
+      "detail": "0 relational fields (reinforcement, geometry parametrization, devices, loading histories) had no flat home. N/A: a flat source has no relational cardinality.",
       "not_preserved_examples": [],
       "triage": "Retain these in the source relational record; the flat row is a projection."
     },
     {
       "name": "file_data_capture",
       "score": 100.0,
-      "weight": 0.15,
-      "detail": "0 curve/table/image/raw-file references cannot be held by the flat schema (pre-v1.6).",
+      "weight": 0.0,
+      "nominal_weight": 0.15,
+      "applicable": false,
+      "detail": "0 curve/table/image/raw-file references not captured; 0 routed to *_file columns. N/A: this source carries no file-referenced data.",
       "not_preserved_examples": [],
-      "triage": "Link originals in the sidecar; proposed v1.6 *_file columns close this gap."
+      "triage": "Link originals in the sidecar; the v1.7 *_file columns close this gap."
     },
     {
       "name": "vocabulary_match",
       "score": 100.0,
-      "weight": 0.1,
-      "detail": "84 categorical values resolved, 0 unresolved against the crosswalk.",
+      "weight": 0.143,
+      "nominal_weight": 0.1,
+      "applicable": true,
+      "detail": "84 categorical values resolved to canonical codes, 0 unresolved (enum/pivot miss, passed through).",
       "not_preserved_examples": [],
       "triage": "Add the unresolved vocab members to the crosswalk pivot/enum maps."
     }

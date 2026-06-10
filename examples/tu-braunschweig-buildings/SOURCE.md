@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Dataset** | Database of 3D Concrete Printed Buildings |
-| **Authors** | Gerrit Placzek, Maike Dahlberg — TU Braunschweig (Inst. für Bauwirtschaft und Baubetrieb), Germany |
+| **Authors** | Gerrit Placzek — TU Braunschweig (Inst. für Bauwirtschaft und Baubetrieb), Germany (sole Zenodo creator; data collection: Maike Dahlberg) |
 | **Host** | Zenodo |
 | **DOI** | [10.5281/zenodo.14214812](https://doi.org/10.5281/zenodo.14214812) (paper: [10.3390/buildings14113410](https://doi.org/10.3390/buildings14113410)) |
 | **License** | Creative Commons Attribution 4.0 International (CC BY 4.0) |
@@ -22,7 +22,7 @@ Open3DCP flat schema is **mix-centric**, so most of these building-project field
 home** today; they are curated here as named **project-layer columns** plus provenance, with **no
 mix-fidelity score**, to make the boundary explicit.
 
-The union is the argument: UCI/Meta/UNSW supply mix design and strength, UF and RILEM supply
+The union is the argument: UCI/Meta supply mix design and strength, UF and RILEM supply
 printability and printed-specimen mechanics, and this source supplies the **as-built project record** that
 a full digital twin must eventually link to its mixes and prints.
 
@@ -44,5 +44,5 @@ them to the mixes and prints used.
 
 ## Citation
 
-Placzek, G., & Dahlberg, M. (2024). *Database of 3D Concrete Printed Buildings* [Dataset]. Zenodo. DOI
+Placzek, G. (2024). *Database of 3D Concrete Printed Buildings* [Dataset]. Zenodo (data collection: M. Dahlberg). DOI
 [10.5281/zenodo.14214812](https://doi.org/10.5281/zenodo.14214812). Licensed CC BY 4.0.

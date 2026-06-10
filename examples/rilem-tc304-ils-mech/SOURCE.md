@@ -16,7 +16,7 @@
 
 A **hand-curated 9-row excerpt** ([`rilem-tc304-ils-mech.open3dcp.csv`](rilem-tc304-ils-mech.open3dcp.csv)) for
 three participating labs (mixes 01, 13, 19). Each Open3DCP row aggregates the per-specimen flexural results for
-one **(mix × orientation)** group at ~28 d into **mean + std-dev + n** — directly populating the v1.6 measurement-
+one **(mix × orientation)** group at ~28 d into **mean + std-dev + n** — directly populating the v1.7 measurement-
 uncertainty columns. The source SQLite is **not re-hosted**; download it from the DOI and reproduce with
 [`build/extract.py`](build/extract.py) (see [`build/README.md`](build/README.md)).
 
@@ -28,7 +28,7 @@ uncertainty columns. The source SQLite is **not re-hosted**; download it from th
 The relational chain (material → print → per-specimen test) is **denormalized and aggregated** into flat rows. The
 RILEM **U/V/W** orientation (U = print path, V = transverse, W = build axis) maps onto Open3DCP `test_orientation_code`
 **X/Y/Z/CAST** — the original RILEM code is retained in `provenance_notes`. The headline result is **print
-anisotropy**: the same mix is markedly weaker loaded *parallel to the layers* (X) than cast or *perpendicular* (Z):
+anisotropy**: in flexure the same mix is markedly weaker loaded *along the print path* (X — bending loads the interlayer planes) than cast or the other orientations (Z or Y):
 
 | lab | cast (MPa) | printed ∥ layers / X | printed ⟂ or transverse |
 |---|---|---|---|
@@ -43,6 +43,6 @@ not disclosed); the print travel-velocity field is unit-inconsistent in the sour
 
 ## Citation
 
-RILEM TC 304-ADC (2024). *Database of the RILEM TC 304-ADC interlaboratory study on mechanical properties of 3D
+Bos, F., Robens-Radermacher, A., Muthukrishnan, S., Versteegen, J., Wolfs, R., Santhanam, M., Menna, C., & Mechtcherine, V. / RILEM TC 304-ADC (2024). *Database of the RILEM TC 304-ADC interlaboratory study on mechanical properties of 3D
 printed concrete* [Dataset]. Zenodo. DOI [10.5281/zenodo.12200570](https://doi.org/10.5281/zenodo.12200570).
 Licensed CC BY 4.0.

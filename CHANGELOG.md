@@ -46,10 +46,11 @@ Additive, backward-compatible changes. Existing v1.6 datasets remain valid uncha
   batching (a common 3DCP practice).
 
 ### Added — interoperability: basis, uncertainty, raw-data references
-- **kg/m³ is the primary reporting basis** (industry/field standard); mass-% of total wet mix is
-  retained as a losslessly-derived secondary view. No existing column was renamed or redefined.
+- **Dual basis with kg/m³ first-class** (industry/field standard): the constituent columns store mass-%
+  of total wet mix (the self-normalizing projection); the source's kg/m³ is preserved exactly via the
+  bridge columns below. No existing column was renamed or redefined.
 - Mix basis (lossless conversion): `original_basis` (`kg_m3` | `mass_pct` | `volume` | `lb_yd3`),
-  `mix_density_kg_m3` (total fresh wet-mix density), `total_binder_kg_m3` (total cementitious kg/m³).
+  `total_batched_mass_kg_m3` (sum of as-batched constituent masses per m³ — the mass-% ↔ kg/m³ bridge denominator, not a measured density), `total_binder_kg_m3` (total cementitious kg/m³).
 - Per-measurement uncertainty (mean + std-dev + N): `compressive_strength_stddev_mpa`,
   `flexural_strength_stddev_mpa`, `tensile_strength_stddev_mpa`, `elastic_modulus_stddev_gpa`,
   `interlayer_bond_stddev_mpa`.
@@ -92,6 +93,11 @@ recorded in `provenance_notes` instead.
 - Net count returned to the v1.5 level (224) before the 1.7.0 additions. This episode is why the
   git-tag snapshots read **v1.5 = 224 → v1.6 = 232 → v1.7 = 244** with no intermediate tag — the 232
   reflects the grade split, which was consolidated away before the 1.7.0 feature columns landed.
+- **Semver note:** removing columns would normally imply a major bump (see the versioning rules at the
+  top of this file). This consolidation is treated as an in-train correction rather than a breaking
+  change because the reverted columns shipped only in the interim `V1.6.0` tag, were never part of a
+  stable public release, and were superseded within the same release train before `1.7.0`. No dataset
+  built against the v1.5 or v1.7 public schema is affected.
 
 ---
 
@@ -132,7 +138,7 @@ Pigments are ultra-fine particles (~1 um) used at 1-5% in architectural 3DCP wit
 
 ### Alkali-Activated Materials (AAM) + Additional 3DCP Modifiers
 
-Open3DCP now supports alkali-activated systems (geopolymer, AAS) and additional materials commonly used in 3DCP research.
+Open3DCP added columns for alkali-activated systems and additional materials commonly used in 3DCP research. **Scope note (see whitepaper §2 and `examples/README.md`):** the project's *curation* scope is hydraulic cementitious systems, including high-calcium alkali-activated slag (AAS, whose C-(A-)S-H gel is continuous with Portland hydrates); low-calcium fly-ash **geopolymers** (N-A-S-H gel) are a distinct binder chemistry and are out of scope. These activator columns exist to record the in-scope high-Ca AAS systems, not to characterize geopolymers.
 
 ### Added
 - `sodium_hydroxide` -- NaOH activator (mass-%, purity-adjusted solids).
