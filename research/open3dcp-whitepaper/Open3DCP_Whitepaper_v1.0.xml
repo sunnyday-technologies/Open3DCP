@@ -47,7 +47,7 @@ USA</string-name>
   cross-study comparison, meta-analysis, and machine-learning workflows
   harder than the underlying measurements require. Open3DCP is an open,
   flat schema for recording extrusion-based 3DCP mix-design and test
-  records. Version 1.7 defines <bold>244 columns</bold> in its primary
+  records. Version 1.7.5 defines <bold>248 columns</bold> in its primary
   record, spanning composition, fibers, admixtures, fresh-state
   rheology, 3DCP process parameters, hardened mechanical and durability
   properties, interlayer bond, specimen/test metadata, environmental
@@ -83,7 +83,7 @@ USA</string-name>
   <title>Contributions</title>
   <list list-type="bullet">
     <list-item>
-      <p>An open, <bold>3DCP-native flat data schema</bold> (v1.7, 244
+      <p>An open, <bold>3DCP-native flat data schema</bold> (v1.7.5, 248
       columns) with first-class columns for print process parameters,
       fresh-state rheology, and interlayer-bond properties — the
       features that distinguish printed concrete from cast.</p>
@@ -390,9 +390,18 @@ USA</string-name>
     bridge columns that make kg/m³ exact. Admixtures are recorded on a
     <bold>solids basis</bold> where the source reports the solids
     fraction; where it does not — common in public datasets — the
-    as-delivered liquid mass is stored and that assumption is flagged in
-    the fidelity report, and <monospace>w_b_ratio</monospace> counts
-    only the water column, not admixture carrier water.)</p>
+    as-delivered mass is stored <italic>exactly</italic> and the row’s
+    <monospace>admixture_basis</monospace> flag records
+    <monospace>as_delivered</monospace> (v1.7.5), so nothing is assumed
+    and solids remain derivable when a fraction is known.
+    <monospace>w_b_ratio</monospace> counts only the water column, not
+    admixture carrier water. The same preserve-don’t-presume principle
+    gives unclassified constituents exact homes:
+    <monospace>cement_unspecified</monospace>,
+    <monospace>fine_agg_unspecified</monospace>, and
+    <monospace>coarse_agg_unspecified</monospace> store the mass when
+    the source states no type, fineness modulus, or size — the
+    classification stays NULL instead of being defaulted.)</p>
     <p><bold>5.3 <monospace>NULL</monospace> is not zero.</bold>
     Open3DCP distinguishes missingness from absence.
     <monospace>NULL</monospace> marks a value that is unknown, not
@@ -443,9 +452,9 @@ USA</string-name>
     downstream feature engineering, because reactivity factors are
     modeling decisions, not raw data.</p>
   </sec>
-  <sec id="what-v1.7-records">
-    <title>6. What v1.7 records</title>
-    <p>Open3DCP v1.7 defines 244 columns in its primary
+  <sec id="what-v1.7.5-records">
+    <title>6. What v1.7.5 records</title>
+    <p>Open3DCP v1.7.5 defines 248 columns in its primary
     <monospace>mix_designs</monospace> record (companion tables —
     <monospace>strength_measurements</monospace>,
     <monospace>sources</monospace>, <monospace>test_methods</monospace>,
@@ -461,7 +470,7 @@ USA</string-name>
     <monospace>Open3DCP_SCHEMA.md</monospace> and
     <monospace>sql/create_tables.sql</monospace>; this section
     summarizes the categories.</p>
-    <p>The 244 is best read as a <italic>vocabulary</italic>, not a
+    <p>The 248 is best read as a <italic>vocabulary</italic>, not a
     per-record dimensionality. It enumerates every reportable field —
     each cement type, each aggregate size, each fiber, each durability
     test is its own column — so a typical record leaves most columns
@@ -486,31 +495,32 @@ USA</string-name>
       <graphic mimetype="image" mime-subtype="png" xlink:href="figures/fig1_cppc_chain.png" />
     </fig>
     <fig>
-      <caption><p>The 244 columns of Open3DCP v1.7 mapped to the CPPC
+      <caption><p>The 248 columns of Open3DCP v1.7.5 mapped to the CPPC
       framework. Counts are parsed from
       <monospace>sql/create_tables.sql</monospace>, the schema’s source
-      of truth. <italic>Composition</italic> (91): binders, SCMs,
+      of truth. <italic>Composition</italic> (95): binders, SCMs,
       activators, aggregates, fibers, admixtures, pigments, water,
-      ratios, aggregate conditioning. <italic>Properties</italic> (86):
-      fresh-state, mechanical, interlayer bond, durability, thermal,
-      microstructure. <italic>Processing</italic> (27): 3DCP process
-      parameters, pumping, mixing. <italic>Conditions</italic> (24):
-      test conditions / specimen, environment, exposure class.
+      ratios, aggregate conditioning, basis and unspecified-constituent
+      columns. <italic>Properties</italic> (86): fresh-state,
+      mechanical, interlayer bond, durability, thermal, microstructure.
+      <italic>Processing</italic> (27): 3DCP process parameters,
+      pumping, mixing. <italic>Conditions</italic> (24): test conditions
+      / specimen, environment, exposure class.
       <italic>Provenance</italic> (16): identity / versioning, source
       DOI, quality flags.</p></caption>
       <graphic mimetype="image" mime-subtype="png" xlink:href="figures/fig2_column_inventory.png" />
     </fig>
     <fig>
       <caption><p>What is specific to 3D concrete printing, and what it
-      shares with conventional concrete. Of the 244 columns, ~183
+      shares with conventional concrete. Of the 248 columns, ~187
       describe composition and performance properties shared with cast
       concrete (and therefore crosswalk to a relational concrete
       database); ~39 are specific to extrusion 3DCP (printing process,
       pumping, interlayer bond, printing-state rheology) with no
       conventional-concrete counterpart; the remaining ~22 are
-      provenance. (This is a different cut of the same 244 than the CPPC
+      provenance. (This is a different cut of the same 248 than the CPPC
       inventory in Figure 2 — by origin rather than reporting role — and
-      also sums to 244.) The amber annex lists extrusion-process inputs
+      also sums to 248.) The amber annex lists extrusion-process inputs
       identified but not yet captured — a future-work
       agenda.</p></caption>
       <graphic mimetype="image" mime-subtype="png" xlink:href="figures/fig3_data_classes.png" />
@@ -518,15 +528,17 @@ USA</string-name>
     <fig>
       <caption><p>Schema growth has stabilized (top): the tagged
       releases since v1.5 added +8 columns (an SCM per-grade split,
-      later consolidated away in 1.6.5) and a net +12 to reach 244 (−8
-      from that consolidation, +20 interoperability, uncertainty, and
-      convenience fields). Composition of the 244 (bottom): only four
-      columns are derived from others, so the count is a sparse measured
-      vocabulary — the union of every reportable field, most NULL in any
-      record — not 244 independent measurements. Only the git-tagged
-      releases (v1.5–v1.7) carry exact counts; v1.0 is the changelog’s
-      stated first-release figure (~175). The 244 are data columns,
-      excluding the SERIAL primary key.</p></caption>
+      later consolidated away in 1.6.5), a net +12 to reach 244 (−8 from
+      that consolidation, +20 interoperability, uncertainty, and
+      convenience fields), and +4 to reach 248 (the v1.7.5
+      unspecified-constituent and basis columns — preserve, don’t
+      presume). Composition of the 248 (bottom): only four columns are
+      derived from others, so the count is a sparse measured vocabulary
+      — the union of every reportable field, most NULL in any record —
+      not 248 independent measurements. Only the git-tagged releases
+      (v1.5–v1.7.5) carry exact counts; v1.0 is the changelog’s stated
+      first-release figure (~175). The 248 are data columns, excluding
+      the SERIAL primary key.</p></caption>
       <graphic mimetype="image" mime-subtype="png" xlink:href="figures/fig4_schema_growth.png" />
     </fig>
     <p><bold>Composition.</bold> Portland and blended cements,
@@ -698,37 +710,40 @@ USA</string-name>
       <list-item>
         <p><bold>UCI/Yeh (1998)</bold> [4], a
         <italic>cast</italic>-concrete benchmark, maps onto composition
-        and hardened strength and ingests at <bold>79.9/100 (C)</bold>
-        (126 populated cells across its 9 source fields). The grade is
-        held down by the value-fidelity term: of the nine mapped
-        attributes, four rest on a detail the source never records — the
-        cement type (defaulted to ASTM C150 Type I), the fine- and
-        coarse-aggregate gradation buckets, and the superplasticizer
-        solids fraction — so the constituent <italic>masses</italic> are
-        exact while several <italic>classifications</italic> are
-        inferred. It remains the normal-strength reference point.</p>
+        and hardened strength and ingests at <bold>100/100 (A)</bold>
+        (126 populated cells across its 9 source fields) with <bold>zero
+        assumptions</bold>: every constituent mass is stored exactly,
+        and the four details the source never records — the cement type,
+        the fine- and coarse-aggregate gradations, and the
+        superplasticizer solids fraction — are stored
+        <italic>generically</italic> (the
+        <monospace>*_unspecified</monospace> columns and the
+        <monospace>admixture_basis</monospace> flag) with the
+        classification left NULL rather than guessed. The fidelity
+        report discloses those 47 generically-recorded cells alongside
+        the score. It remains the normal-strength reference point.</p>
       </list-item>
       <list-item>
         <p><bold>Meta SustainableConcrete</bold> [49], an
         openly-licensed (MIT) carbon-aware set from Meta with the
-        University of Illinois and Amrize, ingests at <bold>90.4/100
-        (B)</bold> and additionally populates <bold>embodied
-        carbon</bold> (per-mix global warming potential, GWP) and the
-        measurement-uncertainty columns. It makes a cross-source
-        trade-off legible in one schema: a plain-Portland concrete
-        (Mix_84) at ~521 kg CO<sub>2</sub>/m³ for ~65 MPa beside a
-        low-clinker ternary (Mix_88) at ~204 kg CO<sub>2</sub>/m³ for
-        ~110 MPa — a low-clinker binder reaching high strength at a
-        fraction of the embodied carbon. (The strength gap also reflects
-        a lower water/binder ratio — 0.25 vs 0.40: a second mix in the
-        same set at the <italic>same</italic> ~204 kg CO<sub>2</sub>/m³
-        reaches ~61 MPa, so this is one illustrative pair, not a
-        carbon-drives-strength trend. And where a source’s dosages are
-        design proportions that do not close a 1 m³ batch — flagged per
-        row by the ingest tool’s absolute-volume yield check in
-        <monospace>provenance_notes</monospace> — per-m³ quantities
-        inherit that discrepancy. Separately, the source repository
-        ships a trained Gaussian-process model and an
+        University of Illinois and Amrize, ingests at <bold>100/100
+        (A)</bold> on the same terms and additionally populates
+        <bold>embodied carbon</bold> (per-mix global warming potential,
+        GWP) and the measurement-uncertainty columns. It makes a
+        cross-source trade-off legible in one schema: a plain-Portland
+        concrete (Mix_84) at ~521 kg CO<sub>2</sub>/m³ for ~65 MPa
+        beside a low-clinker ternary (Mix_88) at ~204 kg
+        CO<sub>2</sub>/m³ for ~110 MPa — a low-clinker binder reaching
+        high strength at a fraction of the embodied carbon. (The
+        strength gap also reflects a lower water/binder ratio — 0.25 vs
+        0.40: a second mix in the same set at the <italic>same</italic>
+        ~204 kg CO<sub>2</sub>/m³ reaches ~61 MPa, so this is one
+        illustrative pair, not a carbon-drives-strength trend. And where
+        a source’s dosages are design proportions that do not close a 1
+        m³ batch — flagged per row by the ingest tool’s absolute-volume
+        yield check in <monospace>provenance_notes</monospace> — per-m³
+        quantities inherit that discrepancy. Separately, the source
+        repository ships a trained Gaussian-process model and an
         optimization-explored design space of
         <italic>model-generated</italic> candidate mixes; recording such
         candidates alongside <italic>measured</italic> data — kept
@@ -744,12 +759,25 @@ USA</string-name>
     renormalizes over those, and <bold>caps the grade by its weakest
     applicable dimension</bold>, so near-complete field coverage cannot
     float a low value-fidelity to an “A”. Value-fidelity counts every
-    cell that rests on an assumption (an admixture solids fraction, an
-    aggregate gradation bucket, a defaulted cement type) against the
-    cells stored exactly; it is the binding term for clean flat tables,
-    and it is what separates UCI (C) from Meta (B). The convention is
-    documented in §10, deliberately conservative, and not yet calibrated
-    against a labelled benchmark.</p>
+    cell that rests on a genuine assumption (a guessed solids fraction
+    or product density, a volume dose without one, an incomplete-batch
+    projection) against the cells stored exactly. The metric earned its
+    keep against this very schema: an earlier draft
+    <italic>defaulted</italic> unstated classifications — a cement type,
+    two aggregate gradation buckets — and the metric priced those
+    guesses at <bold>79.9/C</bold> for UCI. Rather than accept
+    fabricated certainty, <bold>v1.7.5 added the
+    <monospace>*_unspecified</monospace> columns and the
+    <monospace>admixture_basis</monospace> flag</bold> so the schema
+    records exactly what a source states and nothing more; the same data
+    then ingests with zero assumptions, and the unknowns are visible
+    NULLs instead of silent defaults. A perfect score therefore means
+    precisely “nothing was assumed” — and the report still lists every
+    generically-recorded cell — while messy sources (volume doses,
+    missing batch masses, unstated units) are penalized exactly as
+    before. The convention is documented in §10, deliberately
+    conservative, and not yet calibrated against a labelled
+    benchmark.</p>
     <p>Three more are curated through their native structure (a fidelity
     score for each awaits a dedicated reader, exactly as the tool is
     extended source by source):</p>
@@ -825,8 +853,9 @@ USA</string-name>
       slice of the record (dark = populated, light = partial/absent),
       with Open3DCP spanning the union; the empty cells are recorded,
       not hidden. The two flat kg/m³ sources carry an automated
-      <monospace>open3dcp-ingest</monospace> fidelity score (UCI 79.9/C,
-      Meta 90.4/B); the rest are curated through their native structure.
+      <monospace>open3dcp-ingest</monospace> fidelity score (both 100/A
+      — zero assumptions, with generically-recorded cells disclosed; see
+      §6); the rest are curated through their native structure.
       <italic>Right:</italic> a cross-study characterization result from
       the RILEM data, expressible only because the schema records
       loading orientation — printed concrete loaded along the print path
@@ -994,11 +1023,11 @@ USA</string-name>
     planned work.</p>
     <list list-type="order">
       <list-item>
-        <p><bold>Coverage is a v1.7 snapshot.</bold> The 244-column
+        <p><bold>Coverage is a v1.7.5 snapshot.</bold> The 248-column
         count and per-category figures reflect
-        <monospace>sql/create_tables.sql</monospace> at v1.7; the schema
-        is under active, additive development and these numbers evolve.
-        The canonical reference is always the repository.</p>
+        <monospace>sql/create_tables.sql</monospace> at v1.7.5; the
+        schema is under active, additive development and these numbers
+        evolve. The canonical reference is always the repository.</p>
       </list-item>
       <list-item>
         <p><bold>Single-maintainer governance and unquantified curation
@@ -1090,7 +1119,7 @@ USA</string-name>
     <title>12. Data and code availability</title>
     <list list-type="bullet">
       <list-item>
-        <p><bold>Schema &amp; tooling:</bold> Open3DCP v1.7 [45] —
+        <p><bold>Schema &amp; tooling:</bold> Open3DCP v1.7.5 [45] —
         <monospace>github.com/sunnyday-technologies/Open3DCP</monospace>
         (Apache-2.0); Zenodo concept DOI
         <monospace>10.5281/zenodo.19647470</monospace> (resolves to the
@@ -1451,7 +1480,7 @@ USA</string-name>
       </list-item>
       <list-item>
         <p>Sunnyday Technologies (2026). <italic>Open3DCP: Open Data
-        Standard for 3D Concrete Printing</italic> (v1.7).
+        Standard for 3D Concrete Printing</italic> (v1.7.5).
         <ext-link ext-link-type="uri" xlink:href="https://github.com/sunnyday-technologies/Open3DCP">https://github.com/sunnyday-technologies/Open3DCP</ext-link>.
         Apache License 2.0; Zenodo concept DOI
         <monospace>10.5281/zenodo.19647470</monospace>.</p>

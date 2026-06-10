@@ -30,7 +30,7 @@ kg/m³ → mass-% projection is **exact** and the kg/m³ basis is preserved via 
 open3dcp-ingest convert build/uci-yeh-1998.csv --kind uci --out .
 ```
 
-Fidelity **79.9 / 100 (C)** — the constituent masses are exact, but four classifications the source does not record (cement type, the two aggregate gradation buckets, and the superplasticizer solids fraction) are inferred, which the value-fidelity term counts. It populates the **mix-design**, **hardened-compressive**, and
+Fidelity **100 / 100 (A) — zero assumptions** (v1.7.5): every constituent mass is exact, and the four details the source never records (cement type, the two aggregate gradations, the superplasticizer solids fraction) are stored *generically* (`cement_unspecified`, `fine/coarse_agg_unspecified`, `admixture_basis=as_delivered`) with the classification NULL, never guessed; the 47 generically-recorded cells are disclosed in the report. It populates the **mix-design**, **hardened-compressive**, and
 **multi-age strength** groups; every 3DCP-process, rheology, interlayer-bond, durability, environment,
 and raw-material-provenance column stays **NULL** — see [`index.html`](index.html) for the full
 structure → schema graphic.

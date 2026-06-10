@@ -13,7 +13,7 @@ normalize to that canonical term. Per term, the table gives its governing standa
 where one exists — its relational-schema crosswalk. 3DCP-only terms are justified against
 RILEM TC 276-DFC / TC 304-ADC.
 
-**Coverage:** 244 canonical `mix_designs` terms, grouped into 25 sections.
+**Coverage:** 248 canonical `mix_designs` terms, grouped into 25 sections.
 
 ---
 
@@ -43,6 +43,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `cement_type_5` | real | High sulfate resistance (required in sulfate-rich soils, common in western US) | ASTM C150 Type V | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C150_Type_V) |
 | `cac` | real | Calcium aluminate cement (Ciment Fondu) | EN 14647 | Open3DCP-specific. |
 | `csa_cement` | real | Calcium sulfoaluminate cement | — | Open3DCP-specific. |
+| `cement_unspecified` | real | Cement whose ASTM/EN type the source does not state; mass stored exactly, type stays NULL (v1.7.5, preserve-don't-presume) | — | Open3DCP-specific; completes the generic-`fly_ash` pattern for cement. |
 | `fly_ash` | real | Fly ash (class not specified in source) | — | Relational: `material_batches.fly_ash_content_kg_m3` |
 | `fly_ash_type_f` | real | Class F fly ash (SiO2+Al2O3+Fe2O3 ≥ 70%) | ASTM C618 | Relational: `material_batches.fly_ash_content_kg_m3` (+ `material_batches.fly_ash_class`) |
 | `fly_ash_type_c` | real | Class C fly ash (SiO2+Al2O3+Fe2O3 ≥ 50%) | ASTM C618 | Relational: `material_batches.fly_ash_content_kg_m3` (+ `material_batches.fly_ash_class`) |
@@ -94,6 +95,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `fine_sand` | real | Fine concrete sand | — | Open3DCP-specific. |
 | `concrete_sand` | real | Standard concrete sand (most common in US 3DCP) | — | Relational: `material_batches.fine_aggregate_content_kg_m3` |
 | `coarse_sand` | real | Coarse washed sand | — | Open3DCP-specific. |
+| `fine_agg_unspecified` | real | Fine aggregate with no stated FM/grading; mass stored exactly, bucket stays NULL (v1.7.5) | — | Open3DCP-specific; avoids guessing an FM bucket. |
 | `agg_size_89` | real | Very fine gravel (3/8" - #16 sieve, 9.5-1.18 mm) | ASTM C33 Size #89 | Open3DCP-specific. |
 | `agg_size_8` | real | Fine pea gravel (3/8" - #8 sieve, 9.5-2.36 mm) | ASTM C33 Size #8 | Open3DCP-specific. |
 | `agg_size_7` | real | 1/2" - #4 (12.5-4.75 mm) | ASTM C33 Size #7 | Open3DCP-specific. |
@@ -107,6 +109,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `agg_size_3` | real | 2" - 1" (50-25 mm) | ASTM C33 Size #3 | Open3DCP-specific. |
 | `agg_size_2` | real | 2.5" - 1.5" (63-37.5 mm) | ASTM C33 Size #2 | Open3DCP-specific. |
 | `agg_size_1` | real | 3.5" - 1.5" (90-37.5 mm) | ASTM C33 Size #1 | Open3DCP-specific. |
+| `coarse_agg_unspecified` | real | Coarse aggregate with no stated max size / C33 number; mass stored exactly, size class stays NULL (v1.7.5) | — | Open3DCP-specific; avoids defaulting a size class. |
 
 ## Fiber Reinforcement
 
@@ -168,6 +171,7 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `aggregate_absorption_pct` | real | 24-h aggregate absorption, % of oven-dry mass | ASTM C127 / C128 | Open3DCP-specific. |
 | `aggregate_moisture_content_pct` | real | Total as-batched aggregate moisture, % of oven-dry mass (free moisture = this − absorption) | ASTM C566 | Open3DCP-specific. |
 | `original_basis` | varchar(20) | Basis the source reported: `kg_m3` (primary), `mass_pct`, `volume`, or `lb_yd3` | — | Open3DCP-specific. |
+| `admixture_basis` | varchar(20) | Basis of the row's admixture columns: `solids` \| `as_delivered` (v1.7.5); preserves the as-delivered mass exactly when no solids fraction is stated | — | Open3DCP-specific. |
 | `total_batched_mass_kg_m3` | real | Sum of as-batched constituent masses per m³ — the mass-% ↔ kg/m³ bridge denominator (not a measured fresh density; use `unit_weight_fresh_kg_m3` for ASTM C138) | — | Open3DCP-specific. |
 | `total_binder_kg_m3` | real | Total cementitious content (kg/m³); supports w/b and absolute back-conversion | — | Open3DCP-specific. |
 

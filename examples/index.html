@@ -31,14 +31,14 @@
     <div class="panel">
       <h3><a href="uci-yeh-1998/">UCI Concrete Compressive Strength →</a></h3>
       <p class="small"><span class="badge b-store">CC BY 4.0</span> <span class="badge b-cast">cast concrete</span></p>
-      <p class="small">A flat kg/m³ benchmark (Yeh 1998). Constituent masses ingest exactly; fidelity <strong>79.9/C</strong>
-      — held down honestly by four classifications the source never records (cement type, two gradation buckets,
-      SP solids). Fills mix-design + hardened + multi-age; 3DCP/process/durability stay null.</p>
+      <p class="small">A flat kg/m³ benchmark (Yeh 1998). Fidelity <strong>100/A — zero assumptions</strong> (v1.7.5): every mass exact;
+      what the source never states (cement type, gradations, SP solids) is recorded <em>generically</em>, NULL, never
+      guessed. Fills mix-design + hardened + multi-age; 3DCP/process/durability stay null.</p>
     </div>
     <div class="panel">
       <h3><a href="meta-sustainableconcrete/">Meta SustainableConcrete →</a></h3>
       <p class="small"><span class="badge b-store">MIT</span> <span class="badge b-cast">cast · corporate</span></p>
-      <p class="small">A carbon-aware kg/m³ table from Meta + UIUC + Amrize. Fidelity <strong>90.4/B</strong>; adds
+      <p class="small">A carbon-aware kg/m³ table from Meta + UIUC + Amrize. Fidelity <strong>100/A — zero assumptions</strong>; adds
       <strong>per-mix CO₂</strong> + measurement uncertainty — the environment slice UCI leaves empty.</p>
     </div>
     <div class="panel">
@@ -65,8 +65,8 @@
   <table>
     <thead><tr><th>Source</th><th>Prov.</th><th>Mix</th><th>Rheo.</th><th>3DCP</th><th>Mech.</th><th>Age</th><th>Env.</th></tr></thead>
     <tbody>
-      <tr><td><a href="uci-yeh-1998/">UCI (Yeh) — cast · 79.9/C</a></td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>✓</td><td>▢</td></tr>
-      <tr><td><a href="meta-sustainableconcrete/">Meta SustainableConcrete — cast · 90.4/B</a></td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td><a href="uci-yeh-1998/">UCI (Yeh) — cast · 100/A</a></td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>✓</td><td>▢</td></tr>
+      <tr><td><a href="meta-sustainableconcrete/">Meta SustainableConcrete — cast · 100/A</a></td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>✓</td><td>✓</td></tr>
       <tr><td><a href="rilem-tc304-ils-mech/">RILEM ILS-mech — 3DCP</a></td><td>✓</td><td>▢¹</td><td>✓</td><td>✓</td><td>✓</td><td>▢</td><td>▢</td></tr>
       <tr><td><a href="uf-3dcp-mix/">UF 3DCP mix — 3DCP</a></td><td>▢</td><td>◐</td><td>✓</td><td>✓</td><td>✓</td><td>▢</td><td>▢</td></tr>
       <tr><td><a href="tu-braunschweig-buildings/">TU-Braunschweig — project layer</a></td><td>✓</td><td>▢</td><td>▢</td><td>◐</td><td>▢</td><td>▢</td><td>▢</td></tr>
@@ -74,7 +74,8 @@
   </table>
   <p class="small">¹ commercial premix — w/b and yield stress captured, constituent dosages not disclosed. The gaps
   between slices are the connective-layer argument: no single source spans the whole record; the union does. Two
-  kg/m³ sources carry a real <code>open3dcp-ingest</code> score (UCI 79.9/C, Meta 90.4/B); the 3DCP-mix
+  kg/m³ sources carry a real <code>open3dcp-ingest</code> score (both 100/A — zero assumptions, generically-recorded
+  cells disclosed in the fidelity report); the 3DCP-mix
   (ratio-to-binder) and project-layer sources are hand-curated. A surveyed UHPC source, <strong>Stevens UHPC</strong>
   (US, CC BY 4.0), was excluded as reference-only — its mix variables ship as a coded matrix with a paywalled legend.</p>
 
@@ -106,7 +107,7 @@
 
 <footer class="pb-footer">
   <span><a href="/">open3dcp.org</a> · Example entries</span>
-  <span>Open3DCP · schema v1.7</span>
+  <span>Open3DCP · schema v1.7.5</span>
 </footer>
 </body>
 </html>

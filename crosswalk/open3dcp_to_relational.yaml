@@ -14,7 +14,7 @@
 #   none        - source field has no flat Open3DCP home -> triage sidecar
 meta:
   name: open3dcp_to_relational
-  open3dcp_version: "1.7"   # MUST match the schema version in Open3DCP_SCHEMA.md / CHANGELOG.md
+  open3dcp_version: "1.7.5"   # MUST match the schema version in Open3DCP_SCHEMA.md / CHANGELOG.md
   source_schema: "relational concrete database (15-tab spreadsheet template)"
   direction: bidirectional_where_possible
   notes: >
@@ -58,8 +58,9 @@ mappings:
         ASTM_C595_Type_IL_HE: cement_type_1l, ASTM_C595_Type_IL_MS: cement_type_1l,
         ASTM_C595_Type_IL_HS: cement_type_1l, EN197_CEM_I: cement_type_1,
         ASTM_C1157_Type_GU: cement_type_1 },
+      pivot_default: cement_unspecified,
       fidelity: categorical,
-      notes: "Source cement_type vocab has more members than Open3DCP cement columns. Unmapped members (CEM II/III/IV/V, GB175_*, blended IP/IS/IT) -> sidecar with original type string." }
+      notes: "Source cement_type vocab has more members than Open3DCP cement columns. Unmapped members (CEM II/III/IV/V, GB175_*, blended IP/IS/IT) -> sidecar with original type string. v1.7.5: when the source states NO type at all, the mass routes to cement_unspecified EXACTLY (preserve-don't-presume; nothing defaulted)." }
 
   - { open3dcp: w_b_ratio,  src: material_batches.water_binder_ratio, transform: identity, fidelity: exact }
   # Fidelity convention: `fidelity` declares the SEMANTIC assumption the MAPPING makes, independent of
@@ -83,23 +84,27 @@ mappings:
   - { open3dcp: water,       src: material_batches.water_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: exact,
       notes: "Explicit free-water mass when a flat source reports it in kg/m3 (closes the wet-mass total -> exact). w/b is also derived into w_b_ratio." }
 
-  # Aggregates: source has 2 lumped fields (+ densities + max size + type); Open3DCP is graded. The
-  # FM/size bucket is GUESSED when the source omits fineness modulus / max size -> declared `lossy`.
-  - { open3dcp: concrete_sand, src: material_batches.fine_aggregate_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy,
-      notes: "Default fine-aggregate bucket is concrete_sand (FM [2.3,3.1) -- matches the non-overlapping Open3DCP FM partition). Without a fineness modulus the FM-specific bucket is an assumption -> recorded in the fidelity report." }
-  - { open3dcp: agg_size_57, src: material_batches.coarse_aggregate_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: lossy,
+  # Aggregates: source has 2 lumped fields (+ densities + max size + type); Open3DCP is graded.
+  # v1.7.5 preserve-don't-presume: when the source states no FM / max size, the mass is stored EXACTLY
+  # in the *_unspecified column (classification NULL) -- never bucketed by guess. When max size IS
+  # stated, refine_by routes coarse aggregate to its source-stated ASTM C33 size column (exact).
+  - { open3dcp: fine_agg_unspecified, src: material_batches.fine_aggregate_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: exact,
+      notes: "Fine aggregate with no stated fineness modulus -> fine_agg_unspecified, mass exact, FM bucket NULL (the FM columns are used only when the source states FM)." }
+  - { open3dcp: coarse_agg_unspecified, src: material_batches.coarse_aggregate_content_kg_m3, transform: kg_m3_to_mass_pct, fidelity: exact,
       refine_by: { src: material_batches.max_aggregate_size_mm, map: {
         "37.5": agg_size_4, "25": agg_size_57, "25.0": agg_size_57, "19": agg_size_67, "19.0": agg_size_67,
         "12.5": agg_size_7, "12.50": agg_size_7, "10": agg_size_8, "10.0": agg_size_8,
         "9.5": agg_size_8, "9.50": agg_size_8, "4.75": agg_size_89 } },
-      notes: "Coarse aggregate bucketed to an ASTM C33 size column by max_aggregate_size_mm when present; default agg_size_57 (most common US) when the size is unrecorded -- an assumption recorded in the fidelity report." }
+      notes: "Coarse aggregate routes to the source-stated ASTM C33 size column when max_aggregate_size_mm is present (exact); otherwise to coarse_agg_unspecified, mass exact, size class NULL." }
 
-  # Admixtures: source stores as-delivered kg/m3 or ml/m3; Open3DCP stores SOLIDS mass-%.
-  - { open3dcp: superplasticizer, src: material_batches.superplasticizer_content_kg_m3, transform: as_delivered_to_solids_pct, fidelity: lossy,
+  # Admixtures: source stores as-delivered kg/m3 or ml/m3. v1.7.5: the stored basis is recorded in
+  # admixture_basis (solids when a fraction is stated, as_delivered otherwise) -- a faithful record,
+  # not an assumed solids conversion. Volume doses (ml/m3) still genuinely need a density -> lossy.
+  - { open3dcp: superplasticizer, src: material_batches.superplasticizer_content_kg_m3, transform: as_delivered_to_solids_pct, fidelity: exact,
       carry: { src: material_batches.superplasticizer_type, to: provenance_notes } }
   - { open3dcp: water_reducer, src: material_batches.water_reducer_content_ml_m3, transform: ml_m3_to_mass_pct, fidelity: lossy }
   - { open3dcp: air_entrainer, src: material_batches.air_entrainment_content_ml_m3, transform: ml_m3_to_mass_pct, fidelity: lossy }
-  - { open3dcp: vma, src: material_batches.rheology_modifier_content_kg_m3, transform: as_delivered_to_solids_pct, fidelity: lossy,
+  - { open3dcp: vma, src: material_batches.rheology_modifier_content_kg_m3, transform: as_delivered_to_solids_pct, fidelity: exact,
       carry: { src: material_batches.rheology_modifier_type, to: provenance_notes } }
   - { open3dcp: accelerator, src: material_batches.hydration_accelerator_content_ml_m3, transform: ml_m3_to_mass_pct, fidelity: lossy }
 
