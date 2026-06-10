@@ -11,7 +11,36 @@ Schema versioning follows these rules:
 
 ---
 
-## [1.7.0] - 2026-06-05
+## [1.7.5] - 2026-06-10 — preserve, don't presume
+
+Additive, backward-compatible. Driven directly by the re-architected ingestion-fidelity metric: when it
+began counting assumptions honestly, nearly every penalty on clean public datasets traced to the SAME
+failure mode — the schema forcing a classification or basis decision the source never made (a cement
+type defaulted, an aggregate gradation bucket guessed, an admixture solids fraction assumed). v1.7.5
+removes the need to guess: record exactly what the source stated; leave what it did not state NULL.
+Column count: 244 → **248**.
+
+### Added — unspecified-constituent columns (the generic-`fly_ash` pattern, completed)
+- `cement_unspecified` — cement whose ASTM/EN type the source does not state. The mass is stored
+  exactly; the type stays NULL. Refine to `cement_type_*` only when the source states the type.
+- `fine_agg_unspecified` — fine aggregate with no stated fineness modulus / grading (the FM bucket
+  columns are used only when the source states FM).
+- `coarse_agg_unspecified` — coarse aggregate with no stated maximum size / ASTM C33 size number.
+- `admixture_basis` (`solids` | `as_delivered`) — records the basis of the admixture columns for the
+  row. Sources rarely state a solids fraction; storing the as-delivered mass WITH this flag preserves
+  the source exactly, and solids remain derivable when the fraction is known.
+
+### Changed — ingestion tool (no more schema-induced assumptions)
+- The flat/UCI readers no longer default an unstated cement type to ASTM C150 Type I; unclassified
+  constituents map to the `*_unspecified` columns with fidelity **exact** (nothing assumed).
+- `as_delivered_to_solids_pct` records the as-delivered mass exactly and sets `admixture_basis`
+  instead of flagging an assumed solids fraction (conversion happens only when a fraction is stated).
+- The fidelity report adds an informational "recorded generically" section listing constituents stored
+  without a classification — visible NULLs instead of fabricated certainty.
+- Crosswalks updated accordingly; the genuine-assumption paths (volume doses, unknown batch mass,
+  unstated units, enum misses) are still penalized exactly as before.
+
+
 
 Additive, backward-compatible changes. Existing v1.6 datasets remain valid unchanged.
 

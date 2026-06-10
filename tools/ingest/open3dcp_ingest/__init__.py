@@ -15,8 +15,8 @@ from .ingest import (IngestResult, build_relational_mappings, build_uci_mappings
 
 # Versioning policy: the tool's MAJOR.MINOR tracks the Open3DCP schema version it targets.
 # Bumping the schema (e.g. 1.6 -> 1.7) requires updating the crosswalk + this constant + tests.
-TARGET_SCHEMA_VERSION = "1.7"
-__version__ = "1.7.0"
+TARGET_SCHEMA_VERSION = "1.7.5"
+__version__ = "1.7.5"
 __all__ = ["convert", "IngestResult", "Crosswalk", "TARGET_SCHEMA_VERSION", "__version__"]
 
 

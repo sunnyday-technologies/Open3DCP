@@ -6,29 +6,27 @@ report. We commit **small curated excerpts** (reproducible from the source), nev
 is generic and public; each page shows the source's data classes and storage medium and how it re-formats into
 Open3DCP.
 
-## The national flywheel
+## Why one shape matters
 
-Shared open production data is a **national flywheel**: better data raises the production value of construction,
-which enables development and expansion. Concrete is the most-used material on earth, yet its data is scattered
-across academic benchmarks, national repositories, and standards bodies — in incompatible shapes (flat vs
-relational vs file-based) and unit bases (kg/m³ vs mass-%). **Open3DCP is the connective layer**: a flat,
-analysis-ready projection spanning the full digital twin — quarry → raw-material provenance → mix design
-(kg/m³-primary) → 3DCP process → fresh rheology → hardened mechanical → durability → interlayer bond → embodied
-carbon → strength over decades.
+Concrete is the most-used material on earth, yet its data is scattered across academic benchmarks, national
+repositories, and standards bodies — in incompatible shapes (flat vs relational vs file-based) and unit bases
+(kg/m³ vs mass-%). **Open3DCP is the connective layer** across the experiment record: mix design → 3DCP
+process → fresh rheology → hardened mechanical → durability → interlayer bond → embodied carbon → multi-age
+strength. Put in one shape, openly licensed, each contributed record becomes usable alongside every other.
 
 ## Coverage — each source lights up a slice; Open3DCP spans the whole
 
 | Source | Provenance | Mix design | Rheology | 3DCP process | Hardened mech. | Multi-age | Environment |
 |---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| [UCI Concrete Strength (Yeh 1998)](uci-yeh-1998/) — *cast, **79.9/C*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ▢ |
-| [Meta SustainableConcrete](meta-sustainableconcrete/) — *cast, **90.4/B*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ✓ |
+| [UCI Concrete Strength (Yeh 1998)](uci-yeh-1998/) — *cast, **100/A*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ▢ |
+| [Meta SustainableConcrete](meta-sustainableconcrete/) — *cast, **100/A*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ✓ |
 | [RILEM TC 304-ADC ILS-mech](rilem-tc304-ils-mech/) — *3DCP* | ✓ | ▢¹ | ✓ | ✓ | ✓ | ▢ | ▢ |
 | [UF 3DCP mix-design](uf-3dcp-mix/) — *3DCP* | ▢ | ◐ | ✓ | ✓ | ✓ | ▢ | ▢ |
 | [TU-Braunschweig 3DCP buildings](tu-braunschweig-buildings/) — *project layer* | ✓ | ▢ | ▢ | ◐ | ▢ | ▢ | ▢ |
 
 ¹ commercial premix — w/b and yield stress captured, constituent dosages not disclosed. The **gaps between
 slices are the connective-layer argument**: no single source spans the whole record; the union does. *Two
-sources carry a real `open3dcp-ingest` fidelity score (kg/m³ tables — UCI 79.9/C, Meta 90.4/B); the 3DCP-mix
+sources carry a real `open3dcp-ingest` fidelity score (kg/m³ tables — both 100/A: zero assumptions under v1.7.5's preserve-don't-presume columns, with generically-recorded cells disclosed); the 3DCP-mix
 and project-layer sources are hand-curated because their native bases (ratio-to-binder; project metadata) are
 not yet auto-scored.* A surveyed UHPC source, **Stevens UHPC** (Mahjoubi & Bao, US — CC BY 4.0), was excluded
 as reference-only: its mix variables are published as a coded ML feature matrix whose legend is paywalled, so

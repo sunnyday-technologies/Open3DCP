@@ -66,6 +66,8 @@ def read_uci_csv(path: str) -> list[dict[str, Any]]:
                 "total_wet_mass_is_complete": True,  # UCI reports every constituent incl. water
                 "total_binder_kg_m3": binder if binder > 0 else None,
                 "total_batched_mass_kg_m3": total if total > 0 else None,
+                # v1.7.5: UCI states no SP solids fraction -> as-delivered mass, basis recorded
+                "admixture_basis": "as_delivered" if rec.get("Superplasticizer") else None,
                 "source": "uci_yeh_1998",
             }
             records.append(rec)
@@ -205,6 +207,11 @@ def read_relational_xlsx(path: str) -> list[dict[str, Any]]:
                 "total_wet_mass_is_complete": complete,
                 "total_binder_kg_m3": binder,
                 "total_batched_mass_kg_m3": total,
+                # v1.7.5: admixture masses are as-delivered unless the source states a solids fraction
+                "admixture_basis": ("as_delivered"
+                                    if (batch.get("superplasticizer_content_kg_m3")
+                                        or batch.get("rheology_modifier_content_kg_m3"))
+                                    and batch.get("solids_fraction") is None else None),
                 "source": "relational",
                 "source_id": batch.get("source_id") or spec.get("source_id"),
             }
@@ -292,11 +299,8 @@ def read_flat_csv(path: str) -> list[dict[str, Any]]:
                 v = row.get(col)
                 if v not in (None, ""):
                     rec[f"material_batches.{field}"] = v
-            # default cement type to ASTM C150 Type I only when cement is present, and FLAG it as an
-            # assumption (the source stated no type) so the fidelity scorer counts it -- not silently exact.
-            if rec.get("material_batches.cement_content_kg_m3") and "material_batches.cement_type" not in rec:
-                rec["material_batches.cement_type"] = "ASTM_C150_Type_I"
-                rec.setdefault("_assumed_fields", set()).add("material_batches.cement_type")
+            # v1.7.5 preserve-don't-presume: an unstated cement type is NOT defaulted -- the pivot's
+            # pivot_default routes the mass to cement_unspecified exactly, classification NULL.
             for col, field in (("fiber_length_mm", "fiber_length_mm"),
                                ("fiber_diameter_mm", "fiber_diameter_mm"),
                                ("max_agg_size_mm", "max_aggregate_size_mm"),
@@ -362,6 +366,11 @@ def read_flat_csv(path: str) -> list[dict[str, Any]]:
                 "total_binder_kg_m3": binder if binder > 0 else None,
                 "total_batched_mass_kg_m3": total if total > 0 else None,
                 "provenance_notes": note,
+                # v1.7.5: admixtures are stored on the basis the source reports; without a stated
+                # solids fraction that is the as-delivered mass, recorded exactly and flagged here.
+                "admixture_basis": ("as_delivered" if _num(row.get("superplasticizer_kg_m3"))
+                                    and _num(row.get("solids_fraction")) is None else None),
+                "solids_fraction": _num(row.get("solids_fraction")),
                 "source": "flat",
             }
             records.append(rec)
