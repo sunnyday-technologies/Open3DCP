@@ -22,6 +22,10 @@ Open3DCP defines a standard way to record the material, process, curing, testing
 
 This repository provides the **schema definition only** -- column names, types, units, and engineering context. We encourage researchers and industry to adopt this schema as a common format so that 3DCP datasets from different labs and research groups can be combined without painful reformatting.
 
+For AI agents and MCP-style clients, [`tools/mcp/`](tools/mcp/) contains an experimental read-only
+stdio wrapper for inspecting schema resources and validating flat Open3DCP-shaped records. It does
+not host data, recommend mixes, or perform transactional LOGiMIX/CEMFORGE behavior.
+
 > **Have a 3DCP dataset to share?** [Submit it →](https://open3dcp.org/intake/) — you provide provenance and an archive DOI; an automated check and a maintainer curate it into the catalog.
 
 ---
