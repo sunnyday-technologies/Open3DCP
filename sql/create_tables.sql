@@ -358,6 +358,9 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     rheology_curve_file         VARCHAR(255),       -- Flow / structuration curve file
     microstructure_image        VARCHAR(255),       -- SEM / CT / crack-pattern image file
     raw_data_file               VARCHAR(255),       -- Generic table / HDF5 raw-data reference
+    raw_data_uri                VARCHAR(255),       -- (v1.7.6) Resolvable URI to the raw-data deposit / landing page; complements raw_data_doi when archived without a DOI
+    raw_data_sha256             VARCHAR(64),        -- (v1.7.6) SHA-256 of the referenced raw-data artifact / deposit archive (integrity verification)
+    raw_data_version            VARCHAR(50),        -- (v1.7.6) Version / revision of the raw-data deposit (Zenodo version, dataset commit, file revision) — pins a reference to a specific revision
 
     -- -----------------------------------------
     -- DATA PROVENANCE

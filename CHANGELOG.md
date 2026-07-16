@@ -11,6 +11,28 @@ Schema versioning follows these rules:
 
 ---
 
+## [1.7.6] - 2026-06-23 — FAIR raw-data references
+
+Additive, backward-compatible. Completes the FAIR reference triple on the raw-data pointers
+introduced in v1.7 — a reference can now be resolved, verified, and version-pinned, not just
+named. Payloads stay external. Column count: 248 → **251**.
+
+### Added — raw-data reference provenance (FAIR)
+- `raw_data_uri` — resolvable URI to the raw-data deposit / landing page; complements
+  `raw_data_doi` for artifacts archived without a DOI (e.g. a Zenodo / DesignSafe / institutional URL).
+- `raw_data_sha256` — SHA-256 checksum of the referenced raw-data artifact (or deposit archive),
+  for integrity verification.
+- `raw_data_version` — version / revision of the referenced raw-data deposit (e.g. Zenodo version,
+  dataset commit, file revision) so a reference resolves to a specific revision.
+
+### Notes
+- Provenance only — no prediction or accuracy claim; Open3DCP remains a data format, not a dataset.
+- The new columns have no conventional relational-source equivalent (listed under
+  `open3dcp_only_blocks` in the crosswalk) and are populated from deposit context, so existing
+  example fidelity scores are unchanged.
+- Per-file integrity hashing across the individual `*_file` columns is deferred to a future refinement.
+- Canonical column list remains `Open3DCP_SCHEMA.md` / `sql/create_tables.sql`.
+
 ## [1.7.5] - 2026-06-10 — preserve, don't presume
 
 Additive, backward-compatible. Driven directly by the re-architected ingestion-fidelity metric: when it

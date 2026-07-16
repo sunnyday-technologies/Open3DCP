@@ -13,7 +13,7 @@ normalize to that canonical term. Per term, the table gives its governing standa
 where one exists — its relational-schema crosswalk. 3DCP-only terms are justified against
 RILEM TC 276-DFC / TC 304-ADC.
 
-**Coverage:** 248 canonical `mix_designs` terms, grouped into 25 sections.
+**Coverage:** 251 canonical `mix_designs` terms, grouped into 25 sections.
 
 ---
 
@@ -361,6 +361,9 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `rheology_curve_file` | varchar(255) | Flow / structuration curve file | — | Open3DCP-specific. |
 | `microstructure_image` | varchar(255) | SEM / CT / crack-pattern image file | — | Open3DCP-specific. |
 | `raw_data_file` | varchar(255) | Generic table / HDF5 raw-data reference | — | Open3DCP-specific. |
+| `raw_data_uri` | varchar(255) | (v1.7.6) Resolvable URI to the raw-data deposit / landing page; complements `raw_data_doi` when archived without a DOI | FAIR (Findable/Accessible) | Open3DCP-specific. |
+| `raw_data_sha256` | varchar(64) | (v1.7.6) SHA-256 of the referenced raw-data artifact for integrity verification | FAIR (Reusable) | Open3DCP-specific. |
+| `raw_data_version` | varchar(50) | (v1.7.6) Version / revision of the raw-data deposit — pins a reference to a specific revision | FAIR (Findable) | Open3DCP-specific. |
 
 ## DATA PROVENANCE
 

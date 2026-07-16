@@ -1,8 +1,10 @@
-# Open3DCP v1.7.5
+# Open3DCP v1.7.6
 
 **Open Data Standard for 3D Concrete Printing**
 
 > **Status: Draft** — under working-group review; the schema may change before ratification.
+>
+> **v1.7.6 (2026-06-23): FAIR raw-data references.** Three columns (248 → **251**) that complete the FAIR reference triple on the raw-data pointers added in v1.7: `raw_data_uri` (a resolvable URI for artifacts archived without a DOI, complementing `raw_data_doi`), `raw_data_sha256` (content hash for integrity verification), and `raw_data_version` (deposit revision pin so a reference resolves to a specific revision). The schema now records *where* a raw artifact is, *that it is intact*, and *which revision* — not just its filename. Payloads stay external (FAIR). Provenance only — no prediction or accuracy claim. Additive, backward-compatible; v1.5/1.6/1.7 datasets remain valid. (Per-file hashing across the individual `*_file` columns is a planned future refinement.)
 >
 > **v1.7.5 (2026-06-10): preserve, don't presume.** Four columns (244 → **248**) that remove the schema's last forced guesses, driven by the honest ingestion-fidelity metric: `cement_unspecified`, `fine_agg_unspecified`, `coarse_agg_unspecified` (store the exact mass when the source states no type / FM / size — the generic-`fly_ash` pattern completed; classifications stay NULL instead of being defaulted) and `admixture_basis` (`solids` | `as_delivered` — record the as-delivered mass exactly with its basis instead of assuming a solids fraction). The ingestion tool no longer defaults an unstated cement type; unclassified constituents land in the `*_unspecified` columns with fidelity *exact*.
 >
@@ -451,7 +453,7 @@ Mirrors the common `mean + standard_deviation + number_of_specimens` reporting c
 
 ### Raw Data References (v1.7)
 
-Links to curve/image/HDF5 files that the flat schema cannot hold inline. Payloads stay external (FAIR); the reference is preserved so the raw data remains discoverable.
+Links to curve/image/HDF5 files that the flat schema cannot hold inline. Payloads stay external (FAIR); the reference is preserved so the raw data remains discoverable. v1.7.6 completes the FAIR triple on these references — `raw_data_uri` (resolvable location), `raw_data_sha256` (integrity), and `raw_data_version` (revision pin) — so a reference can be resolved, verified, and pinned to a specific revision, not merely named.
 
 | Column | Type | Description |
 |--------|------|-------------|
@@ -460,6 +462,9 @@ Links to curve/image/HDF5 files that the flat schema cannot hold inline. Payload
 | `rheology_curve_file` | varchar | Flow / structuration curve file |
 | `microstructure_image` | varchar | SEM / CT / crack-pattern image file |
 | `raw_data_file` | varchar | Generic table / HDF5 raw-data reference |
+| `raw_data_uri` | varchar | (v1.7.6) Resolvable URI to the raw-data deposit / landing page; complements `raw_data_doi` for artifacts archived without a DOI (e.g. Zenodo / DesignSafe / institutional URL) |
+| `raw_data_sha256` | varchar | (v1.7.6) SHA-256 checksum of the referenced raw-data artifact (or deposit archive), for integrity verification |
+| `raw_data_version` | varchar | (v1.7.6) Version / revision of the referenced raw-data deposit (e.g. Zenodo version, dataset commit, file revision) so a reference resolves to a specific revision |
 
 ### Data Provenance
 
@@ -558,5 +563,5 @@ If you use Open3DCP in your research, please cite:
 
 ---
 
-*Open3DCP v1.7 -- Last updated: 2026-06-04*
+*Open3DCP v1.7 -- Last updated: 2026-06-23*
 *Maintained by [Sunnyday Technologies](https://sunn3d.com), Wisconsin, USA*

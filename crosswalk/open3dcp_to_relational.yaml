@@ -14,7 +14,7 @@
 #   none        - source field has no flat Open3DCP home -> triage sidecar
 meta:
   name: open3dcp_to_relational
-  open3dcp_version: "1.7"     # MUST match the public schema minor version in Open3DCP_SCHEMA.md / CHANGELOG.md
+  open3dcp_version: "1.7"   # Minor schema line; the full patch (1.7.x) lives in CHANGELOG.md (scripts/check_version.py enforces the minor here)
   source_schema: "relational concrete database (15-tab spreadsheet template)"
   direction: bidirectional_where_possible
   notes: >
@@ -230,3 +230,4 @@ open3dcp_only_blocks:
   - "Interlayer (interlayer_bond_mpa, interlayer_shear_mpa, void_area_fraction_pct, surface_*)"
   - "Extended fresh-state rheology (static/dynamic yield stress, structuration_rate_pa_per_s, open_time_min, green_strength_kpa)"
   - "Extended durability/thermal/microstructure & EN206/ACI318 exposure classes"
+  - "Raw-data reference provenance (raw_data_uri, raw_data_sha256, raw_data_version) — v1.7.6 FAIR resolve/verify/version-pin; populated from deposit context, no relational-source equivalent"
