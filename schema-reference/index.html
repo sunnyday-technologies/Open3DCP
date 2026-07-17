@@ -483,9 +483,9 @@
         "url": "https://open3dcp.org/",
         "sameAs": [
           "https://github.com/sunnyday-technologies/Open3DCP",
-          "https://doi.org/10.5281/zenodo.19647471"
+          "https://doi.org/10.5281/zenodo.19647470"
         ],
-        "identifier": "10.5281/zenodo.19647471",
+        "identifier": "10.5281/zenodo.19647470",
         "version": "1.7", "creativeWorkStatus": "Draft",
         "license": "https://www.apache.org/licenses/LICENSE-2.0",
         "creator": {
@@ -664,7 +664,7 @@
           "EN 12390-3 (Compressive Strength)",
           "Rotational rheometry (yield stress, viscosity, thixotropy)"
         ],
-        "citation": "Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing. Sunnyday Technologies. https://github.com/sunnyday-technologies/Open3DCP DOI: 10.5281/zenodo.19647471"
+        "citation": "Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing. Sunnyday Technologies. https://github.com/sunnyday-technologies/Open3DCP DOI: 10.5281/zenodo.19647470"
       },
       {
         "@type": "Organization",
@@ -771,7 +771,7 @@
   <main class="pillar-content">
 <h1 id="the-open3dcp-schema-a-reference-standard-for-3d-concrete-printing-data">The Open3DCP Schema: A Reference Standard for 3D Concrete Printing Data</h1>
 <blockquote>
-<p>Open3DCP. Apache License 2.0. Concept DOI: <a href="https://zenodo.org/records/19647471">10.5281/zenodo.19647471</a>. Maintained by <a href="https://sunn3d.com">Sunnyday Technologies</a>.</p>
+<p>Open3DCP. Apache License 2.0. Concept DOI: <a href="https://zenodo.org/records/19647470">10.5281/zenodo.19647470</a>. Maintained by <a href="https://sunn3d.com">Sunnyday Technologies</a>.</p>
 </blockquote>
 <p>This page is the reference description of the Open3DCP schema for researchers, standards authors, journal editors, dataset curators, and software implementers. It is intended as a citeable companion to the canonical schema document at <a href="https://github.com/sunnyday-technologies/Open3DCP">github.com/sunnyday-technologies/Open3DCP</a> and the <a href="https://github.com/sunnyday-technologies/Open3DCP/blob/main/Open3DCP_SCHEMA.md">Open3DCP_SCHEMA.md</a> reference. Where the schema document is exhaustive (every column, every type), this page is structural: it explains why the schema exists, what it covers, where it sits relative to the available standards landscape, and how a working laboratory can adopt it without changing how it runs experiments.</p>
 <p>The argument is simple. 3D concrete printing (3DCP) is an active research field with a growing publication base. Many papers report a mix design, fresh-state behavior, hardened mechanical performance, and some characterization of the print process itself, but reporting conventions vary substantially across authors, laboratories, and test methods. Open3DCP is a flat, machine-readable schema that addresses the reporting layer without dictating the test methods. It sits above the experimental dataset and is cross-referenced (for interoperability convenience, not commitment) to current widely-used test method references. The schema is compatible with the available standards frameworks but not committed to any single one; newer measurement protocols, including in-line process telemetry, computer-vision-based bond inspection, and emerging digital-twin instrumentation, are first-class extension candidates as the field develops them.</p>
@@ -799,7 +799,7 @@
 <p><strong>A column reference</strong>. Every column points outward to one of the available reference standards for the measurement: <code>compressive_strength_mpa</code> cross-references ASTM C39 and EN 12390-3; <code>chloride_rcpt_coulombs</code> cross-references ASTM C1202; <code>freeze_thaw_cycles</code> cross-references ASTM C666. The reference is informational only, and represents compatibility with current widely-used methods rather than commitment to any single one. Where newer measurement protocols emerge, the schema is designed to extend rather than to be replaced. Open3DCP does not redefine the test; it tells you which test the column is meant to capture.</p>
 </li>
 </ol>
-<p>Open3DCP is licensed under the Apache License, Version 2.0, including an express grant of patent rights from contributors. The canonical version is deposited on Zenodo with concept DOI <a href="https://zenodo.org/records/19647471">10.5281/zenodo.19647471</a>, which resolves to the most recent versioned release. The repository is at <a href="https://github.com/sunnyday-technologies/Open3DCP">github.com/sunnyday-technologies/Open3DCP</a>.</p>
+<p>Open3DCP is licensed under the Apache License, Version 2.0, including an express grant of patent rights from contributors. The canonical version is deposited on Zenodo with concept DOI <a href="https://zenodo.org/records/19647470">10.5281/zenodo.19647470</a>, which resolves to the most recent versioned release. The repository is at <a href="https://github.com/sunnyday-technologies/Open3DCP">github.com/sunnyday-technologies/Open3DCP</a>.</p>
 <p>It is equally important to be clear about what Open3DCP is not.</p>
 <ul>
 <li>
@@ -1080,7 +1080,7 @@
 <p><strong>Step 1: Map your existing CSV columns to Open3DCP keys.</strong> Most laboratories already keep a mix-design spreadsheet with columns for each material, plus a results spreadsheet with columns for the tests. Mapping your column names to Open3DCP column names is usually a one-time step. Common synonyms from the literature normalize to the canonical term — e.g. "GGBFS," "ground granulated blast-furnace slag," and "slag" all map to <code>slag</code>; "C33 sand," "concrete sand," and "natural sand" all map to <code>concrete_sand</code>. Where you store densities and compute mass-percent on the fly, do that conversion once at export time so the deposited file is in the canonical shape.</p>
 <p><strong>Step 2: Add dataset-level metadata.</strong> A complete deposit usually includes the CSV file (one row per measurement), metadata describing authors, license, description, related identifiers, and the schema version reference. A formal JSON-LD context and reusable examples are planned, but should not be treated as public v1.7.5 contract files until they are published with the schema.</p>
 <p><strong>Step 3: Validate with tooling that consumes Open3DCP-shaped reports.</strong> Where users maintain CAD, machine-log, formulation, or statistics tooling, an Open3DCP record can serve as the shared tabular record that those tools reference. This kind of cross-tool integration is the reason the Open3DCP schema is flat and stable: it lets independent tools share the same record with fewer bespoke adapters.</p>
-<p><strong>Step 4: Deposit on Zenodo, 4TU.ResearchData, or your institutional repository.</strong> Use a CC BY 4.0 license for the data itself (this is independent of the Apache 2.0 license on the schema). Add the Open3DCP <code>@id</code> reference to the metadata so search engines and citation tools can link your dataset to the schema. Mint a DOI. Cite both Open3DCP (using the Zenodo concept DOI, <a href="https://zenodo.org/records/19647471">10.5281/zenodo.19647471</a>) and any test methods you used in your dataset description.</p>
+<p><strong>Step 4: Deposit on Zenodo, 4TU.ResearchData, or your institutional repository.</strong> Use a CC BY 4.0 license for the data itself (this is independent of the Apache 2.0 license on the schema). Add the Open3DCP <code>@id</code> reference to the metadata so search engines and citation tools can link your dataset to the schema. Mint a DOI. Cite both Open3DCP (using the Zenodo concept DOI, <a href="https://zenodo.org/records/19647470">10.5281/zenodo.19647470</a>) and any test methods you used in your dataset description.</p>
 <p>For a well-organized existing dataset, these steps may be a modest export and mapping exercise. The harder cases are legacy datasets where the experimental record is incomplete, and there the schema is honest: missing columns are simply null, and the <code>measurement_confidence</code> field flags the cells that were reconstructed from narrative prose. Open3DCP does not pretend that legacy data are as good as primary measurements, but it does let you publish them in a comparable shape with the limitations recorded explicitly.</p>
 <hr />
 <h2 id="7-where-open3dcp-fits-relative-to-the-available-standards-landscape">7. Where Open3DCP fits relative to the available standards landscape</h2>
@@ -1098,7 +1098,7 @@
 +------------------------------------------------------------+
 |  Open3DCP schema (this layer)                              |
 |  Column names, units, types, controlled vocabulary         |
-|  Apache 2.0, DOI 10.5281/zenodo.19647471                   |
+|  Apache 2.0, DOI 10.5281/zenodo.19647470                   |
 +------------------------------------------------------------+
 |  Experimental datasets                                     |
 |  Per-lab CSVs, supplementary materials, Zenodo deposits,   |
@@ -1134,7 +1134,7 @@
 <p>If you reference Open3DCP in a paper, dataset, or technical report, please cite:</p>
 <p><strong>Plain text:</strong></p>
 <blockquote>
-<p>Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing [Schema]. Sunnyday Technologies. https://doi.org/10.5281/zenodo.19647471</p>
+<p>Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing [Schema]. Sunnyday Technologies. https://doi.org/10.5281/zenodo.19647470</p>
 </blockquote>
 <p><strong>BibTeX:</strong></p>
 <pre><code class="language-bibtex">@misc{open3dcp_2026,
@@ -1142,7 +1142,7 @@
   title        = {{Open3DCP: Open Data Standard for 3D Concrete Printing}},
   year         = {2026},
   publisher    = {Sunnyday Technologies},
-  doi          = {10.5281/zenodo.19647471},
+  doi          = {10.5281/zenodo.19647470},
   url          = {https://open3dcp.org}
 }
 </code></pre>
@@ -1152,7 +1152,7 @@ T1  - Open3DCP: Open Data Standard for 3D Concrete Printing
 AU  - Sonnentag, Nicholas
 PY  - 2026
 PB  - Sunnyday Technologies
-DO  - 10.5281/zenodo.19647471
+DO  - 10.5281/zenodo.19647470
 UR  - https://open3dcp.org
 ER  -
 </code></pre>
@@ -1173,7 +1173,7 @@ ER  -
 <p>Reinhardt, H.-W., Wangler, T., and Roussel, N., eds. (2019). RILEM Technical Committee 304-ADC: State-of-the-art Report on Assessment of Additively Manufactured Concrete Materials and Structures. RILEM.</p>
 </li>
 <li>
-<p>Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing. Sunnyday Technologies. DOI: 10.5281/zenodo.19647471. https://github.com/sunnyday-technologies/Open3DCP</p>
+<p>Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing. Sunnyday Technologies. DOI: 10.5281/zenodo.19647470. https://github.com/sunnyday-technologies/Open3DCP</p>
 </li>
 <li>
 <p>Wangler, T., Roussel, N., Bos, F. P., Salet, T. A. M., and Flatt, R. J. (2019). Digital concrete: A review. <em>Cement and Concrete Research</em>, 123, 105780. https://doi.org/10.1016/j.cemconres.2019.105780</p>
@@ -1241,7 +1241,7 @@ ER  -
 <ul>
 <li>Schema reference and source: <a href="https://github.com/sunnyday-technologies/Open3DCP">github.com/sunnyday-technologies/Open3DCP</a></li>
 <li>Canonical schema document: <a href="https://github.com/sunnyday-technologies/Open3DCP/blob/main/Open3DCP_SCHEMA.md">Open3DCP_SCHEMA.md</a></li>
-<li>Zenodo concept DOI: <a href="https://zenodo.org/records/19647471">10.5281/zenodo.19647471</a></li>
+<li>Zenodo concept DOI: <a href="https://zenodo.org/records/19647470">10.5281/zenodo.19647470</a></li>
 <li>Companion formulation platform: <a href="https://cemforge.ai">CEMFORGE</a></li>
 <li>Companion open-hardware project: <a href="https://m3-crete.com">M3-CRETE</a></li>
 <li>Companion validation tooling: <a href="https://cadclaw.io">CADCLAW</a></li>
@@ -1261,7 +1261,7 @@ ER  -
       "description": "An open, Apache-2.0 licensed schema and controlled vocabulary for 3D concrete printing data. Spans composition, process, mechanical, fresh state, durability, environment, specimen, interlayer, microstructure, and provenance domains. Cross-references ASTM, EN, ACI, and RILEM standards.",
       "url": "https://open3dcp.org/",
       "sameAs": "https://github.com/sunnyday-technologies/Open3DCP",
-      "identifier": "https://doi.org/10.5281/zenodo.19647471",
+      "identifier": "https://doi.org/10.5281/zenodo.19647470",
       "license": "https://www.apache.org/licenses/LICENSE-2.0",
       "creator": {
         "@type": "Organization",
