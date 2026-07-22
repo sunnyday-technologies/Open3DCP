@@ -48,7 +48,7 @@ function Copy-PublicDirectory {
 # CNAME and .nojekyll are GitHub-Pages-specific and intentionally omitted
 # (Cloudflare sets the custom domain in the dashboard).
 $rootFiles = @(
-  "index.html", "favicon.svg",
+  "index.html", "404.html", "favicon.svg",
   "robots.txt", "sitemap.xml", "llms.txt",
   "dc64666f8b365e677b9a887307e73b38.txt",          # IndexNow / site-verification key
   "Open3DCP_SCHEMA.md", "Open3DCP_TERM_JUSTIFICATION.md", "CHANGELOG.md",
