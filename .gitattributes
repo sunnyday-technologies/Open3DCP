@@ -1,0 +1,3 @@
+# Generated crosswalk CSVs must be byte-stable across contributors' machines
+crosswalk/*.csv text eol=lf
+scripts/*.py text eol=lf
