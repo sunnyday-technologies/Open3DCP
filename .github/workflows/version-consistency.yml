@@ -20,6 +20,8 @@ on:
       - .zenodo.json
       - examples/**
       - scripts/check_version.py
+      - sql/**
+      - scripts/build_precedent_crosswalks.py
   pull_request:
     paths:
       - CHANGELOG.md
@@ -36,6 +38,8 @@ on:
       - .zenodo.json
       - examples/**
       - scripts/check_version.py
+      - sql/**
+      - scripts/build_precedent_crosswalks.py
   workflow_dispatch:
 
 permissions:
@@ -51,3 +55,5 @@ jobs:
           python-version: '3.11'
       - name: Check version-label consistency
         run: python scripts/check_version.py
+      - name: Check model-crosswalk CSVs match the schema (no drift)
+        run: python scripts/build_precedent_crosswalks.py --check
