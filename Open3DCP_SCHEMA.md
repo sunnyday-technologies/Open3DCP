@@ -573,5 +573,5 @@ If you use Open3DCP in your research, please cite:
 
 ---
 
-*Open3DCP v1.7.5 -- Last updated: 2026-07-30*
+*Open3DCP v1.7 -- Last updated: 2026-07-30*
 *Maintained by [Sunnyday Technologies](https://sunn3d.com), Wisconsin, USA*
