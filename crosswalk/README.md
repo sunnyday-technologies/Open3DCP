@@ -1,10 +1,13 @@
 # Open3DCP Crosswalks
 
-Versioned, machine-readable mappings between Open3DCP and external concrete dataset
-schemas. These files are the **single source of truth** consumed by the public ingestion
+Versioned, machine-readable mappings between Open3DCP and external schemas, datasets,
+and data models. The two **ingestion crosswalks** (`open3dcp_to_relational.yaml`,
+`open3dcp_to_uci.csv`) are the single source of truth consumed by the public ingestion
 tool ([`tools/ingest/`](../tools/ingest/)), the ingestion **fidelity scorer**, and the
-data-intake portal validator. Keep them in sync with both schemas; bump the version in
-each file's `meta` when either schema changes.
+data-intake portal validator — keep them in sync with both schemas and bump the version
+in the YAML `meta` when either schema changes. The three **model-level crosswalks**
+(`open3dcp_to_{amcdm,gemd,cpto}.csv`) are generated artifacts; see
+*Structural mapping classes* below for their regeneration and pinning rules.
 
 | File | Maps | Notes |
 |---|---|---|
@@ -40,12 +43,20 @@ distinct class set:
 - `normalized` — same information, restructured (column → class instance/attribute).
 - `derived` — computable from other mapped fields.
 - `partial` — the target holds only a subset or a coarser form of the information.
-- `sidecar` — needs a linked non-flat record (planned context/measurement sidecars).
+- `sidecar` — needs a linked non-flat record (**reserved**: assigned once the planned
+  context/measurement sidecar records exist; currently unused).
 - `no_map` — no target entity exists. For the 3DCP process, printing-state rheology,
   and interlayer blocks this is the substantive finding: the extrusion vocabulary is
   Open3DCP's additive contribution, offered as a candidate domain profile.
 
+Two reading rules keep the classes honest. **GEMD is a structural format with no domain
+vocabulary**, so `no_map` is definitionally unreachable there — its `normalized` rows
+mean "holdable in a generic container via project-defined attribute templates" (each
+such row says so in its note), not "a named target concept exists." And **AM-CDM
+target entities are concept paths** whose identifiers resolve in the pinned commit's
+SADL modules (module prefix before the colon).
+
 These files are **generated** from `sql/create_tables.sql` (the schema's source of
-truth) by [`scripts/build_precedent_crosswalks.py`](../scripts/build_precedent_crosswalks.py);
-regenerate them whenever the schema changes, and bump the pinned target versions in the
-table above when a target releases.
+truth) by [`scripts/build_precedent_crosswalks.py`](https://github.com/sunnyday-technologies/Open3DCP/blob/main/scripts/build_precedent_crosswalks.py);
+regenerate them whenever the schema changes (`--check` verifies freshness and runs in
+CI), and bump the pinned target versions in the table above when a target releases.

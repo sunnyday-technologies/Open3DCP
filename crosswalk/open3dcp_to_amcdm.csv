@@ -1,239 +1,239 @@
 open3dcp_column,block,target_entity,mapping_class,notes
-mix_id,Provenance,material: Material — identity/lineage attributes,normalized,
-name,Provenance,material: Material — identity/lineage attributes,normalized,
-parent_mix_id,Provenance,material: Material — identity/lineage attributes,normalized,
-version,Provenance,material: Material — identity/lineage attributes,normalized,
-material_class,Provenance,material: Material — identity/lineage attributes,normalized,
-batch_label,Provenance,material: Material — identity/lineage attributes,normalized,
-date_of_casting,Provenance,build: Build / ProcessStep timing,normalized,
-created_at,Provenance,base: record metadata,partial,
-cement_type_1,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-cement_type_1_2,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-cement_type_1l,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-cement_type_2,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-cement_type_3,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-cement_type_4,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-cement_type_5,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-cac,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-csa_cement,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-cement_unspecified,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-fly_ash,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-fly_ash_type_f,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-fly_ash_type_c,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-silica_fume,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-nano_silica,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-slag,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-metakaolin,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-limestone,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-pumice,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-bottom_ash,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-rice_husk_ash,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-sodium_hydroxide,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-sodium_silicate,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-potassium_hydroxide,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-potassium_silicate,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-activator_ms_ratio,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-na2o_dosage_pct,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-nano_clay,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-mineral_powder,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-mwcnt,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-graphene_oxide,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-recycled_sand,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-iron_oxide_pigment,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-titanium_dioxide_pigment,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-chromium_oxide_pigment,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-carbon_black_pigment,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-pigment_other,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-mason_sand,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-fine_sand,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-concrete_sand,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-coarse_sand,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-fine_agg_unspecified,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_89,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_8,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_7,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_67,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_6,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_57,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_5,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_467,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_4,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_357,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_3,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_2,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-agg_size_1,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-coarse_agg_unspecified,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-steel_fiber,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-pp_fiber,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-glass_fiber,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-carbon_fiber,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-pva_fiber,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-basalt_fiber,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-nylon_fiber,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-aramid_fiber,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-cellulose_fiber,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-fiber_length_mm,Composition,material: Material — intrinsic properties,normalized,
-fiber_diameter_mm,Composition,material: Material — intrinsic properties,normalized,
-fiber_aspect_ratio,Composition,material: Material — intrinsic properties,normalized,
-fiber_tensile_strength_mpa,Composition,material: Material — intrinsic properties,normalized,
-superplasticizer,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-water_reducer,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-accelerator,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-calcium_formate,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-retarder,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-air_entrainer,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-vma,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-shrinkage_reducer,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-corrosion_inhibitor,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-hpmc,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-sepiolite_clay,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-attapulgite,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-calcium_bentonite,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-water,Composition,material: Material — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
-w_c_ratio,Composition,material: Material — derived properties,derived,
-w_b_ratio,Composition,material: Material — derived properties,derived,
-a_b_ratio,Composition,material: Material — derived properties,derived,
-water_premix_pct,Composition,material: Material — derived properties,derived,
-water_temperature_c,Composition,material: Material — derived properties,derived,
-aggregate_moisture_state,Composition,material: Material — extrinsic state (storage/condition),partial,
-aggregate_absorption_pct,Composition,material: Material — extrinsic state (storage/condition),partial,
-aggregate_moisture_content_pct,Composition,material: Material — extrinsic state (storage/condition),partial,
-original_basis,Composition,base: Measurement (value + unit + meta),partial,record-basis semantics; no direct AM-CDM concept
-admixture_basis,Composition,base: Measurement (value + unit + meta),partial,record-basis semantics; no direct AM-CDM concept
-total_batched_mass_kg_m3,Composition,base: Measurement (value + unit + meta),partial,record-basis semantics; no direct AM-CDM concept
-total_binder_kg_m3,Composition,base: Measurement (value + unit + meta),partial,record-basis semantics; no direct AM-CDM concept
-test_age_days,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-specimen_prep,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-specimen_geometry,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-specimen_length_mm,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-specimen_width_mm,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-specimen_height_mm,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-test_orientation,Conditions,TIC: ticMaterialSpecimen — orientation,partial,no 3DCP layer-orientation coding vocabulary
-test_orientation_code,Conditions,TIC: ticMaterialSpecimen — orientation,partial,no 3DCP layer-orientation coding vocabulary
-test_method_code,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-n_specimens,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-curing_regime,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-curing_regime_code,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-curing_temperature_c,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-curing_humidity_pct,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-curing_duration_days,Conditions,TIC: ticMaterialSpecimen / ticStandard,normalized,
-is_3d_printed,Processing,process: process category (ISO/ASTM 52900),normalized,material extrusion exists as a 52900 category; no construction profile
-print_speed_mm_s,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-layer_height_mm,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-layer_time_gap_s,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-nozzle_diameter_mm,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-nozzle_shape,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-nozzle_area_mm2,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-filament_width_mm,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-layer_width_mm,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-extrusion_rate_l_min,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-num_layers,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-path_length_mm,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-infill_pattern,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-contour_count,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-print_direction,Processing,build/process: Build -> ProcessStep -> ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-pump_type,Processing,system/process: AMSystem component + ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-pump_pressure_bar,Processing,system/process: AMSystem component + ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-pump_rotational_speed_rpm,Processing,system/process: AMSystem component + ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-pump_distance_m,Processing,system/process: AMSystem component + ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-pipe_diameter_mm,Processing,system/process: AMSystem component + ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-pumping_duration_s,Processing,system/process: AMSystem component + ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-mixing_time_s,Processing,system/process: AMSystem component + ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-mixing_speed_rpm,Processing,system/process: AMSystem component + ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-mixer_type,Processing,system/process: AMSystem component + ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-shear_rate_per_s,Processing,system/process: AMSystem component + ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-admixture_addition_point,Processing,system/process: AMSystem component + ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-aggregate_prewetted,Processing,system/process: AMSystem component + ProcessParameters,normalized,held as generic ProcessParameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is a candidate domain profile
-mix_temperature_c,Conditions,build/TIC: build environment / ticEnvironment,normalized,
-ambient_temperature_c,Conditions,build/TIC: build environment / ticEnvironment,normalized,
-ambient_humidity_pct,Conditions,build/TIC: build environment / ticEnvironment,normalized,
-wind_speed_m_s,Conditions,build/TIC: build environment / ticEnvironment,normalized,
-slump_mm,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-spread_mm,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-yield_stress_pa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-plastic_viscosity_pa_s,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-static_yield_stress_pa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-dynamic_yield_stress_pa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-thixotropy_pa_per_s,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-structuration_rate_pa_per_s,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-open_time_min,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-green_strength_kpa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-air_content_fresh_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-unit_weight_fresh_kg_m3,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-setting_time_initial_min,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-setting_time_final_min,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-bleeding_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-temperature_fresh_c,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-j_ring_mm,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-v_funnel_s,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-l_box_ratio,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-segregation_resistance_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no fresh-rheology vocabulary
-design_strength_mpa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-compressive_strength_mpa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-tensile_strength_mpa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-splitting_tensile_mpa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-flexural_strength_mpa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-elastic_modulus_gpa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-bond_strength_mpa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-fracture_energy_n_m,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-toughness_index,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-impact_resistance_j,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-fatigue_life_cycles,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-density_hardened_kg_m3,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-poissons_ratio,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-interlayer_bond_mpa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no interlayer-bond vocabulary
-interlayer_shear_mpa,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no interlayer-bond vocabulary
-air_content_deposited_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no interlayer-bond vocabulary
-void_area_fraction_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no interlayer-bond vocabulary
-surface_roughness_avg,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no interlayer-bond vocabulary
-surface_moisture_state,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no interlayer-bond vocabulary
-surface_treatment,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,generic TestResult; no interlayer-bond vocabulary
-chloride_rcpt_coulombs,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-chloride_migration_coeff,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-chloride_diffusion_coeff,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-carbonation_depth_1yr_mm,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-carbonation_rate_coeff,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-drying_shrinkage_28d_ue,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-autogenous_shrinkage_ue,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-creep_coefficient,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-freeze_thaw_cycles,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-freeze_thaw_durability_factor,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-freeze_thaw_mass_loss_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-sulfate_expansion_6mo_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-sulfate_expansion_12mo_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-asr_expansion_14d_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-asr_expansion_1yr_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-abrasion_depth_mm,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-water_penetration_depth_mm,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-electrical_resistivity_kohm_cm,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-porosity_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-water_absorption_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-sorptivity_mm_sqrt_s,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-sorptivity_secondary_mm_sqrt_s,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-oxygen_permeability_m2,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-scaling_resistance_kg_m2,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-corrosion_rate_ua_cm2,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-half_cell_potential_mv,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-heat_of_hydration_kj_kg,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-thermal_conductivity_w_mk,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-specific_heat_j_kg_k,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-coeff_thermal_expansion_ue_c,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-fire_resistance_min,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-embodied_carbon_kg_co2_m3,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-embodied_energy_mj_m3,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-degree_of_hydration,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-calcium_hydroxide_pct,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-pore_size_distribution_nm,Properties,TIC: TestInspectionCharacterization -> TestResult,normalized,
-compressive_strength_stddev_mpa,Properties,base: Measurement (value + uncertainty meta),normalized,
-flexural_strength_stddev_mpa,Properties,base: Measurement (value + uncertainty meta),normalized,
-tensile_strength_stddev_mpa,Properties,base: Measurement (value + uncertainty meta),normalized,
-elastic_modulus_stddev_gpa,Properties,base: Measurement (value + uncertainty meta),normalized,
-interlayer_bond_stddev_mpa,Properties,base: Measurement (value + uncertainty meta),normalized,
-raw_data_doi,Provenance,base: Document,normalized,
-stress_strain_file,Provenance,base: Document,normalized,
-rheology_curve_file,Provenance,base: Document,normalized,
-microstructure_image,Provenance,base: Document,normalized,
-raw_data_file,Provenance,base: Document,normalized,
+mix_id,Provenance,material: MaterialStock / MaterialSpecification — identity/lineage,normalized,
+name,Provenance,material: MaterialStock / MaterialSpecification — identity/lineage,normalized,
+parent_mix_id,Provenance,material: MaterialStock / MaterialSpecification — identity/lineage,normalized,
+version,Provenance,material: MaterialStock / MaterialSpecification — identity/lineage,normalized,
+material_class,Provenance,material: MaterialStock / MaterialSpecification — identity/lineage,normalized,
+batch_label,Provenance,material: MaterialStock / MaterialSpecification — identity/lineage,normalized,
+date_of_casting,Provenance,build: Build / PlannedProcessStep timing,normalized,
+created_at,Provenance,base: Document (record metadata),partial,
+cement_type_1,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_type_1_2,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_type_1l,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_type_2,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_type_3,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_type_4,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_type_5,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cac,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+csa_cement,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_unspecified,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+fly_ash,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+fly_ash_type_f,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+fly_ash_type_c,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+silica_fume,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+nano_silica,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+slag,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+metakaolin,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+limestone,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+pumice,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+bottom_ash,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+rice_husk_ash,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+sodium_hydroxide,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+sodium_silicate,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+potassium_hydroxide,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+potassium_silicate,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+activator_ms_ratio,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+na2o_dosage_pct,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+nano_clay,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+mineral_powder,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+mwcnt,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+graphene_oxide,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+recycled_sand,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+iron_oxide_pigment,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+titanium_dioxide_pigment,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+chromium_oxide_pigment,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+carbon_black_pigment,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+pigment_other,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+mason_sand,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+fine_sand,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+concrete_sand,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+coarse_sand,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+fine_agg_unspecified,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_89,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_8,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_7,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_67,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_6,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_57,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_5,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_467,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_4,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_357,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_3,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_2,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_size_1,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+coarse_agg_unspecified,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+steel_fiber,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+pp_fiber,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+glass_fiber,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+carbon_fiber,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+pva_fiber,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+basalt_fiber,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+nylon_fiber,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+aramid_fiber,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cellulose_fiber,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+fiber_length_mm,Composition,material: MaterialProperty (intrinsic),normalized,
+fiber_diameter_mm,Composition,material: MaterialProperty (intrinsic),normalized,
+fiber_aspect_ratio,Composition,material: MaterialProperty (intrinsic),normalized,
+fiber_tensile_strength_mpa,Composition,material: MaterialProperty (intrinsic),normalized,
+superplasticizer,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+water_reducer,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+accelerator,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+calcium_formate,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+retarder,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+air_entrainer,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+vma,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+shrinkage_reducer,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+corrosion_inhibitor,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+hpmc,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+sepiolite_clay,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+attapulgite,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+calcium_bentonite,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+water,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+w_c_ratio,Composition,material: MaterialProperty (derived),derived,
+w_b_ratio,Composition,material: MaterialProperty (derived),derived,
+a_b_ratio,Composition,material: MaterialProperty (derived),derived,
+water_premix_pct,Composition,process: ManufacturingProcessStep (mixing) parameter,normalized,
+water_temperature_c,Composition,process: ManufacturingProcessStep (mixing) parameter,normalized,
+aggregate_moisture_state,Composition,material: MaterialStock — storage/condition attributes,partial,
+aggregate_absorption_pct,Composition,material: MaterialStock — storage/condition attributes,partial,
+aggregate_moisture_content_pct,Composition,material: MaterialStock — storage/condition attributes,partial,
+original_basis,Composition,base: Quantity (SingleValue + unit),partial,record-basis semantics; no direct AM-CDM concept
+admixture_basis,Composition,base: Quantity (SingleValue + unit),partial,record-basis semantics; no direct AM-CDM concept
+total_batched_mass_kg_m3,Composition,base: Quantity (SingleValue + unit),partial,record-basis semantics; no direct AM-CDM concept
+total_binder_kg_m3,Composition,base: Quantity (SingleValue + unit),partial,record-basis semantics; no direct AM-CDM concept
+test_age_days,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+specimen_prep,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+specimen_geometry,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+specimen_length_mm,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+specimen_width_mm,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+specimen_height_mm,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+test_orientation,Conditions,TIC: PartSpecimen.PartSpecimenOrientation (ISO/ASTM 52921),partial,52921 orientation coding exists; no 3DCP layer-relative testing-direction convention
+test_orientation_code,Conditions,TIC: PartSpecimen.PartSpecimenOrientation (ISO/ASTM 52921),partial,52921 orientation coding exists; no 3DCP layer-relative testing-direction convention
+test_method_code,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+n_specimens,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+curing_regime,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+curing_regime_code,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+curing_temperature_c,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+curing_humidity_pct,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+curing_duration_days,Conditions,TIC: Specimen / MaterialStockSpecimen + ticSpecimen; standards via specStandard,normalized,
+is_3d_printed,Processing,-,no_map,"no ISO/ASTM 52900 process-category attribute at the pinned commit, and the system modalities (LPBF / EB-PBF / DED / BinderJet) omit material extrusion — the MEX category exists in the standard, not the model"
+print_speed_mm_s,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+layer_height_mm,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+layer_time_gap_s,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+nozzle_diameter_mm,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+nozzle_shape,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+nozzle_area_mm2,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+filament_width_mm,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+layer_width_mm,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+extrusion_rate_l_min,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+num_layers,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+path_length_mm,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+infill_pattern,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+contour_count,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+print_direction,Processing,build/process: Build -> ManufacturingProcessStep -> BuildParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+pump_type,Processing,system/process: AMSystem component + GlobalProcessParameters / PartSpecificProcessParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+pump_pressure_bar,Processing,system/process: AMSystem component + GlobalProcessParameters / PartSpecificProcessParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+pump_rotational_speed_rpm,Processing,system/process: AMSystem component + GlobalProcessParameters / PartSpecificProcessParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+pump_distance_m,Processing,system/process: AMSystem component + GlobalProcessParameters / PartSpecificProcessParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+pipe_diameter_mm,Processing,system/process: AMSystem component + GlobalProcessParameters / PartSpecificProcessParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+pumping_duration_s,Processing,system/process: AMSystem component + GlobalProcessParameters / PartSpecificProcessParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+mixing_time_s,Processing,system/process: AMSystem component + GlobalProcessParameters / PartSpecificProcessParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+mixing_speed_rpm,Processing,system/process: AMSystem component + GlobalProcessParameters / PartSpecificProcessParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+mixer_type,Processing,system/process: AMSystem component + GlobalProcessParameters / PartSpecificProcessParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+shear_rate_per_s,Processing,system/process: AMSystem component + GlobalProcessParameters / PartSpecificProcessParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+admixture_addition_point,Processing,system/process: AMSystem component + GlobalProcessParameters / PartSpecificProcessParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+aggregate_prewetted,Processing,system/process: AMSystem component + GlobalProcessParameters / PartSpecificProcessParameters,normalized,held as generic build/process parameters; no controlled extrusion-3DCP vocabulary exists in AM-CDM — the Open3DCP process block is candidate content for a domain profile
+mix_temperature_c,Conditions,"base/build: Environment (mfgSpecEnvironment, BuildEnvironmentalControl)",normalized,
+ambient_temperature_c,Conditions,"base/build: Environment (mfgSpecEnvironment, BuildEnvironmentalControl)",normalized,
+ambient_humidity_pct,Conditions,"base/build: Environment (mfgSpecEnvironment, BuildEnvironmentalControl)",normalized,
+wind_speed_m_s,Conditions,"base/build: Environment (mfgSpecEnvironment, BuildEnvironmentalControl)",normalized,
+slump_mm,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+spread_mm,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+yield_stress_pa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+plastic_viscosity_pa_s,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+static_yield_stress_pa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+dynamic_yield_stress_pa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+thixotropy_pa_per_s,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+structuration_rate_pa_per_s,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+open_time_min,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+green_strength_kpa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+air_content_fresh_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+unit_weight_fresh_kg_m3,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+setting_time_initial_min,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+setting_time_final_min,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+bleeding_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+temperature_fresh_c,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+j_ring_mm,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+v_funnel_s,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+l_box_ratio,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+segregation_resistance_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no fresh-rheology vocabulary
+design_strength_mpa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+compressive_strength_mpa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+tensile_strength_mpa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+splitting_tensile_mpa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+flexural_strength_mpa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+elastic_modulus_gpa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+bond_strength_mpa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+fracture_energy_n_m,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+toughness_index,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+impact_resistance_j,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+fatigue_life_cycles,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+density_hardened_kg_m3,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+poissons_ratio,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+interlayer_bond_mpa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no interlayer-bond vocabulary
+interlayer_shear_mpa,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no interlayer-bond vocabulary
+air_content_deposited_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no interlayer-bond vocabulary
+void_area_fraction_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no interlayer-bond vocabulary
+surface_roughness_avg,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no interlayer-bond vocabulary
+surface_moisture_state,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no interlayer-bond vocabulary
+surface_treatment,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,generic result carrier; no interlayer-bond vocabulary
+chloride_rcpt_coulombs,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+chloride_migration_coeff,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+chloride_diffusion_coeff,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+carbonation_depth_1yr_mm,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+carbonation_rate_coeff,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+drying_shrinkage_28d_ue,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+autogenous_shrinkage_ue,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+creep_coefficient,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+freeze_thaw_cycles,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+freeze_thaw_durability_factor,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+freeze_thaw_mass_loss_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+sulfate_expansion_6mo_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+sulfate_expansion_12mo_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+asr_expansion_14d_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+asr_expansion_1yr_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+abrasion_depth_mm,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+water_penetration_depth_mm,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+electrical_resistivity_kohm_cm,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+porosity_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+water_absorption_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+sorptivity_mm_sqrt_s,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+sorptivity_secondary_mm_sqrt_s,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+oxygen_permeability_m2,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+scaling_resistance_kg_m2,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+corrosion_rate_ua_cm2,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+half_cell_potential_mv,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+heat_of_hydration_kj_kg,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+thermal_conductivity_w_mk,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+specific_heat_j_kg_k,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+coeff_thermal_expansion_ue_c,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+fire_resistance_min,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+embodied_carbon_kg_co2_m3,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+embodied_energy_mj_m3,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+degree_of_hydration,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+calcium_hydroxide_pct,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+pore_size_distribution_nm,Properties,TIC: TestInspectionCharacterization — ticResult / ticResultMaterialProperty,normalized,
+compressive_strength_stddev_mpa,Properties,base: Quantity -> StatisticalValue (statStandardDeviationValue),normalized,
+flexural_strength_stddev_mpa,Properties,base: Quantity -> StatisticalValue (statStandardDeviationValue),normalized,
+tensile_strength_stddev_mpa,Properties,base: Quantity -> StatisticalValue (statStandardDeviationValue),normalized,
+elastic_modulus_stddev_gpa,Properties,base: Quantity -> StatisticalValue (statStandardDeviationValue),normalized,
+interlayer_bond_stddev_mpa,Properties,base: Quantity -> StatisticalValue (statStandardDeviationValue),normalized,
+raw_data_doi,Properties,base: Document,normalized,
+stress_strain_file,Properties,base: Document,normalized,
+rheology_curve_file,Properties,base: Document,normalized,
+microstructure_image,Properties,base: Document,normalized,
+raw_data_file,Properties,base: Document,normalized,
 doi,Provenance,base: Document / Organization / Person,normalized,
 source_citation,Provenance,base: Document / Organization / Person,normalized,
 measurement_confidence,Provenance,-,no_map,no measured/calculated/estimated/reported concept; carry as annotation
@@ -242,8 +242,8 @@ provenance_notes,Provenance,base: Document / Organization / Person,normalized,
 is_training_ready,Provenance,-,no_map,analysis-layer quality flags have no AM-CDM concept
 is_synthetic,Provenance,-,no_map,analysis-layer quality flags have no AM-CDM concept
 outlier_flag,Provenance,-,no_map,analysis-layer quality flags have no AM-CDM concept
-exposure_class_freeze,Conditions,material: Material specification,partial,EN 206/ACI exposure classes have no AM-CDM concept
-exposure_class_sulfate,Conditions,material: Material specification,partial,EN 206/ACI exposure classes have no AM-CDM concept
-exposure_class_chloride,Conditions,material: Material specification,partial,EN 206/ACI exposure classes have no AM-CDM concept
-exposure_class_water,Conditions,material: Material specification,partial,EN 206/ACI exposure classes have no AM-CDM concept
-exposure_class_asr,Conditions,material: Material specification,partial,EN 206/ACI exposure classes have no AM-CDM concept
+exposure_class_freeze,Conditions,material: MaterialSpecification,partial,EN 206/ACI exposure classes have no AM-CDM concept
+exposure_class_sulfate,Conditions,material: MaterialSpecification,partial,EN 206/ACI exposure classes have no AM-CDM concept
+exposure_class_chloride,Conditions,material: MaterialSpecification,partial,EN 206/ACI exposure classes have no AM-CDM concept
+exposure_class_water,Conditions,material: MaterialSpecification,partial,EN 206/ACI exposure classes have no AM-CDM concept
+exposure_class_asr,Conditions,material: MaterialSpecification,partial,EN 206/ACI exposure classes have no AM-CDM concept

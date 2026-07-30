@@ -22,7 +22,7 @@ fly_ash_type_f,Composition,cpto:FlyAsh + QuantityInMix,partial,no ASTM C618 F/C 
 fly_ash_type_c,Composition,cpto:FlyAsh + QuantityInMix,partial,no ASTM C618 F/C split in CPTO
 silica_fume,Composition,cpto:SilicaFume + QuantityInMix,normalized,
 nano_silica,Composition,cpto:Addition (Type II),partial,
-slag,Composition,cpto:GGBS / BlastFurnaceSlag + QuantityInMix,normalized,
+slag,Composition,cpto:GGBS/GGBFS (subclass of BlastFurnaceSlag) + QuantityInMix,normalized,
 metakaolin,Composition,cpto:Addition (Type II),partial,
 limestone,Composition,cpto:LimestonePowder + QuantityInMix,normalized,
 pumice,Composition,cpto:Addition (Type II),partial,
@@ -44,34 +44,34 @@ titanium_dioxide_pigment,Composition,cpto:Pigments + QuantityInMix,normalized,
 chromium_oxide_pigment,Composition,cpto:Pigments + QuantityInMix,normalized,
 carbon_black_pigment,Composition,cpto:Pigments + QuantityInMix,normalized,
 pigment_other,Composition,cpto:Pigments + QuantityInMix,normalized,
-mason_sand,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-fine_sand,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-concrete_sand,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-coarse_sand,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-fine_agg_unspecified,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_89,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_8,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_7,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_67,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_6,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_57,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_5,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_467,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_4,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_357,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_3,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_2,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-agg_size_1,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-coarse_agg_unspecified,Composition,cpto:Aggregate + QuantityInMix,partial,no fineness-modulus or ASTM C33 size-number subdivision (EN d/D designations)
-steel_fiber,Composition,cpto:SteelFibre + QuantityInMix,normalized,
-pp_fiber,Composition,cpto:PolymerFibre + QuantityInMix,partial,
-glass_fiber,Composition,cpto:Fibres (Steel/Polymer),partial,only steel/polymer fibre classes verified in v1.0.1
-carbon_fiber,Composition,cpto:Fibres (Steel/Polymer),partial,only steel/polymer fibre classes verified in v1.0.1
-pva_fiber,Composition,cpto:PolymerFibre + QuantityInMix,partial,
-basalt_fiber,Composition,cpto:Fibres (Steel/Polymer),partial,only steel/polymer fibre classes verified in v1.0.1
-nylon_fiber,Composition,cpto:PolymerFibre + QuantityInMix,partial,
-aramid_fiber,Composition,cpto:Fibres (Steel/Polymer),partial,only steel/polymer fibre classes verified in v1.0.1
-cellulose_fiber,Composition,cpto:Fibres (Steel/Polymer),partial,only steel/polymer fibre classes verified in v1.0.1
+mason_sand,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+fine_sand,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+concrete_sand,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+coarse_sand,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+fine_agg_unspecified,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_89,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_8,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_7,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_67,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_6,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_57,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_5,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_467,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_4,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_357,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_3,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_2,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+agg_size_1,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+coarse_agg_unspecified,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
+steel_fiber,Composition,cpto:SteelFibres + QuantityInMix,normalized,
+pp_fiber,Composition,cpto:PolymerFibres + QuantityInMix,partial,
+glass_fiber,Composition,cpto:Fibres (SteelFibres / PolymerFibres),partial,only steel/polymer fibre classes exist in v1.0.1
+carbon_fiber,Composition,cpto:Fibres (SteelFibres / PolymerFibres),partial,only steel/polymer fibre classes exist in v1.0.1
+pva_fiber,Composition,cpto:PolymerFibres + QuantityInMix,partial,
+basalt_fiber,Composition,cpto:Fibres (SteelFibres / PolymerFibres),partial,only steel/polymer fibre classes exist in v1.0.1
+nylon_fiber,Composition,cpto:PolymerFibres + QuantityInMix,partial,
+aramid_fiber,Composition,cpto:Fibres (SteelFibres / PolymerFibres),partial,only steel/polymer fibre classes exist in v1.0.1
+cellulose_fiber,Composition,cpto:Fibres (SteelFibres / PolymerFibres),partial,only steel/polymer fibre classes exist in v1.0.1
 fiber_length_mm,Composition,-,no_map,no fibre-geometry classes found in CPTO v1.0.1
 fiber_diameter_mm,Composition,-,no_map,no fibre-geometry classes found in CPTO v1.0.1
 fiber_aspect_ratio,Composition,-,no_map,no fibre-geometry classes found in CPTO v1.0.1
@@ -90,7 +90,7 @@ sepiolite_clay,Composition,cpto:Addition / Admixture,partial,
 attapulgite,Composition,cpto:Addition / Admixture,partial,
 calcium_bentonite,Composition,cpto:Addition / Admixture,partial,
 water,Composition,cpto:Water + QuantityInMix,normalized,
-w_c_ratio,Composition,cpto:WaterCementRatio,exact,
+w_c_ratio,Composition,cpto:WaterCementRatio,normalized,"CPTO/EN 206 w/c is on effective water (batch water minus aggregate absorption); Open3DCP records the source-reported ratio, typically batch-water based — identical only for SSD aggregates"
 w_b_ratio,Composition,cpto:EquivalentWaterCementRatio,partial,w/b counts all cementitious mass; CPTO's equivalent w/c applies k-value weighting
 a_b_ratio,Composition,-,no_map,
 water_premix_pct,Composition,-,no_map,mixing-procedure detail not modeled
@@ -117,27 +117,27 @@ curing_regime_code,Conditions,curing/storage knowledge-graph templates,partial,
 curing_temperature_c,Conditions,curing/storage knowledge-graph templates,partial,
 curing_humidity_pct,Conditions,curing/storage knowledge-graph templates,partial,
 curing_duration_days,Conditions,curing/storage knowledge-graph templates,partial,
-is_3d_printed,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-print_speed_mm_s,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-layer_height_mm,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-layer_time_gap_s,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-nozzle_diameter_mm,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-nozzle_shape,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-nozzle_area_mm2,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-filament_width_mm,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-layer_width_mm,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-extrusion_rate_l_min,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-num_layers,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-path_length_mm,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-infill_pattern,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-contour_count,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-print_direction,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-pump_type,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-pump_pressure_bar,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-pump_rotational_speed_rpm,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-pump_distance_m,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-pipe_diameter_mm,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
-pumping_duration_s,Processing,-,no_map,no printing/extrusion concepts in CPTO (verified: zero matches in the v1.0.1 RDF)
+is_3d_printed,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+print_speed_mm_s,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+layer_height_mm,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+layer_time_gap_s,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+nozzle_diameter_mm,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+nozzle_shape,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+nozzle_area_mm2,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+filament_width_mm,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+layer_width_mm,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+extrusion_rate_l_min,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+num_layers,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+path_length_mm,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+infill_pattern,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+contour_count,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+print_direction,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+pump_type,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+pump_pressure_bar,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+pump_rotational_speed_rpm,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+pump_distance_m,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+pipe_diameter_mm,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
+pumping_duration_s,Processing,-,no_map,no printing- or extrusion-process classes or properties in CPTO v1.0.1 (the only extru* strings in the RDF are fibre-material definition text)
 mixing_time_s,Processing,cpto:ConcreteMixer + mixing-process template,partial,
 mixing_speed_rpm,Processing,cpto:ConcreteMixer + mixing-process template,partial,
 mixer_type,Processing,cpto:ConcreteMixer + mixing-process template,partial,
@@ -148,8 +148,8 @@ mix_temperature_c,Conditions,-,no_map,only cpto:Site location context
 ambient_temperature_c,Conditions,-,no_map,only cpto:Site location context
 ambient_humidity_pct,Conditions,-,no_map,only cpto:Site location context
 wind_speed_m_s,Conditions,-,no_map,only cpto:Site location context
-slump_mm,Properties,cpto:Consistency / SlumpClass,normalized,
-spread_mm,Properties,cpto:FlowTableTest / FlowSpread,normalized,
+slump_mm,Properties,cpto:Consistency / SlumpClass,partial,CPTO carries consistency only as EN 206 classes (S1–S5); the mm value has no home
+spread_mm,Properties,cpto:SlumpFlow / FlowTableTest / FlowSpread,normalized,SlumpFlow for the C1611/SCC route; FlowTableTest/FlowSpread for the flow-table route
 yield_stress_pa,Properties,-,no_map,no fresh-rheometry / 3DCP printability concepts in CPTO
 plastic_viscosity_pa_s,Properties,-,no_map,no fresh-rheometry / 3DCP printability concepts in CPTO
 static_yield_stress_pa,Properties,-,no_map,no fresh-rheometry / 3DCP printability concepts in CPTO
@@ -158,17 +158,17 @@ thixotropy_pa_per_s,Properties,-,no_map,no fresh-rheometry / 3DCP printability c
 structuration_rate_pa_per_s,Properties,-,no_map,no fresh-rheometry / 3DCP printability concepts in CPTO
 open_time_min,Properties,-,no_map,no fresh-rheometry / 3DCP printability concepts in CPTO
 green_strength_kpa,Properties,-,no_map,no fresh-rheometry / 3DCP printability concepts in CPTO
-air_content_fresh_pct,Properties,cpto:EntrainedAir,normalized,
-unit_weight_fresh_kg_m3,Properties,-,no_map,no fresh-rheometry / 3DCP printability concepts in CPTO
-setting_time_initial_min,Properties,-,no_map,no fresh-rheometry / 3DCP printability concepts in CPTO
-setting_time_final_min,Properties,-,no_map,no fresh-rheometry / 3DCP printability concepts in CPTO
-bleeding_pct,Properties,-,no_map,no fresh-rheometry / 3DCP printability concepts in CPTO
-temperature_fresh_c,Properties,-,no_map,no fresh-rheometry / 3DCP printability concepts in CPTO
+air_content_fresh_pct,Properties,cpto:EntrainedAir / EntrappedAir,partial,ASTM C231 measures total air; CPTO splits entrained vs entrapped with no total-air-content concept
+unit_weight_fresh_kg_m3,Properties,-,no_map,conventional fresh test; not in CPTO's verified v1.0.1 inventory
+setting_time_initial_min,Properties,-,no_map,conventional fresh test; not in CPTO's verified v1.0.1 inventory
+setting_time_final_min,Properties,-,no_map,conventional fresh test; not in CPTO's verified v1.0.1 inventory
+bleeding_pct,Properties,-,no_map,conventional fresh test; not in CPTO's verified v1.0.1 inventory
+temperature_fresh_c,Properties,-,no_map,conventional fresh test; not in CPTO's verified v1.0.1 inventory
 j_ring_mm,Properties,cpto:PassingAbility,partial,
 v_funnel_s,Properties,cpto:ViscosityOfConcrete,partial,
 l_box_ratio,Properties,cpto:PassingAbility,partial,
 segregation_resistance_pct,Properties,cpto:SegregationResistance,normalized,
-design_strength_mpa,Properties,cpto:CompressiveStrengthClass,partial,
+design_strength_mpa,Properties,cpto:CompressiveStregthClass [sic — IRI spelling in v1.0.1] / CharacteristicStrength,partial,
 compressive_strength_mpa,Properties,cpto:DeterminationOfCompressiveStrength -> ConcreteCompressiveStrength,normalized,cube/cylinder via specimen geometry
 tensile_strength_mpa,Properties,-,no_map,not in the verified v1.0.1 test inventory
 splitting_tensile_mpa,Properties,cpto:TensileSplittingStrength,normalized,
@@ -214,7 +214,7 @@ oxygen_permeability_m2,Properties,-,no_map,not in the verified v1.0.1 test inven
 scaling_resistance_kg_m2,Properties,-,no_map,not in the verified v1.0.1 test inventory
 corrosion_rate_ua_cm2,Properties,-,no_map,not in the verified v1.0.1 test inventory
 half_cell_potential_mv,Properties,-,no_map,not in the verified v1.0.1 test inventory
-heat_of_hydration_kj_kg,Properties,cpto:DeterminationOfHeatOfHydration,normalized,
+heat_of_hydration_kj_kg,Properties,cpto:DeterminationOfHeatOfHydration -> HeatOfHydration,normalized,
 thermal_conductivity_w_mk,Properties,-,no_map,
 specific_heat_j_kg_k,Properties,-,no_map,
 coeff_thermal_expansion_ue_c,Properties,-,no_map,
@@ -229,11 +229,11 @@ flexural_strength_stddev_mpa,Properties,PMDco value-specification pattern,partia
 tensile_strength_stddev_mpa,Properties,PMDco value-specification pattern,partial,CPTO adds none; PMDco 2.0 value specifications can carry uncertainty
 elastic_modulus_stddev_gpa,Properties,PMDco value-specification pattern,partial,CPTO adds none; PMDco 2.0 value specifications can carry uncertainty
 interlayer_bond_stddev_mpa,Properties,PMDco value-specification pattern,partial,CPTO adds none; PMDco 2.0 value specifications can carry uncertainty
-raw_data_doi,Provenance,PROV-O entities (imported),normalized,
-stress_strain_file,Provenance,PROV-O entities (imported),normalized,
-rheology_curve_file,Provenance,PROV-O entities (imported),normalized,
-microstructure_image,Provenance,PROV-O entities (imported),normalized,
-raw_data_file,Provenance,PROV-O entities (imported),normalized,
+raw_data_doi,Properties,PROV-O entities (imported),normalized,
+stress_strain_file,Properties,PROV-O entities (imported),normalized,
+rheology_curve_file,Properties,PROV-O entities (imported),normalized,
+microstructure_image,Properties,PROV-O entities (imported),normalized,
+raw_data_file,Properties,PROV-O entities (imported),normalized,
 doi,Provenance,PROV-O attribution + cpto:ConcreteManufacturer / Site,normalized,
 source_citation,Provenance,PROV-O attribution + cpto:ConcreteManufacturer / Site,normalized,
 measurement_confidence,Provenance,-,no_map,
@@ -243,7 +243,7 @@ is_training_ready,Provenance,-,no_map,
 is_synthetic,Provenance,-,no_map,
 outlier_flag,Provenance,-,no_map,
 exposure_class_freeze,Conditions,cpto:ExposureClass,normalized,
-exposure_class_sulfate,Conditions,cpto:ExposureClass,normalized,
+exposure_class_sulfate,Conditions,cpto:ExposureClass,partial,ACI S0–S3 does not pivot 1:1 to EN 206 XA classes
 exposure_class_chloride,Conditions,cpto:ExposureClass,normalized,
 exposure_class_water,Conditions,cpto:ExposureClass,normalized,
-exposure_class_asr,Conditions,cpto:ExposureClass,normalized,
+exposure_class_asr,Conditions,-,no_map,EN 206 (CPTO's source) defines no ASR exposure class

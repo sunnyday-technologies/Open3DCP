@@ -72,10 +72,10 @@ basalt_fiber,Composition,IngredientSpec/IngredientRun (mass_fraction) -> mixing 
 nylon_fiber,Composition,IngredientSpec/IngredientRun (mass_fraction) -> mixing ProcessSpec -> MaterialSpec/Run,normalized,
 aramid_fiber,Composition,IngredientSpec/IngredientRun (mass_fraction) -> mixing ProcessSpec -> MaterialSpec/Run,normalized,
 cellulose_fiber,Composition,IngredientSpec/IngredientRun (mass_fraction) -> mixing ProcessSpec -> MaterialSpec/Run,normalized,
-fiber_length_mm,Composition,Property on the ingredient MaterialSpec,normalized,
-fiber_diameter_mm,Composition,Property on the ingredient MaterialSpec,normalized,
-fiber_aspect_ratio,Composition,Property on the ingredient MaterialSpec,normalized,
-fiber_tensile_strength_mpa,Composition,Property on the ingredient MaterialSpec,normalized,
+fiber_length_mm,Composition,Property on the ingredient MaterialSpec,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+fiber_diameter_mm,Composition,Property on the ingredient MaterialSpec,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+fiber_aspect_ratio,Composition,Property on the ingredient MaterialSpec,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+fiber_tensile_strength_mpa,Composition,Property on the ingredient MaterialSpec,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
 superplasticizer,Composition,IngredientSpec/IngredientRun (mass_fraction) -> mixing ProcessSpec -> MaterialSpec/Run,normalized,
 water_reducer,Composition,IngredientSpec/IngredientRun (mass_fraction) -> mixing ProcessSpec -> MaterialSpec/Run,normalized,
 accelerator,Composition,IngredientSpec/IngredientRun (mass_fraction) -> mixing ProcessSpec -> MaterialSpec/Run,normalized,
@@ -93,30 +93,30 @@ water,Composition,IngredientSpec/IngredientRun (mass_fraction) -> mixing Process
 w_c_ratio,Composition,derived Property on MaterialSpec,derived,
 w_b_ratio,Composition,derived Property on MaterialSpec,derived,
 a_b_ratio,Composition,derived Property on MaterialSpec,derived,
-water_premix_pct,Composition,derived Property on MaterialSpec,derived,
-water_temperature_c,Composition,derived Property on MaterialSpec,derived,
-aggregate_moisture_state,Composition,Condition on the mixing ProcessRun,normalized,
-aggregate_absorption_pct,Composition,Condition on the mixing ProcessRun,normalized,
-aggregate_moisture_content_pct,Composition,Condition on the mixing ProcessRun,normalized,
+water_premix_pct,Composition,Parameter on the mixing ProcessSpec–ProcessRun,normalized,no controlled 3DCP parameter templates exist; project-defined AttributeTemplates required
+water_temperature_c,Composition,Condition on the mixing ProcessRun,normalized,no controlled 3DCP parameter templates exist; project-defined AttributeTemplates required
+aggregate_moisture_state,Composition,Condition on the mixing ProcessRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+aggregate_absorption_pct,Composition,Property on the aggregate MaterialSpec,normalized,"intrinsic aggregate property, not a process condition"
+aggregate_moisture_content_pct,Composition,Condition on the mixing ProcessRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
 original_basis,Composition,quantity basis on IngredientRun + tags,normalized,"GEMD quantities carry an explicit basis (mass/volume/number fraction, absolute)"
 admixture_basis,Composition,quantity basis on IngredientRun + tags,normalized,"GEMD quantities carry an explicit basis (mass/volume/number fraction, absolute)"
 total_batched_mass_kg_m3,Composition,quantity basis on IngredientRun + tags,normalized,"GEMD quantities carry an explicit basis (mass/volume/number fraction, absolute)"
 total_binder_kg_m3,Composition,quantity basis on IngredientRun + tags,normalized,"GEMD quantities carry an explicit basis (mass/volume/number fraction, absolute)"
-test_age_days,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-specimen_prep,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-specimen_geometry,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-specimen_length_mm,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-specimen_width_mm,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-specimen_height_mm,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-test_orientation,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-test_orientation_code,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-test_method_code,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-n_specimens,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-curing_regime,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-curing_regime_code,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-curing_temperature_c,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-curing_humidity_pct,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
-curing_duration_days,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,
+test_age_days,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+specimen_prep,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+specimen_geometry,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+specimen_length_mm,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+specimen_width_mm,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+specimen_height_mm,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+test_orientation,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+test_orientation_code,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+test_method_code,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+n_specimens,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+curing_regime,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+curing_regime_code,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+curing_temperature_c,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+curing_humidity_pct,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+curing_duration_days,Conditions,Condition/Parameter on MeasurementSpec–MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
 is_3d_printed,Processing,Parameter on the printing ProcessSpec–ProcessRun,normalized,no controlled 3DCP parameter templates exist; project-defined AttributeTemplates required
 print_speed_mm_s,Processing,Parameter on the printing ProcessSpec–ProcessRun,normalized,no controlled 3DCP parameter templates exist; project-defined AttributeTemplates required
 layer_height_mm,Processing,Parameter on the printing ProcessSpec–ProcessRun,normalized,no controlled 3DCP parameter templates exist; project-defined AttributeTemplates required
@@ -144,96 +144,96 @@ mixer_type,Processing,Parameter on the mixing ProcessSpec–ProcessRun,normalize
 shear_rate_per_s,Processing,Parameter on the mixing ProcessSpec–ProcessRun,normalized,no controlled 3DCP parameter templates exist; project-defined AttributeTemplates required
 admixture_addition_point,Processing,Parameter on the mixing ProcessSpec–ProcessRun,normalized,no controlled 3DCP parameter templates exist; project-defined AttributeTemplates required
 aggregate_prewetted,Processing,Parameter on the mixing ProcessSpec–ProcessRun,normalized,no controlled 3DCP parameter templates exist; project-defined AttributeTemplates required
-mix_temperature_c,Conditions,Condition on ProcessRun / MeasurementRun,normalized,
-ambient_temperature_c,Conditions,Condition on ProcessRun / MeasurementRun,normalized,
-ambient_humidity_pct,Conditions,Condition on ProcessRun / MeasurementRun,normalized,
-wind_speed_m_s,Conditions,Condition on ProcessRun / MeasurementRun,normalized,
-slump_mm,Properties,Property on MeasurementRun,normalized,
-spread_mm,Properties,Property on MeasurementRun,normalized,
-yield_stress_pa,Properties,Property on MeasurementRun,normalized,
-plastic_viscosity_pa_s,Properties,Property on MeasurementRun,normalized,
-static_yield_stress_pa,Properties,Property on MeasurementRun,normalized,
-dynamic_yield_stress_pa,Properties,Property on MeasurementRun,normalized,
-thixotropy_pa_per_s,Properties,Property on MeasurementRun,normalized,
-structuration_rate_pa_per_s,Properties,Property on MeasurementRun,normalized,
-open_time_min,Properties,Property on MeasurementRun,normalized,
-green_strength_kpa,Properties,Property on MeasurementRun,normalized,
-air_content_fresh_pct,Properties,Property on MeasurementRun,normalized,
-unit_weight_fresh_kg_m3,Properties,Property on MeasurementRun,normalized,
-setting_time_initial_min,Properties,Property on MeasurementRun,normalized,
-setting_time_final_min,Properties,Property on MeasurementRun,normalized,
-bleeding_pct,Properties,Property on MeasurementRun,normalized,
-temperature_fresh_c,Properties,Property on MeasurementRun,normalized,
-j_ring_mm,Properties,Property on MeasurementRun,normalized,
-v_funnel_s,Properties,Property on MeasurementRun,normalized,
-l_box_ratio,Properties,Property on MeasurementRun,normalized,
-segregation_resistance_pct,Properties,Property on MeasurementRun,normalized,
-design_strength_mpa,Properties,Property on MeasurementRun,normalized,
-compressive_strength_mpa,Properties,Property on MeasurementRun,normalized,
-tensile_strength_mpa,Properties,Property on MeasurementRun,normalized,
-splitting_tensile_mpa,Properties,Property on MeasurementRun,normalized,
-flexural_strength_mpa,Properties,Property on MeasurementRun,normalized,
-elastic_modulus_gpa,Properties,Property on MeasurementRun,normalized,
-bond_strength_mpa,Properties,Property on MeasurementRun,normalized,
-fracture_energy_n_m,Properties,Property on MeasurementRun,normalized,
-toughness_index,Properties,Property on MeasurementRun,normalized,
-impact_resistance_j,Properties,Property on MeasurementRun,normalized,
-fatigue_life_cycles,Properties,Property on MeasurementRun,normalized,
-density_hardened_kg_m3,Properties,Property on MeasurementRun,normalized,
-poissons_ratio,Properties,Property on MeasurementRun,normalized,
-interlayer_bond_mpa,Properties,Property on MeasurementRun,normalized,
-interlayer_shear_mpa,Properties,Property on MeasurementRun,normalized,
-air_content_deposited_pct,Properties,Property on MeasurementRun,normalized,
-void_area_fraction_pct,Properties,Property on MeasurementRun,normalized,
-surface_roughness_avg,Properties,Property on MeasurementRun,normalized,
-surface_moisture_state,Properties,Property on MeasurementRun,normalized,
-surface_treatment,Properties,Property on MeasurementRun,normalized,
-chloride_rcpt_coulombs,Properties,Property on MeasurementRun,normalized,
-chloride_migration_coeff,Properties,Property on MeasurementRun,normalized,
-chloride_diffusion_coeff,Properties,Property on MeasurementRun,normalized,
-carbonation_depth_1yr_mm,Properties,Property on MeasurementRun,normalized,
-carbonation_rate_coeff,Properties,Property on MeasurementRun,normalized,
-drying_shrinkage_28d_ue,Properties,Property on MeasurementRun,normalized,
-autogenous_shrinkage_ue,Properties,Property on MeasurementRun,normalized,
-creep_coefficient,Properties,Property on MeasurementRun,normalized,
-freeze_thaw_cycles,Properties,Property on MeasurementRun,normalized,
-freeze_thaw_durability_factor,Properties,Property on MeasurementRun,normalized,
-freeze_thaw_mass_loss_pct,Properties,Property on MeasurementRun,normalized,
-sulfate_expansion_6mo_pct,Properties,Property on MeasurementRun,normalized,
-sulfate_expansion_12mo_pct,Properties,Property on MeasurementRun,normalized,
-asr_expansion_14d_pct,Properties,Property on MeasurementRun,normalized,
-asr_expansion_1yr_pct,Properties,Property on MeasurementRun,normalized,
-abrasion_depth_mm,Properties,Property on MeasurementRun,normalized,
-water_penetration_depth_mm,Properties,Property on MeasurementRun,normalized,
-electrical_resistivity_kohm_cm,Properties,Property on MeasurementRun,normalized,
-porosity_pct,Properties,Property on MeasurementRun,normalized,
-water_absorption_pct,Properties,Property on MeasurementRun,normalized,
-sorptivity_mm_sqrt_s,Properties,Property on MeasurementRun,normalized,
-sorptivity_secondary_mm_sqrt_s,Properties,Property on MeasurementRun,normalized,
-oxygen_permeability_m2,Properties,Property on MeasurementRun,normalized,
-scaling_resistance_kg_m2,Properties,Property on MeasurementRun,normalized,
-corrosion_rate_ua_cm2,Properties,Property on MeasurementRun,normalized,
-half_cell_potential_mv,Properties,Property on MeasurementRun,normalized,
-heat_of_hydration_kj_kg,Properties,Property on MeasurementRun,normalized,
-thermal_conductivity_w_mk,Properties,Property on MeasurementRun,normalized,
-specific_heat_j_kg_k,Properties,Property on MeasurementRun,normalized,
-coeff_thermal_expansion_ue_c,Properties,Property on MeasurementRun,normalized,
-fire_resistance_min,Properties,Property on MeasurementRun,normalized,
-embodied_carbon_kg_co2_m3,Properties,Property on MeasurementRun,normalized,
-embodied_energy_mj_m3,Properties,Property on MeasurementRun,normalized,
-degree_of_hydration,Properties,Property on MeasurementRun,normalized,
-calcium_hydroxide_pct,Properties,Property on MeasurementRun,normalized,
-pore_size_distribution_nm,Properties,Property on MeasurementRun,normalized,
+mix_temperature_c,Conditions,Condition on ProcessRun / MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+ambient_temperature_c,Conditions,Condition on ProcessRun / MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+ambient_humidity_pct,Conditions,Condition on ProcessRun / MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+wind_speed_m_s,Conditions,Condition on ProcessRun / MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+slump_mm,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+spread_mm,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+yield_stress_pa,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+plastic_viscosity_pa_s,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+static_yield_stress_pa,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+dynamic_yield_stress_pa,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+thixotropy_pa_per_s,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+structuration_rate_pa_per_s,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+open_time_min,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+green_strength_kpa,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+air_content_fresh_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+unit_weight_fresh_kg_m3,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+setting_time_initial_min,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+setting_time_final_min,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+bleeding_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+temperature_fresh_c,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+j_ring_mm,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+v_funnel_s,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+l_box_ratio,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+segregation_resistance_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+design_strength_mpa,Properties,Property (with bounds) on MaterialSpec / tag,partial,"a specification target, not a measured property — Spec side, not Run"
+compressive_strength_mpa,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+tensile_strength_mpa,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+splitting_tensile_mpa,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+flexural_strength_mpa,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+elastic_modulus_gpa,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+bond_strength_mpa,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+fracture_energy_n_m,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+toughness_index,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+impact_resistance_j,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+fatigue_life_cycles,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+density_hardened_kg_m3,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+poissons_ratio,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+interlayer_bond_mpa,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+interlayer_shear_mpa,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+air_content_deposited_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+void_area_fraction_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+surface_roughness_avg,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+surface_moisture_state,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+surface_treatment,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+chloride_rcpt_coulombs,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+chloride_migration_coeff,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+chloride_diffusion_coeff,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+carbonation_depth_1yr_mm,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+carbonation_rate_coeff,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+drying_shrinkage_28d_ue,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+autogenous_shrinkage_ue,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+creep_coefficient,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+freeze_thaw_cycles,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+freeze_thaw_durability_factor,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+freeze_thaw_mass_loss_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+sulfate_expansion_6mo_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+sulfate_expansion_12mo_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+asr_expansion_14d_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+asr_expansion_1yr_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+abrasion_depth_mm,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+water_penetration_depth_mm,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+electrical_resistivity_kohm_cm,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+porosity_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+water_absorption_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+sorptivity_mm_sqrt_s,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+sorptivity_secondary_mm_sqrt_s,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+oxygen_permeability_m2,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+scaling_resistance_kg_m2,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+corrosion_rate_ua_cm2,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+half_cell_potential_mv,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+heat_of_hydration_kj_kg,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+thermal_conductivity_w_mk,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+specific_heat_j_kg_k,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+coeff_thermal_expansion_ue_c,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+fire_resistance_min,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+embodied_carbon_kg_co2_m3,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+embodied_energy_mj_m3,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+degree_of_hydration,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+calcium_hydroxide_pct,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
+pore_size_distribution_nm,Properties,Property on MeasurementRun,normalized,via project-defined PropertyTemplates; GEMD format v0.1 ships no domain property vocabulary
 compressive_strength_stddev_mpa,Properties,uncertainty on the value object (e.g. NormalReal),normalized,GEMD values carry native uncertainty
 flexural_strength_stddev_mpa,Properties,uncertainty on the value object (e.g. NormalReal),normalized,GEMD values carry native uncertainty
 tensile_strength_stddev_mpa,Properties,uncertainty on the value object (e.g. NormalReal),normalized,GEMD values carry native uncertainty
 elastic_modulus_stddev_gpa,Properties,uncertainty on the value object (e.g. NormalReal),normalized,GEMD values carry native uncertainty
 interlayer_bond_stddev_mpa,Properties,uncertainty on the value object (e.g. NormalReal),normalized,GEMD values carry native uncertainty
-raw_data_doi,Provenance,FileLink,normalized,
-stress_strain_file,Provenance,FileLink,normalized,
-rheology_curve_file,Provenance,FileLink,normalized,
-microstructure_image,Provenance,FileLink,normalized,
-raw_data_file,Provenance,FileLink,normalized,
+raw_data_doi,Properties,FileLink,normalized,
+stress_strain_file,Properties,FileLink,normalized,
+rheology_curve_file,Properties,FileLink,normalized,
+microstructure_image,Properties,FileLink,normalized,
+raw_data_file,Properties,FileLink,normalized,
 doi,Provenance,source / performed_by / tags on Runs,partial,GEMD's Spec-vs-Run split (planned vs actual) has no flat-row equivalent
 source_citation,Provenance,source / performed_by / tags on Runs,partial,GEMD's Spec-vs-Run split (planned vs actual) has no flat-row equivalent
 measurement_confidence,Provenance,source / performed_by / tags on Runs,partial,GEMD's Spec-vs-Run split (planned vs actual) has no flat-row equivalent
