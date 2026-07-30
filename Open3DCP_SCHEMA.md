@@ -516,6 +516,21 @@ The mass-% representation is retained because:
 
 ---
 
+## Related Data Models & Ontologies
+
+Open3DCP is a flat, analysis-ready **reporting record**. Several broader frameworks model overlapping territory as relationship-first exchange or reasoning layers; Open3DCP is designed to **map into them** — in effect a 3DCP domain profile — not to compete with them:
+
+| Framework | What it is | Relationship to Open3DCP |
+|---|---|---|
+| **AM-CDM** — Additive Manufacturing Common Data Model ([repo](https://github.com/AM-CDM/AM-CDM); [Kuan et al. 2024](https://doi.org/10.1007/s40192-024-00341-x)) | Open-source exchange model for AM (base / material / system / process / build / test modules); its dictionary's process-agnostic core is standardized as ASTM F3490-21. Explicitly designed for organizations to *map to*, not adopt as storage | Open3DCP records map onto its Material / Build / ProcessStep / TIC classes; the material module is currently metals-shaped and no construction profile exists |
+| **GEMD** — Graphical Expression of Materials Data ([docs](https://citrineinformatics.github.io/gemd-docs/)) | Graph model with Material / Process / Ingredient / Measurement objects and a Spec-vs-Run split | A flat Open3DCP row lifts into spec/run objects; the row deliberately omits the full provenance tree (see white paper §5.1) |
+| **CPTO** — Concrete Production and Testing Ontology ([w3id.org/cpto](https://w3id.org/cpto); [Meng et al. 2023](https://doi.org/10.1002/cepa.2955)), on the PMDco 2.0 core ontology | EN 206 cast-concrete production chain: constituents, mix quantities, fresh/hardened testing, conformity | Composition maps near-1:1; CPTO contains no printing, extrusion, printability-rheology, or interlayer concepts |
+| **BCOM** — Building Concrete Monitoring Ontology ([w3id.org/bcom](https://w3id.org/bcom)) | Cast-in-place QA chain (delivery, placement, curing, specimens, conformity) for BIM-linked asset management | Overlaps the testing/curing slice only |
+
+Machine-readable, field-level mappings for the first three live in [`crosswalk/`](crosswalk/) (`open3dcp_to_amcdm.csv`, `open3dcp_to_gemd.csv`, `open3dcp_to_cpto.csv`), generated from `sql/create_tables.sql` by [`scripts/build_precedent_crosswalks.py`](scripts/build_precedent_crosswalks.py) with pinned target versions. Across all of these frameworks, the extrusion-3DCP vocabulary — printing-process parameters, printing-state rheology, interlayer properties — currently has **no existing home**; those blocks are Open3DCP's additive contribution, offered as a candidate domain profile rather than a competing standard.
+
+---
+
 ## Disclaimers
 
 ### Standards References

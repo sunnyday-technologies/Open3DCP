@@ -10,6 +10,9 @@ each file's `meta` when either schema changes.
 |---|---|---|
 | [`open3dcp_to_relational.yaml`](open3dcp_to_relational.yaml) | Open3DCP ⇄ a relational concrete database (kg/m³) | Primary. Handles relational→flat collapse, kg/m³↔mass-% conversion, vocab pivots, and triage of fields with no flat home. |
 | [`open3dcp_to_uci.csv`](open3dcp_to_uci.csv) | Open3DCP ⇄ UCI "Concrete Compressive Strength" (Yeh 1998) | The canonical flat ML baseline (9 columns, kg/m³). |
+| [`open3dcp_to_amcdm.csv`](open3dcp_to_amcdm.csv) | Open3DCP → AM-CDM (Additive Manufacturing Common Data Model) | Model-level. Target pinned: [`AM-CDM/AM-CDM`](https://github.com/AM-CDM/AM-CDM)@`141030b` (2026-07-28; the model has no release tags); Kuan et al. 2024, [doi:10.1007/s40192-024-00341-x](https://doi.org/10.1007/s40192-024-00341-x). |
+| [`open3dcp_to_gemd.csv`](open3dcp_to_gemd.csv) | Open3DCP → GEMD (Graphical Expression of Materials Data) | Model-level. Target: GEMD format v0.1, [docs](https://citrineinformatics.github.io/gemd-docs/). |
+| [`open3dcp_to_cpto.csv`](open3dcp_to_cpto.csv) | Open3DCP → CPTO (Concrete Production and Testing Ontology) | Model-level. Target: CPTO v1.0.1 ([w3id.org/cpto](https://w3id.org/cpto), built on PMDco 2.0 + PROV-O); Meng et al. 2023, [doi:10.1002/cepa.2955](https://doi.org/10.1002/cepa.2955). |
 
 ## Fidelity classes
 
@@ -25,3 +28,24 @@ Every mapping declares a fidelity class so the scorer can quantify what is prese
 
 The **drop-nothing** rule (see [`AGENTS.md`](../AGENTS.md)): any source field that does not
 map is written to `<dataset>.unmapped.jsonl`, not discarded.
+
+## Structural mapping classes (model/ontology crosswalks)
+
+The three **model-level** files (`open3dcp_to_amcdm.csv`, `open3dcp_to_gemd.csv`,
+`open3dcp_to_cpto.csv`) describe how a flat Open3DCP record *lifts into* an external
+data model or ontology — a structural mapping, not a value conversion — so they use a
+distinct class set:
+
+- `exact` — the same quantity exists in the target; unit conversion at most.
+- `normalized` — same information, restructured (column → class instance/attribute).
+- `derived` — computable from other mapped fields.
+- `partial` — the target holds only a subset or a coarser form of the information.
+- `sidecar` — needs a linked non-flat record (planned context/measurement sidecars).
+- `no_map` — no target entity exists. For the 3DCP process, printing-state rheology,
+  and interlayer blocks this is the substantive finding: the extrusion vocabulary is
+  Open3DCP's additive contribution, offered as a candidate domain profile.
+
+These files are **generated** from `sql/create_tables.sql` (the schema's source of
+truth) by [`scripts/build_precedent_crosswalks.py`](../scripts/build_precedent_crosswalks.py);
+regenerate them whenever the schema changes, and bump the pinned target versions in the
+table above when a target releases.
