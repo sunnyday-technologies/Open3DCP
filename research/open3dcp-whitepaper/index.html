@@ -203,13 +203,13 @@
       <p class="subtitle">Design, rationale, and the measurement gaps of an analysis-ready record for extrusion 3D concrete printing</p>
       <p class="byline"><strong>Nicholas Sonnentag</strong></p>
       <p class="affil">Sunnyday Technologies, Wisconsin, USA &middot; ORCID <a href="https://orcid.org/0009-0002-1897-384X">0009-0002-1897-384X</a></p>
-      <p class="pubmeta">10 June 2026 &middot; Manuscript v1.0 (preprint) — describes Open3DCP schema v1.7.5</p>
+      <p class="pubmeta">30 July 2026 &middot; Manuscript v1.1 (preprint) — describes Open3DCP schema v1.7.5</p>
       <div class="downloads">
         <span class="lbl">Download</span>
-      <a class="dl" href="Open3DCP_Whitepaper_v1.0.pdf">PDF</a>
-      <a class="dl" href="Open3DCP_Whitepaper_v1.0.docx">DOCX</a>
-      <a class="dl" href="Open3DCP_Whitepaper_v1.0.tex">LaTeX</a>
-      <a class="dl" href="Open3DCP_Whitepaper_v1.0.xml">JATS XML</a>
+      <a class="dl" href="Open3DCP_Whitepaper_v1.1.pdf">PDF</a>
+      <a class="dl" href="Open3DCP_Whitepaper_v1.1.docx">DOCX</a>
+      <a class="dl" href="Open3DCP_Whitepaper_v1.1.tex">LaTeX</a>
+      <a class="dl" href="Open3DCP_Whitepaper_v1.1.xml">JATS XML</a>
       </div>
       <div class="doi-badge"><b>DOI</b>
         <a href="https://doi.org/10.5281/zenodo.19647470">10.5281/zenodo.19647470</a>
@@ -471,6 +471,48 @@ flow), and the EN 197/206/12390 series — supply the measurement
 framework 3DCP inherits, but were written for cast concrete; the test
 methods remain valid while the <em>conditions</em> of production and the
 <em>metadata</em> needed to interpret results differ.</p>
+<p><strong>Semantic data models and ontologies.</strong> Between
+test-method standards and datasets sits a further body of precedent:
+general-purpose data models and ontologies for manufacturing and
+materials data. In additive manufacturing broadly, a joint
+industry–government working group produced the AM Common Data
+Dictionary, whose process-agnostic core is standardized as ASTM F3490-21
+[53], and the open-source AM Common Data Model (AM-CDM) [52]. AM-CDM’s
+six modules (base, material, system, process, build, and
+test–inspection–characterization) define a relationship-first exchange
+structure that organizations are expected to <em>map to</em> rather than
+adopt as storage; its material module is currently metals-shaped, and no
+cementitious or construction profile exists. In materials science, the
+Platform MaterialDigital core ontology (PMDco) provides a mid-level
+process–structure–property scaffold [54]; Citrine’s GEMD format
+expresses materials histories as linked spec/run objects [59]; and
+PMDco’s concrete-domain extension — the LeBeDigital Concrete Production
+and Testing Ontology (CPTO) — models the EN 206 cast-concrete production
+chain, from constituents and mix quantities through fresh and hardened
+testing and conformity, yet contains no printing, extrusion,
+structural-build-up, or interlayer concepts [55]. In construction
+informatics, the Building Concrete Monitoring Ontology (BCOM) covers the
+cast-in-place QA chain (delivery, placement, curing, specimens, strength
+conformity) for BIM-linked asset management [56]. Additive construction
+itself is an active ontology-research direction: the TRR 277 ontology
+suite of Li and Petzold spans concrete composition, printing systems,
+and building design under BFO/IOF (Basic Formal Ontology / Industrial
+Ontologies Foundry) top-level alignment [57], and the Printing
+Information Modeling ontology of Peralta Abadia et al. links mix design,
+material–process interaction, and toolpath data to BIM [58]; neither has
+yet released a public ontology artifact.</p>
+<p>Open3DCP does not compete with these frameworks. They are
+relationship-first exchange and reasoning layers; Open3DCP is the flat,
+analysis-ready record a 3DCP experiment is <em>reported in</em> — in
+effect a candidate for the 3DCP domain profile those general models
+currently lack. Its composition, condition, and property blocks map onto
+AM-CDM’s material and test modules, GEMD’s spec/run objects, and CPTO’s
+constituent and test classes, while its printing-process, printing-state
+rheology, and interlayer blocks are precisely the vocabulary none of
+these precedents yet holds. An initial machine-readable crosswalk with
+field-level mapping classes is included in the schema repository
+(<code>crosswalk/</code>); calibrating and extending it is planned work
+(§11).</p>
 <p><strong>Existing datasets and their limitations.</strong> The most
 cited ML concrete dataset, Yeh’s UCI set [4], captures only composition
 and age in kg/m³ (requiring a density assumption for formulation-level
@@ -514,7 +556,7 @@ column in a single table — no JSON nesting, no graph structure, no join
 required for basic analysis. This prioritizes adoption by the
 researchers, curators, and ML practitioners who overwhelmingly work with
 tabular data (pandas, CSV, SQL) over the representational elegance of
-graph models such as GEMD, which capture provenance chains and
+graph models such as GEMD [59], which capture provenance chains and
 measurement hierarchies but add friction for the common “load a table
 and train a model” use case. A graph view can be constructed from the
 flat schema for the structure it captures; conversely, the flat row
@@ -670,19 +712,17 @@ agenda.</figcaption>
 </figure>
 <figure>
 <img src="figures/fig4_schema_growth.png" style="width:5.8in"
-alt="Schema growth has stabilized (top): the tagged releases since v1.5 added +8 columns (an SCM per-grade split, later consolidated away in 1.6.5), a net +12 to reach 244 (−8 from that consolidation, +20 interoperability, uncertainty, and convenience fields), and +4 to reach 248 (the v1.7.5 unspecified-constituent and basis columns — preserve, don’t presume). Composition of the 248 (bottom): only four columns are derived from others, so the count is a sparse measured vocabulary — the union of every reportable field, most NULL in any record — not 248 independent measurements. Only the git-tagged releases (v1.5–v1.7.5) carry exact counts; v1.0 is the changelog’s stated first-release figure (~175). The 248 are data columns, excluding the SERIAL primary key." />
-<figcaption aria-hidden="true"><strong>Figure 4.</strong> Schema growth has stabilized (top): the
-tagged releases since v1.5 added +8 columns (an SCM per-grade split,
-later consolidated away in 1.6.5), a net +12 to reach 244 (−8 from that
-consolidation, +20 interoperability, uncertainty, and convenience
-fields), and +4 to reach 248 (the v1.7.5 unspecified-constituent and
-basis columns — preserve, don’t presume). Composition of the 248
-(bottom): only four columns are derived from others, so the count is a
-sparse measured vocabulary — the union of every reportable field, most
-NULL in any record — not 248 independent measurements. Only the
-git-tagged releases (v1.5–v1.7.5) carry exact counts; v1.0 is the
-changelog’s stated first-release figure (~175). The 248 are data
-columns, excluding the SERIAL primary key.</figcaption>
+alt="Schema growth has stabilized (top): v1.5 → v1.7.5 is a net +12 to 244 and then +4 to 248, and the only non-additive change across the tagged releases was the v1.6.5 SCM per-grade consolidation; the figure carries the per-release detail. Composition of the 248 (bottom): only four columns are derived from others, so the count is a sparse measured vocabulary — the union of every reportable field, most NULL in any record — not 248 independent measurements. Only the git-tagged releases (v1.5–v1.7.5) carry exact counts; v1.0 is the changelog’s stated first-release figure (~175). The 248 are data columns, excluding the SERIAL primary key." />
+<figcaption aria-hidden="true"><strong>Figure 4.</strong> Schema growth has stabilized (top): v1.5
+→ v1.7.5 is a net +12 to 244 and then +4 to 248, and the only
+non-additive change across the tagged releases was the v1.6.5 SCM
+per-grade consolidation; the figure carries the per-release detail.
+Composition of the 248 (bottom): only four columns are derived from
+others, so the count is a sparse measured vocabulary — the union of
+every reportable field, most NULL in any record — not 248 independent
+measurements. Only the git-tagged releases (v1.5–v1.7.5) carry exact
+counts; v1.0 is the changelog’s stated first-release figure (~175). The
+248 are data columns, excluding the SERIAL primary key.</figcaption>
 </figure>
 <p><strong>Composition.</strong> Portland and blended cements,
 calcium-aluminate and calcium-sulfoaluminate cements, fly ash (generic,
@@ -787,7 +827,7 @@ loading</strong>, and mix-dependent. In <strong>flexure</strong> the
 ordering can invert: loading along the print path (<code>X</code>) bends
 the interlayer planes in tension, so <code>X</code> is typically the
 <em>weakest</em> flexural orientation — exactly what the worked
-demonstration measures (§6).</p>
+demonstration measures later in this section.</p>
 <p>Table: Test-orientation controlled vocabulary. Strength ordering is
 typical; specific values depend on mix design and process parameters [5,
 6].</p>
@@ -853,18 +893,14 @@ concrete (Mix_84) at ~521 kg CO<sub>2</sub>/m³ for ~65 MPa beside a
 low-clinker ternary (Mix_88) at ~204 kg CO<sub>2</sub>/m³ for ~110 MPa —
 a low-clinker binder reaching high strength at a fraction of the
 embodied carbon. (The strength gap also reflects a lower water/binder
-ratio — 0.25 vs 0.40: a second mix in the same set at the <em>same</em>
-~204 kg CO<sub>2</sub>/m³ reaches ~61 MPa, so this is one illustrative
-pair, not a carbon-drives-strength trend. And where a source’s dosages
-are design proportions that do not close a 1 m³ batch — flagged per row
-by the ingest tool’s absolute-volume yield check in
-<code>provenance_notes</code> — per-m³ quantities inherit that
-discrepancy. Separately, the source repository ships a trained
-Gaussian-process model and an optimization-explored design space of
-<em>model-generated</em> candidate mixes; recording such candidates
-alongside <em>measured</em> data — kept distinct by
-<code>measurement_confidence</code> — is a natural next ingestion, not
-attempted here.)</li>
+ratio — 0.25 vs 0.40; a second mix at the <em>same</em> ~204 kg
+CO<sub>2</sub>/m³ reaches ~61 MPa — one illustrative pair, not a
+carbon-drives-strength trend. Where dosages are design proportions that
+do not close a 1 m³ batch, the ingest tool flags the row in
+<code>provenance_notes</code> and per-m³ quantities inherit the
+discrepancy; the repository’s <em>model-generated</em> candidate mixes,
+kept distinct from measured data by <code>measurement_confidence</code>,
+are a natural next ingestion, not attempted here.)</li>
 </ul>
 <p>These scores are an honest <em>ingestion-fidelity</em> check on a
 curated excerpt, not a dataset-quality grade. The metric scores only the
@@ -881,15 +917,13 @@ The metric earned its keep against this very schema: an earlier draft
 aggregate gradation buckets — and the metric priced those guesses at
 <strong>79.9/C</strong> for UCI. Rather than accept fabricated
 certainty, <strong>v1.7.5 added the <code>*_unspecified</code> columns
-and the <code>admixture_basis</code> flag</strong> so the schema records
-exactly what a source states and nothing more; the same data then
-ingests with zero assumptions, and the unknowns are visible NULLs
-instead of silent defaults. A perfect score therefore means precisely
-“nothing was assumed” — and the report still lists every
-generically-recorded cell — while messy sources (volume doses, missing
-batch masses, unstated units) are penalized exactly as before. The
-convention is documented in §10, deliberately conservative, and not yet
-calibrated against a labelled benchmark.</p>
+and the <code>admixture_basis</code> flag</strong> described in the UCI
+entry above, and the same data then ingests with zero assumptions. A
+perfect score therefore means precisely “nothing was assumed” — and the
+report still lists every generically-recorded cell — while messy sources
+(volume doses, missing batch masses, unstated units) are penalized
+exactly as before. The convention is documented in §10, deliberately
+conservative, and not yet calibrated against a labelled benchmark.</p>
 <p>Three more are curated through their native structure (a fidelity
 score for each awaits a dedicated reader, exactly as the tool is
 extended source by source):</p>
@@ -1176,6 +1210,13 @@ bands are community-ratified rather than single-author conventions.</li>
 <li>Extend additively as instrumentation matures (inline rheometry,
 thermal imaging, machine vision), keeping the flat-schema
 backward-compatibility guarantee.</li>
+<li>Calibrate and extend the <strong>machine-readable crosswalk
+package</strong> now in the repository alongside the relational-database
+crosswalk — mappings to AM-CDM [52], GEMD [59], and PMDco/CPTO [54, 55]
+with field-level mapping classes (exact / normalized / derived / partial
+/ sidecar / no_map) and pinned target versions: complete the per-mapping
+notes, assign the reserved sidecar class as the linked-record sidecars
+land, and re-pin targets as they release.</li>
 </ol>
 </section>
 <section id="data-and-code-availability" class="level2">
@@ -1195,9 +1236,13 @@ canonical column list is <code>Open3DCP_SCHEMA.md</code> /
 Figures 2 and 4 are parsed from <code>sql/create_tables.sql</code>, the
 schema’s single source of truth; the figures are regenerated by the
 committed figure scripts (matplotlib, PNG ≥ 200 dpi + SVG).</li>
-<li><strong>Supporting material:</strong> a machine-readable crosswalk
-to a normalized relational concrete database and a specification of the
-3DCP process-parameter columns are included in the repository.</li>
+<li><strong>Supporting material:</strong> machine-readable crosswalks —
+to a normalized relational concrete database
+(<code>crosswalk/open3dcp_to_relational.yaml</code>) and to the AM-CDM,
+GEMD, and CPTO data models
+(<code>crosswalk/open3dcp_to_amcdm.csv</code>, <code>_gemd.csv</code>,
+<code>_cpto.csv</code>) — and a specification of the 3DCP
+process-parameter columns are included in the repository.</li>
 </ul>
 </section>
 <section id="manuscript-license-and-author-statements" class="level2">
@@ -1488,6 +1533,54 @@ Buildings</em> [Dataset]. Zenodo. <a
 href="https://doi.org/10.5281/zenodo.14214812"
 class="uri">https://doi.org/10.5281/zenodo.14214812</a> (CC BY 4.0).
 Data collection: M. Dahlberg.</li>
+<li>A. Kuan, K. S. Aggour, S. Li, Y. Lu, L. Mohr, A. Kitt, H. Macdonald
+(2024). A common data dictionary and common data model for additive
+manufacturing. <em>Integrating Materials and Manufacturing
+Innovation</em> 13 105–119. <a
+href="https://doi.org/10.1007/s40192-024-00341-x"
+class="uri">https://doi.org/10.1007/s40192-024-00341-x</a>. Model
+repository: <a href="https://github.com/AM-CDM/AM-CDM"
+class="uri">https://github.com/AM-CDM/AM-CDM</a> (Apache-2.0).</li>
+<li>ASTM International (2021). <em>ASTM F3490-21 — Standard Practice for
+Additive Manufacturing — General Principles — Overview of Data
+Pedigree.</em> ASTM International, West Conshohocken, PA.</li>
+<li>B. Bayerlein, M. Schilling, H. Birkholz, M. Jung, J. Waitelonis, L.
+Mädler, H. Sack (2024). PMD Core Ontology: achieving semantic
+interoperability in materials science. <em>Materials &amp; Design</em>
+237
+<ol start="112603" type="1">
+<li><a href="https://doi.org/10.1016/j.matdes.2023.112603"
+class="uri">https://doi.org/10.1016/j.matdes.2023.112603</a></li>
+</ol></li>
+<li>B. Meng, F. Dehn, J. F. Unger, D. Alós Shepherd, E. Tamsen, S.
+Pirskawetz (2023). Wissensbasierte Digitalisierung von
+betontechnologischen Materialdaten. <em>ce/papers</em> 6(6) 1505–1515.
+<a href="https://doi.org/10.1002/cepa.2955"
+class="uri">https://doi.org/10.1002/cepa.2955</a>. Ontology (Concrete
+Production and Testing Ontology, CPTO, v1.0.1): <a
+href="https://w3id.org/cpto" class="uri">https://w3id.org/cpto</a></li>
+<li>L. Liu, P. Hagedorn, M. König (2021). An ontology integrating
+as-built information for infrastructure asset management using BIM and
+semantic web. <em>Proc. 2021 European Conference on Computing in
+Construction (EC3).</em> <a href="https://doi.org/10.35490/EC3.2021.167"
+class="uri">https://doi.org/10.35490/EC3.2021.167</a>. Ontology
+(Building Concrete Monitoring Ontology, BCOM, v0.3): <a
+href="https://w3id.org/bcom" class="uri">https://w3id.org/bcom</a></li>
+<li>C. Li, F. Petzold (2025). Ontology-driven mixture-of-domain
+documentation: a backbone approach enabling question answering for
+additive construction. <em>Buildings</em> 15(1) 133. <a
+href="https://doi.org/10.3390/buildings15010133"
+class="uri">https://doi.org/10.3390/buildings15010133</a></li>
+<li>P. Peralta Abadia, M. E. Ahmad, K. Smarsly (2023). Printing
+Information Modeling (PIM) for additive manufacturing of concrete
+structures. <em>Applied Sciences</em> 13(23) 12664. <a
+href="https://doi.org/10.3390/app132312664"
+class="uri">https://doi.org/10.3390/app132312664</a></li>
+<li>Citrine Informatics (n.d.). <em>GEMD: Graphical Expression of
+Materials Data — format documentation</em> (format v0.1). <a
+href="https://citrineinformatics.github.io/gemd-docs/"
+class="uri">https://citrineinformatics.github.io/gemd-docs/</a>
+(Apache-2.0).</li>
 </ol>
 <p><em>Corresponding author: Nicholas Sonnentag, Sunnyday Technologies
 (nick@sunn3d.com).</em></p>
