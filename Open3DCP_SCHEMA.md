@@ -2,7 +2,9 @@
 
 **Open Data Standard for 3D Concrete Printing**
 
-> **Status: Draft** — under working-group review; the schema may change before ratification.
+> **Status: Draft** — under working-group review; the schema may change before a stable
+> release. Review does not imply endorsement, certification, or affiliation with any
+> standards body.
 >
 > **v1.7.5 (2026-06-10): preserve, don't presume.** Four columns (244 → **248**) that remove the schema's last forced guesses, driven by the honest ingestion-fidelity metric: `cement_unspecified`, `fine_agg_unspecified`, `coarse_agg_unspecified` (store the exact mass when the source states no type / FM / size — the generic-`fly_ash` pattern completed; classifications stay NULL instead of being defaulted) and `admixture_basis` (`solids` | `as_delivered` — record the as-delivered mass exactly with its basis instead of assuming a solids fraction). The ingestion tool no longer defaults an unstated cement type; unclassified constituents land in the `*_unspecified` columns with fidelity *exact*.
 >

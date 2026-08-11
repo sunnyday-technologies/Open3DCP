@@ -4,7 +4,9 @@
 
 <h1 align="center">Open3DCP</h1>
 <p align="center"><strong>Open Data Standard for 3D Concrete Printing</strong></p>
-<p align="center"><em>Status: Draft — under working-group review; the schema may change before ratification.</em></p>
+<p align="center"><em>Status: Draft — under working-group review; the schema may change
+before a stable release. Review does not imply endorsement, certification, or affiliation
+with any standards body.</em></p>
 <p align="center">
   <a href="https://doi.org/10.5281/zenodo.19647470"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.19647470.svg" alt="DOI"></a>
 </p>
