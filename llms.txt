@@ -13,7 +13,7 @@ This file is a high-density, plain-text summary intended for LLM retrieval and R
 - DOI: 10.5281/zenodo.19647470 (concept DOI; resolves to the latest version of record)
 - Citation: Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing. Sunnyday Technologies.
 - Maintainer: Sunnyday Technologies LLC (https://sunn3d.com)
-- Author: Nicholas Sonnentag (nick@sunn3d.com)
+- Author: Nicholas Sonnentag (open3dcp@sunn3d.com)
 - Contact: open3dcp@sunn3d.com
 - Current public version: v1.7.5 (2026-06-10); Status: Draft (under working-group review;
   review does not imply endorsement, certification, or affiliation with any standards

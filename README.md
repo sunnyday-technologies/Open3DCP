@@ -363,7 +363,7 @@ You are free to use, adapt, and redistribute this schema for any purpose, includ
 **Nicholas Sonnentag** ([ORCID 0009-0002-1897-384X](https://orcid.org/0009-0002-1897-384X)) — mechanical engineer, founder of [Sunnyday Technologies](https://sunn3d.com). Open3DCP is authored and maintained by Nick; drafting and refinement is LLM-assisted but the schema design, column semantics, reference-standard curation, and direction are his.
 
 - LinkedIn: [Nicholas Sonnentag](https://www.linkedin.com/in/nicholas-sonnentag)
-- Email: `nick@sunn3d.com`
+- Email: `open3dcp@sunn3d.com`
 
 ---
 

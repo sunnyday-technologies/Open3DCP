@@ -152,7 +152,7 @@ If you propose adding a column:
 - **License:** [Apache-2.0](LICENSE)
 - **DOI (concept):** [10.5281/zenodo.19647470](https://doi.org/10.5281/zenodo.19647470)
 - **Maintainer:** Sunnyday Technologies LLC, Wisconsin
-- **Schema lead:** Nicholas Sonnentag — `nick@sunn3d.com` — ORCID [0009-0002-1897-384X](https://orcid.org/0009-0002-1897-384X)
+- **Schema lead:** Nicholas Sonnentag — `open3dcp@sunn3d.com` — ORCID [0009-0002-1897-384X](https://orcid.org/0009-0002-1897-384X)
 - **Project contact:** `open3dcp@sunn3d.com`
 
 ---
