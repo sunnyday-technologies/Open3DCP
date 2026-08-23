@@ -1,10 +1,12 @@
-# Open3DCP v1.7.5
+# Open3DCP v1.8.0
 
 **Open Data Standard for 3D Concrete Printing**
 
 > **Status: Draft** — under working-group review; the schema may change before a stable
 > release. Review does not imply endorsement, certification, or affiliation with any
 > standards body.
+>
+> **v1.8.0 (2026-08-23): record the market, not just the lab.** Forty-seven columns (248 → **295**), proposed in large part by David Scheidt (Chair of Concrete Structures, TU Munich) and Daniel Auer ([#1](https://github.com/sunnyday-technologies/Open3DCP/issues/1)). **Commercial Product Identity** block (`is_premixed`, `supplier`, `product_name`, `supplier_batch_number`, `production_date`, `bulk_density_kg_m3`, `premix_composition_disclosed`, `premix_water_addition_pct`): a proprietary premix's composition is *unknowable*, not unreported — product + lot + water is the complete reproducible statement, so it now records as a complete row instead of a nearly empty one. **EN 197-1 / EN 197-5 cement columns** (`cem_i` … `cem_vi`) alongside the ASTM series — no more silently equating CEM I with Type I — plus ASTM C595 completion (`cement_type_1s/1p/1t`), ASTM C1157 performance-spec cement (`cement_c1157`), CSA-ternary support (`calcium_sulfate`), lime binders (`natural_hydraulic_lime`, `hydrated_lime`), the stated-but-uncolumned catch-all `cement_other`, and exact-designation carriers (`cement_designation`, `cement_standard`, `cement_strength_class_mpa`, `cement_early_strength_class`) so *any* hydraulic cement records losslessly. **EN 12620 d/D grading fallback** beneath FM (`agg_fraction_d_lower_mm`, `agg_fraction_d_upper_mm`, `agg_grading_designation`) plus the measured `fine_agg_fineness_modulus` and `sieve_analysis_file`; raw-data integrity columns `raw_data_sha256`, `raw_data_version`. The `x_` column prefix is reserved for site-specific extensions. Backward-compatible (additive); v1.7 datasets remain valid.
 >
 > **v1.7.5 (2026-06-10): preserve, don't presume.** Four columns (244 → **248**) that remove the schema's last forced guesses, driven by the honest ingestion-fidelity metric: `cement_unspecified`, `fine_agg_unspecified`, `coarse_agg_unspecified` (store the exact mass when the source states no type / FM / size — the generic-`fly_ash` pattern completed; classifications stay NULL instead of being defaulted) and `admixture_basis` (`solids` | `as_delivered` — record the as-delivered mass exactly with its basis instead of assuming a solids fraction). The ingestion tool no longer defaults an unstated cement type; unclassified constituents land in the `*_unspecified` columns with fidelity *exact*.
 >
@@ -33,6 +35,7 @@ A flat database schema for 3D-printable concrete (3DCP) mix design data. Open3DC
 3. **ASTM/RILEM-aligned** -- Column naming follows established standards: ASTM C150 (cement types), ASTM C618 (fly ash), ASTM C989 (slag), ASTM C1240 (silica fume), ASTM C33 (aggregate grading by fineness modulus).
 4. **3DCP-native** -- First-class columns for print process parameters (nozzle, layer, speed, pump), rheology (yield stress, thixotropy, open time), and interlayer properties that don't exist in conventional concrete schemas.
 5. **Multi-age** -- Companion `strength_measurements` table stores multi-age data (1, 3, 7, 14, 28, 56, 90, 365 days).
+6. **Extensible without collision (v1.8)** -- the `x_` column prefix is reserved for site-specific extension columns (documented in the deposit's `record.json`); no canonical column will ever use it, so a later migration to an official column is a rename.
 
 ---
 
@@ -71,22 +74,69 @@ Use `NULL` when a value is unknown, not reported, not applicable, or not measure
 | `date_of_casting` | date | Casting/pour date = t=0 of the curing clock; with the test date it yields `test_age_days`. Distinct from `created_at` (record creation). |
 | `created_at` | timestamptz | Record creation timestamp |
 
+### Commercial Product Identity (v1.8)
+
+Commercially premixed materials (bagged or silo-delivered dry mortars) are bought, not batched: the manufacturer does not disclose the composition, so the constituent block is *unknowable*, not unreported. What fully determines reproducibility is the product, the supplier lot, and the water added — recorded first-class here so a reproducible premix print is a complete record rather than a nearly empty row. Constituent columns stay `NULL` (unknown), never `0`. Proposed by David Scheidt (TU Munich) and Daniel Auer ([#1](https://github.com/sunnyday-technologies/Open3DCP/issues/1)).
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `is_premixed` | boolean | Material used as a proprietary premix rather than batched from constituents |
+| `supplier` | varchar | Manufacturer / supplier of the material |
+| `product_name` | varchar | Commercial product designation as printed on the bag / delivery note |
+| `supplier_batch_number` | varchar | Supplier lot / batch number. Distinct from `batch_label` (the user's own sub-identifier for repeat batches of one formulation) |
+| `production_date` | date | Manufacturing date of the material (bag/silo lot) |
+| `bulk_density_kg_m3` | real | Bulk density of the dry material from the supplier technical data sheet |
+| `premix_composition_disclosed` | boolean | Whether the manufacturer discloses the constituent breakdown (if true, also record the constituents) |
+| `premix_water_addition_pct` | real | Water added to the dry premix, % of dry-premix mass — the manufacturer/TDS dosing basis. Interconverts with `water` exactly only when nothing besides premix + water is batched; recorded so the source basis is preserved |
+
 ### Binder Materials (mass-% of total wet mix)
 
-Cements are classified by ASTM C150 / EN 197-1 type. SCMs follow their respective ASTM standards.
+Cements are classified by ASTM C150 / C595 / C1157 and EN 197-1 / EN 197-5 type. SCMs follow their respective ASTM standards. Record the printed designation verbatim in `cement_designation`; never approximate an EN cement with an ASTM column (or vice versa) — preserve, don't presume.
 
 | Column | Type | Description | Standard |
 |--------|------|-------------|----------|
 | `cement_type_1` | real | General purpose Portland cement | ASTM C150 Type I |
 | `cement_type_1_2` | real | General purpose / moderate sulfate resistance (most commonly sold cement in the US) | ASTM C150 Type I/II |
-| `cement_type_1l` | real | Portland-limestone cement (ASTM C595 Type IL: >5–15% limestone; EN 197-1 CEM II/A-L: 6–20%) | ASTM C595 / EN 197-1 CEM II/A-L |
+| `cement_type_1l` | real | Portland-limestone cement (ASTM C595 Type IL: >5–15% limestone). Pre-v1.8 rows may carry EN 197-1 CEM II/A-L here via the former dual mapping; from v1.8, EN limestone cements record in `cem_ii_a_l` / `cem_ii_a_ll` | ASTM C595 |
+| `cement_type_1s` | real | Portland-slag blended cement (v1.8) | ASTM C595 Type IS |
+| `cement_type_1p` | real | Portland-pozzolan blended cement (v1.8) | ASTM C595 Type IP |
+| `cement_type_1t` | real | Ternary blended cement (v1.8) | ASTM C595 Type IT |
 | `cement_type_2` | real | Moderate sulfate resistance, moderate heat of hydration | ASTM C150 Type II |
 | `cement_type_3` | real | High early strength / rapid hardening | ASTM C150 Type III |
 | `cement_type_4` | real | Low heat of hydration (rarely manufactured) | ASTM C150 Type IV |
 | `cement_type_5` | real | High sulfate resistance (required in sulfate-rich soils, common in western US) | ASTM C150 Type V |
+| `cement_c1157` | real | Hydraulic cement by performance specification (GU/HE/MS/HS/MH/LH — deliberately chemistry-agnostic; record the class in `cement_designation`) | ASTM C1157 |
+| `cem_i` | real | CEM I Portland cement (95-100% clinker) | EN 197-1 |
+| `cem_ii_a_s` | real | CEM II/A-S Portland-slag (6-20% GGBS) | EN 197-1 |
+| `cem_ii_b_s` | real | CEM II/B-S Portland-slag (21-35% GGBS) | EN 197-1 |
+| `cem_ii_a_v` | real | CEM II/A-V Portland-fly ash (6-20% siliceous fly ash) | EN 197-1 |
+| `cem_ii_b_v` | real | CEM II/B-V Portland-fly ash (21-35% siliceous fly ash) | EN 197-1 |
+| `cem_ii_a_l` | real | CEM II/A-L Portland-limestone (6-20%, TOC ≤ 0.50%) | EN 197-1 |
+| `cem_ii_b_l` | real | CEM II/B-L Portland-limestone (21-35%, TOC ≤ 0.50%) | EN 197-1 |
+| `cem_ii_a_ll` | real | CEM II/A-LL Portland-limestone (6-20%, TOC ≤ 0.20%) | EN 197-1 |
+| `cem_ii_b_ll` | real | CEM II/B-LL Portland-limestone (21-35%, TOC ≤ 0.20%) | EN 197-1 |
+| `cem_ii_a_m` | real | CEM II/A-M Portland-composite (6-20% multi-constituent; constituents in the `cement_designation` parentheses) | EN 197-1 |
+| `cem_ii_b_m` | real | CEM II/B-M Portland-composite (21-35% multi-constituent) | EN 197-1 |
+| `cem_ii_c_m` | real | CEM II/C-M Portland-composite, low clinker (50-64% clinker) | EN 197-5 |
+| `cem_iii_a` | real | CEM III/A blastfurnace cement (36-65% GGBS) | EN 197-1 |
+| `cem_iii_b` | real | CEM III/B blastfurnace cement (66-80% GGBS) | EN 197-1 |
+| `cem_iii_c` | real | CEM III/C blastfurnace cement (81-95% GGBS) | EN 197-1 |
+| `cem_iv_a` | real | CEM IV/A pozzolanic cement (11-35% pozzolana) | EN 197-1 |
+| `cem_iv_b` | real | CEM IV/B pozzolanic cement (36-55% pozzolana) | EN 197-1 |
+| `cem_v_a` | real | CEM V/A composite cement (slag + pozzolana) | EN 197-1 |
+| `cem_v_b` | real | CEM V/B composite cement (slag + pozzolana, higher substitution) | EN 197-1 |
+| `cem_vi` | real | CEM VI composite cement (35-49% clinker, slag + pozzolana/limestone) | EN 197-5 |
 | `cac` | real | Calcium aluminate cement (Ciment Fondu) | EN 14647 |
 | `csa_cement` | real | Calcium sulfoaluminate cement | -- |
+| `calcium_sulfate` | real | Added calcium sulfate (gypsum / hemihydrate / anhydrite) for ettringite control in CSA/CAC ternary binders; form in `provenance_notes` (v1.8) | -- |
+| `natural_hydraulic_lime` | real | Natural hydraulic lime binder (NHL 2 / 3.5 / 5; class in `cement_designation`) (v1.8) | EN 459-1 |
+| `hydrated_lime` | real | Hydrated (air) lime additive (v1.8) | ASTM C207 / EN 459-1 CL |
 | `cement_unspecified` | real | Cement whose ASTM/EN type the source does not state (v1.7.5). Mass stored exactly; the type stays NULL — never defaulted. Refine to a `cement_type_*` column only when the source states the type | -- |
+| `cement_other` | real | Hydraulic cement whose *stated* type has no dedicated column (e.g. GB 175 P·O/P·S, rare EN notations, natural cement) — mass exact here, exact designation in `cement_designation`. Distinct from `cement_unspecified` (type unknown) (v1.8) | -- |
+| `cement_designation` | varchar | Exact binder designation as printed by the source (e.g. "CEM II/B-M (S-LL) 42.5 N", "Type IL(10)", "P·O 42.5", "NHL 3.5"). Preserve verbatim; the typed columns are the analysable projection (v1.8) | -- |
+| `cement_standard` | varchar | Designation system: `ASTM_C150` \| `ASTM_C595` \| `ASTM_C1157` \| `EN_197_1` \| `EN_197_5` \| `EN_14647` \| `EN_459` \| `GB_175` \| `CSA_A3001` \| `other` (v1.8) | -- |
+| `cement_strength_class_mpa` | real | EN 197-1 standard strength class as a number: 32.5 \| 42.5 \| 52.5 (EN 196-1 mortar strength at 28 d) (v1.8) | EN 197-1 / EN 196-1 |
+| `cement_early_strength_class` | varchar | EN 197-1/-5 early-strength designation: `L` \| `N` \| `R` (the R in "42.5 R" — changes open time and structuration outright) (v1.8) | EN 197-1 |
 | `fly_ash` | real | Fly ash (class not specified in source) | -- |
 | `fly_ash_type_f` | real | Class F fly ash (SiO2+Al2O3+Fe2O3 ≥ 70%) | ASTM C618 |
 | `fly_ash_type_c` | real | Class C fly ash (SiO2+Al2O3+Fe2O3 ≥ 50%) | ASTM C618 |
@@ -136,7 +186,7 @@ Pigments are ultra-fine particles (~1 um) used at 1-5% in architectural 3DCP. At
 
 ### Aggregate Materials (mass-% of total wet mix)
 
-Sand is classified using US industry ordering terms. Fineness modulus (FM) ranges are adapted from ASTM C33 grading principles; note that ASTM C33 defines fine aggregate as FM 2.3-3.1 without further subdivision. Coarse aggregates use ASTM C33 size numbers. Many standard 3DCP systems are limited to Size #8 or smaller by pump and nozzle constraints, while larger sizes are included for large-nozzle systems, conventional concrete compatibility, and cross-dataset completeness.
+Sand is classified using US industry ordering terms. Fineness modulus (FM) ranges are adapted from ASTM C33 grading principles; note that ASTM C33 defines fine aggregate as FM 2.3-3.1 without further subdivision. Coarse aggregates use ASTM C33 size numbers. Many standard 3DCP systems are limited to Size #8 or smaller by pump and nozzle constraints, while larger sizes are included for large-nozzle systems, conventional concrete compatibility, and cross-dataset completeness. As of v1.8 the measured fineness modulus itself is recorded in `fine_agg_fineness_modulus` (the FM bins are its classification projection), and where a source states only an EN 12620 d/D size fraction (0/2, 0/4, 2/8) — the European supplier convention, from which FM cannot be derived — the fraction is preserved exactly in `agg_fraction_d_lower_mm` / `agg_fraction_d_upper_mm` / `agg_grading_designation`: a fallback beneath FM, never a replacement for it.
 
 | Column | Type | Description | ASTM C33 / FM | Typical US Order Name |
 |--------|------|-------------|---------------|----------------------|
@@ -144,6 +194,7 @@ Sand is classified using US industry ordering terms. Fineness modulus (FM) range
 | `fine_sand` | real | Fine concrete sand | FM 1.6-2.2 | Fine sand |
 | `concrete_sand` | real | Standard concrete sand (most common in US 3DCP) | FM 2.3-3.0 | Concrete sand / C33 sand |
 | `coarse_sand` | real | Coarse washed sand | FM 3.1-3.7 | Coarse sand / torpedo sand |
+| `fine_agg_fineness_modulus` | real | Measured fineness modulus as stated or computed from the full sieve analysis (ASTM C136); the FM bins above are its classification projection (v1.8) | -- | -- |
 | `fine_agg_unspecified` | real | Fine aggregate with no stated fineness modulus / grading (v1.7.5). Mass stored exactly; the FM bucket stays NULL — never guessed | -- | Fine aggregate / sand (grading unstated) |
 | `agg_size_89` | real | Very fine gravel (3/8" - #16 sieve, 9.5-1.18 mm) | ASTM C33 Size #89 | #89 stone |
 | `agg_size_8` | real | Fine pea gravel (3/8" - #8 sieve, 9.5-2.36 mm) | ASTM C33 Size #8 | Pea gravel / #8 stone |
@@ -159,6 +210,9 @@ Sand is classified using US industry ordering terms. Fineness modulus (FM) range
 | `agg_size_2` | real | 2.5" - 1.5" (63-37.5 mm) | ASTM C33 Size #2 | #2 stone |
 | `agg_size_1` | real | 3.5" - 1.5" (90-37.5 mm) | ASTM C33 Size #1 | Large stone |
 | `coarse_agg_unspecified` | real | Coarse aggregate with no stated maximum size / C33 size number (v1.7.5). Mass stored exactly; the size class stays NULL — never defaulted | -- | Coarse aggregate (size unstated) |
+| `agg_fraction_d_lower_mm` | real | Lower size limit d of the aggregate fraction, for the governing (primary) fraction (v1.8) | EN 12620 d/D | -- |
+| `agg_fraction_d_upper_mm` | real | Upper size limit D of the aggregate fraction (v1.8) | EN 12620 d/D | -- |
+| `agg_grading_designation` | varchar | Source's grading designation verbatim: "0/4", "2/8", DIN 1045-2 region ("A/B 16") (v1.8) | EN 12620 / DIN 1045-2 | -- |
 
 Note: Most 3DCP systems are limited to Size #8 or smaller due to pump and nozzle constraints. Sizes #7 and above are included for large-nozzle systems, conventional concrete compatibility, and completeness as a global standard.
 
@@ -462,6 +516,9 @@ Links to curve/image/HDF5 files that the flat schema cannot hold inline. Payload
 | `rheology_curve_file` | varchar | Flow / structuration curve file |
 | `microstructure_image` | varchar | SEM / CT / crack-pattern image file |
 | `raw_data_file` | varchar | Generic table / HDF5 raw-data reference |
+| `sieve_analysis_file` | varchar | Full aggregate sieve-analysis / grading-curve file (FM computable from it; ASTM C136 / EN 933-1) (v1.8) |
+| `raw_data_sha256` | varchar | SHA-256 of the referenced raw-data file — integrity pin for deposited data (v1.8) |
+| `raw_data_version` | varchar | Version tag of the referenced raw-data deposit (v1.8) |
 
 ### Data Provenance
 
@@ -575,5 +632,5 @@ If you use Open3DCP in your research, please cite:
 
 ---
 
-*Open3DCP v1.7 -- Last updated: 2026-07-30*
+*Open3DCP v1.8 -- Last updated: 2026-08-23*
 *Maintained by [Sunnyday Technologies](https://sunn3d.com), Wisconsin, USA*

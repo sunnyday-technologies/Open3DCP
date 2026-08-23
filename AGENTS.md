@@ -16,7 +16,7 @@ Open3DCP is a **schema specification**: column names, types, units, and
 engineering context for binders, alkali activators, aggregates, fibers,
 admixtures, pigments, fresh-state rheology, hardened mechanical
 properties, durability indicators, 3DCP process parameters, and
-interlayer bond. v1.7 defines the current public column vocabulary.
+interlayer bond. v1.8 defines the current public column vocabulary.
 kg/m³-primary basis (mass-% derivable). Flat and analysis/ML-oriented.
 
 Open3DCP is **not**:
@@ -56,9 +56,13 @@ values. If a density assumption is unavoidable, flag it.
 
 ### 3. Preserve standards alignment.
 
-Cement-type column names follow ASTM C150. SCM names follow C618
-(fly ash), C989 (slag), C1240 (silica fume). Aggregate grading
-follows C33. If you encounter a column that uses a non-standard
+Cement-type column names follow ASTM C150/C595/C1157 and
+EN 197-1/-5 (record the printed designation verbatim in
+`cement_designation`; never approximate an EN cement with an ASTM
+column, or vice versa). SCM names follow C618 (fly ash), C989 (slag),
+C1240 (silica fume). Aggregate grading follows C33 (fineness modulus
+primary), with the EN 12620 d/D fraction recorded as the fallback
+where no FM or sieve curve exists. If you encounter a column that uses a non-standard
 name (e.g. `portland_cement` instead of `cement_type_1`), map it
 back to canonical Open3DCP — do not propose adopting the
 non-standard name.
@@ -96,6 +100,14 @@ material science; cite them in the rationale.
 When opening a PR or issue that proposes a substantive schema
 change, identify the contributor by ORCID where possible. The
 schema is a citable artifact; contributors should be too.
+
+### 8. Extension columns use the `x_` prefix.
+
+Site-specific fields the canonical schema does not (yet) cover belong
+in `x_`-prefixed columns, documented in the deposit's `record.json`.
+The prefix is reserved: no canonical column will ever use it, so
+migrating an extension to an official column is a rename, never a
+collision. Do not invent unprefixed non-canonical columns.
 
 ---
 
