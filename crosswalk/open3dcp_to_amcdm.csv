@@ -7,16 +7,56 @@ material_class,Provenance,material: MaterialStock / MaterialSpecification — id
 batch_label,Provenance,material: MaterialStock / MaterialSpecification — identity/lineage,normalized,
 date_of_casting,Provenance,build: Build / PlannedProcessStep timing,normalized,
 created_at,Provenance,base: Document (record metadata),partial,
+is_premixed,Provenance,"material: MaterialStock — feedstock identity/lot (supplier, product, lot, dates)",normalized,material module is metals-shaped; feedstock-lot concepts carry the semantics
+supplier,Provenance,"material: MaterialStock — feedstock identity/lot (supplier, product, lot, dates)",normalized,material module is metals-shaped; feedstock-lot concepts carry the semantics
+product_name,Provenance,"material: MaterialStock — feedstock identity/lot (supplier, product, lot, dates)",normalized,material module is metals-shaped; feedstock-lot concepts carry the semantics
+supplier_batch_number,Provenance,"material: MaterialStock — feedstock identity/lot (supplier, product, lot, dates)",normalized,material module is metals-shaped; feedstock-lot concepts carry the semantics
+production_date,Provenance,"material: MaterialStock — feedstock identity/lot (supplier, product, lot, dates)",normalized,material module is metals-shaped; feedstock-lot concepts carry the semantics
+bulk_density_kg_m3,Provenance,"material: MaterialStock — feedstock identity/lot (supplier, product, lot, dates)",normalized,material module is metals-shaped; feedstock-lot concepts carry the semantics
+premix_composition_disclosed,Provenance,"material: MaterialStock — feedstock identity/lot (supplier, product, lot, dates)",normalized,material module is metals-shaped; feedstock-lot concepts carry the semantics
+premix_water_addition_pct,Provenance,process: ManufacturingProcessStep (mixing) parameter — TDS dosing,normalized,
 cement_type_1,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 cement_type_1_2,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 cement_type_1l,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_type_1s,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_type_1p,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_type_1t,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 cement_type_2,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 cement_type_3,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 cement_type_4,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 cement_type_5,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_c1157,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_i,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_ii_a_s,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_ii_b_s,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_ii_a_v,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_ii_b_v,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_ii_a_l,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_ii_b_l,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_ii_a_ll,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_ii_b_ll,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_ii_a_m,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_ii_b_m,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_ii_c_m,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_iii_a,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_iii_b,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_iii_c,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_iv_a,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_iv_b,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_v_a,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_v_b,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cem_vi,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 cac,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 csa_cement,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+calcium_sulfate,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+natural_hydraulic_lime,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+hydrated_lime,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 cement_unspecified,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_other,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+cement_designation,Composition,material: MaterialSpecification — designation string,normalized,
+cement_standard,Composition,material: MaterialSpecification — designation system,partial,
+cement_strength_class_mpa,Composition,material: MaterialProperty (intrinsic),normalized,
+cement_early_strength_class,Composition,material: MaterialProperty (intrinsic),normalized,
 fly_ash,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 fly_ash_type_f,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 fly_ash_type_c,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
@@ -48,6 +88,7 @@ mason_sand,Composition,material: MaterialStock + MaterialSpecification — const
 fine_sand,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 concrete_sand,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 coarse_sand,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+fine_agg_fineness_modulus,Composition,material: MaterialProperty (intrinsic),normalized,
 fine_agg_unspecified,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 agg_size_89,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 agg_size_8,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
@@ -63,6 +104,9 @@ agg_size_3,Composition,material: MaterialStock + MaterialSpecification — const
 agg_size_2,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 agg_size_1,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 coarse_agg_unspecified,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
+agg_fraction_d_lower_mm,Composition,material: MaterialSpecification — size fraction d/D,normalized,
+agg_fraction_d_upper_mm,Composition,material: MaterialSpecification — size fraction d/D,normalized,
+agg_grading_designation,Composition,material: MaterialSpecification — grading designation,normalized,
 steel_fiber,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 pp_fiber,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
 glass_fiber,Composition,material: MaterialStock + MaterialSpecification — constituent + dosage,partial,AM-CDM's composition model is alloy/powder-shaped; a multi-constituent cementitious mix needs a material-module domain extension
@@ -234,6 +278,9 @@ stress_strain_file,Properties,base: Document,normalized,
 rheology_curve_file,Properties,base: Document,normalized,
 microstructure_image,Properties,base: Document,normalized,
 raw_data_file,Properties,base: Document,normalized,
+sieve_analysis_file,Properties,base: Document,normalized,
+raw_data_sha256,Properties,base: Document,partial,no integrity-hash attribute on Document; carry as annotation
+raw_data_version,Properties,base: Document,partial,no deposit-version attribute on Document; carry as annotation
 doi,Provenance,base: Document / Organization / Person,normalized,
 source_citation,Provenance,base: Document / Organization / Person,normalized,
 measurement_confidence,Provenance,-,no_map,no measured/calculated/estimated/reported concept; carry as annotation

@@ -40,6 +40,7 @@ OUT = ROOT / "crosswalk"
 # (comment-prefix, section key) — first match wins; non-matching comments are notes
 SECTION_KEYS = [
     ("Identity & Versioning", "identity"),
+    ("COMMERCIAL PRODUCT IDENTITY", "product_identity"),
     ("COMPOSITION", "binders"),
     ("Alkali Activators", "activators"),
     ("Additional Modifiers", "modifiers"),
@@ -72,7 +73,7 @@ SECTION_KEYS = [
 ]
 
 BLOCK = {  # CPPC reporting block per section (informational)
-    "identity": "Provenance",
+    "identity": "Provenance", "product_identity": "Provenance",
     "binders": "Composition", "activators": "Composition", "modifiers": "Composition",
     "pigments": "Composition", "aggregates": "Composition", "fibers": "Composition",
     "fiber_char": "Composition", "admixtures": "Composition", "clay_vma": "Composition",
@@ -164,6 +165,8 @@ AMCDM_PROCESS_NOTE = (
 )
 AMCDM_DEFAULTS = {
     "identity": ("material: MaterialStock / MaterialSpecification — identity/lineage", "normalized", ""),
+    "product_identity": ("material: MaterialStock — feedstock identity/lot (supplier, product, lot, dates)",
+                         "normalized", "material module is metals-shaped; feedstock-lot concepts carry the semantics"),
     "binders": AMCDM_COMPOSITION, "activators": AMCDM_COMPOSITION,
     "modifiers": AMCDM_COMPOSITION, "pigments": AMCDM_COMPOSITION,
     "aggregates": AMCDM_COMPOSITION, "fibers": AMCDM_COMPOSITION,
@@ -220,11 +223,22 @@ AMCDM_OVERRIDES = {
     # KEY RATIOS section holds two mixing-procedure columns; they are not derived ratios
     "water_premix_pct": ("process: ManufacturingProcessStep (mixing) parameter", "normalized", ""),
     "water_temperature_c": ("process: ManufacturingProcessStep (mixing) parameter", "normalized", ""),
-    # forward-compat: v1.7.6 raw-data reference columns (dead keys until the schema lands)
+    # v1.8 raw-data reference columns
     "raw_data_sha256": ("base: Document", "partial",
                         "no integrity-hash attribute on Document; carry as annotation"),
     "raw_data_version": ("base: Document", "partial",
                          "no deposit-version attribute on Document; carry as annotation"),
+    # v1.8 cement/aggregate designation metadata (not composition masses)
+    "cement_designation": ("material: MaterialSpecification — designation string", "normalized", ""),
+    "cement_standard": ("material: MaterialSpecification — designation system", "partial", ""),
+    "cement_strength_class_mpa": ("material: MaterialProperty (intrinsic)", "normalized", ""),
+    "cement_early_strength_class": ("material: MaterialProperty (intrinsic)", "normalized", ""),
+    "fine_agg_fineness_modulus": ("material: MaterialProperty (intrinsic)", "normalized", ""),
+    "agg_fraction_d_lower_mm": ("material: MaterialSpecification — size fraction d/D", "normalized", ""),
+    "agg_fraction_d_upper_mm": ("material: MaterialSpecification — size fraction d/D", "normalized", ""),
+    "agg_grading_designation": ("material: MaterialSpecification — grading designation", "normalized", ""),
+    "premix_water_addition_pct": ("process: ManufacturingProcessStep (mixing) parameter — TDS dosing",
+                                  "normalized", ""),
 }
 
 # --- GEMD --------------------------------------------------------------------
@@ -238,6 +252,8 @@ GEMD_PROP_NOTE = ("via project-defined PropertyTemplates; GEMD format v0.1 ships
                   "no domain property vocabulary")
 GEMD_DEFAULTS = {
     "identity": ("object identifiers / tags on MaterialSpec–MaterialRun", "normalized", ""),
+    "product_identity": ("MaterialSpec identity + tags (supplier, product, lot) on the premix ingredient",
+                         "normalized", ""),
     "binders": GEMD_COMPOSITION, "activators": GEMD_COMPOSITION,
     "modifiers": GEMD_COMPOSITION, "pigments": GEMD_COMPOSITION,
     "aggregates": GEMD_COMPOSITION, "fibers": GEMD_COMPOSITION,
@@ -275,11 +291,21 @@ GEMD_OVERRIDES = {
                             "a specification target, not a measured property — Spec side, not Run"),
     "aggregate_absorption_pct": ("Property on the aggregate MaterialSpec", "normalized",
                                  "intrinsic aggregate property, not a process condition"),
-    # forward-compat: v1.7.6 raw-data reference columns (dead keys until the schema lands)
+    # v1.8 raw-data reference columns
     "raw_data_sha256": ("tags (FileLink-adjacent)", "partial",
                         "FileLink v0.1 carries filename + url only; no checksum field"),
     "raw_data_version": ("tags (FileLink-adjacent)", "partial",
                          "FileLink v0.1 carries filename + url only; no version field"),
+    # v1.8 cement/aggregate designation metadata (not composition masses)
+    "cement_designation": ("MaterialSpec name / tags", "normalized", ""),
+    "cement_standard": ("tags", "normalized", ""),
+    "cement_strength_class_mpa": ("Property (with bounds) on the cement MaterialSpec", "normalized", ""),
+    "cement_early_strength_class": ("Property on the cement MaterialSpec", "normalized", ""),
+    "fine_agg_fineness_modulus": ("Property on the aggregate MaterialSpec", "normalized", ""),
+    "agg_fraction_d_lower_mm": ("Property (with bounds) on the aggregate MaterialSpec", "normalized", ""),
+    "agg_fraction_d_upper_mm": ("Property (with bounds) on the aggregate MaterialSpec", "normalized", ""),
+    "agg_grading_designation": ("MaterialSpec name / tags", "normalized", ""),
+    "premix_water_addition_pct": ("Parameter on the mixing ProcessSpec", "normalized", GEMD_PARAM_NOTE),
 }
 
 # --- CPTO --------------------------------------------------------------------
@@ -288,6 +314,9 @@ CPTO_NOMAP_3DCP = ("-", "no_map",
                    "(the only extru* strings in the RDF are fibre-material definition text)")
 CPTO_DEFAULTS = {
     "identity": ("PROV-O entity + cpto:Batch context", "partial", ""),
+    "product_identity": ("PROV-O attribution + cpto:ConcreteManufacturer", "partial",
+                         "premix product identity (product/lot/TDS) has no CPTO class; "
+                         "nearest is manufacturer attribution"),
     "binders": ("cpto constituent class + QuantityInMix", "partial",
                 "EN 197-1-oriented taxonomy; ASTM classes do not map 1:1"),
     "activators": ("-", "no_map", "alkali-activated systems are outside CPTO's EN 206 scope"),
@@ -397,12 +426,29 @@ CPTO_OVERRIDES = {
     "setting_time_final_min": ("-", "no_map", "conventional fresh test; not in CPTO's verified v1.0.1 inventory"),
     "bleeding_pct": ("-", "no_map", "conventional fresh test; not in CPTO's verified v1.0.1 inventory"),
     "temperature_fresh_c": ("-", "no_map", "conventional fresh test; not in CPTO's verified v1.0.1 inventory"),
-    # forward-compat: v1.7.6 raw-data reference columns (dead keys until the schema lands)
+    # v1.8 raw-data reference columns
     "raw_data_sha256": ("PROV-O entities (imported)", "partial",
                         "no checksum concept; carry as a PROV-O entity attribute/annotation"),
     "raw_data_version": ("PROV-O entities (imported)", "partial",
                          "deposit revision carried via PROV-O entity versioning conventions, not a CPTO concept"),
+    # v1.8 cement/aggregate columns
+    "cement_other": ("cpto:Cement + QuantityInMix", "partial", "type stated but outside the enumerated set"),
+    "cement_designation": ("cpto:Cement subclass selection (EN 197-1 designation)", "normalized", ""),
+    "cement_standard": ("-", "no_map", "designation-system flag is Open3DCP metadata"),
+    "cement_strength_class_mpa": ("cpto:Cement (EN 197-1 strength class)", "partial", ""),
+    "cement_early_strength_class": ("cpto:Cement (EN 197-1 strength class)", "partial", ""),
+    "natural_hydraulic_lime": ("-", "no_map", "outside CPTO's EN 197-1 cement enumeration"),
+    "hydrated_lime": ("cpto:Addition (Type I)", "partial", ""),
+    "fine_agg_fineness_modulus": ("-", "no_map", "no fineness-modulus concept in CPTO"),
+    "agg_fraction_d_lower_mm": ("cpto:AggregateSize (EN 12620 d/D)", "normalized", ""),
+    "agg_fraction_d_upper_mm": ("cpto:AggregateSize (EN 12620 d/D)", "normalized", ""),
+    "agg_grading_designation": ("cpto:AggregateSize", "partial",
+                                "designation string incl. DIN 1045-2 region; CPTO holds the numeric pair"),
+    "premix_water_addition_pct": ("-", "no_map", "mixing-procedure detail not modeled"),
 }
+# v1.8: EN 197-1/-5 cement columns map 1:1 into CPTO's EN-oriented cement taxonomy
+CPTO_OVERRIDES.update({c: ("cpto:Cement (EN 197-1/-5 designation)", "normalized", "")
+                       for c in ['cem_i', 'cem_ii_a_s', 'cem_ii_b_s', 'cem_ii_a_v', 'cem_ii_b_v', 'cem_ii_a_l', 'cem_ii_b_l', 'cem_ii_a_ll', 'cem_ii_b_ll', 'cem_ii_a_m', 'cem_ii_b_m', 'cem_ii_c_m', 'cem_iii_a', 'cem_iii_b', 'cem_iii_c', 'cem_iv_a', 'cem_iv_b', 'cem_v_a', 'cem_v_b', 'cem_vi']})
 
 TARGETS = {
     "open3dcp_to_amcdm.csv": (AMCDM_DEFAULTS, AMCDM_OVERRIDES),
