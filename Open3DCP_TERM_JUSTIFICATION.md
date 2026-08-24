@@ -13,7 +13,7 @@ normalize to that canonical term. Per term, the table gives its governing standa
 where one exists — its relational-schema crosswalk. 3DCP-only terms are justified against
 RILEM TC 276-DFC / TC 304-ADC.
 
-**Coverage:** 295 canonical `mix_designs` terms, grouped into 26 sections.
+**Coverage:** 279 canonical `mix_designs` terms, grouped into 26 sections.
 
 ---
 
@@ -40,8 +40,6 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `supplier_batch_number` | varchar(100) | Supplier lot / batch number. Distinct from `batch_label` (the user's own sub-identifier for repeat batches of one formulation) | — | Open3DCP-specific. |
 | `production_date` | date | Manufacturing date of the material (bag/silo lot) | — | Open3DCP-specific. |
 | `bulk_density_kg_m3` | real | Bulk density of the dry material from the supplier technical data sheet | — | Open3DCP-specific. |
-| `premix_composition_disclosed` | boolean | Whether the manufacturer discloses the constituent breakdown (if true, also record the constituents) | — | Open3DCP-specific. |
-| `premix_water_addition_pct` | real | Water added to the dry premix, % of dry-premix mass — the manufacturer/TDS dosing basis. Interconverts with `water` exactly only when nothing besides premix + water is batched; recorded so the source basis is preserved | — | Open3DCP-specific. |
 
 ## Binder Materials
 
@@ -50,14 +48,10 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `cement_type_1` | real | General purpose Portland cement | ASTM C150 Type I | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C150_Type_I) |
 | `cement_type_1_2` | real | General purpose / moderate sulfate resistance (most commonly sold cement in the US) | ASTM C150 Type I/II | Open3DCP-specific. |
 | `cement_type_1l` | real | Portland-limestone cement (ASTM C595 Type IL: >5–15% limestone). Pre-v1.8 rows may carry EN 197-1 CEM II/A-L here via the former dual mapping; from v1.8, EN limestone cements record in `cem_ii_a_l` / `cem_ii_a_ll` | ASTM C595 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C595_Type_IL) |
-| `cement_type_1s` | real | Portland-slag blended cement (v1.8) | ASTM C595 Type IS | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C595_Type_IS) |
-| `cement_type_1p` | real | Portland-pozzolan blended cement (v1.8) | ASTM C595 Type IP | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C595_Type_IP) |
-| `cement_type_1t` | real | Ternary blended cement (v1.8) | ASTM C595 Type IT | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C595_Type_IT) |
 | `cement_type_2` | real | Moderate sulfate resistance, moderate heat of hydration | ASTM C150 Type II | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C150_Type_II) |
 | `cement_type_3` | real | High early strength / rapid hardening | ASTM C150 Type III | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C150_Type_III) |
 | `cement_type_4` | real | Low heat of hydration (rarely manufactured) | ASTM C150 Type IV | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C150_Type_IV) |
 | `cement_type_5` | real | High sulfate resistance (required in sulfate-rich soils, common in western US) | ASTM C150 Type V | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C150_Type_V) |
-| `cement_c1157` | real | Hydraulic cement by performance specification (GU/HE/MS/HS/MH/LH — deliberately chemistry-agnostic; record the class in `cement_designation`) | ASTM C1157 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C1157_Type_GU) |
 | `cem_i` | real | CEM I Portland cement (95-100% clinker) | EN 197-1 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_I) |
 | `cem_ii_a_s` | real | CEM II/A-S Portland-slag (6-20% GGBS) | EN 197-1 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_II_A_S) |
 | `cem_ii_b_s` | real | CEM II/B-S Portland-slag (21-35% GGBS) | EN 197-1 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_II_B_S) |
@@ -69,7 +63,6 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `cem_ii_b_ll` | real | CEM II/B-LL Portland-limestone (21-35%, TOC ≤ 0.20%) | EN 197-1 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_II_B_LL) |
 | `cem_ii_a_m` | real | CEM II/A-M Portland-composite (6-20% multi-constituent; constituents in the `cement_designation` parentheses) | EN 197-1 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_II_A_M) |
 | `cem_ii_b_m` | real | CEM II/B-M Portland-composite (21-35% multi-constituent) | EN 197-1 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_II_B_M) |
-| `cem_ii_c_m` | real | CEM II/C-M Portland-composite, low clinker (50-64% clinker) | EN 197-5 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_II_C_M) |
 | `cem_iii_a` | real | CEM III/A blastfurnace cement (36-65% GGBS) | EN 197-1 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_III_A) |
 | `cem_iii_b` | real | CEM III/B blastfurnace cement (66-80% GGBS) | EN 197-1 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_III_B) |
 | `cem_iii_c` | real | CEM III/C blastfurnace cement (81-95% GGBS) | EN 197-1 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_III_C) |
@@ -77,15 +70,11 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `cem_iv_b` | real | CEM IV/B pozzolanic cement (36-55% pozzolana) | EN 197-1 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_IV_B) |
 | `cem_v_a` | real | CEM V/A composite cement (slag + pozzolana) | EN 197-1 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_V_A) |
 | `cem_v_b` | real | CEM V/B composite cement (slag + pozzolana, higher substitution) | EN 197-1 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_V_B) |
-| `cem_vi` | real | CEM VI composite cement (35-49% clinker, slag + pozzolana/limestone) | EN 197-5 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=EN197_CEM_VI) |
 | `cac` | real | Calcium aluminate cement (Ciment Fondu) | EN 14647 | Open3DCP-specific. |
 | `csa_cement` | real | Calcium sulfoaluminate cement | — | Open3DCP-specific. |
-| `calcium_sulfate` | real | Added calcium sulfate (gypsum / hemihydrate / anhydrite) for ettringite control in CSA/CAC ternary binders; form in `provenance_notes` (v1.8) | — | Open3DCP-specific. |
-| `natural_hydraulic_lime` | real | Natural hydraulic lime binder (NHL 2 / 3.5 / 5; class in `cement_designation`) (v1.8) | EN 459-1 | Open3DCP-specific. |
-| `hydrated_lime` | real | Hydrated (air) lime additive (v1.8) | ASTM C207 / EN 459-1 CL | Open3DCP-specific. |
 | `cement_unspecified` | real | Cement whose ASTM/EN type the source does not state (v1.7.5). Mass stored exactly; the type stays NULL — never defaulted. Refine to a `cement_type_*` column only when the source states the type | — | Open3DCP-specific. |
-| `cement_other` | real | Hydraulic cement whose *stated* type has no dedicated column (e.g. GB 175 P·O/P·S, rare EN notations, natural cement) — mass exact here, exact designation in `cement_designation`. Distinct from `cement_unspecified` (type unknown) (v1.8) | — | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=GB175_PO) |
-| `cement_designation` | varchar(120) | Exact binder designation as printed by the source (e.g. "CEM II/B-M (S-LL) 42.5 N", "Type IL(10)", "P·O 42.5", "NHL 3.5"). Preserve verbatim; the typed columns are the analysable projection (v1.8) | — | Open3DCP-specific. |
+| `cement_other` | real | Hydraulic cement whose *stated* type has no dedicated column (rare EN notations, EN 197-5 low-clinker, GB 175, ASTM C1157, natural cement) — mass exact here, exact designation in `cement_designation`. Distinct from `cement_unspecified` (type unknown) (v1.8) | EN 197-5 | Relational: `material_batches.cement_content_kg_m3` (by `material_batches.cement_type`=ASTM_C595_Type_IS) |
+| `cement_designation` | varchar(120) | Exact binder designation as printed by the source (e.g. "CEM II/B-M (S-LL) 42.5 N", "Type IL(10)", "P·O 42.5"). Preserve verbatim; the typed columns are the analysable projection (v1.8) | — | Open3DCP-specific. |
 | `cement_standard` | varchar(20) | Designation system: `ASTM_C150` \ | — | Open3DCP-specific. |
 | `cement_strength_class_mpa` | real | EN 197-1 standard strength class as a number: 32.5 \ | 52.5. A supplier *classification* of the cement, verified on the EN 196-1 reference mortar (CEN standard sand, w/c = 0.50 — far from any 3DCP mix design). Never derive it from, or restate it as, a measured mix strength (those belong in `compressive_strength_mpa` / `strength_measurements`); it is an ingredient descriptor for prediction, not a property of the printed mix (v1.8) | Open3DCP-specific. |
 | `cement_early_strength_class` | varchar(2) | EN 197-1/-5 early-strength designation: `L` \ | `R` (the R in "42.5 R" — changes open time and structuration outright). Same caveat as `cement_strength_class_mpa`: a supplier classification on the EN 196-1 reference mortar, never derived from measured early-age strengths of the mix (those belong in `strength_measurements`) (v1.8) | Open3DCP-specific. |
@@ -140,7 +129,6 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `fine_sand` | real | Fine concrete sand | — | Open3DCP-specific. |
 | `concrete_sand` | real | Standard concrete sand (most common in US 3DCP) | — | Open3DCP-specific. |
 | `coarse_sand` | real | Coarse washed sand | — | Open3DCP-specific. |
-| `fine_agg_fineness_modulus` | real | Measured fineness modulus as stated or computed from the full sieve analysis (ASTM C136); the FM bins above are its classification projection (v1.8) | ASTM C136 | Open3DCP-specific. |
 | `fine_agg_unspecified` | real | Fine aggregate with no stated fineness modulus / grading (v1.7.5). Mass stored exactly; the FM bucket stays NULL — never guessed | — | Relational: `material_batches.fine_aggregate_content_kg_m3` |
 | `agg_size_89` | real | Very fine gravel (3/8" - #16 sieve, 9.5-1.18 mm) | ASTM C33 Size #89 | Relational: `material_batches.coarse_aggregate_content_kg_m3` (+ `material_batches.max_aggregate_size_mm`) |
 | `agg_size_8` | real | Fine pea gravel (3/8" - #8 sieve, 9.5-2.36 mm) | ASTM C33 Size #8 | Relational: `material_batches.coarse_aggregate_content_kg_m3` (+ `material_batches.max_aggregate_size_mm`) |
@@ -158,7 +146,6 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `coarse_agg_unspecified` | real | Coarse aggregate with no stated maximum size / C33 size number (v1.7.5). Mass stored exactly; the size class stays NULL — never defaulted | ASTM C33 | Relational: `material_batches.coarse_aggregate_content_kg_m3` |
 | `agg_fraction_d_lower_mm` | real | Lower size limit d of the aggregate fraction, for the governing (primary) fraction (v1.8) | EN 12620 d/D | Open3DCP-specific. |
 | `agg_fraction_d_upper_mm` | real | Upper size limit D of the aggregate fraction (v1.8) | EN 12620 d/D | Open3DCP-specific. |
-| `agg_grading_designation` | varchar(30) | Source's grading designation verbatim: "0/4", "2/8", DIN 1045-2 region ("A/B 16") (v1.8) | EN 12620 / DIN 1045-2 | Open3DCP-specific. |
 
 ## Fiber Reinforcement
 
@@ -410,9 +397,6 @@ RILEM TC 276-DFC / TC 304-ADC.
 | `rheology_curve_file` | varchar(255) | Flow / structuration curve file | — | Open3DCP-specific. |
 | `microstructure_image` | varchar(255) | SEM / CT / crack-pattern image file | — | Open3DCP-specific. |
 | `raw_data_file` | varchar(255) | Generic table / HDF5 raw-data reference | — | Open3DCP-specific. |
-| `sieve_analysis_file` | varchar(255) | Full aggregate sieve-analysis / grading-curve file (FM computable from it; ASTM C136 / EN 933-1) (v1.8) | ASTM C136 | Open3DCP-specific. |
-| `raw_data_sha256` | varchar(64) | SHA-256 of the referenced raw-data file — integrity pin for deposited data (v1.8) | — | Open3DCP-specific. |
-| `raw_data_version` | varchar(20) | Version tag of the referenced raw-data deposit (v1.8) | — | Open3DCP-specific. |
 
 ## DATA PROVENANCE
 
