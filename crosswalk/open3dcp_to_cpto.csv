@@ -13,19 +13,13 @@ product_name,Provenance,PROV-O attribution + cpto:ConcreteManufacturer,partial,p
 supplier_batch_number,Provenance,PROV-O attribution + cpto:ConcreteManufacturer,partial,premix product identity (product/lot/TDS) has no CPTO class; nearest is manufacturer attribution
 production_date,Provenance,PROV-O attribution + cpto:ConcreteManufacturer,partial,premix product identity (product/lot/TDS) has no CPTO class; nearest is manufacturer attribution
 bulk_density_kg_m3,Provenance,PROV-O attribution + cpto:ConcreteManufacturer,partial,premix product identity (product/lot/TDS) has no CPTO class; nearest is manufacturer attribution
-premix_composition_disclosed,Provenance,PROV-O attribution + cpto:ConcreteManufacturer,partial,premix product identity (product/lot/TDS) has no CPTO class; nearest is manufacturer attribution
-premix_water_addition_pct,Provenance,-,no_map,mixing-procedure detail not modeled
 cement_type_1,Composition,cpto constituent class + QuantityInMix,partial,EN 197-1-oriented taxonomy; ASTM classes do not map 1:1
 cement_type_1_2,Composition,cpto constituent class + QuantityInMix,partial,EN 197-1-oriented taxonomy; ASTM classes do not map 1:1
 cement_type_1l,Composition,cpto:Cement (EN 197-1 CEM II/A-L),normalized,
-cement_type_1s,Composition,cpto constituent class + QuantityInMix,partial,EN 197-1-oriented taxonomy; ASTM classes do not map 1:1
-cement_type_1p,Composition,cpto constituent class + QuantityInMix,partial,EN 197-1-oriented taxonomy; ASTM classes do not map 1:1
-cement_type_1t,Composition,cpto constituent class + QuantityInMix,partial,EN 197-1-oriented taxonomy; ASTM classes do not map 1:1
 cement_type_2,Composition,cpto constituent class + QuantityInMix,partial,EN 197-1-oriented taxonomy; ASTM classes do not map 1:1
 cement_type_3,Composition,cpto constituent class + QuantityInMix,partial,EN 197-1-oriented taxonomy; ASTM classes do not map 1:1
 cement_type_4,Composition,cpto constituent class + QuantityInMix,partial,EN 197-1-oriented taxonomy; ASTM classes do not map 1:1
 cement_type_5,Composition,cpto constituent class + QuantityInMix,partial,EN 197-1-oriented taxonomy; ASTM classes do not map 1:1
-cement_c1157,Composition,cpto constituent class + QuantityInMix,partial,EN 197-1-oriented taxonomy; ASTM classes do not map 1:1
 cem_i,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
 cem_ii_a_s,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
 cem_ii_b_s,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
@@ -37,7 +31,6 @@ cem_ii_a_ll,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
 cem_ii_b_ll,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
 cem_ii_a_m,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
 cem_ii_b_m,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
-cem_ii_c_m,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
 cem_iii_a,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
 cem_iii_b,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
 cem_iii_c,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
@@ -45,12 +38,8 @@ cem_iv_a,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
 cem_iv_b,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
 cem_v_a,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
 cem_v_b,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
-cem_vi,Composition,cpto:Cement (EN 197-1/-5 designation),normalized,
 cac,Composition,-,no_map,outside CPTO's EN 197-1 cement enumeration
 csa_cement,Composition,-,no_map,outside CPTO's EN 197-1 cement enumeration
-calcium_sulfate,Composition,cpto constituent class + QuantityInMix,partial,EN 197-1-oriented taxonomy; ASTM classes do not map 1:1
-natural_hydraulic_lime,Composition,-,no_map,outside CPTO's EN 197-1 cement enumeration
-hydrated_lime,Composition,cpto:Addition (Type I),partial,
 cement_unspecified,Composition,cpto:Cement + QuantityInMix,normalized,type stays unclassified
 cement_other,Composition,cpto:Cement + QuantityInMix,partial,type stated but outside the enumerated set
 cement_designation,Composition,cpto:Cement subclass selection (EN 197-1 designation),normalized,
@@ -88,7 +77,6 @@ mason_sand,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no
 fine_sand,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
 concrete_sand,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
 coarse_sand,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
-fine_agg_fineness_modulus,Composition,-,no_map,no fineness-modulus concept in CPTO
 fine_agg_unspecified,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
 agg_size_89,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
 agg_size_8,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
@@ -106,7 +94,6 @@ agg_size_1,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no
 coarse_agg_unspecified,Composition,cpto:Aggregate + AggregateSize + QuantityInMix,partial,no fineness-modulus concept; ASTM C33 size numbers convert to EN d/D sieve pairs held by AggregateSize
 agg_fraction_d_lower_mm,Composition,cpto:AggregateSize (EN 12620 d/D),normalized,
 agg_fraction_d_upper_mm,Composition,cpto:AggregateSize (EN 12620 d/D),normalized,
-agg_grading_designation,Composition,cpto:AggregateSize,partial,designation string incl. DIN 1045-2 region; CPTO holds the numeric pair
 steel_fiber,Composition,cpto:SteelFibres + QuantityInMix,normalized,
 pp_fiber,Composition,cpto:PolymerFibres + QuantityInMix,partial,
 glass_fiber,Composition,cpto:Fibres (SteelFibres / PolymerFibres),partial,only steel/polymer fibre classes exist in v1.0.1
@@ -278,9 +265,6 @@ stress_strain_file,Properties,PROV-O entities (imported),normalized,
 rheology_curve_file,Properties,PROV-O entities (imported),normalized,
 microstructure_image,Properties,PROV-O entities (imported),normalized,
 raw_data_file,Properties,PROV-O entities (imported),normalized,
-sieve_analysis_file,Properties,PROV-O entities (imported),normalized,
-raw_data_sha256,Properties,PROV-O entities (imported),partial,no checksum concept; carry as a PROV-O entity attribute/annotation
-raw_data_version,Properties,PROV-O entities (imported),partial,"deposit revision carried via PROV-O entity versioning conventions, not a CPTO concept"
 doi,Provenance,PROV-O attribution + cpto:ConcreteManufacturer / Site,normalized,
 source_citation,Provenance,PROV-O attribution + cpto:ConcreteManufacturer / Site,normalized,
 measurement_confidence,Provenance,-,no_map,

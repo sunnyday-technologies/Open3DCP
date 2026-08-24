@@ -13,11 +13,13 @@ Schema versioning follows these rules:
 
 ## [1.8.0] - 2026-08-23 — record the market, not just the lab
 
-Additive, backward-compatible. Proposed in large part by David Scheidt ([ORCID 0009-0003-1996-4918](https://orcid.org/0009-0003-1996-4918)) and Daniel Auer ([#1](https://github.com/sunnyday-technologies/Open3DCP/issues/1)),
-whose report first flagged the missing reproducibility fields. Two of the three gaps stem from the
-schema being shaped around US practice, one from its being shaped around research mixes batched from
-individual constituents. All three cut against v1.7.5's own principle: the schema offered no way to
-record what the user actually knows. Column count: 248 → **295**.
+Additive, backward-compatible. Proposed and reviewed by David Scheidt
+([ORCID 0009-0003-1996-4918](https://orcid.org/0009-0003-1996-4918)), who mapped a European lab's
+printing records onto v1.7.5 and found three places where the schema assumed US practice; the
+reproducibility fields originate in an earlier report from Daniel Auer
+([#1](https://github.com/sunnyday-technologies/Open3DCP/issues/1)). All three gaps cut against
+v1.7.5's own principle: the schema offered no way to record what the user actually knows.
+Column count: 248 → **279**. Tracking: #12, #13, #14.
 
 ### Added — Commercial Product Identity (premixed materials)
 A proprietary premix's composition is *unknowable*, not unreported: the manufacturer does not
@@ -26,51 +28,42 @@ added — now records first-class, so a reproducible premix print is a complete 
 empty one. Constituent columns stay NULL (unknown), never 0.
 - `is_premixed`, `supplier`, `product_name`, `supplier_batch_number` (distinct from `batch_label`,
   which remains the user's own repeat-batch sub-identifier), `production_date`, `bulk_density_kg_m3`
-- `premix_composition_disclosed` — whether the constituent breakdown is published at all
-- `premix_water_addition_pct` — water per 100 kg dry premix, the manufacturer/TDS dosing basis
-  (not derivable from `water` once anything else is batched alongside the premix)
 
-### Added — EN 197-1 / EN 197-5 cements and hydraulic-cement completeness
-Ends the forced choice between silently equating CEM I with ASTM Type I and losing the real
-designation to `provenance_notes`. The goal is that *any* hydraulic cement records losslessly:
-typed mass columns for the main-line notations, plus exact-designation carriers for everything.
-- EN 197-1: `cem_i`, `cem_ii_a_s`, `cem_ii_b_s`, `cem_ii_a_v`, `cem_ii_b_v`, `cem_ii_a_l`,
-  `cem_ii_b_l`, `cem_ii_a_ll`, `cem_ii_b_ll`, `cem_ii_a_m`, `cem_ii_b_m`, `cem_iii_a`, `cem_iii_b`,
-  `cem_iii_c`, `cem_iv_a`, `cem_iv_b`, `cem_v_a`, `cem_v_b`
-- EN 197-5 low-clinker: `cem_ii_c_m`, `cem_vi`
-- ASTM C595 completion: `cement_type_1s` (IS), `cement_type_1p` (IP), `cement_type_1t` (IT);
-  `cement_type_1l` is now documented as ASTM C595 IL only (pre-v1.8 rows may carry CEM II/A-L there
-  via the former dual mapping)
-- ASTM C1157 performance-spec hydraulic cement: `cement_c1157` (class in `cement_designation`)
-- CSA-ternary support: `calcium_sulfate` (gypsum / hemihydrate / anhydrite for ettringite control)
-- Lime binders: `natural_hydraulic_lime` (EN 459-1 NHL), `hydrated_lime` (ASTM C207 / EN 459-1 CL)
-- `cement_other` — a *stated* type with no dedicated column (GB 175, rare EN notations, natural
-  cement): mass exact, designation preserved. Distinct from `cement_unspecified` (type unknown).
-- `cement_designation` (exact string as printed), `cement_standard` (designation system),
-  `cement_strength_class_mpa` (32.5 | 42.5 | 52.5, numeric for ML), `cement_early_strength_class`
-  (L | N | R — 42.5 R vs 42.5 N changes open time and structuration outright)
+### Added — EN 197-1 cements
+Ends the forced choice between silently equating CEM I 42.5 R with ASTM C150 Type I and losing the
+real designation to `provenance_notes`.
+- The 18 main-line EN 197-1 notations: `cem_i`, `cem_ii_a_s`, `cem_ii_b_s`, `cem_ii_a_v`,
+  `cem_ii_b_v`, `cem_ii_a_l`, `cem_ii_b_l`, `cem_ii_a_ll`, `cem_ii_b_ll`, `cem_ii_a_m`,
+  `cem_ii_b_m`, `cem_iii_a`, `cem_iii_b`, `cem_iii_c`, `cem_iv_a`, `cem_iv_b`, `cem_v_a`, `cem_v_b`
+- `cement_strength_class_mpa` (32.5 | 42.5 | 52.5, numeric for ML) and `cement_early_strength_class`
+  (L | N | R) — the strength class as two analysable fields rather than a parsed string, since
+  42.5 R and 42.5 N differ in open time and structuration. Both are supplier *classifications*
+  verified on the EN 196-1 reference mortar (w/c = 0.50); neither is ever derived from, or
+  restated as, a measured mix strength.
+- `cement_other` + `cement_designation` + `cement_standard` — a *stated* notation with no typed
+  column (rare EN types, EN 197-5 low-clinker, GB 175, ASTM C1157, natural cement) keeps its exact
+  printed designation instead of falling back to `cement_unspecified`.
 
 ### Added — EN 12620 d/D grading fallback beneath fineness modulus
 FM stays the primary analysable index (white paper §5.6); d/D preserves the weaker statement
 exactly where that is all the source made — European suppliers designate sand by size fraction and
 FM cannot be derived from d/D alone.
-- `fine_agg_fineness_modulus` — the measured FM value itself (the FM bins are its classification
-  projection; previously only the bins existed)
-- `agg_fraction_d_lower_mm`, `agg_fraction_d_upper_mm`, `agg_grading_designation` (designation
-  verbatim, incl. DIN 1045-2 grading regions)
-- `sieve_analysis_file` — full grading-curve file reference (ASTM C136 / EN 933-1)
-
-### Added — raw-data integrity
-- `raw_data_sha256`, `raw_data_version` — integrity pin and deposit version for referenced raw
-  data (the model crosswalks already carried these as forward-compat keys)
+- `agg_fraction_d_lower_mm`, `agg_fraction_d_upper_mm` (named to avoid the case-folding collision
+  the original `agg_d_mm` / `agg_D_mm` proposal would have hit in PostgreSQL)
 
 ### Changed
 - The `x_` column prefix is officially reserved for site-specific extension columns: no canonical
   column will ever use it, so migrating an extension to an official column is a rename.
-- Ingestion crosswalk: EN 197-1/-5 vocabulary members now map to their own `cem_*` columns instead
-  of approximating to ASTM columns or dropping to the sidecar; ASTM C1157 members map to
-  `cement_c1157` (previously approximated to `cement_type_1`); C595 IS/IP/IT and GB 175 members
-  now have homes (`cement_type_1s/1p/1t`, `cement_other`).
+- `cement_type_1l` is documented as ASTM C595 Type IL only; EN limestone cements record in
+  `cem_ii_a_l` / `cem_ii_a_ll` / `cem_ii_b_l` / `cem_ii_b_ll`. Pre-v1.8 rows may carry CEM II/A-L
+  in `cement_type_1l` via the former dual mapping.
+- Ingestion crosswalk: EN 197-1 vocabulary members map to their own `cem_*` columns instead of
+  approximating to ASTM columns or dropping to the sidecar.
+
+### Tooling
+- `crosswalk/units.csv` — generated unit manifest (unit, quantity kind, SI(mm) target unit and
+  exact conversion factor per column), so downstream consumers never parse a column name or
+  hard-code a factor. Requested by David Scheidt for a conversion-free finite-element export.
 
 ---
 

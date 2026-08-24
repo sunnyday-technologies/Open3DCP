@@ -94,8 +94,6 @@ OVERRIDES = {
     "toughness_index":       ("1", "index", "1", "1", "ASTM C1018 I5/I10/I20"),
     "creep_coefficient":     ("1", "ratio", "1", "1", ""),
     "fiber_aspect_ratio":    ("1", "ratio", "1", "1", "L/d"),
-    "fine_agg_fineness_modulus": ("1", "index", "1", "1",
-                              "ASTM C136 fineness modulus - dimensionless sum of cumulative retained %/100"),
     "freeze_thaw_cycles":    ("cycles", "count", "cycles", "1", ""),
     "fatigue_life_cycles":   ("cycles", "count", "cycles", "1", ""),
     "freeze_thaw_durability_factor": ("1", "index", "1", "1", "ASTM C666"),

@@ -56,13 +56,13 @@ values. If a density assumption is unavoidable, flag it.
 
 ### 3. Preserve standards alignment.
 
-Cement-type column names follow ASTM C150/C595/C1157 and
-EN 197-1/-5 (record the printed designation verbatim in
-`cement_designation`; never approximate an EN cement with an ASTM
-column, or vice versa). SCM names follow C618 (fly ash), C989 (slag),
-C1240 (silica fume). Aggregate grading follows C33 (fineness modulus
-primary), with the EN 12620 d/D fraction recorded as the fallback
-where no FM or sieve curve exists. If you encounter a column that uses a non-standard
+Cement-type column names follow ASTM C150/C595 and EN 197-1 (record
+the printed designation verbatim in `cement_designation`; never
+approximate an EN cement with an ASTM column, or vice versa). SCM
+names follow C618 (fly ash), C989 (slag), C1240 (silica fume).
+Aggregate grading follows C33 (fineness modulus primary), with the
+EN 12620 d/D fraction recorded as the fallback where no FM or sieve
+curve exists. If you encounter a column that uses a non-standard
 name (e.g. `portland_cement` instead of `cement_type_1`), map it
 back to canonical Open3DCP — do not propose adopting the
 non-standard name.

@@ -45,8 +45,6 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     supplier_batch_number       VARCHAR(100),       -- Supplier lot / batch number. Distinct from batch_label (the user's own sub-identifier for repeat batches of one formulation)
     production_date             DATE,               -- Manufacturing date of the material (bag/silo lot)
     bulk_density_kg_m3          REAL,               -- Bulk density of the dry material from the supplier technical data sheet
-    premix_composition_disclosed BOOLEAN,           -- Whether the manufacturer discloses the constituent breakdown (if true, also record the constituents)
-    premix_water_addition_pct   REAL,               -- Water added to the dry premix, % of dry-premix mass (the manufacturer/TDS dosing basis). Interconverts with `water` exactly only when nothing besides premix + water is batched; recorded so the source basis is preserved
 
     -- -----------------------------------------
     -- COMPOSITION — Binder Materials (mass-%)
@@ -54,19 +52,16 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     cement_type_1               REAL,     -- OPC, ASTM C150 Type I
     cement_type_1_2             REAL,     -- General purpose / moderate sulfate, ASTM C150 Type I/II
     cement_type_1l              REAL,     -- Portland-limestone, ASTM C595 Type IL. Pre-v1.8 rows may carry EN 197-1 CEM II/A-L here via the former dual mapping; from v1.8, EN limestone cements record in cem_ii_a_l / cem_ii_a_ll
-    cement_type_1s              REAL,     -- v1.8: Portland-slag blended cement, ASTM C595 Type IS
-    cement_type_1p              REAL,     -- v1.8: Portland-pozzolan blended cement, ASTM C595 Type IP
-    cement_type_1t              REAL,     -- v1.8: Ternary blended cement, ASTM C595 Type IT
     cement_type_2               REAL,     -- Moderate sulfate / moderate heat, ASTM C150 Type II
     cement_type_3               REAL,     -- High early strength / rapid hardening, ASTM C150 Type III
     cement_type_4               REAL,     -- Low-heat, ASTM C150 Type IV (rarely manufactured)
     cement_type_5               REAL,     -- High sulfate resistance, ASTM C150 Type V
-    cement_c1157                REAL,     -- v1.8: hydraulic cement by performance specification, ASTM C1157 (GU/HE/MS/HS/MH/LH -- deliberately chemistry-agnostic; record the class in cement_designation)
-    -- EN 197-1 / EN 197-5 common cements (v1.8): mass columns for the main-line notations in
-    -- (European) 3DCP practice. Record the printed designation verbatim in cement_designation and
-    -- the strength class in cement_strength_class_mpa / cement_early_strength_class. Never
-    -- approximate an EN cement with an ASTM column (or vice versa) -- preserve, don't presume.
-    -- Rare notations (II-D/P/Q/W/T) route to cement_other with the exact designation.
+    -- EN 197-1 common cements (v1.8): mass columns for the main-line notations in (European)
+    -- 3DCP practice, with the strength class in cement_strength_class_mpa /
+    -- cement_early_strength_class. Never approximate an EN cement with an ASTM column (or vice
+    -- versa) -- preserve, don't presume. A stated notation with no column here (II-D/P/Q/W/T,
+    -- GB 175, EN 197-5 low-clinker) routes to cement_other with its exact designation in
+    -- cement_designation, so nothing is lost while it waits for a typed column.
     cem_i                       REAL,     -- CEM I Portland cement (95-100% clinker), EN 197-1
     cem_ii_a_s                  REAL,     -- CEM II/A-S Portland-slag (6-20% GGBS), EN 197-1
     cem_ii_b_s                  REAL,     -- CEM II/B-S Portland-slag (21-35% GGBS), EN 197-1
@@ -78,7 +73,6 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     cem_ii_b_ll                 REAL,     -- CEM II/B-LL Portland-limestone (21-35%, TOC <= 0.20%), EN 197-1
     cem_ii_a_m                  REAL,     -- CEM II/A-M Portland-composite (6-20% multi-constituent; constituents in the cement_designation parentheses), EN 197-1
     cem_ii_b_m                  REAL,     -- CEM II/B-M Portland-composite (21-35% multi-constituent), EN 197-1
-    cem_ii_c_m                  REAL,     -- v1.8: CEM II/C-M Portland-composite low-clinker (50-64% clinker), EN 197-5
     cem_iii_a                   REAL,     -- CEM III/A blastfurnace cement (36-65% GGBS), EN 197-1
     cem_iii_b                   REAL,     -- CEM III/B blastfurnace cement (66-80% GGBS), EN 197-1
     cem_iii_c                   REAL,     -- CEM III/C blastfurnace cement (81-95% GGBS), EN 197-1
@@ -86,17 +80,13 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     cem_iv_b                    REAL,     -- CEM IV/B pozzolanic cement (36-55% pozzolana), EN 197-1
     cem_v_a                     REAL,     -- CEM V/A composite cement (slag + pozzolana), EN 197-1
     cem_v_b                     REAL,     -- CEM V/B composite cement (slag + pozzolana, higher substitution), EN 197-1
-    cem_vi                      REAL,     -- v1.8: CEM VI composite cement (35-49% clinker, slag + pozzolana/limestone), EN 197-5
     cac                         REAL,     -- Calcium aluminate cement, EN 14647
     csa_cement                  REAL,     -- Calcium sulfoaluminate cement
-    calcium_sulfate             REAL,     -- v1.8: added calcium sulfate (gypsum / hemihydrate / anhydrite) for ettringite control in CSA/CAC ternary binders; form in provenance_notes
-    natural_hydraulic_lime      REAL,     -- v1.8: natural hydraulic lime binder, EN 459-1 (NHL 2 / 3.5 / 5; class in cement_designation)
-    hydrated_lime               REAL,     -- v1.8: hydrated (air) lime additive, ASTM C207 / EN 459-1 CL
     cement_unspecified          REAL,     -- v1.7.5: Portland-type cement whose ASTM/EN type the source does NOT state. Preserve-don't-presume: store the mass exactly here rather than defaulting a type; refine to a cement_type_* column only when the source states the type.
-    cement_other                REAL,     -- v1.8: hydraulic cement whose STATED type has no dedicated column (e.g. GB 175 P-O/P-S, rare EN notations, natural cement) -- mass exact here, exact designation in cement_designation. Distinct from cement_unspecified (type unknown).
-    cement_designation          VARCHAR(120),       -- v1.8: exact binder designation as printed by the source (e.g. "CEM II/B-M (S-LL) 42.5 N", "Type IL(10)", "P-O 42.5", "NHL 3.5"). Preserve verbatim; the typed columns are the analysable projection.
-    cement_standard             VARCHAR(20),        -- v1.8: designation system: ASTM_C150 | ASTM_C595 | ASTM_C1157 | EN_197_1 | EN_197_5 | EN_14647 | EN_459 | GB_175 | CSA_A3001 | other
-    cement_strength_class_mpa   REAL,               -- v1.8: EN 197-1 standard strength class as a number: 32.5 | 42.5 | 52.5. A supplier CLASSIFICATION of the cement, verified on the EN 196-1 reference mortar (CEN standard sand, w/c = 0.50) -- far from any 3DCP mix design. Never derive it from, or restate it as, a measured mix strength (those belong in compressive_strength_mpa / strength_measurements); it is an ingredient descriptor for prediction, not a property of the printed mix.
+    cement_other                REAL,     -- v1.8: hydraulic cement whose STATED type has no dedicated column (rare EN notations, EN 197-5 low-clinker, GB 175, ASTM C1157, natural cement) -- mass exact here, exact designation in cement_designation. Distinct from cement_unspecified (type unknown).
+    cement_designation          VARCHAR(120),       -- v1.8: exact binder designation as printed by the source (e.g. "CEM II/B-M (S-LL) 42.5 N", "Type IL(10)", "P-O 42.5"). Preserve verbatim; the typed columns are the analysable projection.
+    cement_standard             VARCHAR(20),        -- v1.8: designation system: ASTM_C150 | ASTM_C595 | ASTM_C1157 | EN_197_1 | EN_197_5 | EN_14647 | GB_175 | CSA_A3001 | other
+    cement_strength_class_mpa   REAL,               -- v1.8: EN 197-1 standard strength class as a number: 32.5 | 42.5 | 52.5. A supplier CLASSIFICATION of the cement, verified on the EN 196-1 reference mortar (CEN standard sand, w/c = 0.50) -- far from any 3DCP mix design. Never derive it from, or restate it as, a measured mix strength (those belong in compressive_strength_mpa / strength_measurements); it is an ingredient descriptor for prediction, not a property of the printed mix. Record the full printed designation in cement_designation.
     cement_early_strength_class VARCHAR(2),         -- v1.8: EN 197-1/-5 early-strength designation: L | N | R (the R in "42.5 R" -- changes open time and structuration outright). Same caveat as cement_strength_class_mpa: a supplier classification on the EN 196-1 reference mortar, never derived from measured early-age strengths of the mix (those belong in strength_measurements).
     fly_ash                     REAL,     -- Fly ash (class not specified)
     fly_ash_type_f              REAL,     -- Class F (SiO2+Al2O3+Fe2O3 >= 70%), ASTM C618
@@ -143,7 +133,6 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     fine_sand                   REAL,     -- FM [1.6,2.3)
     concrete_sand               REAL,     -- FM [2.3,3.1) (concrete sand / C33 sand)
     coarse_sand                 REAL,     -- FM [3.1,3.7] (torpedo sand)
-    fine_agg_fineness_modulus   REAL,     -- v1.8: measured fineness modulus as stated or computed from the full sieve analysis (ASTM C136); the FM bin columns above are the classification projection of this value
     fine_agg_unspecified        REAL,     -- v1.7.5: fine aggregate whose fineness modulus / grading the source does NOT state. Preserve-don't-presume: store the mass exactly here rather than guessing an FM bucket; use the FM columns above only when the source states FM or an equivalent grading.
     -- Coarse aggregate: ASTM C33 size numbers
     agg_size_89                 REAL,     -- #89: 3/8"-#16 sieve (9.5-1.18 mm)
@@ -164,10 +153,9 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- fraction (0/2, 0/4, 2/8) and at most a DIN 1045-2 grading region; FM is essentially never
     -- quoted and is not derivable from d/D alone. FM stays the primary analysable index; d/D
     -- preserves the weaker statement exactly where that is all the source made. Recorded for the
-    -- governing (primary) aggregate fraction; per-fraction curves go to sieve_analysis_file.
+    -- governing (primary) aggregate fraction.
     agg_fraction_d_lower_mm     REAL,     -- Lower size limit d of the aggregate fraction (EN 12620 d/D)
     agg_fraction_d_upper_mm     REAL,     -- Upper size limit D of the aggregate fraction (EN 12620 d/D)
-    agg_grading_designation     VARCHAR(30),        -- Source's grading designation verbatim: "0/4", "2/8", DIN 1045-2 region ("A/B 16")
 
     -- Fiber Reinforcement (mass-%)
     steel_fiber                 REAL,
@@ -422,9 +410,6 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     rheology_curve_file         VARCHAR(255),       -- Flow / structuration curve file
     microstructure_image        VARCHAR(255),       -- SEM / CT / crack-pattern image file
     raw_data_file               VARCHAR(255),       -- Generic table / HDF5 raw-data reference
-    sieve_analysis_file         VARCHAR(255),       -- v1.8: full aggregate sieve-analysis / grading-curve file (FM computable from it; ASTM C136 / EN 933-1)
-    raw_data_sha256             VARCHAR(64),        -- v1.8: SHA-256 of the referenced raw-data file -- integrity pin for deposited data
-    raw_data_version            VARCHAR(20),        -- v1.8: version tag of the referenced raw-data deposit
 
     -- -----------------------------------------
     -- DATA PROVENANCE
