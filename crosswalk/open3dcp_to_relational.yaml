@@ -14,7 +14,7 @@
 #   none        - source field has no flat Open3DCP home -> triage sidecar
 meta:
   name: open3dcp_to_relational
-  open3dcp_version: "1.7"     # MUST match the public schema minor version in Open3DCP_SCHEMA.md / CHANGELOG.md
+  open3dcp_version: "1.8"     # MUST match the public schema minor version in Open3DCP_SCHEMA.md / CHANGELOG.md
   source_schema: "relational concrete database (15-tab spreadsheet template)"
   direction: bidirectional_where_possible
   notes: >
@@ -56,11 +56,28 @@ mappings:
         ASTM_C150_Type_III: cement_type_3, ASTM_C150_Type_IV: cement_type_4,
         ASTM_C150_Type_V: cement_type_5, ASTM_C595_Type_IL: cement_type_1l,
         ASTM_C595_Type_IL_HE: cement_type_1l, ASTM_C595_Type_IL_MS: cement_type_1l,
-        ASTM_C595_Type_IL_HS: cement_type_1l, EN197_CEM_I: cement_type_1,
-        ASTM_C1157_Type_GU: cement_type_1 },
+        ASTM_C595_Type_IL_HS: cement_type_1l,
+        ASTM_C595_Type_IS: cement_type_1s, ASTM_C595_Type_IP: cement_type_1p,
+        ASTM_C595_Type_IT: cement_type_1t,
+        ASTM_C1157_Type_GU: cement_c1157, ASTM_C1157_Type_HE: cement_c1157,
+        ASTM_C1157_Type_MS: cement_c1157, ASTM_C1157_Type_HS: cement_c1157,
+        ASTM_C1157_Type_MH: cement_c1157, ASTM_C1157_Type_LH: cement_c1157,
+        EN197_CEM_I: cem_i,
+        EN197_CEM_II_A_S: cem_ii_a_s, EN197_CEM_II_B_S: cem_ii_b_s,
+        EN197_CEM_II_A_V: cem_ii_a_v, EN197_CEM_II_B_V: cem_ii_b_v,
+        EN197_CEM_II_A_L: cem_ii_a_l, EN197_CEM_II_B_L: cem_ii_b_l,
+        EN197_CEM_II_A_LL: cem_ii_a_ll, EN197_CEM_II_B_LL: cem_ii_b_ll,
+        EN197_CEM_II_A_M: cem_ii_a_m, EN197_CEM_II_B_M: cem_ii_b_m,
+        EN197_CEM_II_C_M: cem_ii_c_m,
+        EN197_CEM_III_A: cem_iii_a, EN197_CEM_III_B: cem_iii_b, EN197_CEM_III_C: cem_iii_c,
+        EN197_CEM_IV_A: cem_iv_a, EN197_CEM_IV_B: cem_iv_b,
+        EN197_CEM_V_A: cem_v_a, EN197_CEM_V_B: cem_v_b, EN197_CEM_VI: cem_vi,
+        GB175_PO: cement_other, GB175_PI: cement_other, GB175_PII: cement_other,
+        GB175_PS: cement_other, GB175_PF: cement_other, GB175_PP: cement_other,
+        GB175_PC: cement_other },
       pivot_default: cement_unspecified,
       fidelity: categorical,
-      notes: "Source cement_type vocab has more members than Open3DCP cement columns. Unmapped members (CEM II/III/IV/V, GB175_*, blended IP/IS/IT) -> sidecar with original type string. v1.7.5: when the source states NO type at all, the mass routes to cement_unspecified EXACTLY (preserve-don't-presume; nothing defaulted)." }
+      notes: "v1.8: EN 197-1/-5 members map to their own cem_* columns (no more ASTM approximation), C595 IS/IP/IT and C1157 classes have columns, GB 175 members route to cement_other (record the exact designation in cement_designation). v1.7.5: when the source states NO type at all, the mass routes to cement_unspecified EXACTLY (preserve-don't-presume; nothing defaulted)." }
 
   - { open3dcp: w_b_ratio,  src: material_batches.water_binder_ratio, transform: identity, fidelity: exact }
   # Fidelity convention: `fidelity` declares the SEMANTIC assumption the MAPPING makes, independent of
