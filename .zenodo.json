@@ -1,6 +1,6 @@
 {
   "title": "Open3DCP: Open Data Standard for 3D Concrete Printing",
-  "version": "1.7.5",
+  "version": "1.8.0",
   "upload_type": "software",
   "creators": [
     {
@@ -28,6 +28,13 @@
       "identifier": "https://github.com/sunnyday-technologies/Open3DCP",
       "relation": "isSupplementTo",
       "scheme": "url"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Scheidt, David",
+      "type": "Other",
+      "orcid": "0009-0003-1996-4918"
     }
   ]
 }
