@@ -29,5 +29,12 @@
       "relation": "isSupplementTo",
       "scheme": "url"
     }
+  ],
+  "contributors": [
+    {
+      "name": "Scheidt, David",
+      "type": "Other",
+      "orcid": "0009-0003-1996-4918"
+    }
   ]
 }
