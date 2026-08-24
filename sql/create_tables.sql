@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS mix_designs (
     -- reproducibility is the product, the supplier lot, and the water added -- recorded
     -- here first-class so a fully reproducible premix print is a complete record, not a
     -- sparse one. Constituent columns stay NULL (unknown), never 0. Proposed by
-    -- D. Scheidt (TU Munich) and D. Auer (issue #1).
+    -- D. Scheidt (ORCID 0009-0003-1996-4918) and D. Auer (issue #1).
     -- -----------------------------------------
     is_premixed                 BOOLEAN,            -- Material used as a proprietary premix rather than batched from constituents
     supplier                    VARCHAR(150),       -- Manufacturer / supplier of the material

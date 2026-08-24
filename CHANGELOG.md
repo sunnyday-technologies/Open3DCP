@@ -13,8 +13,7 @@ Schema versioning follows these rules:
 
 ## [1.8.0] - 2026-08-23 — record the market, not just the lab
 
-Additive, backward-compatible. Proposed in large part by David Scheidt (Chair of Concrete
-Structures, TU Munich) and Daniel Auer ([#1](https://github.com/sunnyday-technologies/Open3DCP/issues/1)),
+Additive, backward-compatible. Proposed in large part by David Scheidt ([ORCID 0009-0003-1996-4918](https://orcid.org/0009-0003-1996-4918)) and Daniel Auer ([#1](https://github.com/sunnyday-technologies/Open3DCP/issues/1)),
 whose report first flagged the missing reproducibility fields. Two of the three gaps stem from the
 schema being shaped around US practice, one from its being shaped around research mixes batched from
 individual constituents. All three cut against v1.7.5's own principle: the schema offered no way to
