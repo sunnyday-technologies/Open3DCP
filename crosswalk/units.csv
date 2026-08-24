@@ -1,0 +1,296 @@
+column,sql_type,section,unit,quantity_kind,si_mm_unit,si_mm_factor,fe_relevant,notes
+mix_id,varchar,Identity & Versioning,-,categorical,,,,
+name,varchar,Identity & Versioning,-,categorical,,,,
+parent_mix_id,varchar,Identity & Versioning,-,categorical,,,,
+version,varchar,Identity & Versioning,-,categorical,,,,
+material_class,varchar,Identity & Versioning,-,categorical,,,,
+batch_label,varchar,Identity & Versioning,-,categorical,,,,
+date_of_casting,date,Identity & Versioning,-,date,,,,
+created_at,timestamptz,Identity & Versioning,-,timestamp,,,,
+is_premixed,boolean,COMMERCIAL PRODUCT IDENTITY,-,flag,,,,
+supplier,varchar,COMMERCIAL PRODUCT IDENTITY,-,categorical,,,,
+product_name,varchar,COMMERCIAL PRODUCT IDENTITY,-,categorical,,,,
+supplier_batch_number,varchar,COMMERCIAL PRODUCT IDENTITY,-,categorical,,,,
+production_date,date,COMMERCIAL PRODUCT IDENTITY,-,date,,,,
+bulk_density_kg_m3,real,COMMERCIAL PRODUCT IDENTITY,kg/m3,density,tonne/mm3,1e-12,,
+premix_composition_disclosed,boolean,COMMERCIAL PRODUCT IDENTITY,-,flag,,,,
+premix_water_addition_pct,real,COMMERCIAL PRODUCT IDENTITY,%,fraction,1 (fraction),1e-2,,
+cement_type_1,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_type_1_2,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_type_1l,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_type_1s,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_type_1p,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_type_1t,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_type_2,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_type_3,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_type_4,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_type_5,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_c1157,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_i,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_ii_a_s,real,Binder Materials,s,time,s,1,,
+cem_ii_b_s,real,Binder Materials,s,time,s,1,,
+cem_ii_a_v,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_ii_b_v,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_ii_a_l,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_ii_b_l,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_ii_a_ll,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_ii_b_ll,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_ii_a_m,real,Binder Materials,m,length,mm,1e3,,
+cem_ii_b_m,real,Binder Materials,m,length,mm,1e3,,
+cem_ii_c_m,real,Binder Materials,m,length,mm,1e3,,
+cem_iii_a,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_iii_b,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_iii_c,real,Binder Materials,degC,temperature,degC,1,,
+cem_iv_a,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_iv_b,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_v_a,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_v_b,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cem_vi,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cac,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+csa_cement,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+calcium_sulfate,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+natural_hydraulic_lime,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+hydrated_lime,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_unspecified,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_other,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cement_designation,varchar,Binder Materials,-,categorical,,,,
+cement_standard,varchar,Binder Materials,-,categorical,,,,
+cement_strength_class_mpa,real,Binder Materials,MPa,classification,,,,"EN 197-1 class label (32.5|42.5|52.5) verified on the EN 196-1 reference mortar - a cement descriptor, NOT a mix stress; do not feed to FE"
+cement_early_strength_class,varchar,Binder Materials,-,categorical,,,,
+fly_ash,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+fly_ash_type_f,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+fly_ash_type_c,real,Binder Materials,degC,temperature,degC,1,,
+silica_fume,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+nano_silica,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+slag,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+metakaolin,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+limestone,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+pumice,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+bottom_ash,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+rice_husk_ash,real,Binder Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+sodium_hydroxide,real,Alkali Activators,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+sodium_silicate,real,Alkali Activators,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+potassium_hydroxide,real,Alkali Activators,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+potassium_silicate,real,Alkali Activators,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+activator_ms_ratio,real,Alkali Activators,1,molar_ratio,1,1,,
+na2o_dosage_pct,real,Alkali Activators,%,fraction,1 (fraction),1e-2,,
+nano_clay,real,Additional Modifiers,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+mineral_powder,real,Additional Modifiers,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+mwcnt,real,Additional Modifiers,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+graphene_oxide,real,Additional Modifiers,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+recycled_sand,real,Additional Modifiers,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+iron_oxide_pigment,real,Pigments,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+titanium_dioxide_pigment,real,Pigments,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+chromium_oxide_pigment,real,Pigments,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+carbon_black_pigment,real,Pigments,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+pigment_other,real,Pigments,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+mason_sand,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+fine_sand,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+concrete_sand,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+coarse_sand,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+fine_agg_fineness_modulus,real,Aggregate Materials,1,index,1,1,,ASTM C136 fineness modulus - dimensionless sum of cumulative retained %/100
+fine_agg_unspecified,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_89,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_8,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_7,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_67,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_6,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_57,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_5,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_467,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_4,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_357,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_3,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_2,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_size_1,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+coarse_agg_unspecified,real,Aggregate Materials,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+agg_fraction_d_lower_mm,real,Aggregate Materials,mm,length,mm,1,,
+agg_fraction_d_upper_mm,real,Aggregate Materials,mm,length,mm,1,,
+agg_grading_designation,varchar,Aggregate Materials,-,categorical,,,,
+steel_fiber,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+pp_fiber,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+glass_fiber,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+carbon_fiber,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+pva_fiber,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+basalt_fiber,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+nylon_fiber,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+aramid_fiber,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+cellulose_fiber,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+fiber_length_mm,real,Fiber Reinforcement,mm,length,mm,1,,
+fiber_diameter_mm,real,Fiber Reinforcement,mm,length,mm,1,,
+fiber_aspect_ratio,real,Fiber Reinforcement,1,ratio,1,1,,L/d
+fiber_tensile_strength_mpa,real,Fiber Reinforcement,MPa,stress,MPa,1,,
+superplasticizer,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+water_reducer,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+accelerator,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+calcium_formate,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+retarder,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+air_entrainer,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+vma,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+shrinkage_reducer,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+corrosion_inhibitor,real,Fiber Reinforcement,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+hpmc,real,Clay / VMA Rheology Modifiers,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+sepiolite_clay,real,Clay / VMA Rheology Modifiers,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+attapulgite,real,Clay / VMA Rheology Modifiers,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+calcium_bentonite,real,Clay / VMA Rheology Modifiers,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+water,real,Water,mass-% of total wet mix,mass_fraction,1 (fraction),1e-2,,kg/m3 recoverable exactly via total_batched_mass_kg_m3
+w_c_ratio,real,KEY RATIOS,1,ratio,1,1,,
+w_b_ratio,real,KEY RATIOS,1,ratio,1,1,,
+a_b_ratio,real,KEY RATIOS,1,ratio,1,1,,
+water_premix_pct,real,KEY RATIOS,%,fraction,1 (fraction),1e-2,,
+water_temperature_c,real,KEY RATIOS,degC,temperature,degC,1,,
+aggregate_moisture_state,varchar,AGGREGATE CONDITIONING,-,categorical,,,,
+aggregate_absorption_pct,real,AGGREGATE CONDITIONING,%,fraction,1 (fraction),1e-2,,
+aggregate_moisture_content_pct,real,AGGREGATE CONDITIONING,%,fraction,1 (fraction),1e-2,,
+original_basis,varchar,AGGREGATE CONDITIONING,-,categorical,,,,
+admixture_basis,varchar,AGGREGATE CONDITIONING,-,categorical,,,,
+total_batched_mass_kg_m3,real,AGGREGATE CONDITIONING,kg/m3,density,tonne/mm3,1e-12,,
+total_binder_kg_m3,real,AGGREGATE CONDITIONING,kg/m3,density,tonne/mm3,1e-12,,
+test_age_days,integer,TEST CONDITIONS,d,time,s,86400,,
+specimen_prep,varchar,TEST CONDITIONS,-,categorical,,,,
+specimen_geometry,varchar,TEST CONDITIONS,-,categorical,,,,
+specimen_length_mm,real,TEST CONDITIONS,mm,length,mm,1,,
+specimen_width_mm,real,TEST CONDITIONS,mm,length,mm,1,,
+specimen_height_mm,real,TEST CONDITIONS,mm,length,mm,1,,
+test_orientation,varchar,TEST CONDITIONS,-,categorical,,,,
+test_orientation_code,varchar,TEST CONDITIONS,-,categorical,,,,
+test_method_code,varchar,TEST CONDITIONS,-,categorical,,,,
+n_specimens,integer,TEST CONDITIONS,specimens,count,specimens,1,,
+curing_regime,varchar,TEST CONDITIONS,-,categorical,,,,
+curing_regime_code,varchar,TEST CONDITIONS,-,categorical,,,,
+curing_temperature_c,real,TEST CONDITIONS,degC,temperature,degC,1,,
+curing_humidity_pct,real,TEST CONDITIONS,%,fraction,1 (fraction),1e-2,,
+curing_duration_days,real,TEST CONDITIONS,d,time,s,86400,,
+is_3d_printed,boolean,3DCP PROCESS PARAMETERS,-,flag,,,,
+print_speed_mm_s,real,3DCP PROCESS PARAMETERS,mm/s,velocity,mm/s,1,yes,
+layer_height_mm,real,3DCP PROCESS PARAMETERS,mm,length,mm,1,yes,
+layer_time_gap_s,real,3DCP PROCESS PARAMETERS,s,time,s,1,yes,
+nozzle_diameter_mm,real,3DCP PROCESS PARAMETERS,mm,length,mm,1,yes,
+nozzle_shape,varchar,3DCP PROCESS PARAMETERS,-,categorical,,,,
+nozzle_area_mm2,real,3DCP PROCESS PARAMETERS,mm2,area,mm2,1,yes,
+filament_width_mm,real,3DCP PROCESS PARAMETERS,mm,length,mm,1,yes,
+layer_width_mm,real,3DCP PROCESS PARAMETERS,mm,length,mm,1,yes,
+extrusion_rate_l_min,real,3DCP PROCESS PARAMETERS,L/min,volumetric_flow,mm3/s,1e6/60,,
+num_layers,integer,3DCP PROCESS PARAMETERS,layers,count,layers,1,yes,
+path_length_mm,real,3DCP PROCESS PARAMETERS,mm,length,mm,1,,
+infill_pattern,varchar,3DCP PROCESS PARAMETERS,-,categorical,,,,
+contour_count,integer,3DCP PROCESS PARAMETERS,passes,count,passes,1,,
+print_direction,varchar,3DCP PROCESS PARAMETERS,-,categorical,,,,
+pump_type,varchar,Pumping System,-,categorical,,,,
+pump_pressure_bar,real,Pumping System,bar,pressure,MPa,0.1,,
+pump_rotational_speed_rpm,real,Pumping System,rev/min,rotational_speed,1/s,1/60,,
+pump_distance_m,real,Pumping System,m,length,mm,1e3,,
+pipe_diameter_mm,real,Pumping System,mm,length,mm,1,,
+pumping_duration_s,real,Pumping System,s,time,s,1,,
+mixing_time_s,real,Mixing Process,s,time,s,1,,
+mixing_speed_rpm,real,Mixing Process,rev/min,rotational_speed,1/s,1/60,,
+mixer_type,varchar,Mixing Process,-,categorical,,,,
+shear_rate_per_s,real,Mixing Process,1/s,rate,1/s,1,,
+admixture_addition_point,varchar,Mixing Process,-,categorical,,,,
+aggregate_prewetted,boolean,Mixing Process,-,flag,,,,
+mix_temperature_c,real,ENVIRONMENTAL CONDITIONS,degC,temperature,degC,1,,
+ambient_temperature_c,real,ENVIRONMENTAL CONDITIONS,degC,temperature,degC,1,,
+ambient_humidity_pct,real,ENVIRONMENTAL CONDITIONS,%,fraction,1 (fraction),1e-2,,
+wind_speed_m_s,real,ENVIRONMENTAL CONDITIONS,m/s,velocity,mm/s,1e3,,
+slump_mm,real,FRESH-STATE PROPERTIES,mm,length,mm,1,,
+spread_mm,real,FRESH-STATE PROPERTIES,mm,length,mm,1,,
+yield_stress_pa,real,FRESH-STATE PROPERTIES,Pa,stress,MPa,1e-6,yes,
+plastic_viscosity_pa_s,real,FRESH-STATE PROPERTIES,Pa*s,dynamic_viscosity,MPa*s,1e-6,yes,
+static_yield_stress_pa,real,FRESH-STATE PROPERTIES,Pa,stress,MPa,1e-6,yes,
+dynamic_yield_stress_pa,real,FRESH-STATE PROPERTIES,Pa,stress,MPa,1e-6,yes,
+thixotropy_pa_per_s,real,FRESH-STATE PROPERTIES,Pa/s,structuration_rate,MPa/s,1e-6,yes,
+structuration_rate_pa_per_s,real,FRESH-STATE PROPERTIES,Pa/s,structuration_rate,MPa/s,1e-6,yes,
+open_time_min,real,FRESH-STATE PROPERTIES,min,time,s,60,,
+green_strength_kpa,real,FRESH-STATE PROPERTIES,kPa,stress,MPa,1e-3,yes,
+air_content_fresh_pct,real,FRESH-STATE PROPERTIES,%,fraction,1 (fraction),1e-2,,
+unit_weight_fresh_kg_m3,real,FRESH-STATE PROPERTIES,kg/m3,density,tonne/mm3,1e-12,yes,
+setting_time_initial_min,real,FRESH-STATE PROPERTIES,min,time,s,60,,
+setting_time_final_min,real,FRESH-STATE PROPERTIES,min,time,s,60,,
+bleeding_pct,real,FRESH-STATE PROPERTIES,%,fraction,1 (fraction),1e-2,,
+temperature_fresh_c,real,FRESH-STATE PROPERTIES,degC,temperature,degC,1,,
+j_ring_mm,real,FRESH-STATE PROPERTIES,mm,length,mm,1,,
+v_funnel_s,real,FRESH-STATE PROPERTIES,s,time,s,1,,
+l_box_ratio,real,FRESH-STATE PROPERTIES,1,ratio,1,1,,
+segregation_resistance_pct,real,FRESH-STATE PROPERTIES,%,fraction,1 (fraction),1e-2,,
+design_strength_mpa,real,MECHANICAL PROPERTIES (HARDENED),MPa,stress,MPa,1,yes,
+compressive_strength_mpa,real,MECHANICAL PROPERTIES (HARDENED),MPa,stress,MPa,1,yes,
+tensile_strength_mpa,real,MECHANICAL PROPERTIES (HARDENED),MPa,stress,MPa,1,yes,
+splitting_tensile_mpa,real,MECHANICAL PROPERTIES (HARDENED),MPa,stress,MPa,1,yes,
+flexural_strength_mpa,real,MECHANICAL PROPERTIES (HARDENED),MPa,stress,MPa,1,yes,
+elastic_modulus_gpa,real,MECHANICAL PROPERTIES (HARDENED),GPa,stress,MPa,1e3,yes,
+bond_strength_mpa,real,MECHANICAL PROPERTIES (HARDENED),MPa,stress,MPa,1,yes,
+fracture_energy_n_m,real,MECHANICAL PROPERTIES (HARDENED),N/m,fracture_energy,N/mm,1e-3,yes,
+toughness_index,real,MECHANICAL PROPERTIES (HARDENED),1,index,1,1,,ASTM C1018 I5/I10/I20
+impact_resistance_j,real,MECHANICAL PROPERTIES (HARDENED),J,energy,mJ,1e3,,
+fatigue_life_cycles,real,MECHANICAL PROPERTIES (HARDENED),cycles,count,cycles,1,,
+density_hardened_kg_m3,real,MECHANICAL PROPERTIES (HARDENED),kg/m3,density,tonne/mm3,1e-12,yes,
+poissons_ratio,real,MECHANICAL PROPERTIES (HARDENED),1,ratio,1,1,yes,
+interlayer_bond_mpa,real,3DCP INTERLAYER PROPERTIES,MPa,stress,MPa,1,yes,
+interlayer_shear_mpa,real,3DCP INTERLAYER PROPERTIES,MPa,stress,MPa,1,yes,
+air_content_deposited_pct,real,3DCP INTERLAYER PROPERTIES,%,fraction,1 (fraction),1e-2,,
+void_area_fraction_pct,real,3DCP INTERLAYER PROPERTIES,%,fraction,1 (fraction),1e-2,,
+surface_roughness_avg,real,3DCP INTERLAYER PROPERTIES,mm,length,mm,1,,unit assumed mm; state the method in provenance_notes
+surface_moisture_state,varchar,3DCP INTERLAYER PROPERTIES,-,categorical,,,,
+surface_treatment,varchar,3DCP INTERLAYER PROPERTIES,-,categorical,,,,
+chloride_rcpt_coulombs,real,DURABILITY PROPERTIES,C,electric_charge,,,,no FE analogue
+chloride_migration_coeff,real,DURABILITY PROPERTIES,m2/s,diffusivity,mm2/s,1e6,,
+chloride_diffusion_coeff,real,DURABILITY PROPERTIES,m2/s,diffusivity,mm2/s,1e6,,
+carbonation_depth_1yr_mm,real,DURABILITY PROPERTIES,mm,length,mm,1,,
+carbonation_rate_coeff,real,DURABILITY PROPERTIES,mm/d^0.5,carbonation_rate,mm/s^0.5,1/293.938769,,1/sqrt(86400)
+drying_shrinkage_28d_ue,real,DURABILITY PROPERTIES,microstrain,strain,1 (strain),1e-6,yes,
+autogenous_shrinkage_ue,real,DURABILITY PROPERTIES,microstrain,strain,1 (strain),1e-6,yes,
+creep_coefficient,real,DURABILITY PROPERTIES,1,ratio,1,1,yes,
+freeze_thaw_cycles,real,DURABILITY PROPERTIES,cycles,count,cycles,1,,
+freeze_thaw_durability_factor,real,DURABILITY PROPERTIES,1,index,1,1,,ASTM C666
+freeze_thaw_mass_loss_pct,real,DURABILITY PROPERTIES,%,fraction,1 (fraction),1e-2,,
+sulfate_expansion_6mo_pct,real,DURABILITY PROPERTIES,%,fraction,1 (fraction),1e-2,,
+sulfate_expansion_12mo_pct,real,DURABILITY PROPERTIES,%,fraction,1 (fraction),1e-2,,
+asr_expansion_14d_pct,real,DURABILITY PROPERTIES,%,fraction,1 (fraction),1e-2,,
+asr_expansion_1yr_pct,real,DURABILITY PROPERTIES,%,fraction,1 (fraction),1e-2,,
+abrasion_depth_mm,real,DURABILITY PROPERTIES,mm,length,mm,1,,
+water_penetration_depth_mm,real,DURABILITY PROPERTIES,mm,length,mm,1,,
+electrical_resistivity_kohm_cm,real,DURABILITY PROPERTIES,kohm*cm,resistivity,,,,no FE analogue
+porosity_pct,real,DURABILITY PROPERTIES,%,fraction,1 (fraction),1e-2,,
+water_absorption_pct,real,DURABILITY PROPERTIES,%,fraction,1 (fraction),1e-2,,
+sorptivity_mm_sqrt_s,real,DURABILITY PROPERTIES,mm/s^0.5,sorptivity,mm/s^0.5,1,,
+sorptivity_secondary_mm_sqrt_s,real,DURABILITY PROPERTIES,mm/s^0.5,sorptivity,mm/s^0.5,1,,
+oxygen_permeability_m2,real,DURABILITY PROPERTIES,m2,intrinsic_permeability,mm2,1e6,,
+scaling_resistance_kg_m2,real,DURABILITY PROPERTIES,kg/m2,areal_mass,tonne/mm2,1e-9,,
+corrosion_rate_ua_cm2,real,DURABILITY PROPERTIES,uA/cm2,current_density,,,,no FE analogue
+half_cell_potential_mv,real,DURABILITY PROPERTIES,mV,electric_potential,,,,no FE analogue
+heat_of_hydration_kj_kg,real,DURABILITY PROPERTIES,kJ/kg,specific_energy,mJ/tonne,1e9,yes,
+thermal_conductivity_w_mk,real,THERMAL & ENVIRONMENTAL,W/(m*K),thermal_conductivity,mW/(mm*K),1,yes,
+specific_heat_j_kg_k,real,THERMAL & ENVIRONMENTAL,J/(kg*K),specific_heat,mJ/(tonne*K),1e6,yes,
+coeff_thermal_expansion_ue_c,real,THERMAL & ENVIRONMENTAL,microstrain/C,thermal_expansion,1/C,1e-6,yes,
+fire_resistance_min,real,THERMAL & ENVIRONMENTAL,min,time,s,60,,"rating, not a material property"
+embodied_carbon_kg_co2_m3,real,THERMAL & ENVIRONMENTAL,kg CO2e/m3,gwp_intensity,tonne/mm3,1e-12,,
+embodied_energy_mj_m3,real,THERMAL & ENVIRONMENTAL,MJ/m3,energy_density,mJ/mm3,1,,
+degree_of_hydration,real,MICROSTRUCTURE,1,fraction,1,1,,0-1
+calcium_hydroxide_pct,real,MICROSTRUCTURE,%,fraction,1 (fraction),1e-2,,
+pore_size_distribution_nm,real,MICROSTRUCTURE,nm,length,mm,1e-6,,critical pore diameter (MIP)
+compressive_strength_stddev_mpa,real,MICROSTRUCTURE,MPa,stress,MPa,1,yes,
+flexural_strength_stddev_mpa,real,MICROSTRUCTURE,MPa,stress,MPa,1,yes,
+tensile_strength_stddev_mpa,real,MICROSTRUCTURE,MPa,stress,MPa,1,yes,
+elastic_modulus_stddev_gpa,real,MICROSTRUCTURE,GPa,stress,MPa,1e3,yes,
+interlayer_bond_stddev_mpa,real,MICROSTRUCTURE,MPa,stress,MPa,1,yes,
+raw_data_doi,varchar,MICROSTRUCTURE,-,categorical,,,,
+stress_strain_file,varchar,MICROSTRUCTURE,-,categorical,,,,
+rheology_curve_file,varchar,MICROSTRUCTURE,-,categorical,,,,
+microstructure_image,varchar,MICROSTRUCTURE,-,categorical,,,,
+raw_data_file,varchar,MICROSTRUCTURE,-,categorical,,,,
+sieve_analysis_file,varchar,MICROSTRUCTURE,-,categorical,,,,
+raw_data_sha256,varchar,MICROSTRUCTURE,-,categorical,,,,
+raw_data_version,varchar,MICROSTRUCTURE,-,categorical,,,,
+doi,varchar,DATA PROVENANCE,-,categorical,,,,
+source_citation,varchar,DATA PROVENANCE,-,categorical,,,,
+measurement_confidence,varchar,DATA PROVENANCE,-,categorical,,,,
+lab_name,varchar,DATA PROVENANCE,-,categorical,,,,
+provenance_notes,text,DATA PROVENANCE,-,categorical,,,,
+is_training_ready,boolean,DATA QUALITY FLAGS,-,flag,,,,
+is_synthetic,boolean,DATA QUALITY FLAGS,-,flag,,,,
+outlier_flag,boolean,DATA QUALITY FLAGS,-,flag,,,,
+exposure_class_freeze,varchar,EXPOSURE CLASSIFICATION (EN 206 / ACI 318),-,categorical,,,,
+exposure_class_sulfate,varchar,EXPOSURE CLASSIFICATION (EN 206 / ACI 318),-,categorical,,,,
+exposure_class_chloride,varchar,EXPOSURE CLASSIFICATION (EN 206 / ACI 318),-,categorical,,,,
+exposure_class_water,varchar,EXPOSURE CLASSIFICATION (EN 206 / ACI 318),-,categorical,,,,
+exposure_class_asr,varchar,EXPOSURE CLASSIFICATION (EN 206 / ACI 318),-,categorical,,,,
