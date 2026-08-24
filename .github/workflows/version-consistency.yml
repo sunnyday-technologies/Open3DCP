@@ -22,6 +22,7 @@ on:
       - scripts/check_version.py
       - sql/**
       - scripts/build_precedent_crosswalks.py
+      - scripts/build_units_manifest.py
   pull_request:
     paths:
       - CHANGELOG.md
@@ -40,6 +41,7 @@ on:
       - scripts/check_version.py
       - sql/**
       - scripts/build_precedent_crosswalks.py
+      - scripts/build_units_manifest.py
   workflow_dispatch:
 
 permissions:
@@ -57,3 +59,5 @@ jobs:
         run: python scripts/check_version.py
       - name: Check model-crosswalk CSVs match the schema (no drift)
         run: python scripts/build_precedent_crosswalks.py --check
+      - name: Check the units manifest matches the schema (no drift)
+        run: python scripts/build_units_manifest.py --check

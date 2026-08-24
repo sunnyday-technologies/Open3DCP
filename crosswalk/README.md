@@ -16,6 +16,31 @@ in the YAML `meta` when either schema changes. The three **model-level crosswalk
 | [`open3dcp_to_amcdm.csv`](open3dcp_to_amcdm.csv) | Open3DCP → AM-CDM (Additive Manufacturing Common Data Model) | Model-level. Target pinned: [`AM-CDM/AM-CDM`](https://github.com/AM-CDM/AM-CDM)@`141030b` (2026-07-28; the model has no release tags); Kuan et al. 2024, [doi:10.1007/s40192-024-00341-x](https://doi.org/10.1007/s40192-024-00341-x). |
 | [`open3dcp_to_gemd.csv`](open3dcp_to_gemd.csv) | Open3DCP → GEMD (Graphical Expression of Materials Data) | Model-level. Target: GEMD format v0.1, [docs](https://citrineinformatics.github.io/gemd-docs/). |
 | [`open3dcp_to_cpto.csv`](open3dcp_to_cpto.csv) | Open3DCP → CPTO (Concrete Production and Testing Ontology) | Model-level. Target: CPTO v1.0.1 ([w3id.org/cpto](https://w3id.org/cpto), built on PMDco 2.0 + PROV-O); Meng et al. 2023, [doi:10.1002/cepa.2955](https://doi.org/10.1002/cepa.2955). |
+| [`units.csv`](units.csv) | Open3DCP → units, quantity kinds, and SI(mm) conversion factors | Generated (v1.8). One row per `mix_designs` column; `si_mm_factor` converts a value into the **SI(mm) consistent system** (mm / N / tonne / s ⇒ MPa, tonne/mm³, mJ) used by FE codes such as Abaqus. `fe_relevant` flags the columns a structural or thermal model consumes. |
+
+## Units manifest (`units.csv`, v1.8)
+
+Open3DCP embeds units in column names (`compressive_strength_mpa`) so a value can never be
+entered or read under the wrong unit — a deliberate ergonomic choice for humans. `units.csv` is
+its machine-readable counterpart: a consumer never has to parse a column name to learn what a
+number means, and never has to hard-code a conversion factor.
+
+```
+value_si_mm = value_open3dcp * si_mm_factor
+```
+
+Generated from `sql/create_tables.sql` by
+[`scripts/build_units_manifest.py`](../scripts/build_units_manifest.py) and verified in CI with
+`--check`, so it cannot drift from the schema. A blank `si_mm_factor` means the column is not a
+physical quantity (identifier, category, flag, date, file reference) or has no FE analogue — note
+in particular that `cement_strength_class_mpa` is an EN 197-1 *classification label*, not a mix
+stress, and is deliberately not convertible.
+
+Much of the schema is already SI(mm)-native: every strength and stress column is MPa (= N/mm²) and
+every geometry column is mm, both factor 1. The conversions that matter are densities
+(kg/m³ → tonne/mm³, ×10⁻¹²) and the thermal block. Requested by David Scheidt
+([ORCID 0009-0003-1996-4918](https://orcid.org/0009-0003-1996-4918)) for a conversion-free
+structural export.
 
 ## Fidelity classes
 
