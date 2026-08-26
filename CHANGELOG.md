@@ -11,7 +11,7 @@ Schema versioning follows these rules:
 
 ---
 
-## [1.8.0] - 2026-08-23 — record the market, not just the lab
+## [1.8.0] - 2026-08-23 — improved lot tracking
 
 Additive, backward-compatible. Proposed and reviewed by David Scheidt
 ([ORCID 0009-0003-1996-4918](https://orcid.org/0009-0003-1996-4918)), who mapped a European lab's
