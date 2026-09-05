@@ -22,21 +22,48 @@ REQUIRED_BASIS_FIELDS = (
     "total_binder_kg_m3",
 )
 
-# These cover the stale prose, table, and worked-example forms without rejecting
-# the correct two-sentence explanation that distinguishes ASTM from EN fields.
+EN_LIMESTONE = (
+    r"(?:EN\s*197-1(?:\s+CEM\s*II/(?:A|B)-(?:L|LL))?"
+    r"|CEM\s*II/(?:A|B)-(?:L|LL))"
+)
+
+# Known concrete forms of the former ASTM/EN mapping in prose, table cells,
+# and worked examples. Keep this narrow rather than guessing at arbitrary prose.
 STALE_CEMENT_PATTERNS = (
     re.compile(
-        r"\bcement_type_1l\b[^.!?]{0,240}\b(?:EN\s*197-1|CEM\s*II(?:\s*/\s*[A-Z-]+)?)",
+        rf"\bASTM\s*C595\s*/\s*{EN_LIMESTONE}\b",
         re.IGNORECASE,
     ),
     re.compile(
-        r"\bASTM\s*C595\s*(?:/|and|or)\s*(?:EN\s*197-1|CEM\s*II)",
+        r"\bASTM\s*C595\s+CEM\s*II/(?:A|B)-(?:L|LL)\b",
         re.IGNORECASE,
     ),
     re.compile(
-        r"\bType\s+IL\b[^.!?]{0,180}\bCEM\s*II(?:\s*/\s*[A-Z-]+)?",
+        rf"\bcement_type_1l\b\s*(?:=|:)\s*[^.!?]{{0,120}}\b{EN_LIMESTONE}\b",
         re.IGNORECASE,
     ),
+    re.compile(
+        rf"\bcement_type_1l\b\s+(?:means|represents?|maps?\s+to|cross-ref(?:erence)?s?)"
+        rf"\s+[^.!?]{{0,80}}\b{EN_LIMESTONE}\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        rf"\bcement_type_1l\b\s+is\b[^.!?]{{0,120}}\b(?:per|under)\s+"
+        rf"[^.!?]{{0,60}}\b{EN_LIMESTONE}\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        rf"\bcement_type_1l\b\s+is\s+(?:an?\s+)?{EN_LIMESTONE}\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        rf"\b{EN_LIMESTONE}\b\s+(?:maps?\s+to|(?:is\s+)?(?:recorded|stored)\s+as)"
+        r"\s+\bcement_type_1l\b",
+        re.IGNORECASE,
+    ),
+)
+STALE_BASIS_PHRASES = (
+    "where you store densities and compute mass-percent on the fly",
 )
 
 
@@ -68,6 +95,10 @@ def visible_text(source):
     return " ".join(" ".join(parser.parts).split())
 
 
+def mentions_field(text, field):
+    return re.search(rf"\b{re.escape(field)}\b", text) is not None
+
+
 def consistency_errors(text):
     errors = []
 
@@ -76,12 +107,21 @@ def consistency_errors(text):
             "stale cement_type_1l ASTM/EN conflation appears in the public reference"
         )
 
+    lower_text = text.lower()
+    for phrase in STALE_BASIS_PHRASES:
+        if phrase in lower_text:
+            errors.append(
+                "stale density-based mass-percent conversion instruction appears in "
+                "the public reference"
+            )
+            break
+
     for field in REQUIRED_EN_FIELDS:
-        if field not in text:
+        if not mentions_field(text, field):
             errors.append(f"public reference is missing EN limestone field: {field}")
 
     for field in REQUIRED_BASIS_FIELDS:
-        if field not in text:
+        if not mentions_field(text, field):
             errors.append(f"public reference is missing dual-basis field: {field}")
 
     return errors
