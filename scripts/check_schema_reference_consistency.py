@@ -26,6 +26,11 @@ EN_LIMESTONE = (
     r"(?:EN\s*197-1(?:\s+CEM\s*II/(?:A|B)-(?:L|LL))?"
     r"|CEM\s*II/(?:A|B)-(?:L|LL))"
 )
+CURRENT_TYPE_IL_ASSERTION = re.compile(
+    r"\bIn\s+v1\.8\b[^.!?]{0,80}\bcement_type_1l\b"
+    r"[^.!?]{0,80}\bASTM\s*C595\s+Type\s+IL\s+only\b",
+    re.IGNORECASE,
+)
 
 # Known concrete forms of the former ASTM/EN mapping in prose, table cells,
 # and worked examples. Keep this narrow rather than guessing at arbitrary prose.
@@ -117,6 +122,12 @@ def mentions_field(text, field):
 
 def consistency_errors(text):
     errors = []
+
+    if not CURRENT_TYPE_IL_ASSERTION.search(text):
+        errors.append(
+            "public reference must state that in v1.8 cement_type_1l is "
+            "ASTM C595 Type IL only"
+        )
 
     if any(pattern.search(text) for pattern in STALE_CEMENT_PATTERNS):
         errors.append(
