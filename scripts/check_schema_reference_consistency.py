@@ -48,6 +48,17 @@ STALE_CEMENT_PATTERNS = (
         re.IGNORECASE,
     ),
     re.compile(
+        rf"\bcement_type_1l\b\s+(?:(?:is|should\s+be)\s+)?"
+        rf"(?:used|recorded|stored)\s+(?:for|as)\s+[^.!?]{{0,80}}\b{EN_LIMESTONE}\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        rf"(?<!not\s)(?<!never\s)\b(?:use|record|store)\s+"
+        rf"(?:the\s+)?cement_type_1l\b\s+"
+        rf"(?:for|as)\s+[^.!?]{{0,80}}\b{EN_LIMESTONE}\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
         rf"\bcement_type_1l\b\s+is\b[^.!?]{{0,120}}\b(?:per|under)\s+"
         rf"[^.!?]{{0,60}}\b{EN_LIMESTONE}\b",
         re.IGNORECASE,
@@ -59,6 +70,11 @@ STALE_CEMENT_PATTERNS = (
     re.compile(
         rf"\b{EN_LIMESTONE}\b\s+(?:maps?\s+to|(?:is\s+)?(?:recorded|stored)\s+as)"
         r"\s+\bcement_type_1l\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        rf"\b{EN_LIMESTONE}\b\s+(?:should\s+be\s+)?(?:mapped|assigned)\s+to\s+"
+        r"(?:the\s+)?\bcement_type_1l\b",
         re.IGNORECASE,
     ),
 )
