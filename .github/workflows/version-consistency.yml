@@ -20,6 +20,7 @@ on:
       - .zenodo.json
       - examples/**
       - scripts/check_version.py
+      - scripts/check_schema_reference_consistency.py
       - sql/**
       - scripts/build_precedent_crosswalks.py
       - scripts/build_units_manifest.py
@@ -39,6 +40,7 @@ on:
       - .zenodo.json
       - examples/**
       - scripts/check_version.py
+      - scripts/check_schema_reference_consistency.py
       - sql/**
       - scripts/build_precedent_crosswalks.py
       - scripts/build_units_manifest.py
@@ -57,6 +59,8 @@ jobs:
           python-version: '3.11'
       - name: Check version-label consistency
         run: python scripts/check_version.py
+      - name: Check schema-reference content consistency
+        run: python scripts/check_schema_reference_consistency.py
       - name: Check model-crosswalk CSVs match the schema (no drift)
         run: python scripts/build_precedent_crosswalks.py --check
       - name: Check the units manifest matches the schema (no drift)
