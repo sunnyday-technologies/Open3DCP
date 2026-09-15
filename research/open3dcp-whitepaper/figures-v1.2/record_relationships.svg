@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="684pt" height="280.8pt" viewBox="0 0 684 280.8" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-15T03:53:47.619621</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.3, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 280.8 
+L 684 280.8 
+L 684 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 23.598 148.65552 
+L 298.4292 148.65552 
+Q 305.1324 148.65552 305.1324 145.90368 
+L 305.1324 16.5672 
+Q 305.1324 13.81536 298.4292 13.81536 
+L 23.598 13.81536 
+Q 16.8948 13.81536 16.8948 16.5672 
+L 16.8948 145.90368 
+Q 16.8948 148.65552 23.598 148.65552 
+z
+" clip-path="url(#p9fe5ef7eb5)" style="fill: #edf2f7; stroke: #436b92; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 402.3288 148.65552 
+L 657.0504 148.65552 
+Q 663.7536 148.65552 663.7536 145.90368 
+L 663.7536 16.5672 
+Q 663.7536 13.81536 657.0504 13.81536 
+L 402.3288 13.81536 
+Q 395.6256 13.81536 395.6256 16.5672 
+L 395.6256 145.90368 
+Q 395.6256 148.65552 402.3288 148.65552 
+z
+" clip-path="url(#p9fe5ef7eb5)" style="fill: #edf2f7; stroke: #436b92; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 23.598 268.36056 
+L 298.4292 268.36056 
+Q 305.1324 268.36056 305.1324 265.60872 
+L 305.1324 188.5572 
+Q 305.1324 185.80536 298.4292 185.80536 
+L 23.598 185.80536 
+Q 16.8948 185.80536 16.8948 188.5572 
+L 16.8948 265.60872 
+Q 16.8948 268.36056 23.598 268.36056 
+z
+" clip-path="url(#p9fe5ef7eb5)" style="fill: #eeeeee; stroke: #436b92; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 402.3288 268.36056 
+L 657.0504 268.36056 
+Q 663.7536 268.36056 663.7536 265.60872 
+L 663.7536 188.5572 
+Q 663.7536 185.80536 657.0504 185.80536 
+L 402.3288 185.80536 
+Q 395.6256 185.80536 395.6256 188.5572 
+L 395.6256 265.60872 
+Q 395.6256 268.36056 402.3288 268.36056 
+z
+" clip-path="url(#p9fe5ef7eb5)" style="fill: #eeeeee; stroke: #436b92; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start" x="35.66376" y="45.851816" transform="rotate(-0 35.66376 45.851816)">mix_designs</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(35.66376 71.295703)">id  |  unique mix_id  |  name</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(35.66376 90.553359)">Composition + selected values</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(35.66376 109.42164)">State how values were obtained</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start" x="414.39456" y="45.851816" transform="rotate(-0 414.39456 45.851816)">strength_measurements</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(414.39456 71.234453)">formulation_id → mix_designs.id</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(414.39456 90.492109)">Unique formulation + age pair</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(414.39456 109.36039)">Limited same-age test detail</text>
+   </g>
+   <g id="patch_6">
+    <path d="M 307.134891 85.3632 
+Q 348.705422 85.3632 388.710706 85.3632 
+" style="fill: none; stroke: #436b92; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 384.310706 83.1632 
+L 388.710706 85.3632 
+L 384.310706 87.5632 
+" style="fill: none; stroke: #436b92; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start" x="35.66376" y="217.841816" transform="rotate(-0 35.66376 217.841816)">SOURCE CONTEXT</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: start" x="35.66376" y="243.224453" transform="rotate(-0 35.66376 243.224453)">Source / method / curing descriptors</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start" x="414.39456" y="217.841816" transform="rotate(-0 414.39456 217.841816)">EXTERNAL DETAIL</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: start" x="414.39456" y="243.224453" transform="rotate(-0 414.39456 243.224453)">Specimens / events / raw files</text>
+   </g>
+   <g id="patch_7">
+    <path d="M 161.0136 150.651209 
+Q 161.0136 166.540419 161.0136 180.864383 
+" style="fill: none; stroke-dasharray: 5.18,2.24; stroke-dashoffset: 0; stroke: #436b92; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 163.2136 176.464383 
+L 161.0136 180.864383 
+L 158.8136 176.464383 
+" style="fill: none; stroke-dasharray: 5.18,2.24; stroke-dashoffset: 0; stroke: #436b92; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 276.934897 146.280496 
+Q 375.516504 165.166656 472.56082 183.758304 
+" style="fill: none; stroke-dasharray: 5.18,2.24; stroke-dashoffset: 0; stroke: #436b92; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 468.653354 180.769707 
+L 472.56082 183.758304 
+L 467.825463 185.091119 
+" style="fill: none; stroke-dasharray: 5.18,2.24; stroke-dashoffset: 0; stroke: #436b92; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p9fe5ef7eb5">
+   <rect x="6.84" y="2.808" width="670.32" height="275.184"/>
+  </clipPath>
+ </defs>
+</svg>
