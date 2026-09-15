@@ -10,7 +10,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from parse_submission import DEFAULT_FORM, load_fields, parse_body  # noqa: E402
-from validate_submission import render, validate  # noqa: E402
+from validate_submission import CURRENT_SCHEMA, CURRENT_SCHEMA_FULL, render, validate  # noqa: E402
+from check_version import canonical_version  # noqa: E402
 
 FIELDS = load_fields(DEFAULT_FORM)
 ORDER = [
@@ -26,7 +27,7 @@ BASE = {
     "Lead author / lab": "Lab",
     "ORCID iD (optional)": "_No response_",
     "Data license": "CC BY 4.0",
-    "Open3DCP schema version targeted": "1.6",
+    "Open3DCP schema version targeted": CURRENT_SCHEMA,
     "Notes (optional)": "_No response_",
     "Redistribution": "- [X] I confirm the data is legally redistributable.",
     "Archive": "- [X] The dataset is deposited in a public archive.",
@@ -71,6 +72,22 @@ def test_validate_pass_and_fail():
 def test_crlf_body():
     p = parse_body(body().replace("\n", "\r\n"), FIELDS)
     assert p["dataset_title"] == "A mix", "CRLF body broke parsing"
+
+
+def test_current_schema_comes_from_changelog():
+    assert (CURRENT_SCHEMA_FULL, CURRENT_SCHEMA) == canonical_version()
+
+
+def test_current_minor_and_patch_versions_do_not_warn():
+    for version in [CURRENT_SCHEMA, CURRENT_SCHEMA_FULL]:
+        _, warnings = validate(parse_body(body(**{"Open3DCP schema version targeted": version}), FIELDS), [])
+        assert not any('Schema version is' in w for w in warnings), warnings
+
+
+def test_historical_version_warns_without_rejecting_submission():
+    checks, warnings = validate(parse_body(body(**{"Open3DCP schema version targeted": "1.6"}), FIELDS), [])
+    assert all(ok for _, ok, _ in checks)
+    assert any(f'current Open3DCP schema is `{CURRENT_SCHEMA}`' in w for w in warnings)
 
 
 if __name__ == "__main__":

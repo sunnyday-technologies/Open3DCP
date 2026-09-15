@@ -1,112 +1,134 @@
 #!/usr/bin/env python3
-"""Reproduce the UF 3D-Printing-Concrete Mix-Design Open Dataset -> Open3DCP excerpt.
+"""Reproduce source-linked UF rheology/age rows without guessing material classifications.
 
-This example is HAND-CURATED (like the RILEM one). The source is reported on a **ratio-to-binder**
-basis (binder = 1; every constituent given as a fraction of binder), with NO absolute binder content in
-kg/m3 -- so the **kg/m3 basis is not recoverable** and a constituent mass-% of the total mix cannot be
-formed without an assumed binder dosage. We therefore do NOT fabricate constituent mass-%; we curate the
-fields the source defines unambiguously: the binder system, water/binder ratio, the fresh-state
-**rheology** that governs printability (static / dynamic yield stress, plastic viscosity), and compressive
-strength by age. An automated `open3dcp-ingest` ratio-to-binder reader (which would also emit a fidelity
-score) is a planned follow-up; for now the score is deferred, exactly as for the RILEM excerpt.
-
-Source (CC BY 4.0), NOT re-hosted -- download it from the DOI and run:
-
-    python build/extract.py "/path/to/3D concrete printing mix design dataset v0.3.xlsx"
-
-    Gao, J.; Wang, Z.; Wang, C. "3D Printing Concrete Mix Design Open Dataset" (v0.3)
-    Zenodo, doi:10.5281/zenodo.6828947 (CC BY 4.0)
-
-It selects printable Portland-cement mixes that report fresh rheology + strength (up to two per source
-study, spanning the yield-stress and strength range), maps kPa -> Pa, and writes
-../uf-3dcp-mix.open3dcp.csv. Values are real; nothing is synthesized.
+Complete common-basis ratios can normalize without kg/m3. This excerpt leaves
+composition unconverted because blanks and mixed reporting bases do not establish
+a complete inventory. source_cells.csv preserves the reported composition cells.
 """
+import argparse
 import csv
-import os
-import sys
+import hashlib
+import json
+import math
+from pathlib import Path
 
-DATASET_DOI = "10.5281/zenodo.6828947"
-CITE = ("Gao, J.; Wang, Z.; Wang, C. (2023). 3D Printing Concrete Mix Design Open Dataset (v0.3). "
-        "Zenodo. DOI 10.5281/zenodo.6828947.")
-
+SOURCE_SHA256 = "369369bb2b19610f2ca9eced6cfc395f91e5cf81fec6e63c1fc919bcc1983316"
+DOI = "10.5281/zenodo.6828947"
 COLS = ["source_dataset", "is_3d_printed", "material_class", "w_b_ratio",
         "static_yield_stress_pa", "dynamic_yield_stress_pa", "plastic_viscosity_pa_s",
         "test_age_days", "compressive_strength_mpa", "doi", "source_citation", "provenance_notes"]
-
-# fixed source column positions (Sheet1 header row)
-IX = dict(mixtype=3, ref=4, binder1=6, fa=14, sf=18, microsi=20, slag=30, wb=40, sb=41,
-          sy=97, dy=98, pv=99, cs1=100, cs3=101, cs7=102, cs28=103)
-AGES = [(1, "cs1"), (3, "cs3"), (7, "cs7"), (28, "cs28")]
+IX = dict(ref=4, binder=5, binder1=6, wb=40, sy=97, dy=98, pv=99)
+AGES = [(1, 100), (3, 101), (7, 102), (28, 103)]
+MAX_SOURCE_ROWS = 10
 MAX_PER_REF = 2
-MAX_ROWS = 12
+EXPECTED = {4: "Reference", 5: "Binder", 6: "Binder1", 40: "Water-Binder Ratio",
+            97: "Static Yield Stress (kPa)", 98: "Dynamic Yield Stress (kPa)",
+            99: "Plastic Viscosity", 100: "1days(MPa)", 101: "3days(MPa)",
+            102: "7days(MPa)", 103: "28days(MPa)"}
 
-
-def num(v):
+def num(value):
+    if value is None or isinstance(value, bool):
+        return None
     try:
-        return float(v)
-    except (TypeError, ValueError):
+        n = float(value)
+        return n if math.isfinite(n) and n >= 0 else None
+    except (ValueError, TypeError):
         return None
 
+def text(value):
+    return "" if value is None else str(value).strip()
 
-def main(src):
-    from openpyxl import load_workbook
-    wb = load_workbook(src, read_only=True, data_only=True)
-    ws = wb["Sheet1"]
-    rows = list(ws.iter_rows(values_only=True))
-    wb.close()
-    # header fingerprint: fail loudly if an upstream re-export shifts columns (never emit wrong data)
-    hdr = [str(c).strip().replace(chr(10), " ") if c is not None else "" for c in rows[0]]
-    for pos, token in {6: "Binder1", 40: "Water-Binder", 97: "Static Yield Stress",
-                       99: "Plastic Viscosity", 103: "28days"}.items():
-        if token.lower() not in hdr[pos].lower():
-            raise SystemExit(f"UF source header changed at col {pos}: expected ~{token!r}, found "
-                             f"{hdr[pos]!r}. Verify the IX column positions before re-running.")
-    data = rows[1:]
-    out, per_ref = [], {}
-    for r in data:
-        g = lambda k: num(r[IX[k]])
-        sy, w_b = g("sy"), g("wb")
-        ages = [(d, g(k)) for d, k in AGES if g(k) is not None]
-        if sy is None or w_b is None or not ages:
-            continue  # keep only rows with rheology + w/b + a strength
-        ref = str(r[IX["ref"]]).strip() if r[IX["ref"]] else ""
+def check_headers(headers):
+    for i, expected in EXPECTED.items():
+        if i >= len(headers) or expected.lower() not in " ".join(text(headers[i]).split()).lower():
+            raise ValueError(f"UF header or unit changed at column {i}; review mapping")
+    # The source encodes the Pa.s separator with a replacement character.
+    if text(headers[99]) not in {"Plastic Viscosity (Pa.s)", "Plastic Viscosity (Pa·s)", "Plastic Viscosity (Pa�s)"}:
+        raise ValueError("Viscosity unit changed")
+
+def convert(headers, records):
+    check_headers(headers)
+    out, provenance, cells, per_ref = [], [], [], {}
+    for excel_row, r in enumerate(records, start=2):
+        if len(r) < 104:
+            raise ValueError("Truncated UF row")
+        g = lambda key: num(r[IX[key]])
+        ages = [(day, num(r[i])) for day, i in AGES if num(r[i]) is not None]
+        ref = text(r[IX["ref"]])
+        if g("sy") is None or g("wb") is None or not ages or not ref:
+            continue
         if per_ref.get(ref, 0) >= MAX_PER_REF:
             continue
         per_ref[ref] = per_ref.get(ref, 0) + 1
-        scm = any((g(k) or 0) > 0 for k in ("fa", "sf", "microsi", "slag"))
-        scm_names = [n for n, k in (("fly ash", "fa"), ("silica fume", "sf"),
-                                    ("micro-silica", "microsi"), ("slag", "slag")) if (g(k) or 0) > 0]
-        sand_b = g("sb")
-        note = ("Source basis = ratio-to-binder (binder=1); kg/m3 not recoverable, so constituent "
-                "mass-% is not formed. Binder: " + (str(r[IX["binder1"]]).strip() or "Portland cement")
-                + (" + " + ", ".join(scm_names) if scm_names else "")
-                + (f"; sand/binder ratio {sand_b}" if sand_b is not None else "")
-                + f". Primary study: {ref}.")
-        for d, cs in ages:
-            out.append({
-                "source_dataset": "UF 3DCP Mix-Design Open Dataset",
-                "is_3d_printed": True,
-                "material_class": "blended_OPC" if scm else "OPC",
-                "w_b_ratio": w_b,
-                "static_yield_stress_pa": round(g("sy") * 1000, 1) if g("sy") is not None else None,
-                "dynamic_yield_stress_pa": round(g("dy") * 1000, 1) if g("dy") is not None else None,
-                "plastic_viscosity_pa_s": g("pv"),
-                "test_age_days": d, "compressive_strength_mpa": cs,
-                "doi": DATASET_DOI, "source_citation": CITE, "provenance_notes": note,
-            })
-        if len(out) >= MAX_ROWS:
+        # Preserve labels and quantities separately, including blanks. No name cell is parsed as a dose.
+        for col in range(3, 97):
+            cells.append({"source_row": excel_row, "column_index_zero_based": col,
+                          "source_header": text(headers[col]), "source_value": text(r[col]),
+                          "missing": r[col] is None or text(r[col]) == ""})
+        provenance.append({"source_row": excel_row, "primary_reference": ref,
+                           "binder_description": text(r[5]), "binder1_label": text(r[6]),
+                           "age_rows": len(ages),
+                           "composition_status": "unconverted: complete inventory/common basis not established",
+                           "material_class_status": "unclassified; raw source labels retained",
+                           "specimen_printing_status": "not established for each mechanical result"})
+        note = (f"Sheet1 source row {excel_row}; primary study: {ref}. "
+                f"Reported binder: {text(r[5]) or 'not reported'}; Binder1: {text(r[6]) or 'not reported'}. "
+                "Raw composition labels, quantities, units and blanks: source_cells.csv. "
+                "Complete binder-relative ratios can normalize without absolute binder dosage; "
+                "this excerpt does not establish complete inventory or a common basis for all components. "
+                "No constituent mass-% or kg/m3 conversion. Blank is not zero. "
+                "Material class and mechanical specimen printing status are not inferred.")
+        for day, strength in ages:
+            out.append({"source_dataset": "UF 3DCP Mix-Design Open Dataset", "is_3d_printed": None,
+                        "material_class": None, "w_b_ratio": g("wb"),
+                        "static_yield_stress_pa": g("sy") * 1000,
+                        "dynamic_yield_stress_pa": g("dy") * 1000 if g("dy") is not None else None,
+                        "plastic_viscosity_pa_s": g("pv"), "test_age_days": day,
+                        "compressive_strength_mpa": strength, "doi": DOI,
+                        "source_citation": "Gao, J.; Wang, Z.; Wang, C. (2023). 3D Printing Concrete Mix Design Open Dataset (v0.3). DOI " + DOI,
+                        "provenance_notes": note})
+        if len(provenance) == MAX_SOURCE_ROWS:
             break
-    dest = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                        "uf-3dcp-mix.open3dcp.csv")
-    with open(dest, "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=COLS)
-        w.writeheader()
-        for d in out:
-            w.writerow({k: ("" if d.get(k) is None else d.get(k)) for k in COLS})
-    print(f"wrote {len(out)} rows -> {dest}")
+    return out, provenance, cells
 
+def write_csv(path, fields, rows):
+    with path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=fields)
+        w.writeheader()
+        w.writerows(rows)
+
+def run(source, output):
+    from openpyxl import load_workbook
+    source, output = Path(source).resolve(), Path(output).resolve()
+    digest = hashlib.sha256(source.read_bytes()).hexdigest()
+    if digest != SOURCE_SHA256:
+        raise ValueError("UF source fingerprint differs from audited v0.3 workbook")
+    book = load_workbook(source, read_only=True, data_only=True)
+    try:
+        it = book["Sheet1"].iter_rows(values_only=True)
+        rows, provenance, cells = convert(next(it), it)
+    finally:
+        book.close()
+    output.mkdir(parents=True, exist_ok=True)
+    write_csv(output / "uf-3dcp-mix.open3dcp.csv", COLS, rows)
+    write_csv(output / "provenance.csv", ["source_row", "primary_reference", "binder_description",
+              "binder1_label", "age_rows", "composition_status", "material_class_status", "specimen_printing_status"], provenance)
+    write_csv(output / "source_cells.csv", ["source_row", "column_index_zero_based", "source_header", "source_value", "missing"], cells)
+    report = {"source_sha256": digest, "source_version_doi": "10.5281/zenodo.8070144",
+              "rows_committed": len(rows), "selected_source_rows": len(provenance),
+              "selection": "first 10 source rows with finite nonnegative static yield, w/b, strength and reference; at most two rows per reference; all available ages",
+              "row_grain": "one source mixture at one reported test age",
+              "unit_conversion": "static/dynamic yield stress kPa to Pa multiplied by 1000",
+              "composition_conversion": "not performed; incomplete inventory and mixed basis remain explicit",
+              "printability_or_OPC_filter": "none; no claim that selection establishes either"}
+    (output / "extraction_report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    if hashlib.sha256(source.read_bytes()).hexdigest() != digest:
+        raise RuntimeError("Source changed during extraction")
+    print(json.dumps(report))
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        sys.exit('usage: python build/extract.py "/path/to/3D concrete printing mix design dataset v0.3.xlsx"')
-    main(sys.argv[1])
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument("source")
+    p.add_argument("--output-dir", type=Path, default=Path(__file__).resolve().parents[1])
+    a = p.parse_args()
+    run(a.source, a.output_dir)

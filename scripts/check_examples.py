@@ -5,7 +5,7 @@ For every examples/<dir>/ with a record.json:
   - record.json has the required keys and a redistributable license (allowlist);
   - a NOTICE file is present;
   - if the build_cmd uses open3dcp-ingest, re-run it and confirm the committed *.open3dcp.csv is
-    reproducible (line-ending-insensitive diff) — examples can't drift from the tool.
+    reproducible (exact structure/text; eight-ULP allowance in REAL columns only).
 Optionally scans examples/ against a LOCAL blocklist (scripts/examples_blocklist.txt, gitignored) —
 the public script never enumerates sensitive/commercial terms itself. Absent the file (e.g. in CI),
 the scan is skipped; the maintainer runs it locally before publishing.
@@ -13,7 +13,9 @@ the scan is skipped; the maintainer runs it locally before publishing.
 Exit 0 if everything passes, 1 otherwise.
 """
 import glob
+import csv
 import json
+import math
 import os
 import re
 import subprocess
@@ -22,6 +24,8 @@ import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EX = os.path.join(ROOT, "examples")
+with open(os.path.join(ROOT, "sql", "create_tables.sql"), encoding="utf-8") as _schema:
+    REAL_COLUMNS = set(re.findall(r"^\s+(\w+)\s+REAL\b", _schema.read(), re.M))
 
 try:  # Windows consoles default to cp1252; keep the "·"/"✓" status glyphs from crashing
     sys.stdout.reconfigure(encoding="utf-8")
@@ -40,9 +44,36 @@ TEXT_EXT = {".md", ".html", ".css", ".csv", ".json", ".py", ".yml", ".yaml", ".t
 errors, notes = [], []
 
 
-def lines(path):
-    with open(path, encoding="utf-8") as fh:
-        return fh.read().splitlines()
+def equivalent_csv(left, right):
+    """Exact structure/text; permit at most eight float ULPs of serialization noise.
+
+    Python's summation implementations can differ in their last few binary digits.
+    This is a machine-precision allowance, not a scientific/measurement tolerance.
+    Empty cells, row/column order and nonnumeric provenance must remain identical.
+    """
+    with open(left, encoding="utf-8", newline="") as f:
+        a = list(csv.reader(f))
+    with open(right, encoding="utf-8", newline="") as f:
+        b = list(csv.reader(f))
+    if not a or not b or a[0] != b[0] or len(a) != len(b):
+        return False
+    for x, y in zip(a[1:], b[1:]):
+        if len(x) != len(a[0]) or len(y) != len(a[0]):
+            return False
+        for column, old, new in zip(a[0], x, y):
+            if old == new:
+                continue
+            if column not in REAL_COLUMNS:
+                return False
+            try:
+                u, v = float(old), float(new)
+            except ValueError:
+                return False
+            if not (math.isfinite(u) and math.isfinite(v)):
+                return False
+            if abs(u - v) > 8 * max(math.ulp(u), math.ulp(v)):
+                return False
+    return True
 
 
 def check_record(d, rec):
@@ -88,7 +119,7 @@ def reproduce(d, rec):
             errors.append(f"{rel}: open3dcp-ingest failed: {r.stderr.strip()[:160]}")
             return
         produced = os.path.join(tmp, f"{base}.open3dcp.csv")
-        if lines(committed) != lines(produced):
+        if not equivalent_csv(committed, produced):
             errors.append(f"{rel}: committed {base}.open3dcp.csv does NOT match a fresh conversion (drift)")
         else:
             notes.append(f"{rel}: reproduce-and-diff OK ✓")

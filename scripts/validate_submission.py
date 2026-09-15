@@ -17,6 +17,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from parse_submission import DEFAULT_FORM, load_fields, parse_body, read_body  # noqa: E402
+from check_version import canonical_version  # noqa: E402
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_INDEX = os.path.join(REPO_ROOT, "submissions", "index.json")
@@ -24,7 +25,7 @@ MARKER = "<!-- open3dcp-validation -->"
 
 REQUIRED = ["dataset_title", "dataset_doi", "archive_url", "source_citation", "lab_name", "license", "schema_version"]
 LICENSE_ALLOW = {"CC BY 4.0", "CC0 1.0", "Other open license"}
-CURRENT_SCHEMA = "1.6"
+CURRENT_SCHEMA_FULL, CURRENT_SCHEMA = canonical_version()
 DOI_RE = re.compile(r"^10\.\d{4,9}/\S+$", re.I)
 URL_RE = re.compile(r"^https?://\S+$", re.I)
 ORCID_RE = re.compile(r"^(\d{4}-){3}\d{3}[\dX]$")
@@ -95,7 +96,7 @@ def validate(parsed, index):
 
     sv = g("schema_version") or ""
     checks.append(("Schema version present", bool(sv), sv or "—"))
-    if sv and sv != CURRENT_SCHEMA:
+    if sv and sv not in {CURRENT_SCHEMA, CURRENT_SCHEMA_FULL}:
         warnings.append(f"Schema version is `{sv}`; the current Open3DCP schema is `{CURRENT_SCHEMA}`. "
                         "A curator will confirm the mapping.")
 

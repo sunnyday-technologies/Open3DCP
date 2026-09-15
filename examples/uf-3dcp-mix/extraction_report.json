@@ -1,0 +1,11 @@
+{
+  "source_sha256": "369369bb2b19610f2ca9eced6cfc395f91e5cf81fec6e63c1fc919bcc1983316",
+  "source_version_doi": "10.5281/zenodo.8070144",
+  "rows_committed": 10,
+  "selected_source_rows": 10,
+  "selection": "first 10 source rows with finite nonnegative static yield, w/b, strength and reference; at most two rows per reference; all available ages",
+  "row_grain": "one source mixture at one reported test age",
+  "unit_conversion": "static/dynamic yield stress kPa to Pa multiplied by 1000",
+  "composition_conversion": "not performed; incomplete inventory and mixed basis remain explicit",
+  "printability_or_OPC_filter": "none; no claim that selection establishes either"
+}

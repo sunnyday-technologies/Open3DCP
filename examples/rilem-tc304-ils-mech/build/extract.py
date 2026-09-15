@@ -1,128 +1,121 @@
 #!/usr/bin/env python3
-"""Reproduce the RILEM TC 304-ADC ILS-mech → Open3DCP excerpt.
-
-This example is HAND-CURATED from the openBIS-exported SQLite (a dedicated open3dcp-ingest SQLite
-reader is a planned follow-up). The source database is NOT re-hosted here — download it from the DOI:
-
-    https://doi.org/10.5281/zenodo.12200570   (file: 2024-06-21_openbis.db, CC BY 4.0)
-
-then run:
-
-    python build/extract.py /path/to/2024-06-21_openbis.db
-
-It denormalizes material + print + flexural/tensile views for a few participating labs, aggregates
-per (mix × test × orientation) into mean / std-dev / n, maps the RILEM U/V/W orientation onto Open3DCP
-X/Y/Z/CAST, and writes ../rilem-tc304-ils-mech.open3dcp.csv. Values are real; nothing is synthesized.
-The print travel-velocity field is unit-inconsistent in the source and is deliberately omitted.
-"""
+"""Export individual source-linked RILEM specimens; never pool incompatible tests."""
+import argparse
 import csv
+import hashlib
+import json
+import math
+from pathlib import Path
 import re
 import sqlite3
-import statistics as st
-import sys
 
-MIXES = ["01_a", "13_a", "19_a"]
-COLS = ["lab_name", "is_3d_printed", "test_orientation", "test_orientation_code", "test_age_days",
-        "flexural_strength_mpa", "flexural_strength_stddev_mpa", "tensile_strength_mpa",
-        "tensile_strength_stddev_mpa", "n_specimens", "static_yield_stress_pa", "spread_mm",
-        "w_b_ratio", "layer_height_mm", "layer_time_gap_s", "extrusion_rate_l_min", "num_layers",
-        "nozzle_shape", "nozzle_area_mm2", "density_hardened_kg_m3", "measurement_confidence",
-        "doi", "source_citation", "provenance_notes", "total_binder_kg_m3",
-        "original_basis"]
-CITE = ("RILEM TC 304-ADC interlaboratory study on mechanical properties of 3D printed concrete "
-        "(2024). DOI 10.5281/zenodo.12200570.")
-
+SOURCE_SHA256 = "674839356d64bf9444b5b1eac8b198f68559129b571da9e82c53ae73c2a3e0df"
+DOI = "10.5281/zenodo.12200570"
+MIX_RE = re.compile(r"^EXP_FLEX_(01_a|13_a|19_a)_")
+COLS = ["lab_name", "is_3d_printed", "specimen_prep", "specimen_length_mm",
+        "specimen_width_mm", "specimen_height_mm", "test_orientation", "test_orientation_code",
+        "test_method_code", "test_age_days", "flexural_strength_mpa", "n_specimens",
+        "density_hardened_kg_m3", "measurement_confidence", "doi", "source_citation",
+        "provenance_notes", "original_basis"]
+CONTEXT = ["sample_id", "sample_code", "NAME", "TESTORIENTATION", "3-OR4-POINTBENDING",
+           "PROCESSPARAMETERS", "SOURCEPRINTOBJECTNUMBER", "AGE", "EXTRACTIONMETHOD",
+           "EXTRACTIONDATE", "TESTDATE", "LENGTH_VALUE", "LENGTH_UNIT", "WIDTH_D1_VALUE",
+           "WIDTH_D1_UNIT", "HEIGHT_D2_VALUE", "HEIGHT_D2_UNIT", "SUPPORTSPANL_VALUE",
+           "SUPPORTSPANL_UNIT", "LOADSPANONLYFOR4PBENDING_VALUE", "LOADSPANONLYFOR4PBENDING_UNIT",
+           "APPLIEDLOADINGRATE_VALUE", "APPLIEDLOADINGRATE_UNIT", "F3PXNORF4PXN_VALUE",
+           "F3PXNORF4PXN_UNIT", "DENSITY_VALUE", "DENSITY_UNIT"]
 
 def num(v):
+    if v is None or isinstance(v, bool):
+        return None
     try:
-        return float(v)
+        n = float(v)
+        return n if math.isfinite(n) else None
     except (TypeError, ValueError):
         return None
 
+def measured(r, key, units):
+    value = num(r.get(key + "_VALUE"))
+    if value is not None and r.get(key + "_UNIT") not in units:
+        return None  # Preserve the raw value/unit in the companion ledger; do not guess a conversion.
+    return value
 
-def orient(code):
-    """RILEM U/V/W (U=print path, V=transverse, W=build) → Open3DCP layer-relative orientation."""
-    if code == "CAST":
-        return (False, "cast (moulded reference)", "CAST")
-    first = code.split(".")[0]
-    # Field-unambiguous labels: U and V both lie IN the layer plane, so "parallel to layers" alone
-    # would not distinguish them. What predicts the flexural number is which interface the load bends:
-    # along the print path (X) bends the interlayer planes; the build axis (Z) crosses them.
-    return {"W": (True, "across layers (build axis)", "Z"),
-            "U": (True, "along print path (in-plane longitudinal; flexure loads the interlayer planes)", "X"),
-            "V": (True, "in-plane transverse", "Y")}.get(
-            first, (True, f"printed ({code})", "?"))
+def convert(records):
+    out, context, inclusion, seen = [], [], [], set()
+    for r in sorted(records, key=lambda r: (str(r.get("NAME")), str(r.get("sample_id")))):
+        match = MIX_RE.match(r.get("NAME") or "")
+        if not match:
+            continue
+        sid = r.get("sample_id")
+        if sid is None or sid in seen:
+            raise ValueError("Missing or duplicate specimen identity")
+        seen.add(sid)
+        age, strength = num(r.get("AGE")), num(r.get("F3PXNORF4PXN_VALUE"))
+        reason = ("missing_or_nonfinite_age" if age is None else "outside_20_to_40_days" if not 20 <= age <= 40 else
+                  "missing_nonfinite_or_negative_strength" if strength is None or strength < 0 else
+                  "unrecognized_strength_unit" if r.get("F3PXNORF4PXN_UNIT") not in {"N/mm²", "MPa"} else "")
+        inclusion.append({"sample_id": sid, "source_name": r.get("NAME"), "included": not reason,
+                          "reason": reason or "included", "source_strength": r.get("F3PXNORF4PXN_VALUE"),
+                          "source_strength_unit": r.get("F3PXNORF4PXN_UNIT")})
+        if reason:
+            continue
+        strength = measured(r, "F3PXNORF4PXN", {"N/mm²", "MPa"})
+        code = r.get("TESTORIENTATION")
+        printed = False if code == "CAST" else True if re.fullmatch(r"[UVW]\.[UVW]", code or "") else None
+        row = dict.fromkeys(COLS)
+        row.update(lab_name="RILEM TC 304-ADC participating lab " + match[1].split("_")[0],
+                   is_3d_printed=printed, specimen_prep="cast" if printed is False else "3d_printed" if printed else None,
+                   specimen_length_mm=measured(r, "LENGTH", {"mm"}),
+                   specimen_width_mm=measured(r, "WIDTH_D1", {"mm"}),
+                   specimen_height_mm=measured(r, "HEIGHT_D2", {"mm"}),
+                   test_orientation="cast" if printed is False else None,
+                   test_orientation_code="CAST" if printed is False else None,
+                   test_age_days=age, flexural_strength_mpa=strength, n_specimens=1,
+                   density_hardened_kg_m3=measured(r, "DENSITY", {"kg/m³"}),
+                   measurement_confidence="measured", doi=DOI,
+                   source_citation="RILEM TC 304-ADC ILS-mech (2024), DOI " + DOI,
+                   provenance_notes=f"Source specimen {sid} ({r.get('NAME')}); mix prefix {match[1]}; "
+                   f"full orientation {code}; {r.get('3-OR4-POINTBENDING')}-point bending; "
+                   f"condition {r.get('PROCESSPARAMETERS')}; source object {r.get('SOURCEPRINTOBJECTNUMBER')}. "
+                   "One specimen, not an average. Full context: provenance.csv keyed by sample_id. "
+                   "Unrecognized optional units remain only in the ledger. "
+                   "No X/Y/Z projection, guessed material/print join, effect or uncertainty estimate.")
+        out.append(row)
+        context.append({"record_index": len(out), **{k: r.get(k) for k in CONTEXT}})
+    return out, context, inclusion
 
+def write_csv(path, fields, rows):
+    with path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=fields)
+        w.writeheader()
+        w.writerows(rows)
 
-def pfx(name, tag):
-    m = re.match(rf"{tag}_(\d+_[a-z])", name or "")
-    return m.group(1) if m else None
-
-
-def main(db):
-    con = sqlite3.connect(db); con.row_factory = sqlite3.Row; cur = con.cursor()
-    mat = {pfx(r["NAME"], "MATERIAL"): r for r in cur.execute("SELECT * FROM material_sample_props_view")}
-    prn = {}
-    for r in cur.execute("SELECT * FROM print_sample_props_view"):
-        k = pfx(r["NAME"], "PRINT")
-        if k and k not in prn:
-            prn[k] = r
-    rows = []
-    for mix in MIXES:
-        M, P = mat.get(mix), prn.get(mix)
-        lab = f"RILEM TC 304-ADC participating lab {mix.split('_')[0]}"
-        yld = num(M["RHEOLOGICALSTATICYIELDSTRESS_VALUE"]) if M else None
-        spread = num(M["SPREADDIAMETER_VALUE"]) if M else None
-        wb = num(M["WATERTOBINDERRATIO"]) if M else None
-        brand = M["BRANDANDPRODUCTNAME"] if M else None
-        lh = num(P["AVERAGELAYERHEIGHTWITHIN5MINUTES_VALUE"]) if P else None
-        lt = num(P["VERTICALLAYERINTERVALTIME_VALUE"]) if P else None
-        er = num(P["MATERIALEXTRUSIONRATE_VALUE"]) if P else None
-        nl = num(P["NUMBEROFVERTICALLAYERS"]) if P else None
-        nw = num(P["NOZZLEORIFICEDIMENSIONSIFRECTANGULARWIDTH_VALUE"]) if P else None
-        nh = num(P["NOZZLEORIFICEDIMENSIONSIFRECTANGULARHEIGHT_VALUE"]) if P else None
-        narea = (nw * nh) if (nw and nh) else None
-        note = (f"Commercial premix: {brand}; constituent breakdown not disclosed by supplier."
-                if brand else "Commercial premix; constituents not disclosed.")
-        note += " Print travel velocity in source is unit-inconsistent and omitted."
-
-        flex = {}
-        cur.execute("SELECT TESTORIENTATION, AGE, F3PXNORF4PXN_VALUE, DENSITY_VALUE "
-                    "FROM exp_flex_sample_props_view WHERE NAME LIKE ?", (f"EXP_FLEX_{mix}_%",))
-        for o, a, v, d in cur.fetchall():
-            v, a = num(v), num(a)
-            if v is None or a is None or a < 20 or a > 40:
-                continue
-            flex.setdefault(o, {"v": [], "d": [], "age": a})
-            flex[o]["v"].append(v)
-            if num(d):
-                flex[o]["d"].append(num(d))
-        kept = [o for o in sorted(flex, key=lambda o: (o != "CAST", -len(flex[o]["v"]))) if len(flex[o]["v"]) >= 4][:3]
-        for o in kept:
-            g = flex[o]; printed, otext, ocode = orient(o)
-            dens = round(st.mean(g["d"]), 0) if g["d"] else None
-            rows.append({**{c: None for c in COLS}, "lab_name": lab, "is_3d_printed": printed,
-                         "test_orientation": otext, "test_orientation_code": ocode, "test_age_days": int(g["age"]),
-                         "flexural_strength_mpa": round(st.mean(g["v"]), 2),
-                         "flexural_strength_stddev_mpa": round(st.pstdev(g["v"]), 2) if len(g["v"]) > 1 else None,
-                         "n_specimens": len(g["v"]), "static_yield_stress_pa": yld, "spread_mm": spread,
-                         "w_b_ratio": wb, "layer_height_mm": lh, "layer_time_gap_s": lt, "extrusion_rate_l_min": er,
-                         "num_layers": int(nl) if nl else None, "nozzle_shape": "rectangular" if narea else None,
-                         "nozzle_area_mm2": narea, "density_hardened_kg_m3": dens, "measurement_confidence": "measured",
-                         "doi": "10.5281/zenodo.12200570", "source_citation": CITE,
-                         "provenance_notes": f"{note} RILEM orientation code: {o}.",
-                         })  # original_basis stays NULL: commercial premixes disclose no constituent
-                             # masses, so no reporting basis exists to record (NULL != 0 doctrine).
-                             # Density is in density_hardened_kg_m3; no total_batched_mass either.
-    con.close()
-    with open("../rilem-tc304-ils-mech.open3dcp.csv", "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=COLS); w.writeheader()
-        for r in rows:
-            w.writerow({k: ("" if r.get(k) is None else r.get(k)) for k in COLS})
-    print(f"wrote {len(rows)} rows -> ../rilem-tc304-ils-mech.open3dcp.csv")
-
+def run(source, output):
+    source, output = Path(source).resolve(), Path(output).resolve()
+    digest = hashlib.sha256(source.read_bytes()).hexdigest()
+    if digest != SOURCE_SHA256:
+        raise ValueError("Source fingerprint differs from audited DOI export; review before replacing examples")
+    with sqlite3.connect(source.as_uri() + "?mode=ro", uri=True) as con:
+        con.row_factory = sqlite3.Row
+        records = [dict(r) for r in con.execute("SELECT * FROM exp_flex_sample_props_view")]
+    rows, contexts, inclusion = convert(records)
+    output.mkdir(parents=True, exist_ok=True)
+    write_csv(output / "rilem-tc304-ils-mech.open3dcp.csv", COLS, rows)
+    write_csv(output / "provenance.csv", ["record_index"] + CONTEXT, contexts)
+    write_csv(output / "inclusion.csv", ["sample_id", "source_name", "included", "reason", "source_strength", "source_strength_unit"], inclusion)
+    report = {"source_sha256": digest, "source_doi": DOI,
+              "selection": "01_a, 13_a, 19_a; finite nonnegative flexural strength in N/mm² or MPa; age 20–40 days",
+              "selected_source_records": len(inclusion), "rows_committed": len(rows),
+              "excluded": len(inclusion) - len(rows), "row_grain": "individual flexural specimen",
+              "aggregation": "none", "parent_print_material_joins": "not performed; relationship chain needs curation"}
+    (output / "extraction_report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    if hashlib.sha256(source.read_bytes()).hexdigest() != digest:
+        raise RuntimeError("Source changed during extraction")
+    print(json.dumps(report))
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        sys.exit("usage: python build/extract.py /path/to/2024-06-21_openbis.db")
-    main(sys.argv[1])
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument("source")
+    p.add_argument("--output-dir", type=Path, default=Path(__file__).resolve().parents[1])
+    a = p.parse_args()
+    run(a.source, a.output_dir)

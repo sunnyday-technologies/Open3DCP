@@ -1,14 +1,14 @@
 name: Validate examples
 
 # Guards the examples/ catalog: every stored dataset must carry a redistributable license + NOTICE +
-# a valid record.json, the open3dcp-ingest examples must reproduce byte-for-byte, and no commercial or
+# a valid record.json, the open3dcp-ingest examples must reproduce with only machine-precision serialization tolerance, and no commercial or
 # non-public token may appear. Keeps examples honest and license-clean.
 
 on:
   push:
-    paths: [examples/**, scripts/check_examples.py, tools/ingest/**, crosswalk/**]
+    paths: [examples/**, scripts/check_examples.py, scripts/test_example_corrections.py, tools/ingest/**, crosswalk/**, .github/workflows/validate-examples.yml]
   pull_request:
-    paths: [examples/**, scripts/check_examples.py, tools/ingest/**, crosswalk/**]
+    paths: [examples/**, scripts/check_examples.py, scripts/test_example_corrections.py, tools/ingest/**, crosswalk/**, .github/workflows/validate-examples.yml]
   workflow_dispatch:
 
 permissions:
@@ -26,3 +26,5 @@ jobs:
         run: pip install --quiet -e tools/ingest
       - name: Validate examples
         run: python scripts/check_examples.py
+      - name: Verify source-context and missingness regressions
+        run: python scripts/test_example_corrections.py

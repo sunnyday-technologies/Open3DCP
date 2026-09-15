@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<meta name="description" content="Worked example: the UF 3D-Printing-Concrete Mix-Design Open Dataset re-formatted into the Open3DCP flat schema — the extrusion-3DCP printability slice (yield stress, viscosity) on a ratio-to-binder basis."/>
+<meta name="description" content="Corrected source-linked Open3DCP example. Original context and missing information remain explicit; no unsupported aggregate conclusions."/>
 <link rel="canonical" href="https://open3dcp.org/examples/uf-3dcp-mix/"/>
-<title>UF 3DCP Mix-Design → Open3DCP</title>
+<title>UF mixture and age records with source quantities preserved | Open3DCP</title>
 <link rel="stylesheet" href="../styles.css"/>
+<style>main.sheet,main.sheet *{color:#000!important}main.sheet{background:#fff;overflow-wrap:anywhere}main.sheet code{white-space:normal;overflow-wrap:anywhere}main.sheet pre{white-space:pre-wrap;overflow-wrap:anywhere}main.sheet a{text-decoration:underline}</style>
 </head>
 <body>
 <header class="pb-header"><div class="in">
@@ -13,121 +14,74 @@
   <a href="../">← all examples</a>
 </div></header>
 
-<main class="sheet">
-  <div class="kicker">Example entry · extrusion 3D-printed concrete</div>
-  <h1>UF 3DCP Mix-Design → Open3DCP</h1>
-  <p class="lede">The genuine extrusion-3DCP slice: printable Portland mixes with the fresh-state
-  <strong>rheology that governs printability</strong> — and an honest illustration of a <strong>basis
-  mismatch</strong> (ratio-to-binder, no kg/m³) that the connective layer exists to span.</p>
-  <p class="meta">
-    <span class="badge b-store">storable · CC BY 4.0</span> <span class="badge b-3dcp">3D-printed</span>
-    · Source: <a href="https://zenodo.org/records/8070144">Zenodo</a>
-    · DOI <a href="https://doi.org/10.5281/zenodo.6828947">10.5281/zenodo.6828947</a>
-    · <a href="SOURCE.md">provenance</a> · <a href="NOTICE">attribution</a>
-  </p>
-
-  <h2>1 · Native structure</h2>
-  <p><strong>Storage medium:</strong> a single flat table (<code>.xlsx</code>), one row per mix, constituents
-  on a <strong>ratio-to-binder</strong> basis (binder = 1) — <em>no absolute kg/m³ content</em>. The fresh
-  rheology and strength fields are absolute and unambiguous.</p>
-  <table>
-    <thead><tr><th>Source field (data class)</th><th>Unit</th><th>Role</th></tr></thead>
-    <tbody>
-      <tr><td>Binder1 + SCM "to binder ratio"</td><td>ratio</td><td>binder system (binder = 1)</td></tr>
-      <tr><td>Water-Binder Ratio</td><td>ratio</td><td>w/b (absolute, unambiguous)</td></tr>
-      <tr><td>Sand-Binder Ratio</td><td>ratio</td><td>aggregate loading</td></tr>
-      <tr><td>Static · Dynamic Yield Stress</td><td>kPa</td><td>printability (buildability / extrudability)</td></tr>
-      <tr><td>Plastic Viscosity</td><td>Pa·s</td><td>fresh-state flow</td></tr>
-      <tr><td>Compressive strength at 1/3/7/28 d</td><td>MPa</td><td>hardened result</td></tr>
-    </tbody>
-  </table>
-
-  <div class="note"><strong>Why constituents stay NULL here.</strong> Because the source gives only ratios to
-  binder with no kg/m³ binder dosage, a constituent mass-% of the total mix <em>cannot be formed</em> without
-  inventing a binder content — so we don't. The mix-design columns beyond <code>w_b_ratio</code> and the
-  binder system stay NULL. <em>The missing data class is not a defect; it is exactly the gap a connective
-  schema is built to span</em> — UCI and Meta supply kg/m³ mass design, this source supplies the printability
-  rheology, and Open3DCP holds both in one shape.</div>
-
-  <h2>2 · Re-formatting into Open3DCP</h2>
-  <figure>
-  <svg viewBox="0 0 760 360" role="img" aria-label="UF ratio-to-binder 3DCP table through open3dcp-ingest into the Open3DCP flat row, populating is_3d_printed, yield stress, viscosity, w/b and compressive strength; constituent mass-%, durability and environment remain null.">
-    <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#1f6fb2"/></marker></defs>
-    <rect class="svg-node" x="8" y="34" width="212" height="176" rx="7"/>
-    <text class="svg-head" x="20" y="54">Source — UF</text>
-    <text class="svg-sub" x="20" y="70">flat .xlsx · ratio-to-binder</text>
-    <text class="svg-sub" x="20" y="92">Binder system (ratios)</text>
-    <text class="svg-sub" x="20" y="108">Water-Binder Ratio</text>
-    <text class="svg-sub" x="20" y="124">Static / Dynamic Yield (kPa)</text>
-    <text class="svg-sub" x="20" y="140">Plastic Viscosity (Pa·s)</text>
-    <text class="svg-sub" x="20" y="156">Compressive 1–28 d (MPa)</text>
-    <rect class="svg-node-2" x="276" y="58" width="208" height="128" rx="7"/>
-    <text class="svg-head" x="288" y="78">curate (ratio basis)</text>
-    <text class="svg-sub" x="288" y="98">kPa → Pa</text>
-    <text class="svg-sub" x="288" y="118">w/b copied (unambiguous)</text>
-    <text class="svg-sub" x="288" y="138">constituent mass-% NOT</text>
-    <text class="svg-sub" x="288" y="153">  formed (no kg/m³)</text>
-    <text class="svg-sub" x="288" y="173">basis noted per row</text>
-    <rect class="svg-node-accent" x="540" y="40" width="212" height="166" rx="7"/>
-    <text class="svg-head" x="552" y="60">Open3DCP flat row</text>
-    <text class="svg-sub" x="552" y="80">is_3d_printed = true</text>
-    <text class="svg-sub" x="552" y="96">static_yield_stress_pa</text>
-    <text class="svg-sub" x="552" y="112">dynamic_yield_stress_pa</text>
-    <text class="svg-sub" x="552" y="128">plastic_viscosity_pa_s</text>
-    <text class="svg-sub" x="552" y="144">w_b_ratio</text>
-    <text class="svg-sub" x="552" y="160">compressive_strength_mpa</text>
-    <text class="svg-sub" x="552" y="176">test_age_days</text>
-    <path class="svg-edge" d="M222,124 L274,124"/>
-    <path class="svg-edge" d="M486,124 L538,124"/>
-    <rect class="svg-node-null" x="8" y="226" width="744" height="118" rx="7"/>
-    <text class="svg-head" x="20" y="246">NULL — data classes this ratio-to-binder source cannot supply</text>
-    <text class="svg-sub" x="20" y="268">▢ Constituent mass-% (no kg/m³ binder content) · ▢ Multi-age · ▢ Interlayer bond</text>
-    <text class="svg-sub" x="20" y="286">▢ Durability · ▢ Environment · ▢ Raw-material provenance</text>
-    <text class="svg-sub" x="20" y="310" font-style="italic">These stay NULL (never 0). The printability rheology UCI/Meta lack is exactly what this source adds.</text>
-  </svg>
-  <figcaption>The fresh-state yield stress and viscosity — the printability signature — convert cleanly to
-  SI; the ratio-to-binder constituents are honestly left as NULL mass-% rather than invented.</figcaption>
-  </figure>
-
-  <h2>3 · Result in Open3DCP</h2>
-  <div class="note" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-    <span class="badge b-3dcp">hand-curated</span>
-    <span class="small">Score <strong>deferred</strong> — like the RILEM example, this is hand-curated via the
-    source's ratio-to-binder structure; an automated <code>open3dcp-ingest</code> ratio-to-binder reader
-    (which would also emit a fidelity score) is a planned follow-up. Values are real; nothing is synthesized.</span>
-  </div>
-
-  <h3>Digital-twin coverage</h3>
-  <div class="cov">
-    <div class="cell off"><span class="lab">Provenance</span><span class="mk">▢</span></div>
-    <div class="cell half"><span class="lab">Mix design</span><span class="mk">◐</span></div>
-    <div class="cell on"><span class="lab">Rheology</span><span class="mk">✓</span></div>
-    <div class="cell on"><span class="lab">3DCP process</span><span class="mk">✓</span></div>
-    <div class="cell on"><span class="lab">Hardened mech.</span><span class="mk">✓</span></div>
-    <div class="cell off"><span class="lab">Multi-age</span><span class="mk">▢</span></div>
-    <div class="cell off"><span class="lab">Durability</span><span class="mk">▢</span></div>
-    <div class="cell off"><span class="lab">Environment</span><span class="mk">▢</span></div>
-  </div>
-
-  <h3>Curated rows (excerpt)</h3>
-  <p class="small">Yield stress (the printability control) vs strength, across primary studies. Full file:
-  <a href="uf-3dcp-mix.open3dcp.csv">uf-3dcp-mix.open3dcp.csv</a>.</p>
-  <table>
-    <thead><tr><th>w/b</th><th>static yield (Pa)</th><th>dynamic yield (Pa)</th><th>plastic visc. (Pa·s)</th><th>age (d)</th><th>f<sub>c</sub> (MPa)</th></tr></thead>
-    <tbody>
-      <tr><td class="num">0.30</td><td class="num">2411</td><td class="num">260</td><td class="num">19.0</td><td class="num">28</td><td class="num">42.0</td></tr>
-      <tr><td class="num">0.30</td><td class="num">3350</td><td class="num">500</td><td class="num">16.7</td><td class="num">28</td><td class="num">49.7</td></tr>
-      <tr><td class="num">0.40</td><td class="num">1200</td><td class="num">—</td><td class="num">—</td><td class="num">28</td><td class="num">60.0</td></tr>
-      <tr><td class="num">0.35</td><td class="num">398</td><td class="num">—</td><td class="num">34.0</td><td class="num">28</td><td class="num">54.0</td></tr>
-    </tbody>
-  </table>
-
-  <h2>4 · How this was built</h2>
-  <pre><code>python build/extract.py "3D concrete printing mix design dataset v0.3.xlsx"
-# → uf-3dcp-mix.open3dcp.csv  (kPa→Pa; ratio-to-binder basis noted per row)</code></pre>
-  <p class="small">A sample, not a re-host. Source © the UF authors, CC BY 4.0 — see
-  <a href="NOTICE">NOTICE</a>. Get the full table from the
-  <a href="https://doi.org/10.5281/zenodo.6828947">DOI</a>.</p>
+<main class="sheet"><h1 id="uf-mixture-and-age-records-with-source-quantities-preserved">UF
+mixture and age records with source quantities preserved</h1>
+<h2 id="correction-made-15-september-2026">Correction made 15 September
+2026</h2>
+<p>The extractor no longer reads material-name cells as numerical SCM
+quantities or assigns every row to OPC/blended_OPC. It no longer claims
+to filter printable Portland-cement mixes or assumes each mechanical
+specimen was printed. The earlier CSV is retained only as <a
+href="history/uf-3dcp-mix.superseded-2026-09-15.csv">superseded
+history</a>.</p>
+<h2 id="what-one-row-means">What one row means</h2>
+<p>The corrected CSV contains <strong>10 source-mixture/age
+records</strong> from <strong>10 source spreadsheet rows</strong>. These
+are literature records, not newly tested specimens. Selection is the
+first ten rows in source order with a reference, finite nonnegative
+static yield stress, water/binder ratio and at least one reported
+strength; at most two source rows per reference. All reported ages from
+a selected row are emitted together. Selection is not random and does
+not establish printability.</p>
+<p>Each CSV row names its original Sheet1 row and primary-study
+reference. The <a href="provenance.csv">provenance ledger</a> retains
+binder descriptions and selected-age counts. The <a
+href="source_cells.csv">source-cell ledger</a> retains columns 3–96 with
+their original labels, values and explicit missingness, including binder
+names, dose/ratio cells, admixtures and activators. A name and its
+adjacent quantity are different cells. Raw values are not converted or
+classified in this ledger.</p>
+<h2 id="reporting-basis-and-missing-information">Reporting basis and
+missing information</h2>
+<p>A complete inventory expressed as mass ratios on a common binder
+basis can be normalized to mass-% without an absolute binder dosage:
+divide each component ratio by the sum of all component ratios, then
+multiply by 100. Recovering kg/m³ separately requires an absolute
+scale.</p>
+<p>This workbook excerpt does not establish that complete inventory:
+blank admixture entries do not mean zero, and some headers mix ratio and
+percent-of-binder descriptions. Constituent mass-% and kg/m³ therefore
+remain unconverted. Source cells are preserved so further primary-study
+curation can resolve those questions without guessing a density or
+dosage.</p>
+<p><code>material_class</code> and <code>is_3d_printed</code> remain
+blank because a source binder label is not a verified class or evidence
+of how each mechanical specimen was prepared. Reported binder
+descriptions remain accessible in the ledgers and notes. Unknowns remain
+usable, traceable unknowns rather than false classifications.</p>
+<h2 id="units">Units</h2>
+<p>Static and dynamic yield stress are converted from kPa to Pa by
+multiplying by 1000. Plastic viscosity remains in Pa·s, strengths in MPa
+and test ages in days. Relevant source headers and units are checked
+before extraction. Explicit zero is retained; missing, negative or
+non-finite numeric input is not treated as a measurement.</p>
+<h2 id="source-and-reproduction">Source and reproduction</h2>
+<p>Gao, J., Wang, Z., &amp; Wang, C. (2023). 3D Printing Concrete Mix
+Design Open Dataset (v0.3) [Dataset]. University of Florida. Zenodo. DOI
+10.5281/zenodo.6828947. CC BY 4.0.</p>
+<p>License: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY
+4.0</a>. Original database/workbook is not re-hosted. Download the
+source from <a href="https://zenodo.org/records/8070144">its
+repository</a>. The expected SHA-256 is
+<code>369369bb2b19610f2ca9eced6cfc395f91e5cf81fec6e63c1fc919bcc1983316</code>;
+a changed source file requires a new audit before replacement.</p>
+<p>Run from the repository root:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> examples/uf-3dcp-mix/build/extract.py <span class="st">&quot;/path/to/3D concrete printing mix design dataset v0.3.xlsx&quot;</span> <span class="at">--output-dir</span> /path/to/output</span></code></pre></div>
+<p>The input is opened read-only; the extractor checks its hash again
+after export. The default output directory is this example folder. <a
+href="extraction_report.json">Extraction report</a> · <a
+href="uf-3dcp-mix.open3dcp.csv">CSV</a> · <a
+href="NOTICE">Attribution</a>.</p>
 </main>
 
 <footer class="pb-footer">
