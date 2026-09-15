@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="684pt" height="266.4pt" viewBox="0 0 684 266.4" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-15T03:53:47.344811</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.3, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 266.4 
+L 684 266.4 
+L 684 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 16.8948 174.97152 
+L 197.8812 174.97152 
+Q 204.5844 174.97152 204.5844 172.3608 
+L 204.5844 13.10688 
+Q 204.5844 10.49616 197.8812 10.49616 
+L 16.8948 10.49616 
+Q 10.1916 10.49616 10.1916 13.10688 
+L 10.1916 172.3608 
+Q 10.1916 174.97152 16.8948 174.97152 
+z
+" clip-path="url(#p45dd07e6dd)" style="fill: #edf2f7; stroke: #436b92; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 244.8036 174.97152 
+L 435.8448 174.97152 
+Q 442.548 174.97152 442.548 172.3608 
+L 442.548 13.10688 
+Q 442.548 10.49616 435.8448 10.49616 
+L 244.8036 10.49616 
+Q 238.1004 10.49616 238.1004 13.10688 
+L 238.1004 172.3608 
+Q 238.1004 174.97152 244.8036 174.97152 
+z
+" clip-path="url(#p45dd07e6dd)" style="fill: #edf2f7; stroke: #436b92; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 479.4156 174.97152 
+L 663.7536 174.97152 
+Q 670.4568 174.97152 670.4568 172.3608 
+L 670.4568 13.10688 
+Q 670.4568 10.49616 663.7536 10.49616 
+L 479.4156 10.49616 
+Q 472.7124 10.49616 472.7124 13.10688 
+L 472.7124 172.3608 
+Q 472.7124 174.97152 479.4156 174.97152 
+z
+" clip-path="url(#p45dd07e6dd)" style="fill: #edf2f7; stroke: #436b92; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start" x="28.96056" y="41.474216" transform="rotate(-0 28.96056 41.474216)">SOURCE</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(28.96056 65.516212)">Cement: 500 kg/m³</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(28.96056 84.384494)">Type: not reported</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(28.96056 103.252775)">Batch sum: 2438 kg/m³</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(28.96056 122.121056)">Row and age retained</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start" x="256.86936" y="41.474216" transform="rotate(-0 256.86936 41.474216)">FLAT RECORD</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(256.86936 65.516212)">cement_unspecified</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(256.86936 84.773869)">20.5086 mass-%</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(256.86936 103.64215)">original_basis = kg_m3</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(256.86936 122.899806)">Batch sum retained</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start" x="491.48136" y="41.474216" transform="rotate(-0 491.48136 41.474216)">CHECK</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(491.48136 65.516212)">Recover source quantity</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(491.48136 84.384494)">Type stays unknown</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(491.48136 103.252775)">Check test context</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'" transform="translate(491.48136 122.121056)">Keep source links</text>
+   </g>
+   <g id="patch_5">
+    <path d="M 204.572372 91.42848 
+Q 219.666104 91.42848 233.194588 91.42848 
+" style="fill: none; stroke: #436b92; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 228.794588 89.22848 
+L 233.194588 91.42848 
+L 228.794588 93.62848 
+" style="fill: none; stroke: #436b92; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 444.547423 91.42848 
+Q 457.631141 91.42848 469.149612 91.42848 
+" style="fill: none; stroke: #436b92; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 464.749612 89.22848 
+L 469.149612 91.42848 
+L 464.749612 93.62848 
+" style="fill: none; stroke: #436b92; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start" x="23.598" y="208.91088" transform="rotate(-0 23.598 208.91088)">v1.8 adds:</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start" x="147.6072" y="208.91088" transform="rotate(-0 147.6072 208.91088)">Product + supplier lot</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start" x="345.3516" y="208.91088" transform="rotate(-0 345.3516 208.91088)">EN cement designation</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start" x="543.096" y="208.91088" transform="rotate(-0 543.096 208.91088)">Aggregate d/D</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle" x="342" y="246.76632" transform="rotate(-0 342 246.76632)">Common fields support checking. Comparable experiments need more evidence.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p45dd07e6dd">
+   <rect x="6.84" y="2.664" width="670.32" height="261.072"/>
+  </clipPath>
+ </defs>
+</svg>
