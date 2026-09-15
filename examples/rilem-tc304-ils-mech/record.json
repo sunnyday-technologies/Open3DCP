@@ -1,6 +1,6 @@
 {
   "id": "rilem-tc304-ils-mech",
-  "dataset": "RILEM TC 304-ADC interlaboratory study — mechanical properties of 3D-printed concrete (ILS-mech)",
+  "dataset": "RILEM TC 304-ADC interlaboratory study â€” mechanical properties of 3D-printed concrete (ILS-mech)",
   "source_url": "https://zenodo.org/records/12200570",
   "doi": "10.5281/zenodo.12200570",
   "license": "CC BY 4.0",
@@ -9,12 +9,30 @@
   "classification": "storable",
   "country": "International (RILEM TC 304-ADC; 30 labs, DE/NL/IT/IN, ...)",
   "storage_medium": "relational openBIS-exported SQLite (2024-06-21_openbis.db, 31 tables/views), one row per tested specimen",
-  "is_3d_printed": true,
+  "is_3d_printed": "mixed cast and printed specimen records",
   "rows_in_source": "~5000 mechanical data points",
-  "rows_committed": 9,
-  "open3dcp_coverage": ["3dcp_process", "fresh_rheology", "hardened_mechanical", "print_anisotropy", "measurement_uncertainty", "provenance"],
-  "null_groups": ["mix_design_constituents", "durability", "environment", "multi_age"],
-  "fidelity": { "method": "hand-curated relational→flat (denormalize + aggregate mean/stddev/n); automated open3dcp-ingest score pending a SQLite reader (follow-up)" },
+  "rows_committed": 200,
+  "open3dcp_coverage": [
+    "specimen_geometry",
+    "hardened_mechanical",
+    "test_age",
+    "source_orientation_context",
+    "provenance"
+  ],
+  "null_groups": [
+    "mix_design_constituents",
+    "fresh_rheology",
+    "print_process",
+    "measurement_uncertainty",
+    "durability",
+    "environment"
+  ],
+  "fidelity": {
+    "method": "source-linked individual specimens; no aggregate or scientific fidelity score"
+  },
   "build_cmd": "python build/extract.py <2024-06-21_openbis.db downloaded from the DOI>",
-  "retrieved": "2026-06-04"
+  "retrieved": "2026-06-04",
+  "corrected": "2026-09-15",
+  "source_sha256": "674839356d64bf9444b5b1eac8b198f68559129b571da9e82c53ae73c2a3e0df",
+  "row_grain": "individual flexural specimen"
 }

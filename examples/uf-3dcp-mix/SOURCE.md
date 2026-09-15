@@ -1,55 +1,37 @@
-# Source — UF 3D-Printing-Concrete Mix-Design Open Dataset
+# UF mixture and age records with source quantities preserved
 
-| | |
-|---|---|
-| **Dataset** | 3D Printing Concrete Mix Design Open Dataset (v0.3) |
-| **Authors** | Jianhao Gao, Zijie Wang, Chaofeng Wang (University of Florida), USA |
-| **Host** | Zenodo |
-| **DOI** | [10.5281/zenodo.6828947](https://doi.org/10.5281/zenodo.6828947) (concept; v0.3 = 8070144) |
-| **License** | Creative Commons Attribution 4.0 International (CC BY 4.0) |
-| **Storage medium** | single flat table (`.xlsx`), one row per mix, constituents on a **ratio-to-binder** basis (binder = 1) |
-| **Size** | extrusion-3DCP mixes standardized from many primary studies · 118 columns |
-| **Retrieved** | 2026-06-09 |
-| **Type** | **Real extrusion-based 3D-printed concrete** — printable Portland-cement mortars, with fresh rheology |
+## Correction made 15 September 2026
 
-## Why it is here — and what it deliberately leaves NULL
+The extractor no longer reads material-name cells as numerical SCM quantities or assigns every row to OPC/blended_OPC. It no longer claims to filter printable Portland-cement mixes or assumes each mechanical specimen was printed. The earlier CSV is retained only as [superseded history](history/uf-3dcp-mix.superseded-2026-09-15.csv).
 
-This is the genuine **extrusion-3DCP mix slice**: printable Portland-cement mixes reported with the
-fresh-state **rheology that governs printability** — static and dynamic yield stress and plastic viscosity
-— plus water/binder and compressive strength. It fills `is_3d_printed`, `static_yield_stress_pa`,
-`dynamic_yield_stress_pa`, and `plastic_viscosity_pa_s` — columns the cast benchmarks (UCI, Meta)
-leave empty.
+## What one row means
 
-It is also an honest illustration of a **basis mismatch**, which is the whole point of a connective
-schema: the source reports constituents as **ratios to binder** (binder = 1), with **no absolute binder
-content in kg/m³**, so the kg/m³ basis is **not recoverable** and a constituent mass-% of the total mix
-cannot be formed without assuming a binder dosage. We therefore **do not fabricate** constituent mass-%;
-the mix-design columns beyond `w_b_ratio` and the binder system stay NULL, recorded plainly in each row's
-provenance note. *Missing data classes are not a defect — they are the gap the connective layer exists to
-span.*
+The corrected CSV contains **10 source-mixture/age records** from **10 source spreadsheet rows**. These are literature records, not newly tested specimens. Selection is the first ten rows in source order with a reference, finite nonnegative static yield stress, water/binder ratio and at least one reported strength; at most two source rows per reference. All reported ages from a selected row are emitted together. Selection is not random and does not establish printability.
 
-## What we committed
+Each CSV row names its original Sheet1 row and primary-study reference. The [provenance ledger](provenance.csv) retains binder descriptions and selected-age counts. The [source-cell ledger](source_cells.csv) retains columns 3–96 with their original labels, values and explicit missingness, including binder names, dose/ratio cells, admixtures and activators. A name and its adjacent quantity are different cells. Raw values are not converted or classified in this ledger.
 
-A hand-curated **10-row excerpt** (`uf-3dcp-mix.open3dcp.csv`) of printable Portland mixes drawn from
-several primary studies, spanning static yield stress **~0.4–4.6 kPa**, w/b **0.30–0.45**, and 28-day
-compressive strength **28–72 MPa**. It is a **sample, not a re-host**; download the full table from the DOI.
+## Reporting basis and missing information
 
-> Hand-curated via the source's ratio-to-binder structure; a turnkey `open3dcp-ingest` **ratio-to-binder
-> reader (with a fidelity score) is a planned follow-up** — the score is deferred, exactly as for the
-> RILEM excerpt.
+A complete inventory expressed as mass ratios on a common binder basis can be normalized to mass-% without an absolute binder dosage: divide each component ratio by the sum of all component ratios, then multiply by 100. Recovering kg/m³ separately requires an absolute scale.
 
-## How it maps to Open3DCP
+This workbook excerpt does not establish that complete inventory: blank admixture entries do not mean zero, and some headers mix ratio and percent-of-binder descriptions. Constituent mass-% and kg/m³ therefore remain unconverted. Source cells are preserved so further primary-study curation can resolve those questions without guessing a density or dosage.
 
-The relational/ratio fields are read and the rheology converted to SI (kPa → Pa). It populates the
-**3DCP-process / printability** flag, **fresh-rheology** (yield stress, viscosity), partial **mix-design**
-(`w_b_ratio`, binder system), and **hardened-compressive** groups; constituent mass-%, multi-age, interlayer
-bond, durability, environment, and raw-material provenance stay **NULL**. Build:
+`material_class` and `is_3d_printed` remain blank because a source binder label is not a verified class or evidence of how each mechanical specimen was prepared. Reported binder descriptions remain accessible in the ledgers and notes. Unknowns remain usable, traceable unknowns rather than false classifications.
 
-```
-python build/extract.py "3D concrete printing mix design dataset v0.3.xlsx"
+## Units
+
+Static and dynamic yield stress are converted from kPa to Pa by multiplying by 1000. Plastic viscosity remains in Pa·s, strengths in MPa and test ages in days. Relevant source headers and units are checked before extraction. Explicit zero is retained; missing, negative or non-finite numeric input is not treated as a measurement.
+
+## Source and reproduction
+
+Gao, J., Wang, Z., & Wang, C. (2023). 3D Printing Concrete Mix Design Open Dataset (v0.3) [Dataset]. University of Florida. Zenodo. DOI 10.5281/zenodo.6828947. CC BY 4.0.
+
+License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Original database/workbook is not re-hosted. Download the source from [its repository](https://zenodo.org/records/8070144). The expected SHA-256 is `369369bb2b19610f2ca9eced6cfc395f91e5cf81fec6e63c1fc919bcc1983316`; a changed source file requires a new audit before replacement.
+
+Run from the repository root:
+
+```sh
+python examples/uf-3dcp-mix/build/extract.py "/path/to/3D concrete printing mix design dataset v0.3.xlsx" --output-dir /path/to/output
 ```
 
-## Citation
-
-Gao, J., Wang, Z., & Wang, C. (2023). *3D Printing Concrete Mix Design Open Dataset* (v0.3) [Dataset].
-Zenodo. DOI [10.5281/zenodo.6828947](https://doi.org/10.5281/zenodo.6828947). Licensed CC BY 4.0.
+The input is opened read-only; the extractor checks its hash again after export. The default output directory is this example folder. [Extraction report](extraction_report.json) · [CSV](uf-3dcp-mix.open3dcp.csv) · [Attribution](NOTICE).

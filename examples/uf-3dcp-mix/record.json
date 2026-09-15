@@ -8,13 +8,31 @@
   "attribution": "Gao, J., Wang, Z., & Wang, C. (2023). 3D Printing Concrete Mix Design Open Dataset (v0.3) [Dataset]. University of Florida. Zenodo. DOI 10.5281/zenodo.6828947. CC BY 4.0.",
   "classification": "storable",
   "country": "USA (University of Florida)",
-  "storage_medium": "single flat table (.xlsx), one row per mix, constituents on a ratio-to-binder basis (binder = 1)",
-  "is_3d_printed": true,
+  "storage_medium": "XLSX literature compilation; reported binder ratios plus mixed component reporting bases",
+  "is_3d_printed": null,
   "rows_in_source": "extrusion-3DCP mixes standardized from many primary studies",
   "rows_committed": 10,
-  "open3dcp_coverage": ["3dcp_printability", "fresh_rheology", "mix_design_partial", "hardened_mechanical"],
-  "null_groups": ["mix_design_constituents_kg_m3", "multi_age", "interlayer_bond", "durability", "environment", "raw_material_provenance"],
-  "fidelity": { "method": "hand-curated ratio-to-binder excerpt; constituent mass-% not formed (no kg/m³ binder content); automated open3dcp-ingest score pending a ratio-to-binder reader (follow-up)" },
+  "open3dcp_coverage": [
+    "fresh_rheology",
+    "water_binder_ratio",
+    "hardened_mechanical",
+    "test_age",
+    "source_cell_provenance"
+  ],
+  "null_groups": [
+    "material_class",
+    "specimen_printing_status",
+    "mix_design_constituents",
+    "interlayer_bond",
+    "durability",
+    "environment"
+  ],
+  "fidelity": {
+    "method": "source-linked mixture/age excerpt; no inferred classifications or composition conversion; no fidelity grade"
+  },
   "build_cmd": "python build/extract.py <3D concrete printing mix design dataset v0.3.xlsx downloaded from the DOI>",
-  "retrieved": "2026-06-09"
+  "retrieved": "2026-06-09",
+  "corrected": "2026-09-15",
+  "source_sha256": "369369bb2b19610f2ca9eced6cfc395f91e5cf81fec6e63c1fc919bcc1983316",
+  "row_grain": "one source mixture at one reported test age"
 }

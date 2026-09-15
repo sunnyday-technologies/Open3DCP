@@ -1,8 +1,9 @@
 # Example entries — the open concrete-data landscape
 
+[15 September 2026 corrections to the RILEM and UF examples](CORRECTIONS-2026-09-15.md).
+
 Worked Open3DCP examples converted from **public, openly-licensed** academic and national datasets. Each
-carries its source, DOI, license, a `NOTICE`, a `record.json`, the converted flat CSV, and an honest fidelity
-report. We commit **small curated excerpts** (reproducible from the source), never bulk re-hosts. Every example
+carries its source, DOI, license, a `NOTICE`, a `record.json`, the converted flat CSV, and a reproduction or fidelity report with stated limits. We commit **small curated excerpts** (reproducible from the source), never bulk re-hosts. Every example
 is generic and public; each page shows the source's data classes and storage medium and how it re-formats into
 Open3DCP.
 
@@ -20,11 +21,11 @@ strength. Put in one shape, openly licensed, each contributed record becomes usa
 |---|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 | [UCI Concrete Strength (Yeh 1998)](uci-yeh-1998/) — *cast, **100/A*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ▢ |
 | [Meta SustainableConcrete](meta-sustainableconcrete/) — *cast, **100/A*** | ▢ | ✓ | ▢ | ▢ | ✓ | ✓ | ✓ |
-| [RILEM TC 304-ADC ILS-mech](rilem-tc304-ils-mech/) — *3DCP* | ✓ | ▢¹ | ✓ | ✓ | ✓ | ▢ | ▢ |
-| [UF 3DCP mix-design](uf-3dcp-mix/) — *3DCP* | ▢ | ◐ | ✓ | ✓ | ✓ | ▢ | ▢ |
+| [RILEM TC 304-ADC ILS-mech](rilem-tc304-ils-mech/) — *individual specimens* | ✓ | ▢ | ▢ | ◐ | ✓ | ✓ | ▢ |
+| [UF 3DCP mix-design](uf-3dcp-mix/) — *source mixture/age records* | ✓ | ◐ | ✓ | ▢ | ✓ | ✓ | ▢ |
 | [TU-Braunschweig 3DCP buildings](tu-braunschweig-buildings/) — *project layer* | ✓ | ▢ | ▢ | ◐ | ▢ | ▢ | ▢ |
 
-¹ commercial premix — w/b and yield stress captured, constituent dosages not disclosed. The **gaps between
+RILEM no longer copies unverified parent material or print properties. UF preserves raw composition cells without inferring specimen printing status or material classification. The **gaps between
 slices are the connective-layer argument**: no single source spans the whole record; the union does. *Two
 sources carry a real `open3dcp-ingest` fidelity score (kg/m³ tables — both 100/A: zero assumptions under v1.7.5's preserve-don't-presume columns, with generically-recorded cells disclosed); the 3DCP-mix
 and project-layer sources are hand-curated because their native bases (ratio-to-binder; project metadata) are
@@ -78,11 +79,10 @@ designations for identification only).
 ## How each example is built
 
 `open3dcp-ingest` converts the source into the flat schema and emits an honest 0–100 fidelity report (it never
-invents a score). Conventions: **NULL, not 0**, for anything unreported; RILEM **U/V/W → X/Y/Z/CAST** orientation
-crosswalk (raw code kept in `provenance_notes`); per-measurement **mean + std-dev + n**. Where a turnkey reader
-exists (UCI), CI re-runs the `build_cmd` and **diffs** the output so the example can't drift; where a source needs
-a reader still to be written (RILEM SQLite), the excerpt is hand-curated with a committed, documented
-`build/extract.py`.
+invents a score). Conventions: **NULL, not 0**, for anything unreported; RILEM retains full compound orientations and individual specimen records with a context ledger; it does not project U/V/W into a single X/Y/Z code or calculate pooled means. UF records source row/age identities and preserves unconverted composition cells. Where a turnkey reader
+exists (UCI), CI re-runs the `build_cmd` and **diffs** the output so the example can't drift. RILEM and UF use
+documented `build/extract.py` readers with source fingerprints. Their full reproduction requires the separately
+downloaded source files; CI checks fixtures and committed ledgers.
 
 ## Licensing, attribution, trademarks
 

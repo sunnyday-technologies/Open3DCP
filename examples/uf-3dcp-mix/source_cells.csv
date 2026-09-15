@@ -1,0 +1,993 @@
+source_row,column_index_zero_based,source_header,source_value,missing
+46,3,Concrete Mix Type,,True
+46,4,Reference,https://www.sciencedirect.com/science/article/pii/S0950061817325175?via%3Dihub,False
+46,5,Binder,"Portland cement:fly ash:silica
+fume=0.47:0.47:0.06",False
+46,6,Binder1,Portland cement,False
+46,7,Binder1 to binder ratio,0.47,False
+46,8,Binder2,,True
+46,9,to binder ratio,,True
+46,10,Calcium sulfoaluminate cement,,True
+46,11,to binder ratio,,True
+46,12,sulphoaluminate cement,,True
+46,13,to binder ratio,,True
+46,14,fly ash,fly ash,False
+46,15,to binder ratio,0.47,False
+46,16,bottom ash,,True
+46,17,to binder ratio,,True
+46,18,silica fume,silica fume,False
+46,19,to binder ratio,0.06,False
+46,20,micro-silica,,True
+46,21,to binder ratio,,True
+46,22,nano clay,,True
+46,23,to binder ratio,,True
+46,24,Attapulgite,,True
+46,25,to binder ratio,,True
+46,26,Ladle furnace steel slag,,True
+46,27,to binder ratio,,True
+46,28,MgO(Magnesium Oxide)-activated slag,,True
+46,29,to binder ratio,,True
+46,30,blast furnace slag,,True
+46,31,to binder ratio,,True
+46,32,limestone powder,,True
+46,33,to binder ratio,,True
+46,34,Low grade calcined clay,,True
+46,35,to binder ratio,,True
+46,36,High grade calcined clay,,True
+46,37,to binder ratio,,True
+46,38,Metakaolin,,True
+46,39,to binder ratio,,True
+46,40,"Water-Binder 
+Ratio",0.3,False
+46,41,"Sand-Binder
+Ratio",0.5,False
+46,42,Sand Size(mm),0.6–1.2,False
+46,43,Sand Size(mm),0.9,False
+46,44,Admixture     (% Wob),,True
+46,45,HRWRA,,True
+46,46,to binder ratio,,True
+46,47,VMA,,True
+46,48,to binder ratio,,True
+46,49,Superplasticiser,,True
+46,50,to binder ratio,,True
+46,51,HPMC,,True
+46,52,to binder ratio,,True
+46,53,nano clay,,True
+46,54,to binder ratio,,True
+46,55,Sodium gluconate,,True
+46,56,to binder ratio,,True
+46,57,sodium lignosulfonate,,True
+46,58,to binder ratio,,True
+46,59,thicker agent,,True
+46,60,to binder ratio,,True
+46,61,retarder agent,,True
+46,62,to binder ratio,,True
+46,63,accelerating agent,,True
+46,64,to binder ratio,,True
+46,65,Air-entraining agent,,True
+46,66,to binder ratio,,True
+46,67,microcrystalline cellulose,,True
+46,68,to binder ratio,,True
+46,69,Alkaline reagent,,True
+46,70,to binder ratio,,True
+46,71,Activator,,True
+46,72,to binder ratio,,True
+46,73,rheology modifier,,True
+46,74,to binder ratio,,True
+46,75,early strength agent,,True
+46,76,to binder ratio,,True
+46,77,hydration inhibitor,,True
+46,78,to binder ratio,,True
+46,79,"PP Fibers,
+Otherwise, as
+Stated (% Wob)",,True
+46,80,polypropylene fibers,,True
+46,81,to binder ratio,,True
+46,82,"Polyethylene
+fiber",,True
+46,83,to binder ratio,,True
+46,84,glass fiber,,True
+46,85,to binder ratio,,True
+46,86,Steel fibers,,True
+46,87,to binder ratio,,True
+46,88,polyvinyl alcohol (PVA) fibres,,True
+46,89,to binder ratio,,True
+46,90,Basalt fiber,,True
+46,91,to binder ratio,,True
+46,92,carbon fibers,,True
+46,93,to binder ratio,,True
+46,94,Cellulose fiber,,True
+46,95,to binder ratio,,True
+46,96,Testing Apparatus,,True
+47,3,Concrete Mix Type,,True
+47,4,Reference,https://www.sciencedirect.com/science/article/pii/S0950061817325175?via%3Dihub,False
+47,5,Binder,"Portland cement:fly ash:silica
+fume=0.47:0.47:0.06",False
+47,6,Binder1,Portland cement,False
+47,7,Binder1 to binder ratio,0.47,False
+47,8,Binder2,,True
+47,9,to binder ratio,,True
+47,10,Calcium sulfoaluminate cement,,True
+47,11,to binder ratio,,True
+47,12,sulphoaluminate cement,,True
+47,13,to binder ratio,,True
+47,14,fly ash,fly ash,False
+47,15,to binder ratio,0.47,False
+47,16,bottom ash,,True
+47,17,to binder ratio,,True
+47,18,silica fume,silica fume,False
+47,19,to binder ratio,0.06,False
+47,20,micro-silica,,True
+47,21,to binder ratio,,True
+47,22,nano clay,,True
+47,23,to binder ratio,,True
+47,24,Attapulgite,,True
+47,25,to binder ratio,,True
+47,26,Ladle furnace steel slag,,True
+47,27,to binder ratio,,True
+47,28,MgO(Magnesium Oxide)-activated slag,,True
+47,29,to binder ratio,,True
+47,30,blast furnace slag,,True
+47,31,to binder ratio,,True
+47,32,limestone powder,,True
+47,33,to binder ratio,,True
+47,34,Low grade calcined clay,,True
+47,35,to binder ratio,,True
+47,36,High grade calcined clay,,True
+47,37,to binder ratio,,True
+47,38,Metakaolin,,True
+47,39,to binder ratio,,True
+47,40,"Water-Binder 
+Ratio",0.3,False
+47,41,"Sand-Binder
+Ratio",0.5,False
+47,42,Sand Size(mm),0-1.2,False
+47,43,Sand Size(mm),0.6,False
+47,44,Admixture     (% Wob),,True
+47,45,HRWRA,,True
+47,46,to binder ratio,,True
+47,47,VMA,,True
+47,48,to binder ratio,,True
+47,49,Superplasticiser,,True
+47,50,to binder ratio,,True
+47,51,HPMC,,True
+47,52,to binder ratio,,True
+47,53,nano clay,,True
+47,54,to binder ratio,,True
+47,55,Sodium gluconate,,True
+47,56,to binder ratio,,True
+47,57,sodium lignosulfonate,,True
+47,58,to binder ratio,,True
+47,59,thicker agent,,True
+47,60,to binder ratio,,True
+47,61,retarder agent,,True
+47,62,to binder ratio,,True
+47,63,accelerating agent,,True
+47,64,to binder ratio,,True
+47,65,Air-entraining agent,,True
+47,66,to binder ratio,,True
+47,67,microcrystalline cellulose,,True
+47,68,to binder ratio,,True
+47,69,Alkaline reagent,,True
+47,70,to binder ratio,,True
+47,71,Activator,,True
+47,72,to binder ratio,,True
+47,73,rheology modifier,,True
+47,74,to binder ratio,,True
+47,75,early strength agent,,True
+47,76,to binder ratio,,True
+47,77,hydration inhibitor,,True
+47,78,to binder ratio,,True
+47,79,"PP Fibers,
+Otherwise, as
+Stated (% Wob)",,True
+47,80,polypropylene fibers,,True
+47,81,to binder ratio,,True
+47,82,"Polyethylene
+fiber",,True
+47,83,to binder ratio,,True
+47,84,glass fiber,,True
+47,85,to binder ratio,,True
+47,86,Steel fibers,,True
+47,87,to binder ratio,,True
+47,88,polyvinyl alcohol (PVA) fibres,,True
+47,89,to binder ratio,,True
+47,90,Basalt fiber,,True
+47,91,to binder ratio,,True
+47,92,carbon fibers,,True
+47,93,to binder ratio,,True
+47,94,Cellulose fiber,,True
+47,95,to binder ratio,,True
+47,96,Testing Apparatus,,True
+57,3,Concrete Mix Type,,True
+57,4,Reference,https://www.sciencedirect.com/science/article/pii/S1359836818319024,False
+57,5,Binder,Portland cement:fly ash=0.7:0.3,False
+57,6,Binder1,Portland cement,False
+57,7,Binder1 to binder ratio,0.7,False
+57,8,Binder2,,True
+57,9,to binder ratio,,True
+57,10,Calcium sulfoaluminate cement,,True
+57,11,to binder ratio,,True
+57,12,sulphoaluminate cement,,True
+57,13,to binder ratio,,True
+57,14,fly ash,fly ash,False
+57,15,to binder ratio,0.3,False
+57,16,bottom ash,,True
+57,17,to binder ratio,,True
+57,18,silica fume,,True
+57,19,to binder ratio,,True
+57,20,micro-silica,,True
+57,21,to binder ratio,,True
+57,22,nano clay,,True
+57,23,to binder ratio,,True
+57,24,Attapulgite,,True
+57,25,to binder ratio,,True
+57,26,Ladle furnace steel slag,,True
+57,27,to binder ratio,,True
+57,28,MgO(Magnesium Oxide)-activated slag,,True
+57,29,to binder ratio,,True
+57,30,blast furnace slag,,True
+57,31,to binder ratio,,True
+57,32,limestone powder,,True
+57,33,to binder ratio,,True
+57,34,Low grade calcined clay,,True
+57,35,to binder ratio,,True
+57,36,High grade calcined clay,,True
+57,37,to binder ratio,,True
+57,38,Metakaolin,,True
+57,39,to binder ratio,,True
+57,40,"Water-Binder 
+Ratio",0.45,False
+57,41,"Sand-Binder
+Ratio",0.33,False
+57,42,Sand Size(mm),0-2,False
+57,43,Sand Size(mm),1,False
+57,44,Admixture     (% Wob),,True
+57,45,HRWRA,,True
+57,46,to binder ratio,,True
+57,47,VMA,,True
+57,48,to binder ratio,,True
+57,49,Superplasticiser,,True
+57,50,to binder ratio,,True
+57,51,HPMC,,True
+57,52,to binder ratio,,True
+57,53,nano clay,,True
+57,54,to binder ratio,,True
+57,55,Sodium gluconate,,True
+57,56,to binder ratio,,True
+57,57,sodium lignosulfonate,,True
+57,58,to binder ratio,,True
+57,59,thicker agent,,True
+57,60,to binder ratio,,True
+57,61,retarder agent,,True
+57,62,to binder ratio,,True
+57,63,accelerating agent,,True
+57,64,to binder ratio,,True
+57,65,Air-entraining agent,,True
+57,66,to binder ratio,,True
+57,67,microcrystalline cellulose,,True
+57,68,to binder ratio,,True
+57,69,Alkaline reagent,,True
+57,70,to binder ratio,,True
+57,71,Activator,,True
+57,72,to binder ratio,,True
+57,73,rheology modifier,,True
+57,74,to binder ratio,,True
+57,75,early strength agent,,True
+57,76,to binder ratio,,True
+57,77,hydration inhibitor,,True
+57,78,to binder ratio,,True
+57,79,"PP Fibers,
+Otherwise, as
+Stated (% Wob)",,True
+57,80,polypropylene fibers,,True
+57,81,to binder ratio,,True
+57,82,"Polyethylene
+fiber",,True
+57,83,to binder ratio,,True
+57,84,glass fiber,,True
+57,85,to binder ratio,,True
+57,86,Steel fibers,,True
+57,87,to binder ratio,,True
+57,88,polyvinyl alcohol (PVA) fibres,,True
+57,89,to binder ratio,,True
+57,90,Basalt fiber,,True
+57,91,to binder ratio,,True
+57,92,carbon fibers,,True
+57,93,to binder ratio,,True
+57,94,Cellulose fiber,,True
+57,95,to binder ratio,,True
+57,96,Testing Apparatus,,True
+58,3,Concrete Mix Type,,True
+58,4,Reference,https://www.sciencedirect.com/science/article/pii/S1359836818319024,False
+58,5,Binder,Portland cement:fly ash=0.7:0.3,False
+58,6,Binder1,Portland cement,False
+58,7,Binder1 to binder ratio,0.7,False
+58,8,Binder2,,True
+58,9,to binder ratio,,True
+58,10,Calcium sulfoaluminate cement,,True
+58,11,to binder ratio,,True
+58,12,sulphoaluminate cement,,True
+58,13,to binder ratio,,True
+58,14,fly ash,fly ash,False
+58,15,to binder ratio,0.3,False
+58,16,bottom ash,,True
+58,17,to binder ratio,,True
+58,18,silica fume,,True
+58,19,to binder ratio,,True
+58,20,micro-silica,,True
+58,21,to binder ratio,,True
+58,22,nano clay,,True
+58,23,to binder ratio,,True
+58,24,Attapulgite,,True
+58,25,to binder ratio,,True
+58,26,Ladle furnace steel slag,,True
+58,27,to binder ratio,,True
+58,28,MgO(Magnesium Oxide)-activated slag,,True
+58,29,to binder ratio,,True
+58,30,blast furnace slag,,True
+58,31,to binder ratio,,True
+58,32,limestone powder,,True
+58,33,to binder ratio,,True
+58,34,Low grade calcined clay,,True
+58,35,to binder ratio,,True
+58,36,High grade calcined clay,,True
+58,37,to binder ratio,,True
+58,38,Metakaolin,,True
+58,39,to binder ratio,,True
+58,40,"Water-Binder 
+Ratio",0.45,False
+58,41,"Sand-Binder
+Ratio",0.33,False
+58,42,Sand Size(mm),0-2,False
+58,43,Sand Size(mm),1,False
+58,44,Admixture     (% Wob),nano clay=0.5,False
+58,45,HRWRA,,True
+58,46,to binder ratio,,True
+58,47,VMA,,True
+58,48,to binder ratio,,True
+58,49,Superplasticiser,,True
+58,50,to binder ratio,,True
+58,51,HPMC,,True
+58,52,to binder ratio,,True
+58,53,nano clay,nano clay,False
+58,54,to binder ratio,0.5,False
+58,55,Sodium gluconate,,True
+58,56,to binder ratio,,True
+58,57,sodium lignosulfonate,,True
+58,58,to binder ratio,,True
+58,59,thicker agent,,True
+58,60,to binder ratio,,True
+58,61,retarder agent,,True
+58,62,to binder ratio,,True
+58,63,accelerating agent,,True
+58,64,to binder ratio,,True
+58,65,Air-entraining agent,,True
+58,66,to binder ratio,,True
+58,67,microcrystalline cellulose,,True
+58,68,to binder ratio,,True
+58,69,Alkaline reagent,,True
+58,70,to binder ratio,,True
+58,71,Activator,,True
+58,72,to binder ratio,,True
+58,73,rheology modifier,,True
+58,74,to binder ratio,,True
+58,75,early strength agent,,True
+58,76,to binder ratio,,True
+58,77,hydration inhibitor,,True
+58,78,to binder ratio,,True
+58,79,"PP Fibers,
+Otherwise, as
+Stated (% Wob)",,True
+58,80,polypropylene fibers,,True
+58,81,to binder ratio,,True
+58,82,"Polyethylene
+fiber",,True
+58,83,to binder ratio,,True
+58,84,glass fiber,,True
+58,85,to binder ratio,,True
+58,86,Steel fibers,,True
+58,87,to binder ratio,,True
+58,88,polyvinyl alcohol (PVA) fibres,,True
+58,89,to binder ratio,,True
+58,90,Basalt fiber,,True
+58,91,to binder ratio,,True
+58,92,carbon fibers,,True
+58,93,to binder ratio,,True
+58,94,Cellulose fiber,,True
+58,95,to binder ratio,,True
+58,96,Testing Apparatus,,True
+90,3,Concrete Mix Type,,True
+90,4,Reference,https://www.sciencedirect.com/science/article/pii/S0957582020315627?via%3Dihub,False
+90,5,Binder,Portland cement:Waste Incinerated Fly Ash=0.95:0.05,False
+90,6,Binder1,Portland cement,False
+90,7,Binder1 to binder ratio,0.95,False
+90,8,Binder2,,True
+90,9,to binder ratio,,True
+90,10,Calcium sulfoaluminate cement,,True
+90,11,to binder ratio,,True
+90,12,sulphoaluminate cement,,True
+90,13,to binder ratio,,True
+90,14,fly ash,fly ash,False
+90,15,to binder ratio,0.05,False
+90,16,bottom ash,,True
+90,17,to binder ratio,,True
+90,18,silica fume,,True
+90,19,to binder ratio,,True
+90,20,micro-silica,,True
+90,21,to binder ratio,,True
+90,22,nano clay,,True
+90,23,to binder ratio,,True
+90,24,Attapulgite,,True
+90,25,to binder ratio,,True
+90,26,Ladle furnace steel slag,,True
+90,27,to binder ratio,,True
+90,28,MgO(Magnesium Oxide)-activated slag,,True
+90,29,to binder ratio,,True
+90,30,blast furnace slag,,True
+90,31,to binder ratio,,True
+90,32,limestone powder,,True
+90,33,to binder ratio,,True
+90,34,Low grade calcined clay,,True
+90,35,to binder ratio,,True
+90,36,High grade calcined clay,,True
+90,37,to binder ratio,,True
+90,38,Metakaolin,,True
+90,39,to binder ratio,,True
+90,40,"Water-Binder 
+Ratio",0.4,False
+90,41,"Sand-Binder
+Ratio",,True
+90,42,Sand Size(mm),,True
+90,43,Sand Size(mm),,True
+90,44,Admixture     (% Wob),,True
+90,45,HRWRA,,True
+90,46,to binder ratio,,True
+90,47,VMA,,True
+90,48,to binder ratio,,True
+90,49,Superplasticiser,,True
+90,50,to binder ratio,,True
+90,51,HPMC,,True
+90,52,to binder ratio,,True
+90,53,nano clay,,True
+90,54,to binder ratio,,True
+90,55,Sodium gluconate,,True
+90,56,to binder ratio,,True
+90,57,sodium lignosulfonate,,True
+90,58,to binder ratio,,True
+90,59,thicker agent,,True
+90,60,to binder ratio,,True
+90,61,retarder agent,,True
+90,62,to binder ratio,,True
+90,63,accelerating agent,,True
+90,64,to binder ratio,,True
+90,65,Air-entraining agent,,True
+90,66,to binder ratio,,True
+90,67,microcrystalline cellulose,,True
+90,68,to binder ratio,,True
+90,69,Alkaline reagent,,True
+90,70,to binder ratio,,True
+90,71,Activator,,True
+90,72,to binder ratio,,True
+90,73,rheology modifier,,True
+90,74,to binder ratio,,True
+90,75,early strength agent,,True
+90,76,to binder ratio,,True
+90,77,hydration inhibitor,,True
+90,78,to binder ratio,,True
+90,79,"PP Fibers,
+Otherwise, as
+Stated (% Wob)",,True
+90,80,polypropylene fibers,,True
+90,81,to binder ratio,,True
+90,82,"Polyethylene
+fiber",,True
+90,83,to binder ratio,,True
+90,84,glass fiber,,True
+90,85,to binder ratio,,True
+90,86,Steel fibers,,True
+90,87,to binder ratio,,True
+90,88,polyvinyl alcohol (PVA) fibres,,True
+90,89,to binder ratio,,True
+90,90,Basalt fiber,,True
+90,91,to binder ratio,,True
+90,92,carbon fibers,,True
+90,93,to binder ratio,,True
+90,94,Cellulose fiber,,True
+90,95,to binder ratio,,True
+90,96,Testing Apparatus,,True
+91,3,Concrete Mix Type,,True
+91,4,Reference,https://www.sciencedirect.com/science/article/pii/S0957582020315627?via%3Dihub,False
+91,5,Binder,Portland cement:Waste Incinerated Fly Ash:0.925:0.075,False
+91,6,Binder1,Portland cement,False
+91,7,Binder1 to binder ratio,0.925,False
+91,8,Binder2,,True
+91,9,to binder ratio,,True
+91,10,Calcium sulfoaluminate cement,,True
+91,11,to binder ratio,,True
+91,12,sulphoaluminate cement,,True
+91,13,to binder ratio,,True
+91,14,fly ash,fly ash,False
+91,15,to binder ratio,0.075,False
+91,16,bottom ash,,True
+91,17,to binder ratio,,True
+91,18,silica fume,,True
+91,19,to binder ratio,,True
+91,20,micro-silica,,True
+91,21,to binder ratio,,True
+91,22,nano clay,,True
+91,23,to binder ratio,,True
+91,24,Attapulgite,,True
+91,25,to binder ratio,,True
+91,26,Ladle furnace steel slag,,True
+91,27,to binder ratio,,True
+91,28,MgO(Magnesium Oxide)-activated slag,,True
+91,29,to binder ratio,,True
+91,30,blast furnace slag,,True
+91,31,to binder ratio,,True
+91,32,limestone powder,,True
+91,33,to binder ratio,,True
+91,34,Low grade calcined clay,,True
+91,35,to binder ratio,,True
+91,36,High grade calcined clay,,True
+91,37,to binder ratio,,True
+91,38,Metakaolin,,True
+91,39,to binder ratio,,True
+91,40,"Water-Binder 
+Ratio",0.4,False
+91,41,"Sand-Binder
+Ratio",,True
+91,42,Sand Size(mm),,True
+91,43,Sand Size(mm),,True
+91,44,Admixture     (% Wob),,True
+91,45,HRWRA,,True
+91,46,to binder ratio,,True
+91,47,VMA,,True
+91,48,to binder ratio,,True
+91,49,Superplasticiser,,True
+91,50,to binder ratio,,True
+91,51,HPMC,,True
+91,52,to binder ratio,,True
+91,53,nano clay,,True
+91,54,to binder ratio,,True
+91,55,Sodium gluconate,,True
+91,56,to binder ratio,,True
+91,57,sodium lignosulfonate,,True
+91,58,to binder ratio,,True
+91,59,thicker agent,,True
+91,60,to binder ratio,,True
+91,61,retarder agent,,True
+91,62,to binder ratio,,True
+91,63,accelerating agent,,True
+91,64,to binder ratio,,True
+91,65,Air-entraining agent,,True
+91,66,to binder ratio,,True
+91,67,microcrystalline cellulose,,True
+91,68,to binder ratio,,True
+91,69,Alkaline reagent,,True
+91,70,to binder ratio,,True
+91,71,Activator,,True
+91,72,to binder ratio,,True
+91,73,rheology modifier,,True
+91,74,to binder ratio,,True
+91,75,early strength agent,,True
+91,76,to binder ratio,,True
+91,77,hydration inhibitor,,True
+91,78,to binder ratio,,True
+91,79,"PP Fibers,
+Otherwise, as
+Stated (% Wob)",,True
+91,80,polypropylene fibers,,True
+91,81,to binder ratio,,True
+91,82,"Polyethylene
+fiber",,True
+91,83,to binder ratio,,True
+91,84,glass fiber,,True
+91,85,to binder ratio,,True
+91,86,Steel fibers,,True
+91,87,to binder ratio,,True
+91,88,polyvinyl alcohol (PVA) fibres,,True
+91,89,to binder ratio,,True
+91,90,Basalt fiber,,True
+91,91,to binder ratio,,True
+91,92,carbon fibers,,True
+91,93,to binder ratio,,True
+91,94,Cellulose fiber,,True
+91,95,to binder ratio,,True
+91,96,Testing Apparatus,,True
+139,3,Concrete Mix Type,,True
+139,4,Reference,https://www.sciencedirect.com/science/article/pii/S0264127521001271?via%3Dihub,False
+139,5,Binder,fly ash:blast furnace slag:silica fume=0.60:0.25:0.15,False
+139,6,Binder1,Portland cement,False
+139,7,Binder1 to binder ratio,,True
+139,8,Binder2,,True
+139,9,to binder ratio,,True
+139,10,Calcium sulfoaluminate cement,,True
+139,11,to binder ratio,,True
+139,12,sulphoaluminate cement,,True
+139,13,to binder ratio,,True
+139,14,fly ash,fly ash,False
+139,15,to binder ratio,0.6,False
+139,16,bottom ash,,True
+139,17,to binder ratio,,True
+139,18,silica fume,silica fume,False
+139,19,to binder ratio,0.15,False
+139,20,micro-silica,,True
+139,21,to binder ratio,,True
+139,22,nano clay,,True
+139,23,to binder ratio,,True
+139,24,Attapulgite,,True
+139,25,to binder ratio,,True
+139,26,Ladle furnace steel slag,,True
+139,27,to binder ratio,,True
+139,28,MgO(Magnesium Oxide)-activated slag,,True
+139,29,to binder ratio,,True
+139,30,blast furnace slag,blast furnace slag,False
+139,31,to binder ratio,0.25,False
+139,32,limestone powder,,True
+139,33,to binder ratio,,True
+139,34,Low grade calcined clay,,True
+139,35,to binder ratio,,True
+139,36,High grade calcined clay,,True
+139,37,to binder ratio,,True
+139,38,Metakaolin,,True
+139,39,to binder ratio,,True
+139,40,"Water-Binder 
+Ratio",0.4,False
+139,41,"Sand-Binder
+Ratio",0.55,False
+139,42,Sand Size(mm),0-1,False
+139,43,Sand Size(mm),0.5,False
+139,44,Admixture     (% Wob),,True
+139,45,HRWRA,,True
+139,46,to binder ratio,,True
+139,47,VMA,,True
+139,48,to binder ratio,,True
+139,49,Superplasticiser,,True
+139,50,to binder ratio,,True
+139,51,HPMC,,True
+139,52,to binder ratio,,True
+139,53,nano clay,,True
+139,54,to binder ratio,,True
+139,55,Sodium gluconate,,True
+139,56,to binder ratio,,True
+139,57,sodium lignosulfonate,,True
+139,58,to binder ratio,,True
+139,59,thicker agent,,True
+139,60,to binder ratio,,True
+139,61,retarder agent,,True
+139,62,to binder ratio,,True
+139,63,accelerating agent,,True
+139,64,to binder ratio,,True
+139,65,Air-entraining agent,,True
+139,66,to binder ratio,,True
+139,67,microcrystalline cellulose,,True
+139,68,to binder ratio,,True
+139,69,Alkaline reagent,,True
+139,70,to binder ratio,,True
+139,71,Activator,,True
+139,72,to binder ratio,,True
+139,73,rheology modifier,,True
+139,74,to binder ratio,,True
+139,75,early strength agent,,True
+139,76,to binder ratio,,True
+139,77,hydration inhibitor,,True
+139,78,to binder ratio,,True
+139,79,"PP Fibers,
+Otherwise, as
+Stated (% Wob)",,True
+139,80,polypropylene fibers,,True
+139,81,to binder ratio,,True
+139,82,"Polyethylene
+fiber",,True
+139,83,to binder ratio,,True
+139,84,glass fiber,,True
+139,85,to binder ratio,,True
+139,86,Steel fibers,,True
+139,87,to binder ratio,,True
+139,88,polyvinyl alcohol (PVA) fibres,,True
+139,89,to binder ratio,,True
+139,90,Basalt fiber,,True
+139,91,to binder ratio,,True
+139,92,carbon fibers,,True
+139,93,to binder ratio,,True
+139,94,Cellulose fiber,,True
+139,95,to binder ratio,,True
+139,96,Testing Apparatus,,True
+140,3,Concrete Mix Type,,True
+140,4,Reference,https://www.sciencedirect.com/science/article/pii/S0264127521001271?via%3Dihub,False
+140,5,Binder,fly ash:blast furnace slag:silica fume=0.60:0.25:0.15,False
+140,6,Binder1,Portland cement,False
+140,7,Binder1 to binder ratio,,True
+140,8,Binder2,,True
+140,9,to binder ratio,,True
+140,10,Calcium sulfoaluminate cement,,True
+140,11,to binder ratio,,True
+140,12,sulphoaluminate cement,,True
+140,13,to binder ratio,,True
+140,14,fly ash,fly ash,False
+140,15,to binder ratio,0.6,False
+140,16,bottom ash,,True
+140,17,to binder ratio,,True
+140,18,silica fume,silica fume,False
+140,19,to binder ratio,0.15,False
+140,20,micro-silica,,True
+140,21,to binder ratio,,True
+140,22,nano clay,,True
+140,23,to binder ratio,,True
+140,24,Attapulgite,,True
+140,25,to binder ratio,,True
+140,26,Ladle furnace steel slag,,True
+140,27,to binder ratio,,True
+140,28,MgO(Magnesium Oxide)-activated slag,,True
+140,29,to binder ratio,,True
+140,30,blast furnace slag,blast furnace slag,False
+140,31,to binder ratio,0.25,False
+140,32,limestone powder,,True
+140,33,to binder ratio,,True
+140,34,Low grade calcined clay,,True
+140,35,to binder ratio,,True
+140,36,High grade calcined clay,,True
+140,37,to binder ratio,,True
+140,38,Metakaolin,,True
+140,39,to binder ratio,,True
+140,40,"Water-Binder 
+Ratio",0.4,False
+140,41,"Sand-Binder
+Ratio",0.55,False
+140,42,Sand Size(mm),0-1,False
+140,43,Sand Size(mm),0.5,False
+140,44,Admixture     (% Wob),,True
+140,45,HRWRA,,True
+140,46,to binder ratio,,True
+140,47,VMA,,True
+140,48,to binder ratio,,True
+140,49,Superplasticiser,,True
+140,50,to binder ratio,,True
+140,51,HPMC,,True
+140,52,to binder ratio,,True
+140,53,nano clay,,True
+140,54,to binder ratio,,True
+140,55,Sodium gluconate,,True
+140,56,to binder ratio,,True
+140,57,sodium lignosulfonate,,True
+140,58,to binder ratio,,True
+140,59,thicker agent,,True
+140,60,to binder ratio,,True
+140,61,retarder agent,,True
+140,62,to binder ratio,,True
+140,63,accelerating agent,,True
+140,64,to binder ratio,,True
+140,65,Air-entraining agent,,True
+140,66,to binder ratio,,True
+140,67,microcrystalline cellulose,,True
+140,68,to binder ratio,,True
+140,69,Alkaline reagent,,True
+140,70,to binder ratio,,True
+140,71,Activator,,True
+140,72,to binder ratio,,True
+140,73,rheology modifier,,True
+140,74,to binder ratio,,True
+140,75,early strength agent,,True
+140,76,to binder ratio,,True
+140,77,hydration inhibitor,,True
+140,78,to binder ratio,,True
+140,79,"PP Fibers,
+Otherwise, as
+Stated (% Wob)",polyvinyl alcohol (PVA) fibres=0.25,False
+140,80,polypropylene fibers,,True
+140,81,to binder ratio,,True
+140,82,"Polyethylene
+fiber",,True
+140,83,to binder ratio,,True
+140,84,glass fiber,,True
+140,85,to binder ratio,,True
+140,86,Steel fibers,,True
+140,87,to binder ratio,,True
+140,88,polyvinyl alcohol (PVA) fibres,polyvinyl alcohol (PVA) fibres,False
+140,89,to binder ratio,0.25,False
+140,90,Basalt fiber,,True
+140,91,to binder ratio,,True
+140,92,carbon fibers,,True
+140,93,to binder ratio,,True
+140,94,Cellulose fiber,,True
+140,95,to binder ratio,,True
+140,96,Testing Apparatus,,True
+179,3,Concrete Mix Type,,True
+179,4,Reference,https://www.sciencedirect.com/science/article/pii/S0958946521003784?via%3Dihub,False
+179,5,Binder,Cement:blast furnace slag=0.5:0.5,False
+179,6,Binder1,Portland cement,False
+179,7,Binder1 to binder ratio,0.5,False
+179,8,Binder2,,True
+179,9,to binder ratio,,True
+179,10,Calcium sulfoaluminate cement,,True
+179,11,to binder ratio,,True
+179,12,sulphoaluminate cement,,True
+179,13,to binder ratio,,True
+179,14,fly ash,,True
+179,15,to binder ratio,,True
+179,16,bottom ash,,True
+179,17,to binder ratio,,True
+179,18,silica fume,,True
+179,19,to binder ratio,,True
+179,20,micro-silica,,True
+179,21,to binder ratio,,True
+179,22,nano clay,,True
+179,23,to binder ratio,,True
+179,24,Attapulgite,,True
+179,25,to binder ratio,,True
+179,26,Ladle furnace steel slag,,True
+179,27,to binder ratio,,True
+179,28,MgO(Magnesium Oxide)-activated slag,,True
+179,29,to binder ratio,,True
+179,30,blast furnace slag,blast furnace slag,False
+179,31,to binder ratio,0.5,False
+179,32,limestone powder,,True
+179,33,to binder ratio,,True
+179,34,Low grade calcined clay,,True
+179,35,to binder ratio,,True
+179,36,High grade calcined clay,,True
+179,37,to binder ratio,,True
+179,38,Metakaolin,,True
+179,39,to binder ratio,,True
+179,40,"Water-Binder 
+Ratio",0.35,False
+179,41,"Sand-Binder
+Ratio",1.7,False
+179,42,Sand Size(mm),Fine aggregates：0-2,False
+179,43,Sand Size(mm),1,False
+179,44,Admixture     (% Wob),Superplasticizer=0.7，VMA=0.1,False
+179,45,HRWRA,,True
+179,46,to binder ratio,,True
+179,47,VMA,VMA,False
+179,48,to binder ratio,0.1,False
+179,49,Superplasticiser,Superplasticiser,False
+179,50,to binder ratio,0.7,False
+179,51,HPMC,,True
+179,52,to binder ratio,,True
+179,53,nano clay,,True
+179,54,to binder ratio,,True
+179,55,Sodium gluconate,,True
+179,56,to binder ratio,,True
+179,57,sodium lignosulfonate,,True
+179,58,to binder ratio,,True
+179,59,thicker agent,,True
+179,60,to binder ratio,,True
+179,61,retarder agent,,True
+179,62,to binder ratio,,True
+179,63,accelerating agent,,True
+179,64,to binder ratio,,True
+179,65,Air-entraining agent,,True
+179,66,to binder ratio,,True
+179,67,microcrystalline cellulose,,True
+179,68,to binder ratio,,True
+179,69,Alkaline reagent,,True
+179,70,to binder ratio,,True
+179,71,Activator,,True
+179,72,to binder ratio,,True
+179,73,rheology modifier,,True
+179,74,to binder ratio,,True
+179,75,early strength agent,,True
+179,76,to binder ratio,,True
+179,77,hydration inhibitor,,True
+179,78,to binder ratio,,True
+179,79,"PP Fibers,
+Otherwise, as
+Stated (% Wob)",,True
+179,80,polypropylene fibers,,True
+179,81,to binder ratio,,True
+179,82,"Polyethylene
+fiber",,True
+179,83,to binder ratio,,True
+179,84,glass fiber,,True
+179,85,to binder ratio,,True
+179,86,Steel fibers,,True
+179,87,to binder ratio,,True
+179,88,polyvinyl alcohol (PVA) fibres,,True
+179,89,to binder ratio,,True
+179,90,Basalt fiber,,True
+179,91,to binder ratio,,True
+179,92,carbon fibers,,True
+179,93,to binder ratio,,True
+179,94,Cellulose fiber,,True
+179,95,to binder ratio,,True
+179,96,Testing Apparatus,,True
+180,3,Concrete Mix Type,,True
+180,4,Reference,https://www.sciencedirect.com/science/article/pii/S0958946521003784?via%3Dihub,False
+180,5,Binder,Cement:blast furnace slag=0.5:0.5,False
+180,6,Binder1,Portland cement,False
+180,7,Binder1 to binder ratio,0.5,False
+180,8,Binder2,,True
+180,9,to binder ratio,,True
+180,10,Calcium sulfoaluminate cement,,True
+180,11,to binder ratio,,True
+180,12,sulphoaluminate cement,,True
+180,13,to binder ratio,,True
+180,14,fly ash,,True
+180,15,to binder ratio,,True
+180,16,bottom ash,,True
+180,17,to binder ratio,,True
+180,18,silica fume,,True
+180,19,to binder ratio,,True
+180,20,micro-silica,,True
+180,21,to binder ratio,,True
+180,22,nano clay,,True
+180,23,to binder ratio,,True
+180,24,Attapulgite,,True
+180,25,to binder ratio,,True
+180,26,Ladle furnace steel slag,,True
+180,27,to binder ratio,,True
+180,28,MgO(Magnesium Oxide)-activated slag,,True
+180,29,to binder ratio,,True
+180,30,blast furnace slag,blast furnace slag,False
+180,31,to binder ratio,0.5,False
+180,32,limestone powder,,True
+180,33,to binder ratio,,True
+180,34,Low grade calcined clay,,True
+180,35,to binder ratio,,True
+180,36,High grade calcined clay,,True
+180,37,to binder ratio,,True
+180,38,Metakaolin,,True
+180,39,to binder ratio,,True
+180,40,"Water-Binder 
+Ratio",0.35,False
+180,41,"Sand-Binder
+Ratio",1.7,False
+180,42,Sand Size(mm),Fine aggregates（0-2），Natural coarse aggregate（0-8）：0.71：0.29,False
+180,43,Sand Size(mm),1.9,False
+180,44,Admixture     (% Wob),Superplasticizer=0.7，VMA=0.1,False
+180,45,HRWRA,,True
+180,46,to binder ratio,,True
+180,47,VMA,VMA,False
+180,48,to binder ratio,0.1,False
+180,49,Superplasticiser,Superplasticiser,False
+180,50,to binder ratio,0.7,False
+180,51,HPMC,,True
+180,52,to binder ratio,,True
+180,53,nano clay,,True
+180,54,to binder ratio,,True
+180,55,Sodium gluconate,,True
+180,56,to binder ratio,,True
+180,57,sodium lignosulfonate,,True
+180,58,to binder ratio,,True
+180,59,thicker agent,,True
+180,60,to binder ratio,,True
+180,61,retarder agent,,True
+180,62,to binder ratio,,True
+180,63,accelerating agent,,True
+180,64,to binder ratio,,True
+180,65,Air-entraining agent,,True
+180,66,to binder ratio,,True
+180,67,microcrystalline cellulose,,True
+180,68,to binder ratio,,True
+180,69,Alkaline reagent,,True
+180,70,to binder ratio,,True
+180,71,Activator,,True
+180,72,to binder ratio,,True
+180,73,rheology modifier,,True
+180,74,to binder ratio,,True
+180,75,early strength agent,,True
+180,76,to binder ratio,,True
+180,77,hydration inhibitor,,True
+180,78,to binder ratio,,True
+180,79,"PP Fibers,
+Otherwise, as
+Stated (% Wob)",,True
+180,80,polypropylene fibers,,True
+180,81,to binder ratio,,True
+180,82,"Polyethylene
+fiber",,True
+180,83,to binder ratio,,True
+180,84,glass fiber,,True
+180,85,to binder ratio,,True
+180,86,Steel fibers,,True
+180,87,to binder ratio,,True
+180,88,polyvinyl alcohol (PVA) fibres,,True
+180,89,to binder ratio,,True
+180,90,Basalt fiber,,True
+180,91,to binder ratio,,True
+180,92,carbon fibers,,True
+180,93,to binder ratio,,True
+180,94,Cellulose fiber,,True
+180,95,to binder ratio,,True
+180,96,Testing Apparatus,,True

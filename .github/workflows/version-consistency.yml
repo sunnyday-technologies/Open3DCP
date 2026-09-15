@@ -1,7 +1,7 @@
 name: Version consistency
 
 # Guards that every place stating the CURRENT schema version matches the top CHANGELOG.md
-# entry. The canonical list of version-bearing files lives in scripts/check_version.py — a
+# entry. The canonical list of version-bearing files lives in scripts/check_version.py â€” a
 # bump means editing those files, and this check fails the build if any one drifts.
 on:
   push:
@@ -20,6 +20,9 @@ on:
       - .zenodo.json
       - examples/**
       - scripts/check_version.py
+      - scripts/validate_submission.py
+      - scripts/test_submission.py
+      - .github/workflows/version-consistency.yml
       - scripts/check_schema_reference_consistency.py
       - sql/**
       - scripts/build_precedent_crosswalks.py
@@ -40,6 +43,9 @@ on:
       - .zenodo.json
       - examples/**
       - scripts/check_version.py
+      - scripts/validate_submission.py
+      - scripts/test_submission.py
+      - .github/workflows/version-consistency.yml
       - scripts/check_schema_reference_consistency.py
       - sql/**
       - scripts/build_precedent_crosswalks.py
@@ -65,3 +71,8 @@ jobs:
         run: python scripts/build_precedent_crosswalks.py --check
       - name: Check the units manifest matches the schema (no drift)
         run: python scripts/build_units_manifest.py --check
+
+      - name: Install submission-parser dependency
+        run: pip install --quiet pyyaml
+      - name: Check submission schema-version behavior
+        run: python scripts/test_submission.py

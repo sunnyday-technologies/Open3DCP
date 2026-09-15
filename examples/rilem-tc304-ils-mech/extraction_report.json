@@ -1,0 +1,11 @@
+{
+  "source_sha256": "674839356d64bf9444b5b1eac8b198f68559129b571da9e82c53ae73c2a3e0df",
+  "source_doi": "10.5281/zenodo.12200570",
+  "selection": "01_a, 13_a, 19_a; finite nonnegative flexural strength in N/mm\u00b2 or MPa; age 20\u201340 days",
+  "selected_source_records": 292,
+  "rows_committed": 200,
+  "excluded": 92,
+  "row_grain": "individual flexural specimen",
+  "aggregation": "none",
+  "parent_print_material_joins": "not performed; relationship chain needs curation"
+}
