@@ -48,6 +48,7 @@ def checks(vv, v):
         "index.html": [f'"version": "{v}"', f"// v{v}",
                        f'>v{v}<span class="spec-unit">'],
         "schema-reference/index.html": [f'"version": "{v}"', f"current public v{v} release"],
+        "agents.json": [f'"schema_version": "{vv}"', '"status": "Draft"'],
         "llms.txt": [f"Current public version: v{v}", f"Public schema version v{v}"],
         "README.md": [f"current schema v{v}", f"Open3DCP v{v} tracks"],
         "AGENTS.md": [f"v{v} defines the current public column vocabulary"],
