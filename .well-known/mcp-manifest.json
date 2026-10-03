@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1-draft",
-  "_note": "Experimental custom site resource manifest for agent discovery; not a standardized MCP manifest or a hosted MCP endpoint. This site is a static, public, read-only documentation surface — listed resources are GET-only. Open3DCP is a schema definition project; it does not host mix-design data.",
+  "_note": "Experimental site-level Model Context Protocol manifest. Schema is a community draft (see https://modelcontextprotocol.io). This site is a static, public, read-only documentation surface — listed resources are GET-only. Open3DCP is a schema definition project; it does not host mix-design data.",
   "name": "Open3DCP",
   "description": "Open data standard / flat schema for 3D-printable concrete (3DCP) mix design and test records. Current public schema version: v1.8 (latest release tag: v1.8.0; Status: Draft — under working-group review, which does not imply endorsement or affiliation with any standards body). Defines column names, units, types, and engineering context covering binders, aggregates, fibers, admixtures, fresh-state rheology, hardened mechanical properties, durability, and 3DCP process parameters.",
   "publisher": {
@@ -47,12 +47,12 @@
       "media_type": "application/sql"
     },
     {
-      "name": "GetSchemaMetadata",
-      "description": "Site index page with embedded CreativeWork JSON-LD describing the schema specification (identity, Draft status, version, license, creator and keywords). Parse the application/ld+json script tag. Canonical fields, units and types remain in the schema reference.",
+      "name": "GetDatasetMetadata",
+      "description": "Site index page with embedded Dataset JSON-LD (name, description, license, creator, keywords, variableMeasured array). Parse the application/ld+json script tag for structured data.",
       "method": "GET",
       "url": "https://open3dcp.org/",
       "media_type": "text/html",
-      "structured_data": "CreativeWork (schema.org)"
+      "structured_data": "Dataset (schema.org)"
     },
     {
       "name": "GetReadme",
