@@ -16,12 +16,13 @@ $ErrorActionPreference = "Stop"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRoot  = [System.IO.Path]::GetFullPath((Join-Path $ScriptDir ".."))
 
-if ([string]::IsNullOrWhiteSpace($PublishDir)) {
-  $PublishDir = Join-Path $RepoRoot ".cloudflare\pages\open3dcp"
-}
+# The output is deleted and rebuilt, so only the one fixed publish directory is
+# ever accepted (anything else under the repo root could be wiped).
+$AllowedTarget = [System.IO.Path]::GetFullPath((Join-Path $RepoRoot ".cloudflare\pages\open3dcp"))
+if ([string]::IsNullOrWhiteSpace($PublishDir)) { $PublishDir = $AllowedTarget }
 $Target = [System.IO.Path]::GetFullPath($PublishDir)
-if (-not $Target.StartsWith($RepoRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
-  throw "Refusing to write outside project root: $Target"
+if (-not [string]::Equals($Target, $AllowedTarget, [System.StringComparison]::OrdinalIgnoreCase)) {
+  throw "Refusing to write anywhere except the fixed publish directory: $AllowedTarget"
 }
 if (Test-Path -LiteralPath $Target) { Remove-Item -LiteralPath $Target -Recurse -Force }
 New-Item -ItemType Directory -Path $Target -Force | Out-Null
@@ -63,7 +64,8 @@ $publicDirs = @(
 foreach ($d in $publicDirs) { Copy-PublicDirectory $d }
 
 # --- FAIL-LOUD TRIPWIRES ---------------------------------------------------
-$publishFiles = Get-ChildItem -LiteralPath $Target -Recurse -File
+# -Force: on Linux (CI) dot-directories such as .well-known/ are hidden.
+$publishFiles = Get-ChildItem -LiteralPath $Target -Recurse -Force -File
 
 # 1. No machinery / private / build dirs in the output.
 $blocked = @("scripts", "tools", ".github", ".git", "drafts", "reference_docs",
@@ -102,8 +104,29 @@ foreach ($file in ($publishFiles | Where-Object { $textExt -contains $_.Extensio
 }
 if ($hits.Count -gt 0) { throw "Secret-like pattern(s) found in: $(($hits | Sort-Object -Unique) -join ', ')" }
 
+# 4. Machine-readable JSON and embedded JSON-LD must parse.
+$jsonFailures = @()
+$jsonLdCount = 0
+foreach ($file in ($publishFiles | Where-Object { $_.Extension.ToLower() -eq ".json" })) {
+  try { $null = Get-Content -LiteralPath $file.FullName -Raw -Encoding UTF8 | ConvertFrom-Json }
+  catch { $jsonFailures += $file.FullName }
+}
+foreach ($file in ($publishFiles | Where-Object { $_.Extension.ToLower() -eq ".html" })) {
+  $content = Get-Content -LiteralPath $file.FullName -Raw -Encoding UTF8 -ErrorAction SilentlyContinue
+  if ($null -eq $content) { continue }
+  $blocks = [regex]::Matches($content, '(?is)<script[^>]+type=["'']application/ld\+json["''][^>]*>(.*?)</script>')
+  foreach ($block in $blocks) {
+    $jsonLdCount++
+    try { $null = $block.Groups[1].Value | ConvertFrom-Json }
+    catch { $jsonFailures += $file.FullName; break }
+  }
+}
+if ($jsonFailures.Count -gt 0) { throw "Invalid JSON or JSON-LD in: $(($jsonFailures | Sort-Object -Unique) -join ', ')" }
+if ($jsonLdCount -lt 1) { throw "No embedded JSON-LD found in publish dir" }
+
 # --- REPORT ----------------------------------------------------------------
 $bytes = ($publishFiles | Measure-Object -Property Length -Sum).Sum
 Write-Output "open3dcp publish dir ready: $Target"
 Write-Output "Files: $($publishFiles.Count)"
 Write-Output "Bytes: $bytes"
+Write-Output "JSON-LD blocks: $jsonLdCount"
