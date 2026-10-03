@@ -1,0 +1,57 @@
+{
+  "format": "open3dcp-agent-discovery-v1",
+  "project": {
+    "name": "Open3DCP",
+    "schema_version": "1.8.0",
+    "status": "Draft",
+    "publisher": "Sunnyday Technologies LLC",
+    "license": "Apache-2.0",
+    "description": "A public schema for 3D concrete printing material, process and test records."
+  },
+  "canonical_url": "https://open3dcp.org/",
+  "scope": {
+    "type": "schema_specification",
+    "dataset_service": false,
+    "prediction_service": false,
+    "checkout": false,
+    "certification": false
+  },
+  "resources": [
+    {
+      "name": "Canonical schema",
+      "method": "GET",
+      "url": "https://open3dcp.org/Open3DCP_SCHEMA.md"
+    },
+    {
+      "name": "Plain-text overview",
+      "method": "GET",
+      "url": "https://open3dcp.org/llms.txt"
+    },
+    {
+      "name": "Worked examples and their provenance",
+      "method": "GET",
+      "url": "https://open3dcp.org/examples/"
+    },
+    {
+      "name": "v1.2 manuscript preprint",
+      "method": "GET",
+      "url": "https://open3dcp.org/research/open3dcp-whitepaper/"
+    }
+  ],
+  "contact": {
+    "maintainer": "Sunnyday Technologies",
+    "email": "open3dcp@sunn3d.com",
+    "mailto": "mailto:open3dcp@sunn3d.com",
+    "public_questions": "https://github.com/sunnyday-technologies/Open3DCP/issues/new/choose"
+  },
+  "mcp": {
+    "hosted_endpoint": null,
+    "local_wrapper": "https://github.com/sunnyday-technologies/Open3DCP/tree/main/tools/mcp",
+    "note": "The existing experimental manifest describes static resources and a local read-only stdio wrapper, not a hosted transactional MCP server."
+  },
+  "limitations": [
+    "Schema v1.8 is a draft.",
+    "Manuscript v1.2 is a preprint, not peer reviewed.",
+    "The schema does not establish structural suitability, code compliance or physical validation."
+  ]
+}
