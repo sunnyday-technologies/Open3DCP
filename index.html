@@ -616,85 +616,214 @@
       background: #97d700;
       color: #071421;
     }
-
-    /* Static discovery and contact paths; no client script is required. */
-    header { flex-wrap: wrap; gap: 1rem; }
-    header nav[aria-label="Primary"] { display: flex; flex-wrap: wrap; gap: .65rem 1.2rem; flex: 1 1 28rem; justify-content: flex-end; }
-    .agent-discovery { padding: 3rem; border-top: 1px solid var(--border); }
-    .agent-discovery h2 { margin: 0 0 1rem; font-size: 1.8rem; line-height: 1.2; }
-    .agent-discovery p { max-width: 72ch; margin: .8rem 0; line-height: 1.6; }
-    .agent-discovery-links { display: flex; flex-wrap: wrap; gap: .8rem 1.5rem; }
-    .agent-discovery a { color: var(--brand-blue); text-decoration: underline; text-underline-offset: .2em; }
-    @media (max-width: 768px) {
-      header nav[aria-label="Primary"] { flex-basis: 100%; justify-content: flex-start; }
-      .agent-discovery { padding: 2rem 1.5rem; }
-    }
   </style>
 
   <!-- Structured data: Dataset + Organization (schema.org JSON-LD) -->
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "CreativeWork",
-      "@id": "https://open3dcp.org/#schema",
-      "name": "Open3DCP",
-      "alternateName": "Open Data Standard for 3D Concrete Printing",
-      "description": "An open, flat schema for 3D-printable concrete (3DCP) mix design and test records. Defines canonical column names, types, units, and engineering context covering binder materials, alkali activators, aggregates, fibers, admixtures, pigments, fresh-state rheology, hardened mechanical properties, durability, 3DCP process parameters, and interlayer bond. kg/m³-primary basis (mass-% derivable). ASTM/RILEM/EN-aligned. Designed for analysis and ML-oriented workflows. Schema definition only -- not a dataset.",
-      "url": "https://open3dcp.org/",
-      "sameAs": [
-        "https://github.com/sunnyday-technologies/Open3DCP",
-        "https://doi.org/10.5281/zenodo.19647470"
-      ],
-      "identifier": "10.5281/zenodo.19647470",
-      "version": "1.8",
-      "creativeWorkStatus": "Draft",
-      "license": "https://www.apache.org/licenses/LICENSE-2.0",
-      "creator": {
-        "@id": "https://sunn3d.com/#organization"
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Dataset",
+        "@id": "https://open3dcp.org/#dataset",
+        "name": "Open3DCP",
+        "alternateName": "Open Data Standard for 3D Concrete Printing",
+        "description": "An open, flat schema for 3D-printable concrete (3DCP) mix design and test records. Defines canonical column names, types, units, and engineering context covering binder materials, alkali activators, aggregates, fibers, admixtures, pigments, fresh-state rheology, hardened mechanical properties, durability, 3DCP process parameters, and interlayer bond. kg/m³-primary basis (mass-% derivable). ASTM/RILEM/EN-aligned. Designed for analysis and ML-oriented workflows. Schema definition only -- not a dataset.",
+        "url": "https://open3dcp.org/",
+        "sameAs": [
+          "https://github.com/sunnyday-technologies/Open3DCP",
+          "https://doi.org/10.5281/zenodo.19647470"
+        ],
+        "identifier": "10.5281/zenodo.19647470",
+        "version": "1.8", "creativeWorkStatus": "Draft",
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "creator": {
+          "@id": "https://sunn3d.com/#organization"
+        },
+        "publisher": {
+          "@id": "https://sunn3d.com/#organization"
+        },
+        "isAccessibleForFree": true,
+        "keywords": [
+          "3D concrete printing",
+          "3DCP",
+          "concrete mix design",
+          "additive construction",
+          "machine learning",
+          "FAIR data",
+          "ASTM C39",
+          "ASTM C150",
+          "ASTM C618",
+          "ASTM C989",
+          "ASTM C1240",
+          "RILEM TC 304-ADC",
+          "alkali-activated materials",
+          "interlayer bond",
+          "rheology",
+          "schema",
+          "open data"
+        ],
+        "variableMeasured": [
+          {
+            "@type": "PropertyValue",
+            "name": "compressive_strength_mpa",
+            "unitText": "MPa",
+            "description": "Compressive strength of hardened specimen (ASTM C39 / EN 12390-3). Typical 3DCP range 20-120 MPa."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "flexural_strength_mpa",
+            "unitText": "MPa",
+            "description": "Flexural strength / modulus of rupture (ASTM C78). Typical 3DCP range 3-15 MPa."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "tensile_strength_mpa",
+            "unitText": "MPa",
+            "description": "Direct or splitting tensile strength (ASTM C496). Typical 8-12% of compressive."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "elastic_modulus_gpa",
+            "unitText": "GPa",
+            "description": "Static elastic modulus (ASTM C469). Typical 3DCP range 15-45 GPa."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "interlayer_bond_mpa",
+            "unitText": "MPa",
+            "description": "Tensile bond strength between printed layers (pull-off test, ASTM C1583). 3DCP-specific anisotropy indicator."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "yield_stress_pa",
+            "unitText": "Pa",
+            "description": "Static yield stress measured by rheometer. Governs shape retention and buildability."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "plastic_viscosity_pa_s",
+            "unitText": "Pa*s",
+            "description": "Plastic viscosity from rheometer. Governs pumpability."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "thixotropy_pa_per_s",
+            "unitText": "Pa/s",
+            "description": "Structural buildup rate (Athix). Critical for 3DCP layer-on-layer support."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "slump_mm",
+            "unitText": "mm",
+            "description": "Slump height (ASTM C143). Workability indicator."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "spread_mm",
+            "unitText": "mm",
+            "description": "Slump-flow spread diameter (ASTM C1611)."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "open_time_min",
+            "unitText": "min",
+            "description": "Workable window before set. Defines maximum print job duration."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "green_strength_kpa",
+            "unitText": "kPa",
+            "description": "Compressive strength of fresh concrete. Direct buildability measure."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "setting_time_initial_min",
+            "unitText": "min",
+            "description": "Initial set time by Vicat needle (ASTM C191)."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "w_b_ratio",
+            "description": "Water-to-binder ratio. A major predictor of compressive strength and fresh-state behavior. Typical 3DCP range 0.30-0.45."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "print_speed_mm_s",
+            "unitText": "mm/s",
+            "description": "Nozzle travel speed during deposition."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "layer_height_mm",
+            "unitText": "mm",
+            "description": "Height of each deposited filament layer. Typical 5-15 mm."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "layer_time_gap_s",
+            "unitText": "s",
+            "description": "Time between successive layers at the same location. Cold-joint indicator; key driver of interlayer bond."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "nozzle_diameter_mm",
+            "unitText": "mm",
+            "description": "Print nozzle exit diameter. Constrains maximum aggregate size."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "test_orientation",
+            "description": "Loading direction relative to print layers (perpendicular, parallel, diagonal, cast). Captures 3DCP anisotropy."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "chloride_rcpt_coulombs",
+            "unitText": "C",
+            "description": "Rapid chloride permeability total charge passed (ASTM C1202). Durability indicator."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "drying_shrinkage_28d_ue",
+            "unitText": "microstrain",
+            "description": "28-day drying shrinkage (ASTM C157)."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "freeze_thaw_durability_factor",
+            "description": "Durability factor from freeze-thaw cycling (ASTM C666)."
+          },
+          {
+            "@type": "PropertyValue",
+            "name": "embodied_carbon_kg_co2_m3",
+            "unitText": "kg CO2/m3",
+            "description": "Cradle-to-gate embodied carbon dioxide of the mix."
+          }
+        ],
+        "measurementTechnique": [
+          "ASTM C39 (Compressive Strength)",
+          "ASTM C78 (Flexural Strength)",
+          "ASTM C469 (Elastic Modulus)",
+          "ASTM C1583 (Pull-off Bond Strength)",
+          "ASTM C143 / C1611 (Slump / Slump Flow)",
+          "ASTM C191 (Time of Setting)",
+          "ASTM C1202 (Rapid Chloride Permeability)",
+          "ASTM C157 (Drying Shrinkage)",
+          "ASTM C666 (Freeze-Thaw Durability)",
+          "EN 12390-3 (Compressive Strength)",
+          "Rotational rheometry (yield stress, viscosity, thixotropy)"
+        ],
+        "citation": "Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing. Sunnyday Technologies. https://github.com/sunnyday-technologies/Open3DCP DOI: 10.5281/zenodo.19647470"
       },
-      "publisher": {
-        "@id": "https://sunn3d.com/#organization"
-      },
-      "isAccessibleForFree": true,
-      "keywords": [
-        "3D concrete printing",
-        "3DCP",
-        "concrete mix design",
-        "additive construction",
-        "machine learning",
-        "FAIR data",
-        "ASTM C39",
-        "ASTM C150",
-        "ASTM C618",
-        "ASTM C989",
-        "ASTM C1240",
-        "RILEM TC 304-ADC",
-        "alkali-activated materials",
-        "interlayer bond",
-        "rheology",
-        "schema",
-        "open data"
-      ],
-      "citation": "Sonnentag, N. (2026). Open3DCP: Open Data Standard for 3D Concrete Printing. Sunnyday Technologies. https://github.com/sunnyday-technologies/Open3DCP DOI: 10.5281/zenodo.19647470"
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://sunn3d.com/#organization",
-      "name": "Sunnyday Technologies LLC",
-      "url": "https://sunn3d.com/"
-    }
-  ]
-}
-</script>
-  <meta property="og:image" content="https://open3dcp.org/assets/open3dcp-social-card.png" />
-  <meta property="og:image:alt" content="Open3DCP public schema v1.8 draft, Apache-2.0" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:image" content="https://open3dcp.org/assets/open3dcp-social-card.png" />
-  <meta name="twitter:image:alt" content="Open3DCP public schema v1.8 draft, Apache-2.0" />
-  <link rel="alternate" type="application/json" href="/agents.json" title="Open3DCP agent discovery guide" />
+      {
+        "@type": "Organization",
+        "@id": "https://sunn3d.com/#organization",
+        "name": "Sunnyday Technologies LLC",
+        "url": "https://sunn3d.com/"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -705,15 +834,13 @@
       <span class="logo-sub">Open Data Standard</span>
     </div>
     <nav aria-label="Primary">
-      <a href="/research/open3dcp-whitepaper/" aria-label="Open3DCP whitepaper">Whitepaper</a>
-      <a href="/schema-reference/" aria-label="Open3DCP schema reference">Reference</a>
-      <a href="/examples/" aria-label="Open3DCP worked example entries">Examples</a>
-      <a href="/intake/" aria-label="Submit a dataset to the Open3DCP catalog">Submit Data</a>
-      <a href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener" aria-label="Open3DCP schema repository on GitHub (opens in new tab)">GitHub</a>
-      <a href="https://cemforge.ai" target="_blank" rel="noopener" aria-label="CEMFORGE AI mix-formulation platform (opens in new tab)">CEMFORGE</a>
+      <a href="/research/open3dcp-whitepaper/" aria-label="Open3DCP whitepaper">Whitepaper</a> &nbsp;&nbsp;
+      <a href="/schema-reference/" aria-label="Open3DCP schema reference">Reference</a> &nbsp;&nbsp;
+      <a href="/examples/" aria-label="Open3DCP worked example entries">Examples</a> &nbsp;&nbsp;
+      <a href="/intake/" aria-label="Submit a dataset to the Open3DCP catalog">Submit Data</a> &nbsp;&nbsp;
+      <a href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener" aria-label="Open3DCP schema repository on GitHub (opens in new tab)">GitHub</a> &nbsp;&nbsp;
+      <a href="https://cemforge.ai" target="_blank" rel="noopener" aria-label="CEMFORGE AI mix-formulation platform (opens in new tab)">CEMFORGE</a> &nbsp;&nbsp;
       <a href="https://sunn3d.com" target="_blank" rel="noopener" aria-label="Sunnyday Technologies parent site (opens in new tab)">sunn3d.com</a>
-      <a href="#agents">For agents</a>
-      <a href="#contact">Contact</a>
     </nav>
   </header>
 
@@ -857,25 +984,6 @@
       </div>
     </div>
   </div>
-
-  <section id="agents" class="agent-discovery" aria-labelledby="agent-discovery-title">
-    <h2 id="agent-discovery-title">Use or contribute to Open3DCP</h2>
-    <p>Open3DCP v1.8 is a public schema draft for recording 3D concrete printing materials, process conditions and test results. It is a data format, not a dataset, prediction service or certification.</p>
-    <p>Start with the canonical schema and worked examples. The v1.2 manuscript is a preprint, not peer reviewed. Physical validation and professional engineering review remain necessary for real-world use.</p>
-    <p class="agent-discovery-links">
-      <a href="/Open3DCP_SCHEMA.md">Canonical schema</a>
-      <a href="/examples/">Worked examples</a>
-      <a href="/research/open3dcp-whitepaper/">v1.2 preprint</a>
-      <a href="/llms.txt">Plain-text overview</a>
-      <a href="/agents.json">Agent discovery guide</a>
-    </p>
-    <h2 id="contact">Contact the maintainer</h2>
-    <p>For schema questions, interoperability or collaboration, contact Sunnyday Technologies. Use a GitHub issue for public questions or proposed schema corrections.</p>
-    <p class="agent-discovery-links">
-      <a href="mailto:open3dcp@sunn3d.com">Email the Open3DCP maintainer</a>
-      <a href="https://github.com/sunnyday-technologies/Open3DCP/issues/new/choose">Open a project question</a>
-    </p>
-  </section>
 
   <!-- SUNNYDAY PORTFOLIO LOOP -->
   <section id="sdt-portfolio-loop-20260528" class="sdt-portfolio-loop" aria-label="Sunnyday full-loop portfolio">
