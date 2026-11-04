@@ -1,0 +1,271 @@
+/* Dark theme for open3dcp.org.
+   Applies when <html data-sdt-theme="dark">. data-sdt-page names the page family:
+     site       - homepage, schema reference, 404 (token-based styles)
+     sheet      - examples and intake (sheet styles in examples/styles.css, intake/styles.css)
+     sheet-mono - example pages whose inline style forces black-on-white text
+     paper      - whitepapers (the paper sheet stays light; only the page around it turns dark)
+   Selectors carry the html[data-sdt-theme] prefix so they outrank the page styles. */
+
+html[data-sdt-theme="dark"] {
+  color-scheme: dark;
+  background-color: #061321;
+  --d-bg: #061321;
+  --d-panel: rgba(11, 28, 48, 0.88);
+  --d-panel-solid: #0b1c30;
+  --d-line: #1d3552;
+  --d-line-2: #2a4566;
+  --d-ink: #f0f4f7;
+  --d-text: #c9d6e0;
+  --d-muted: #9fb2c2;
+  --d-link: #a8e81a;
+  --d-link-hover: #c9f56a;
+  --d-green: #97d700;
+}
+
+/* Base: navy glow over near-black navy, behind everything. */
+html[data-sdt-theme="dark"] body {
+  background: transparent !important;
+}
+html[data-sdt-theme="dark"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 1;
+  background:
+    radial-gradient(1100px 560px at 80% -8%, rgba(1, 58, 115, 0.55), rgba(1, 58, 115, 0) 70%),
+    radial-gradient(900px 620px at -10% 45%, rgba(1, 58, 115, 0.26), rgba(1, 58, 115, 0) 70%),
+    linear-gradient(180deg, #061321, #040d18);
+}
+html[data-sdt-theme="dark"] ::selection { background: var(--d-green); color: #061321; }
+
+/* ---------------------------------------------------------------- site pages */
+
+html[data-sdt-theme="dark"][data-sdt-page="site"] {
+  --black: #061321;
+  --charcoal: #0b1c30;
+  --graphite: #0f2035;
+  --border: #1d3552;
+  --mid: #2a4566;
+  --muted: #9fb2c2;
+  --light: #c9d6e0;
+  --white: #f0f4f7;
+  --accent: #97d700;
+  --accent-dim: #a8e81a;
+}
+html[data-sdt-theme="dark"][data-sdt-page="site"] body { color: var(--d-text); }
+
+/* Header: dark glass with a lime rule. */
+html[data-sdt-theme="dark"][data-sdt-page="site"] body > header {
+  background: rgba(6, 19, 33, 0.86);
+  border-bottom-color: var(--d-line);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgba(151, 215, 0, 0.45), 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+html[data-sdt-theme="dark"][data-sdt-page="site"] :is(.logo-mark, h1, h2, h3, h4, .spec-value, .block-title, .cta-col-word) {
+  color: var(--d-ink);
+}
+html[data-sdt-theme="dark"][data-sdt-page="site"] h1 span { color: var(--d-green); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] .logo-sub { border-left-color: var(--d-line-2); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] nav a { color: var(--d-muted); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] nav a:hover { color: var(--d-green); }
+
+html[data-sdt-theme="dark"][data-sdt-page="site"] :is(.hero-desc, .block-body, .standards-note) { color: var(--d-text); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] :is(.spec-label, .standards-label, .block-num) { color: var(--d-muted); }
+
+/* Panels */
+html[data-sdt-theme="dark"][data-sdt-page="site"] :is(.spec-strip, .content, .standards-strip, .cta-section) {
+  background: var(--d-panel);
+  border-color: var(--d-line);
+}
+html[data-sdt-theme="dark"][data-sdt-page="site"] :is(.spec-item, .content-block, .cta-col) { border-color: var(--d-line); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] .standard-ref {
+  background: rgba(6, 19, 33, 0.6);
+  color: #dce6ee;
+  border-color: var(--d-line-2);
+}
+
+/* Buttons */
+html[data-sdt-theme="dark"][data-sdt-page="site"] .btn-secondary {
+  background: rgba(6, 19, 33, 0.6);
+  color: #dce6ee;
+  border-color: var(--d-line-2);
+}
+html[data-sdt-theme="dark"][data-sdt-page="site"] .btn-secondary:hover {
+  border-color: var(--d-green);
+  color: var(--d-green);
+}
+html[data-sdt-theme="dark"][data-sdt-page="site"] .btn-primary { background: var(--d-green); color: #071421; }
+html[data-sdt-theme="dark"][data-sdt-page="site"] .btn-primary:hover { background: #aae800; }
+
+/* Footer */
+html[data-sdt-theme="dark"][data-sdt-page="site"] body > footer {
+  background: transparent;
+  border-top-color: var(--d-line);
+  color: var(--d-muted);
+}
+html[data-sdt-theme="dark"][data-sdt-page="site"] :is(.footer-left, .footer-right, .footer-left span) { color: var(--d-muted); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] .footer-left a { color: var(--d-link); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] .sdt-netfooter { border-top-color: var(--d-line); color: var(--d-muted); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] .sdt-netfooter__label { opacity: 1; }
+html[data-sdt-theme="dark"][data-sdt-page="site"] .sdt-netfooter a { color: var(--d-text); opacity: 1; }
+html[data-sdt-theme="dark"][data-sdt-page="site"] .sdt-netfooter a:hover,
+html[data-sdt-theme="dark"][data-sdt-page="site"] .sdt-netfooter a[aria-current="page"] { color: var(--d-green); }
+
+/* Schema reference article: a soft reading panel so the background stays behind the text. */
+html[data-sdt-theme="dark"][data-sdt-page="site"] main.pillar-content {
+  color: var(--d-text);
+  width: min(750px, calc(100% - 1.5rem));
+  margin: 2.5rem auto 4rem;
+  padding-inline: clamp(1.1rem, 4vw, 2.75rem);
+  background: rgba(6, 19, 33, 0.78);
+  border: 1px solid var(--d-line);
+  border-radius: 8px;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.35);
+}
+html[data-sdt-theme="dark"][data-sdt-page="site"] main.pillar-content :is(strong, b, em) { color: var(--d-ink); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] main.pillar-content a {
+  color: var(--d-link);
+  text-decoration-color: rgba(168, 232, 26, 0.4);
+}
+html[data-sdt-theme="dark"][data-sdt-page="site"] main.pillar-content a:hover { color: var(--d-link-hover); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] main.pillar-content table { background: var(--d-panel); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] main.pillar-content :is(th, td) { border-color: var(--d-line); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] main.pillar-content th { background: rgba(16, 36, 59, 0.9); color: var(--d-ink); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] main.pillar-content code { background: #0d2036; color: #dce8f0; }
+html[data-sdt-theme="dark"][data-sdt-page="site"] main.pillar-content pre { background: #0d2036; border: 1px solid var(--d-line); }
+html[data-sdt-theme="dark"][data-sdt-page="site"] main.pillar-content pre code { background: transparent; }
+html[data-sdt-theme="dark"][data-sdt-page="site"] main.pillar-content hr { border-top-color: var(--d-line); }
+
+/* --------------------------------------------- example and intake sheets */
+
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] {
+  --ink: #dce6ee;
+  --muted: #9fb2c2;
+  --line: #1d3552;
+  --bg: #0b1c30;
+  --band: #061321;
+  --brand-2: #8cc4f2;
+  --accent: #5fd6a0;
+  --warn: #f0b45a;
+  --err: #ff8a9a;
+}
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] body { color: var(--ink); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .pb-header {
+  background: rgba(6, 19, 33, 0.86);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgba(151, 215, 0, 0.45), 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .sheet {
+  background: var(--d-panel);
+  border-color: var(--d-line);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.4);
+}
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .sheet :is(h1, h2, h3, strong) { color: var(--d-ink); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .sheet h2 { border-top-color: var(--d-line); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] code {
+  background: #0d2036;
+  color: #dce8f0;
+}
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] pre { background: #071627; border: 1px solid var(--d-line); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] pre code { background: none; }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] table { background: rgba(6, 19, 33, 0.35); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] th { background: rgba(16, 36, 59, 0.9); color: var(--d-ink); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.03); }
+
+/* Notes */
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .note {
+  background: rgba(31, 111, 178, 0.14);
+  border-color: rgba(140, 196, 242, 0.3);
+  border-left-color: var(--brand-2);
+}
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .note.ok {
+  background: rgba(10, 125, 82, 0.16);
+  border-color: rgba(95, 214, 160, 0.3);
+  border-left-color: var(--accent);
+}
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .note.warn {
+  background: rgba(178, 106, 0, 0.16);
+  border-color: rgba(240, 180, 90, 0.32);
+  border-left-color: var(--warn);
+}
+
+/* Diagrams */
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .svg-node { fill: #0b1c30; stroke: #5d8fc2; }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .svg-node-2 { fill: rgba(31, 111, 178, 0.2); stroke: var(--brand-2); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .svg-node-accent { fill: rgba(10, 125, 82, 0.2); stroke: var(--accent); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .svg-node-warn { fill: rgba(178, 106, 0, 0.18); stroke: var(--warn); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .svg-node-null { fill: rgba(255, 255, 255, 0.03); stroke: #4a6584; }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] :is(.svg-label, .svg-head) { fill: var(--ink); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .svg-sub { fill: var(--muted); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .sheet svg line[stroke="#cfe7d8"] { stroke: rgba(95, 214, 160, 0.4); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .sheet svg marker path { fill: var(--brand-2); }
+
+/* Coverage matrix and panels */
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .cov .cell { border-color: var(--line); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .cov .cell.on { background: rgba(10, 125, 82, 0.18); border-color: rgba(95, 214, 160, 0.35); color: var(--accent); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .cov .cell.off { background: rgba(255, 255, 255, 0.03); border-color: var(--line); color: var(--muted); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .cov .cell.half { background: rgba(178, 106, 0, 0.16); border-color: rgba(240, 180, 90, 0.35); color: var(--warn); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .panel { border-color: var(--line); }
+
+/* Intake form */
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .step { border-color: var(--line); background: rgba(6, 19, 33, 0.35); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] :is(input, select, textarea) {
+  background: #0d2036;
+  color: var(--d-ink);
+  border-color: var(--d-line-2);
+}
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] :is(input, textarea)::placeholder { color: #7f95a8; }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] :is(input, select, textarea):focus { outline-color: var(--brand-2); border-color: var(--brand-2); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] :is(.num, .btn) { box-shadow: 0 0 0 1px rgba(140, 196, 242, 0.35); }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .checklist li[data-state="pass"] .ico { background: #0a7d52; }
+html[data-sdt-theme="dark"][data-sdt-page^="sheet"] .checklist li[data-state="fail"] .ico { background: #4a5d72; }
+
+/* Example pages whose inline style forces black text on white. */
+html[data-sdt-theme="dark"][data-sdt-page="sheet-mono"] main.sheet {
+  background: var(--d-panel) !important;
+}
+html[data-sdt-theme="dark"][data-sdt-page="sheet-mono"] main.sheet,
+html[data-sdt-theme="dark"][data-sdt-page="sheet-mono"] main.sheet * {
+  color: var(--ink) !important;
+}
+html[data-sdt-theme="dark"][data-sdt-page="sheet-mono"] main.sheet :is(h1, h2, h3, strong) { color: var(--d-ink) !important; }
+html[data-sdt-theme="dark"][data-sdt-page="sheet-mono"] main.sheet a,
+html[data-sdt-theme="dark"][data-sdt-page="sheet-mono"] main.sheet a * { color: var(--brand-2) !important; }
+
+/* ------------------------------------------------------------ whitepapers */
+
+/* The paper sheet (.wrap) keeps its own light reading surface; the page around it turns dark. */
+html[data-sdt-theme="dark"][data-sdt-page="paper"] .wrap {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+/* Two small labels on the sheet were under 4.5:1 against the paper; darken them to pass. */
+html[data-sdt-theme="dark"][data-sdt-page="paper"] .wrap .eyebrow { color: #4a6b00; }
+html[data-sdt-theme="dark"][data-sdt-page="paper"] .wrap p[style*="#7a7d82"] { color: #52565c !important; }
+
+/* ----------------------------------------------------------- narrow screens */
+
+/* Wide tables scroll inside their own box and long code or URLs wrap,
+   so no page scrolls sideways on a phone. */
+@media (max-width: 720px) {
+  html[data-sdt-theme="dark"] body :is(main, .wrap) { overflow-wrap: anywhere; }
+  html[data-sdt-theme="dark"] body :is(main, .wrap) table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-wrap: normal;
+  }
+}
+
+/* ---- Background layers (created by sdt-bg.js) ---- */
+html[data-sdt-theme="dark"] .sdt-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+html[data-sdt-theme="dark"] .sdt-bg canvas { display: block; width: 100%; height: 100%; }
