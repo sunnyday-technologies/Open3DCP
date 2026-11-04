@@ -50,17 +50,18 @@
   <!-- 2. TRANSFORMATION GRAPHIC -->
   <h2>2 · Re-formatting into Open3DCP</h2>
   <figure>
-  <svg viewBox="0 0 760 430" role="img" aria-label="Three-stage transformation: Meta flat kg/m3 table with GWP and measurement statistics, through open3dcp-ingest, into the Open3DCP flat row with embodied carbon and uncertainty columns; rheology, 3DCP-process, interlayer, durability and provenance remain null.">
+  <svg viewBox="0 0 760 438" role="img" aria-label="Three-stage transformation: Meta flat kg/m3 table with GWP and measurement statistics, through open3dcp-ingest, into the Open3DCP flat row with embodied carbon and uncertainty columns; rheology, 3DCP-process, interlayer, durability and provenance remain null.">
     <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#1f6fb2"/></marker></defs>
     <rect class="svg-node" x="8" y="34" width="212" height="226" rx="7"/>
     <text class="svg-head" x="20" y="54">Source — Meta</text>
-    <text class="svg-sub" x="20" y="70">flat .csv · kg/m³ · row per mix·age</text>
-    <text class="svg-sub" x="20" y="92">Cement · Fly Ash · Slag (kg/m³)</text>
-    <text class="svg-sub" x="20" y="108">Water · HRWR (kg/m³)</text>
-    <text class="svg-sub" x="20" y="124">Fine · Coarse Aggregate</text>
-    <text class="svg-sub" x="20" y="140">Time (day) · Temp (°C)</text>
-    <text class="svg-sub" x="20" y="156">Strength mean · std · n (psi)</text>
-    <text class="svg-sub" x="20" y="172">GWP (kg CO₂/m³)</text>
+    <text class="svg-sub" x="20" y="70">flat .csv · kg/m³ ·</text>
+    <text class="svg-sub" x="20" y="85">row per mix·age</text>
+    <text class="svg-sub" x="20" y="107">Cement · Fly Ash · Slag (kg/m³)</text>
+    <text class="svg-sub" x="20" y="123">Water · HRWR (kg/m³)</text>
+    <text class="svg-sub" x="20" y="139">Fine · Coarse Aggregate</text>
+    <text class="svg-sub" x="20" y="155">Time (day) · Temp (°C)</text>
+    <text class="svg-sub" x="20" y="171">Strength mean · std · n (psi)</text>
+    <text class="svg-sub" x="20" y="187">GWP (kg CO₂/m³)</text>
     <rect class="svg-node-2" x="276" y="58" width="208" height="172" rx="7"/>
     <text class="svg-head" x="288" y="78">open3dcp-ingest</text>
     <text class="svg-sub" x="288" y="98">kg/m³ → mass-%</text>
@@ -69,7 +70,7 @@
     <text class="svg-sub" x="288" y="153">mean/std/n → uncertainty cols</text>
     <text class="svg-sub" x="288" y="173">GWP → embodied_carbon</text>
     <text class="svg-sub" x="288" y="193">preserve kg/m³ basis</text>
-    <rect class="svg-node-accent" x="540" y="20" width="212" height="252" rx="7"/>
+    <rect class="svg-node-accent" x="540" y="20" width="212" height="256" rx="7"/>
     <text class="svg-head" x="552" y="40">Open3DCP flat row</text>
     <text class="svg-sub" x="552" y="60">cement_type_1 · fly_ash · slag</text>
     <text class="svg-sub" x="552" y="76">water · superplasticizer</text>
@@ -77,19 +78,22 @@
     <text class="svg-sub" x="552" y="108">w_b_ratio · test_age_days</text>
     <text class="svg-sub" x="552" y="124">compressive_strength_mpa</text>
     <text class="svg-sub" x="552" y="140">compressive_strength_stddev_mpa</text>
-    <text class="svg-sub" x="552" y="156">n_specimens · curing_temperature_c</text>
-    <text class="svg-sub" x="552" y="172" style="font-weight:600">embodied_carbon_kg_co2_m3</text>
-    <line x1="552" y1="182" x2="744" y2="182" stroke="#cfe7d8"/>
-    <text class="svg-sub" x="552" y="198" font-style="italic">derived (keeps kg/m³ basis):</text>
-    <text class="svg-sub" x="552" y="214">total_batched_mass_kg_m3 · total_binder_kg_m3</text>
-    <text class="svg-sub" x="552" y="230">original_basis = kg_m3</text>
+    <text class="svg-sub" x="552" y="156">n_specimens ·</text>
+    <text class="svg-sub" x="552" y="172">curing_temperature_c</text>
+    <text class="svg-sub" x="552" y="188" style="font-weight:600">embodied_carbon_kg_co2_m3</text>
+    <line x1="552" y1="198" x2="744" y2="198" stroke="#cfe7d8"/>
+    <text class="svg-sub" x="552" y="214" font-style="italic">derived (keeps kg/m³ basis):</text>
+    <text class="svg-sub" x="552" y="230">total_batched_mass_kg_m3 ·</text>
+    <text class="svg-sub" x="552" y="246">total_binder_kg_m3</text>
+    <text class="svg-sub" x="552" y="262">original_basis = kg_m3</text>
     <path class="svg-edge" d="M222,150 L274,150"/>
     <path class="svg-edge" d="M486,150 L538,150"/>
-    <rect class="svg-node-null" x="8" y="288" width="744" height="126" rx="7"/>
-    <text class="svg-head" x="20" y="308">NULL — digital-twin groups not present in this source</text>
-    <text class="svg-sub" x="20" y="330">▢ Raw-material provenance · ▢ Fresh-state rheology · ▢ 3DCP process</text>
-    <text class="svg-sub" x="20" y="348">▢ Interlayer bond · ▢ Durability (chloride, carbonation, freeze-thaw)</text>
-    <text class="svg-sub" x="20" y="372" font-style="italic">These stay NULL (never 0). Meta fills the environment + uncertainty slices UCI leaves empty — the union is the connective span.</text>
+    <rect class="svg-node-null" x="8" y="292" width="744" height="130" rx="7"/>
+    <text class="svg-head" x="20" y="312">NULL — digital-twin groups not present in this source</text>
+    <text class="svg-sub" x="20" y="334">▢ Raw-material provenance · ▢ Fresh-state rheology · ▢ 3DCP process</text>
+    <text class="svg-sub" x="20" y="352">▢ Interlayer bond · ▢ Durability (chloride, carbonation, freeze-thaw)</text>
+    <text class="svg-sub" x="20" y="376" font-style="italic">These stay NULL (never 0). Meta fills the environment + uncertainty slices UCI leaves empty</text>
+    <text class="svg-sub" x="20" y="392" font-style="italic">— the union is the connective span.</text>
   </svg>
   <figcaption>Every constituent is reported in kg/m³ including water, so the wet-mix total closes and the
   kg/m³ → mass-% projection is <strong>exact</strong>; the per-mix GWP populates

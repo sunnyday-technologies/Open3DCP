@@ -50,34 +50,37 @@
   <!-- 2. TRANSFORMATION GRAPHIC -->
   <h2>2 · Re-formatting into Open3DCP</h2>
   <figure>
-  <svg viewBox="0 0 760 470" role="img" aria-label="Three-stage transformation: UCI flat kg/m3 table, through open3dcp-ingest (kg/m3 to mass-% with vocabulary defaults), into the Open3DCP flat row plus derived basis columns; six digital-twin groups remain null.">
+  <svg viewBox="0 0 760 510" role="img" aria-label="Three-stage transformation: UCI flat kg/m3 table, through open3dcp-ingest (kg/m3 to mass-% with vocabulary defaults), into the Open3DCP flat row plus derived basis columns; six digital-twin groups remain null.">
     <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#1f6fb2"/></marker></defs>
 
     <!-- Stage 1: source -->
     <rect class="svg-node" x="8" y="34" width="212" height="232" rx="7"/>
     <text class="svg-head" x="20" y="54">Source — UCI</text>
-    <text class="svg-sub" x="20" y="70">flat .csv · kg/m³ · row per mix·age</text>
-    <text class="svg-sub" x="20" y="96">Cement (kg/m³)</text>
-    <text class="svg-sub" x="20" y="112">Blast Furnace Slag</text>
-    <text class="svg-sub" x="20" y="128">Fly Ash</text>
-    <text class="svg-sub" x="20" y="144">Water</text>
-    <text class="svg-sub" x="20" y="160">Superplasticizer</text>
-    <text class="svg-sub" x="20" y="176">Coarse Aggregate</text>
-    <text class="svg-sub" x="20" y="192">Fine Aggregate</text>
-    <text class="svg-sub" x="20" y="208">Age (day)</text>
-    <text class="svg-sub" x="20" y="224">Compressive strength (MPa)</text>
+    <text class="svg-sub" x="20" y="70">flat .csv · kg/m³ ·</text>
+    <text class="svg-sub" x="20" y="85">row per mix·age</text>
+    <text class="svg-sub" x="20" y="111">Cement (kg/m³)</text>
+    <text class="svg-sub" x="20" y="127">Blast Furnace Slag</text>
+    <text class="svg-sub" x="20" y="143">Fly Ash</text>
+    <text class="svg-sub" x="20" y="159">Water</text>
+    <text class="svg-sub" x="20" y="175">Superplasticizer</text>
+    <text class="svg-sub" x="20" y="191">Coarse Aggregate</text>
+    <text class="svg-sub" x="20" y="207">Fine Aggregate</text>
+    <text class="svg-sub" x="20" y="223">Age (day)</text>
+    <text class="svg-sub" x="20" y="239">Compressive strength (MPa)</text>
 
     <!-- Stage 2: transform -->
-    <rect class="svg-node-2" x="276" y="58" width="208" height="184" rx="7"/>
-    <text class="svg-head" x="288" y="78">open3dcp-ingest</text>
-    <text class="svg-sub" x="288" y="98">kg/m³ → mass-%</text>
-    <text class="svg-sub" x="288" y="113">  exact (water closes the total)</text>
-    <text class="svg-sub" x="288" y="133">vocabulary defaults:</text>
-    <text class="svg-sub" x="288" y="148">  cement → Type I · agg → #57</text>
-    <text class="svg-sub" x="288" y="163">  fine → concrete_sand</text>
-    <text class="svg-sub" x="288" y="183">SP as-delivered → solids (assumed)</text>
-    <text class="svg-sub" x="288" y="203">preserve kg/m³ basis:</text>
-    <text class="svg-sub" x="288" y="218">  density + binder + original_basis</text>
+    <rect class="svg-node-2" x="270" y="58" width="220" height="200" rx="7"/>
+    <text class="svg-head" x="282" y="78">open3dcp-ingest</text>
+    <text class="svg-sub" x="282" y="98">kg/m³ → mass-%</text>
+    <text class="svg-sub" x="282" y="113">  exact (water closes the total)</text>
+    <text class="svg-sub" x="282" y="133">vocabulary defaults:</text>
+    <text class="svg-sub" x="282" y="148">  cement → Type I · agg → #57</text>
+    <text class="svg-sub" x="282" y="163">  fine → concrete_sand</text>
+    <text class="svg-sub" x="282" y="183">SP as-delivered → solids</text>
+    <text class="svg-sub" x="282" y="198">  (assumed)</text>
+    <text class="svg-sub" x="282" y="218">preserve kg/m³ basis:</text>
+    <text class="svg-sub" x="282" y="233">  density + binder +</text>
+    <text class="svg-sub" x="282" y="248">  original_basis</text>
 
     <!-- Stage 3: open3dcp flat -->
     <rect class="svg-node-accent" x="540" y="20" width="212" height="260" rx="7"/>
@@ -98,19 +101,20 @@
     <text class="svg-sub" x="552" y="251">original_basis = kg_m3</text>
 
     <!-- flow arrows -->
-    <path class="svg-edge" d="M222,150 L274,150"/>
-    <path class="svg-edge" d="M486,150 L538,150"/>
+    <path class="svg-edge" d="M222,150 L268,150"/>
+    <path class="svg-edge" d="M492,150 L538,150"/>
 
     <!-- NULL band -->
-    <rect class="svg-node-null" x="8" y="300" width="744" height="150" rx="7"/>
+    <rect class="svg-node-null" x="8" y="300" width="744" height="190" rx="7"/>
     <text class="svg-head" x="20" y="320">NULL — digital-twin groups not present in this source</text>
     <text class="svg-sub" x="20" y="342">▢ Raw-material provenance — quarry, lithology, oxide chemistry</text>
     <text class="svg-sub" x="20" y="360">▢ Fresh-state rheology — static/dynamic yield stress, plastic viscosity</text>
     <text class="svg-sub" x="20" y="378">▢ 3DCP process — nozzle, layer time-gap, print speed, pump pressure, orientation</text>
-    <text class="svg-sub" x="390" y="342">▢ Interlayer bond — bond / shear strength, void fraction</text>
-    <text class="svg-sub" x="390" y="360">▢ Durability — chloride, carbonation, freeze-thaw, shrinkage</text>
-    <text class="svg-sub" x="390" y="378">▢ Environment — embodied carbon, exposure class</text>
-    <text class="svg-sub" x="20" y="404" font-style="italic">These columns stay NULL (never 0) — the gap between this slice and "quarry → strength over decades" is Open3DCP's connective span.</text>
+    <text class="svg-sub" x="20" y="396">▢ Interlayer bond — bond / shear strength, void fraction</text>
+    <text class="svg-sub" x="20" y="414">▢ Durability — chloride, carbonation, freeze-thaw, shrinkage</text>
+    <text class="svg-sub" x="20" y="432">▢ Environment — embodied carbon, exposure class</text>
+    <text class="svg-sub" x="20" y="460" font-style="italic">These columns stay NULL (never 0) — the gap between this slice and</text>
+    <text class="svg-sub" x="20" y="476" font-style="italic">"quarry → strength over decades" is Open3DCP's connective span.</text>
   </svg>
   <figcaption>UCI reports every constituent in kg/m³ including water, so the wet-mix total closes and the
   kg/m³ → mass-% projection is <strong>exact</strong>; the kg/m³ basis is retained via the three derived columns.</figcaption>
