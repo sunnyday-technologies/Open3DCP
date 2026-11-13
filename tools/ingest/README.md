@@ -97,3 +97,37 @@ for u in result.unmapped:                    # nothing is dropped silently
 pip install -e ".[test]"
 pytest -q          # unit tests (+ integration if OPEN3DCP_RELATIONAL_TEMPLATE is set)
 ```
+
+
+## Canonical import and export (tool 1.8.1, schema 1.8)
+
+Use `--kind flat` for curated **kg/m3 source quantities**. Use `--kind canonical`
+for an already canonical CSV whose constituent columns contain **mass-% of the
+whole wet batch**. These are different input contracts; do not feed canonical
+exports to the kg/m3 reader or rely on CSV auto-detection (which defaults to UCI).
+
+```bash
+open3dcp-ingest convert source_kg_m3.csv --kind flat --out converted
+open3dcp-ingest convert converted/source_kg_m3.open3dcp.csv --kind canonical --out roundtrip
+```
+
+Canonical import preserves row order, repeated mix labels, NULL versus zero,
+booleans, decimal precision and source identifiers. It does not normalize again,
+infer material classes, deduplicate specimens, or authorize database admission.
+Public columns come from the bundled schema registry; update that registry with
+schema changes. Site extensions use `x_` and require deposit documentation.
+Unrecognized columns stay in the unmapped sidecar. Private fields and sidecars
+need a separate publication review; conversion does not make them public-safe.
+
+The CLI also writes `<dataset>.trace.jsonl`, carrying each mapped value's source
+and fidelity. Flat source CSVs retain the original lexical record in the sidecar,
+including unknown ingredients and invalid values. Keep the source file, trace,
+sidecar, dataset version/hash, citation and source specimen/measurement identifiers
+together. A DOI alone, a 100% sum, or a high fidelity score is not validation.
+
+Different specimens, ages, orientations and batches remain separate observations.
+A reported mean with n=3 remains one mean with its reported count, not three
+invented specimen values. Failed/held study outcomes should also be retained so
+unchanged sources are not repeatedly re-extracted. Validation must distinguish
+measured, inferred and synthetic values, cast and printed preparation, source
+rights and complete ingredient inventories before admitting data to calculations.

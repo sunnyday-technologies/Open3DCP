@@ -8,6 +8,7 @@ A source record is a dict mapping a fully-qualified source field path
 from __future__ import annotations
 
 import csv
+import math
 import os
 from typing import Any
 
@@ -31,7 +32,8 @@ def _num(v):
     if v is None or v == "":
         return None
     try:
-        return float(v)
+        value = float(v)
+        return value if math.isfinite(value) else None
     except (TypeError, ValueError):
         return None
 
@@ -55,15 +57,20 @@ def read_uci_csv(path: str) -> list[dict[str, Any]]:
             if not any(c.strip() for c in raw):
                 continue
             rec: dict[str, Any] = {}
-            for col, val in zip(canon, raw):
+            if len(raw) != len(header):
+                raise ValueError("UCI CSV row width differs from header")
+            for original, col, val in zip(header, canon, raw):
                 if col is None:
+                    rec[f"source.{original}"] = val
                     continue
                 rec[col] = _num(val)
+                if val and rec[col] is None:
+                    rec[f"source.{original}"] = val
             total = sum(rec.get(c) or 0.0 for c in _UCI_MASS_COMPONENTS)
             binder = sum(rec.get(c) or 0.0 for c in ("Cement", "Blast Furnace Slag", "Fly Ash"))
             rec["_ctx"] = {
                 "total_wet_mass_kg_m3": total if total > 0 else None,
-                "total_wet_mass_is_complete": True,  # UCI reports every constituent incl. water
+                "total_wet_mass_is_complete": all(rec.get(c) is not None for c in _UCI_MASS_COMPONENTS),
                 "total_binder_kg_m3": binder if binder > 0 else None,
                 "total_batched_mass_kg_m3": total if total > 0 else None,
                 # v1.7.5: UCI states no SP solids fraction -> as-delivered mass, basis recorded
@@ -285,6 +292,8 @@ def read_flat_csv(path: str) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     with open(path, newline="", encoding="utf-8-sig") as fh:
         for raw in csv.DictReader(fh):
+            if None in raw or any(v is None for v in raw.values()):
+                raise ValueError("Flat CSV row width differs from header")
             row = {k.strip(): (v.strip() if isinstance(v, str) else v) for k, v in raw.items()}
             rec: dict[str, Any] = {}
             # mix-design constituents (kg/m3)
@@ -346,6 +355,14 @@ def read_flat_csv(path: str) -> list[dict[str, Any]]:
             # water is actually present; a binder+aggregate row with no water would otherwise be scored
             # against a waterless denominator and mis-rated EXACT. Mirror the relational guard.
             complete = binder > 0 and total > 0 and water is not None
+            # An unrecognized constituent cannot silently disappear from the
+            # denominator while the output claims an exact mass balance.
+            unaccounted = [k for k, v in row.items() if k not in mass_fields
+                           and k.endswith(("_kg_m3", "_ml_m3", "_mass_pct"))
+                           and v not in (None, "", "0", "0.0")
+                           and k not in ("embodied_carbon_kg_co2_m3",)]
+            if unaccounted:
+                complete = False
             # Absolute-volume YIELD check: `total` is the batched MASS, not a fresh density. If the
             # constituents do not occupy ~1 m3, the source rows are design proportions (commonly: water
             # dosed on top of a ~1 m3 dry recipe), not a yielded batch. Record the true derived density
@@ -373,6 +390,10 @@ def read_flat_csv(path: str) -> list[dict[str, Any]]:
                 "solids_fraction": _num(row.get("solids_fraction")),
                 "source": "flat",
             }
+            # Preserve the original lexical record, including source IDs, unknown
+            # ingredients and unparsable values. A conversion is not admission.
+            for column, value in raw.items():
+                rec[f"source.{column}"] = value
             records.append(rec)
     return records
 

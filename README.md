@@ -141,11 +141,11 @@ In addition to mass-%, three characterization columns capture how fiber is actua
 
 Admixtures are chemicals added in small quantities (typically 0.1-2% by mass) to modify fresh-state behavior. In 3DCP, they control the narrow window between pumpability and shape retention.
 
-**Important:** All admixture values in Open3DCP represent **solids content** by mass-%. Most commercial admixtures are sold as liquid solutions (typically 20-40% solids by weight). Convert using the manufacturer's technical data sheet — e.g., a PCE dosed at 1.0% liquid with 30% solids = 0.3% in this schema.
+**Important:** Preserve the source-stated admixture basis. Store as-delivered mass when that is what the source reports and no solids fraction is supplied; retain `admixture_basis` and the original quantities. Convert to solids only with an evidenced solids fraction and account explicitly for carrier water. Never assume a typical solids fraction or silently change the wet-batch denominator. See [import/export guidance](tools/ingest/README.md).
 
 | Column | Function | Why It Matters |
 |--------|----------|----------------|
-| `superplasticizer` | High-range water reducer (HRWR). PCE-based polymers that disperse cement particles. ASTM C494 Type F/G. Record as solids content. | Allows the mix to flow through the pump at low water content. The most important admixture in 3DCP. |
+| `superplasticizer` | High-range water reducer (HRWR), including PCE-based polymers. ASTM C494 Type F/G. Preserve the source-stated mass basis. | Allows the mix to flow through the pump at low water content. |
 | `water_reducer` | Mid-range water reducer. ASTM C494 Type A. | Less powerful than superplasticizer. These are chemically distinct products and should not be combined into a single column. |
 | `accelerator` | Speeds up setting and early strength gain. ASTM C494 Type C/E. | Critical for 3DCP: each layer must support the next within minutes. Often sprayed at the nozzle tip. |
 | `retarder` | Slows setting. ASTM C494 Type B/D. | Extends the open time (workable window) for long print jobs. |
