@@ -10,6 +10,7 @@ from __future__ import annotations
 import csv
 import math
 import os
+import re
 from typing import Any
 
 
@@ -40,9 +41,24 @@ def _num(v):
 
 def _canon_uci(header: str) -> str | None:
     h = header.strip().lower()
+    # Yeh's UCI format has one unclassified fly-ash component. A modified
+    # header must not lose its declared class through the generic prefix map.
+    # Typed data have supported canonical columns or flat fly_ash_class input.
+    normalized = re.sub(r"\s+", " ", re.sub(r"[_-]+", " ", h))
+    normalized = re.sub(r"\bf\s*\.\s*a\s*\.", "fa", normalized)
+    if re.search(r"\b(?:fly\s*ash|fa|pfa)\b", normalized):
+        if re.search(r"\b(class|type|grade)\b", normalized) or not h.startswith("fly ash"):
+            raise ValueError("UCI fly-ash class requires canonical or flat class-qualified input")
     # strip the "(component N)(unit)" decorations Yeh's CSV carries
     for key, canon in _UCI_ALIASES.items():
         if h.startswith(key):
+            if key == "fly ash":
+                suffix = h[len(key):].strip()
+                if suffix and not re.fullmatch(
+                    r"(?:\(component\s+3\)\s*)?"
+                    r"\(kg(?:/m(?:3|³)|\s+in\s+a\s+m\^3\s+mixture)\)", suffix
+                ):
+                    raise ValueError("Unrecognized UCI fly-ash header; use canonical or flat input")
             return canon
     return None
 
@@ -53,6 +69,9 @@ def read_uci_csv(path: str) -> list[dict[str, Any]]:
         reader = csv.reader(fh)
         header = next(reader)
         canon = [_canon_uci(h) for h in header]
+        mapped = [col for col in canon if col is not None]
+        if len(mapped) != len(set(mapped)):
+            raise ValueError("UCI headers identify the same component more than once")
         for raw in reader:
             if not any(c.strip() for c in raw):
                 continue
@@ -66,11 +85,18 @@ def read_uci_csv(path: str) -> list[dict[str, Any]]:
                 rec[col] = _num(val)
                 if val and rec[col] is None:
                     rec[f"source.{original}"] = val
+            # Unknown ingredient doses cannot disappear from a denominator
+            # labeled complete. Metadata-only extras remain ordinary sidecars.
+            unknown_mass = [original for original, col, val in zip(header, canon, raw)
+                            if col is None and val.strip() not in ("", "0", "0.0")
+                            and re.search(r"(?:\b|_)(?:kg|g|ml|oz|mass|weight|wt)(?:\b|_)",
+                                          original.lower())]
             total = sum(rec.get(c) or 0.0 for c in _UCI_MASS_COMPONENTS)
             binder = sum(rec.get(c) or 0.0 for c in ("Cement", "Blast Furnace Slag", "Fly Ash"))
             rec["_ctx"] = {
                 "total_wet_mass_kg_m3": total if total > 0 else None,
-                "total_wet_mass_is_complete": all(rec.get(c) is not None for c in _UCI_MASS_COMPONENTS),
+                "total_wet_mass_is_complete": (all(rec.get(c) is not None for c in _UCI_MASS_COMPONENTS)
+                                               and not unknown_mass),
                 "total_binder_kg_m3": binder if binder > 0 else None,
                 "total_batched_mass_kg_m3": total if total > 0 else None,
                 # v1.7.5: UCI states no SP solids fraction -> as-delivered mass, basis recorded

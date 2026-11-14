@@ -101,6 +101,8 @@ pytest -q          # unit tests (+ integration if OPEN3DCP_RELATIONAL_TEMPLATE i
 
 ## Canonical import and export (tool 1.8.1, schema 1.8)
 
+The UCI reader is limited to the original Yeh format with one unclassified fly-ash component. It rejects class-qualified fly-ash headers and duplicate component columns instead of dropping a class or overwriting a mass. For source quantities use `--kind flat` with `fly_ash_kg_m3` and `fly_ash_class` (`C` or `F`); an omitted class remains generic. For independently specified C/F quantities, use `--kind canonical` with separate `fly_ash_type_c`, `fly_ash_type_f`, and generic `fly_ash` columns already expressed as whole-mix wet mass-%. Unsupported typed kg/m3 header names stay in the unmapped sidecar and prevent an exact mass-balance claim.
+
 Use `--kind flat` for curated **kg/m3 source quantities**. Use `--kind canonical`
 for an already canonical CSV whose constituent columns contain **mass-% of the
 whole wet batch**. These are different input contracts; do not feed canonical
