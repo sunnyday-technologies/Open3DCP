@@ -46,7 +46,7 @@ mass-% projection is **exact**; the kg/m³ basis is preserved via `total_batched
 open3dcp-ingest convert build/meta-sustainableconcrete.csv --kind flat --out .
 ```
 
-Fidelity **100 / 100 (A) — zero assumptions** (v1.7.5: unclassified constituents stored generically, NULL class; HRWR as-delivered with `admixture_basis=as_delivered`). It populates the **mix-design**, **hardened-compressive**, **multi-age
+Current converter 1.8.1 fidelity: **79 / 100 (C; partial, triage recommended)**. Raw source evidence is now retained in the sidecar and included in coverage accounting; existing projected values remain unchanged, with no added assumptions. The historical v1.7.5 score was 100/A. Unclassified constituents remain generic, with NULL class, and HRWR remains as-delivered with `admixture_basis=as_delivered`. It populates the **mix-design**, **hardened-compressive**, **multi-age
 strength**, **embodied-carbon (environment)**, and **measurement-uncertainty** groups. Specimen geometry
 and test method are **not reported by the source** and are recorded as `NULL` (not inferred); the
 superplasticizer (HRWR) is recorded as-delivered (solids fraction unknown). Every 3DCP-process, rheology,

@@ -20,6 +20,7 @@ on:
       - .zenodo.json
       - examples/**
       - scripts/check_version.py
+      - scripts/test_version.py
       - scripts/validate_submission.py
       - scripts/test_submission.py
       - .github/workflows/version-consistency.yml
@@ -43,6 +44,7 @@ on:
       - .zenodo.json
       - examples/**
       - scripts/check_version.py
+      - scripts/test_version.py
       - scripts/validate_submission.py
       - scripts/test_submission.py
       - .github/workflows/version-consistency.yml
@@ -65,6 +67,8 @@ jobs:
           python-version: '3.11'
       - name: Check version-label consistency
         run: python scripts/check_version.py
+      - name: Check independent converter patch version regressions
+        run: python scripts/test_version.py
       - name: Check schema-reference content consistency
         run: python scripts/check_schema_reference_consistency.py
       - name: Check model-crosswalk CSVs match the schema (no drift)

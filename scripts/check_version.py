@@ -2,7 +2,8 @@
 """Single-source-of-truth version guard for the Open3DCP schema release.
 
 The current schema version is read from the top entry of CHANGELOG.md (`## [X.Y.Z]`).
-Every other place that must state the *current* version is then verified to match.
+Every other place that states the current schema version is verified to match.
+The converter has an independent patch version; its MAJOR.MINOR must target the schema.
 This is the canonical list of version-bearing locations: bumping the schema means
 editing these files, and running this script confirms none was missed (it would have
 caught, e.g., a stale `.well-known/mcp-manifest.json`).
@@ -41,9 +42,8 @@ def checks(vv, v):
     return {
         "Open3DCP_SCHEMA.md": [f"# Open3DCP v{v}", f"*Open3DCP v{v} -- Last updated:"],
         "crosswalk/open3dcp_to_relational.yaml": [f'open3dcp_version: "{v}"'],
-        "tools/ingest/pyproject.toml": [f'version = "{vv}"'],
         "tools/ingest/open3dcp_ingest/__init__.py": [
-            f'TARGET_SCHEMA_VERSION = "{v}"', f'__version__ = "{vv}"'],
+            f'TARGET_SCHEMA_VERSION = "{v}"'],
         "tools/ingest/README.md": [f"schema v{v} → tool"],
         "index.html": [f'"version": "{v}"', f"// v{v}",
                        f'>v{v}<span class="spec-unit">'],
@@ -74,10 +74,31 @@ STATUS = {
 }
 
 
+def check_tool_version(schema_minor, root=ROOT):
+    """Require matching package/runtime SemVer and schema MAJOR.MINOR, not patch."""
+    values = {}
+    for rel, name in [("tools/ingest/pyproject.toml", "version"),
+                      ("tools/ingest/open3dcp_ingest/__init__.py", "__version__")]:
+        if not os.path.isfile(os.path.join(root, rel)):
+            return [f"{rel}: file not found"]
+        with open(os.path.join(root, rel), encoding="utf-8") as f:
+            match = re.search(r'^' + name + r' = "(\d+\.\d+\.\d+)"$', f.read(), re.M)
+        if not match:
+            return [f"{rel}: missing valid converter MAJOR.MINOR.PATCH version"]
+        values[rel] = match.group(1)
+    errors = []
+    if len(set(values.values())) != 1:
+        errors.append("converter package and runtime versions differ")
+    for rel, version in values.items():
+        if version.rsplit(".", 1)[0] != schema_minor:
+            errors.append(f"{rel}: converter {version} does not target schema {schema_minor}")
+    return errors
+
+
 def main():
     vv, v = canonical_version()
     print(f"canonical version (from CHANGELOG.md): {vv}  (minor v{v})")
-    missing = []
+    missing = check_tool_version(v)
     for rel, needles in checks(vv, v).items():
         path = os.path.join(ROOT, rel)
         if not os.path.exists(path):

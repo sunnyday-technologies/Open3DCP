@@ -9,8 +9,9 @@ triage sidecar**. Bridges relational concrete databases and the Open3DCP flat sc
 
 ## Versioning — the tool tracks the schema
 
-The ingestion tool and crosswalk are **versioned together with the Open3DCP schema** and must be
-updated every time the schema changes:
+The converter targets the public schema but has an **independent patch version**.
+Converter **1.8.1 targets schema 1.8 (public release 1.8.0)** and adds no schema fields.
+The tool and crosswalk must be reviewed whenever the schema changes:
 
 - The package version's **MAJOR.MINOR tracks the schema version** it targets (schema v1.8 → tool
   `1.8.x`). Check with `open3dcp-ingest --version`.
@@ -97,3 +98,53 @@ for u in result.unmapped:                    # nothing is dropped silently
 pip install -e ".[test]"
 pytest -q          # unit tests (+ integration if OPEN3DCP_RELATIONAL_TEMPLATE is set)
 ```
+
+
+## Canonical import and export (tool 1.8.1, schema 1.8)
+
+The UCI reader is limited to the original Yeh format with one unclassified fly-ash component. It rejects class-qualified fly-ash headers and duplicate component columns instead of dropping a class or overwriting a mass. For source quantities use `--kind flat` with `fly_ash_kg_m3` and `fly_ash_class` (`C` or `F`); an omitted class remains generic. For independently specified C/F quantities, use `--kind canonical` with separate `fly_ash_type_c`, `fly_ash_type_f`, and generic `fly_ash` columns already expressed as whole-mix wet mass-%. Unsupported typed kg/m3 header names stay in the unmapped sidecar and prevent an exact mass-balance claim.
+
+Use `--kind flat` for curated **kg/m3 source quantities**. Use `--kind canonical`
+for an already canonical CSV whose constituent columns contain **mass-% of the
+whole wet batch**. These are different input contracts; do not feed canonical
+exports to the kg/m3 reader or rely on CSV auto-detection (which defaults to UCI).
+
+```bash
+open3dcp-ingest convert source_kg_m3.csv --kind flat --out converted
+open3dcp-ingest convert converted/source_kg_m3.open3dcp.csv --kind canonical --out roundtrip
+```
+
+Canonical import preserves row order, repeated mix labels, NULL versus zero,
+booleans, decimal precision and source identifiers. It does not normalize again,
+infer material classes, deduplicate specimens, or authorize database admission.
+Public columns come from the bundled schema registry; update that registry with
+schema changes. Site extensions use `x_` and require deposit documentation.
+Unrecognized columns stay in the unmapped sidecar. Private fields and sidecars
+need a separate publication review; conversion does not make them public-safe.
+
+The CLI also writes `<dataset>.trace.jsonl`, carrying each mapped value's source
+and fidelity. Flat source CSVs retain the original lexical record in the sidecar,
+including unknown ingredients and invalid values. Keep the source file, trace,
+sidecar, dataset version/hash, citation and source specimen/measurement identifiers
+together. A DOI alone, a 100% sum, or a high fidelity score is not validation.
+
+Different specimens, ages, orientations and batches remain separate observations.
+A reported mean with n=3 remains one mean with its reported count, not three
+invented specimen values. Failed/held study outcomes should also be retained so
+unchanged sources are not repeatedly re-extracted. Validation must distinguish
+measured, inferred and synthetic values, cast and printed preparation, source
+rights and complete ingredient inventories before admitting data to calculations.
+
+## Converter 1.8.1 patch notes
+
+This is an import/export repair, not a schema release. Public SQL, types, units and
+column vocabulary remain Open3DCP 1.8.0. Internal extensions are not included.
+
+- Canonical CSV mode preserves repeats, order, zero/NULL, booleans and precision.
+- Original identifiers, unsupported source values and conversion evidence survive
+  in trace/triage sidecars rather than being silently discarded.
+- Flat Class C/F fly-ash handling preserves class boundaries; ambiguous legacy
+  UCI headers fail explicitly rather than pooling or overwriting quantities.
+- The Meta example now includes its original mix ID. Its fidelity report is
+  regenerated with raw-source evidence retained; the score is not a materials
+  qualification or database-admission decision.

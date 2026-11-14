@@ -8,7 +8,9 @@ A source record is a dict mapping a fully-qualified source field path
 from __future__ import annotations
 
 import csv
+import math
 import os
+import re
 from typing import Any
 
 
@@ -31,16 +33,32 @@ def _num(v):
     if v is None or v == "":
         return None
     try:
-        return float(v)
+        value = float(v)
+        return value if math.isfinite(value) else None
     except (TypeError, ValueError):
         return None
 
 
 def _canon_uci(header: str) -> str | None:
     h = header.strip().lower()
+    # Yeh's UCI format has one unclassified fly-ash component. A modified
+    # header must not lose its declared class through the generic prefix map.
+    # Typed data have supported canonical columns or flat fly_ash_class input.
+    normalized = re.sub(r"\s+", " ", re.sub(r"[_-]+", " ", h))
+    normalized = re.sub(r"\bf\s*\.\s*a\s*\.", "fa", normalized)
+    if re.search(r"\b(?:fly\s*ash|fa|pfa)\b", normalized):
+        if re.search(r"\b(class|type|grade)\b", normalized) or not h.startswith("fly ash"):
+            raise ValueError("UCI fly-ash class requires canonical or flat class-qualified input")
     # strip the "(component N)(unit)" decorations Yeh's CSV carries
     for key, canon in _UCI_ALIASES.items():
         if h.startswith(key):
+            if key == "fly ash":
+                suffix = h[len(key):].strip()
+                if suffix and not re.fullmatch(
+                    r"(?:\(component\s+3\)\s*)?"
+                    r"\(kg(?:/m(?:3|³)|\s+in\s+a\s+m\^3\s+mixture)\)", suffix
+                ):
+                    raise ValueError("Unrecognized UCI fly-ash header; use canonical or flat input")
             return canon
     return None
 
@@ -51,19 +69,34 @@ def read_uci_csv(path: str) -> list[dict[str, Any]]:
         reader = csv.reader(fh)
         header = next(reader)
         canon = [_canon_uci(h) for h in header]
+        mapped = [col for col in canon if col is not None]
+        if len(mapped) != len(set(mapped)):
+            raise ValueError("UCI headers identify the same component more than once")
         for raw in reader:
             if not any(c.strip() for c in raw):
                 continue
             rec: dict[str, Any] = {}
-            for col, val in zip(canon, raw):
+            if len(raw) != len(header):
+                raise ValueError("UCI CSV row width differs from header")
+            for original, col, val in zip(header, canon, raw):
                 if col is None:
+                    rec[f"source.{original}"] = val
                     continue
                 rec[col] = _num(val)
+                if val and rec[col] is None:
+                    rec[f"source.{original}"] = val
+            # Unknown ingredient doses cannot disappear from a denominator
+            # labeled complete. Metadata-only extras remain ordinary sidecars.
+            unknown_mass = [original for original, col, val in zip(header, canon, raw)
+                            if col is None and val.strip() not in ("", "0", "0.0")
+                            and re.search(r"(?:\b|_)(?:kg|g|ml|oz|mass|weight|wt)(?:\b|_)",
+                                          original.lower())]
             total = sum(rec.get(c) or 0.0 for c in _UCI_MASS_COMPONENTS)
             binder = sum(rec.get(c) or 0.0 for c in ("Cement", "Blast Furnace Slag", "Fly Ash"))
             rec["_ctx"] = {
                 "total_wet_mass_kg_m3": total if total > 0 else None,
-                "total_wet_mass_is_complete": True,  # UCI reports every constituent incl. water
+                "total_wet_mass_is_complete": (all(rec.get(c) is not None for c in _UCI_MASS_COMPONENTS)
+                                               and not unknown_mass),
                 "total_binder_kg_m3": binder if binder > 0 else None,
                 "total_batched_mass_kg_m3": total if total > 0 else None,
                 # v1.7.5: UCI states no SP solids fraction -> as-delivered mass, basis recorded
@@ -285,6 +318,8 @@ def read_flat_csv(path: str) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     with open(path, newline="", encoding="utf-8-sig") as fh:
         for raw in csv.DictReader(fh):
+            if None in raw or any(v is None for v in raw.values()):
+                raise ValueError("Flat CSV row width differs from header")
             row = {k.strip(): (v.strip() if isinstance(v, str) else v) for k, v in raw.items()}
             rec: dict[str, Any] = {}
             # mix-design constituents (kg/m3)
@@ -346,6 +381,14 @@ def read_flat_csv(path: str) -> list[dict[str, Any]]:
             # water is actually present; a binder+aggregate row with no water would otherwise be scored
             # against a waterless denominator and mis-rated EXACT. Mirror the relational guard.
             complete = binder > 0 and total > 0 and water is not None
+            # An unrecognized constituent cannot silently disappear from the
+            # denominator while the output claims an exact mass balance.
+            unaccounted = [k for k, v in row.items() if k not in mass_fields
+                           and k.endswith(("_kg_m3", "_ml_m3", "_mass_pct"))
+                           and v not in (None, "", "0", "0.0")
+                           and k not in ("embodied_carbon_kg_co2_m3",)]
+            if unaccounted:
+                complete = False
             # Absolute-volume YIELD check: `total` is the batched MASS, not a fresh density. If the
             # constituents do not occupy ~1 m3, the source rows are design proportions (commonly: water
             # dosed on top of a ~1 m3 dry recipe), not a yielded batch. Record the true derived density
@@ -373,6 +416,10 @@ def read_flat_csv(path: str) -> list[dict[str, Any]]:
                 "solids_fraction": _num(row.get("solids_fraction")),
                 "source": "flat",
             }
+            # Preserve the original lexical record, including source IDs, unknown
+            # ingredients and unparsable values. A conversion is not admission.
+            for column, value in raw.items():
+                rec[f"source.{column}"] = value
             records.append(rec)
     return records
 
