@@ -23,7 +23,9 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install the ingest tool
-        run: pip install --quiet -e tools/ingest
+        run: pip install --quiet -e "tools/ingest[test]"
+      - name: Test converter roundtrips and source preservation
+        run: python -m pytest tools/ingest/tests -q
       - name: Validate examples
         run: python scripts/check_examples.py
       - name: Verify source-context and missingness regressions

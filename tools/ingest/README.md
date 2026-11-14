@@ -9,8 +9,9 @@ triage sidecar**. Bridges relational concrete databases and the Open3DCP flat sc
 
 ## Versioning — the tool tracks the schema
 
-The ingestion tool and crosswalk are **versioned together with the Open3DCP schema** and must be
-updated every time the schema changes:
+The converter targets the public schema but has an **independent patch version**.
+Converter **1.8.1 targets schema 1.8 (public release 1.8.0)** and adds no schema fields.
+The tool and crosswalk must be reviewed whenever the schema changes:
 
 - The package version's **MAJOR.MINOR tracks the schema version** it targets (schema v1.8 → tool
   `1.8.x`). Check with `open3dcp-ingest --version`.
@@ -133,3 +134,17 @@ invented specimen values. Failed/held study outcomes should also be retained so
 unchanged sources are not repeatedly re-extracted. Validation must distinguish
 measured, inferred and synthetic values, cast and printed preparation, source
 rights and complete ingredient inventories before admitting data to calculations.
+
+## Converter 1.8.1 patch notes
+
+This is an import/export repair, not a schema release. Public SQL, types, units and
+column vocabulary remain Open3DCP 1.8.0. Internal extensions are not included.
+
+- Canonical CSV mode preserves repeats, order, zero/NULL, booleans and precision.
+- Original identifiers, unsupported source values and conversion evidence survive
+  in trace/triage sidecars rather than being silently discarded.
+- Flat Class C/F fly-ash handling preserves class boundaries; ambiguous legacy
+  UCI headers fail explicitly rather than pooling or overwriting quantities.
+- The Meta example now includes its original mix ID. Its fidelity report is
+  regenerated with raw-source evidence retained; the score is not a materials
+  qualification or database-admission decision.
