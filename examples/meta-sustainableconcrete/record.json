@@ -1,7 +1,9 @@
 {
   "id": "meta-sustainableconcrete",
   "dataset": "Meta SustainableConcrete (BOxCrete dataset)",
-  "source_url": "https://github.com/facebookresearch/SustainableConcrete",
+  "source_url": "https://github.com/facebookresearch/SustainableConcrete/blob/197add7b61d7dfd97a05e6d4a243f014de7ab226/data/boxcrete_data.csv",
+  "source_revision": "197add7b61d7dfd97a05e6d4a243f014de7ab226",
+  "source_sha256": "bfe7319f2ec3a0abdf63f8da467ae6e8a24c2470560078a725e181f522637699",
   "doi": null,
   "license": "MIT",
   "license_url": "https://github.com/facebookresearch/SustainableConcrete/blob/main/LICENSE",

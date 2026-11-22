@@ -5,7 +5,8 @@
 | **Dataset** | SustainableConcrete — `data/boxcrete_data.csv` (the BOxCrete dataset) |
 | **Producers** | Meta Platforms / FAIR · University of Illinois Urbana-Champaign · Amrize |
 | **Host** | GitHub — `facebookresearch/SustainableConcrete` |
-| **URL** | https://github.com/facebookresearch/SustainableConcrete |
+| **Pinned input** | [BOxCrete CSV at `197add7`](https://github.com/facebookresearch/SustainableConcrete/blob/197add7b61d7dfd97a05e6d4a243f014de7ab226/data/boxcrete_data.csv) |
+| **Raw SHA-256** | `bfe7319f2ec3a0abdf63f8da467ae6e8a24c2470560078a725e181f522637699` |
 | **License** | MIT License (© Meta Platforms, Inc. and affiliates) |
 | **Storage medium** | single flat table (`.csv`), one row per **mix · curing age**, constituents in **kg/m³ of a 1 m³ batch** |
 | **Size** | 149 mixes · 727 rows (multi-age) · 19 columns |
@@ -30,7 +31,7 @@ ingesting those as *model-generated* records — kept distinct from measured dat
 A curated **28-row excerpt** (`build/meta-sustainableconcrete.csv`) of six mixes chosen to span the
 dataset's variety — plain OPC, fly-ash, slag, and ternary binders; mortar and concrete; the carbon range
 (GWP **204–521 kg CO₂/m³**) and the strength range (**26–110 MPa**), each across its 1–28 d age series. It
-is a **sample, not a re-host** of the 727-row source; download the full table from the repo above.
+is a **sample, not a re-host** of the 727-row source; download the raw CSV from the pinned revision above, not the upstream default branch.
 
 The carbon contrast is the worked-demonstration point: plain-OPC concrete (Mix_84) sits at **GWP 521** for
 ~65 MPa, while a low-clinker ternary (Mix_88) reaches **~110 MPa at GWP 204** — *higher strength, ~60 % less
@@ -40,11 +41,14 @@ embodied carbon* — exactly the trade-off a connective schema is meant to make 
 
 Every constituent (including water) is reported in kg/m³, so the wet-mix total closes and the kg/m³ →
 mass-% projection is **exact**; the kg/m³ basis is preserved via `total_batched_mass_kg_m3` / `total_binder_kg_m3`
-/ `original_basis=kg_m3`, and `w_b_ratio` is derived. Converted with:
+/ `original_basis=kg_m3`, and `w_b_ratio` is derived. From this example directory, replay into a separate output directory:
 
 ```
-open3dcp-ingest convert build/meta-sustainableconcrete.csv --kind flat --out .
+python build/extract.py /path/to/boxcrete_data.csv --out-dir replay
+open3dcp-ingest convert replay/meta-sustainableconcrete.csv --kind flat --out replay
 ```
+
+The extractor rejects a source checksum or mix-count mismatch before writing an output.
 
 Current converter 1.8.1 fidelity: **79 / 100 (C; partial, triage recommended)**. Raw source evidence is now retained in the sidecar and included in coverage accounting; existing projected values remain unchanged, with no added assumptions. The historical v1.7.5 score was 100/A. Unclassified constituents remain generic, with NULL class, and HRWR remains as-delivered with `admixture_basis=as_delivered`. It populates the **mix-design**, **hardened-compressive**, **multi-age
 strength**, **embodied-carbon (environment)**, and **measurement-uncertainty** groups. Specimen geometry

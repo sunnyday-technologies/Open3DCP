@@ -77,6 +77,9 @@ def main(argv=None) -> int:
             print(f"error: source not found: {args.source}", file=sys.stderr)
             return 2
         result, report = convert(args.source, kind=args.kind, crosswalk_path=args.crosswalk)
+        if not result.rows:
+            print("error: conversion produced no rows; no outputs written", file=sys.stderr)
+            return 2
         out_dir = args.out or os.path.dirname(os.path.abspath(args.source))
         csv_path, side_path, fj, fm = _write_outputs(result, report, args.source, out_dir)
         if result.crosswalk_schema_version and result.crosswalk_schema_version != TARGET_SCHEMA_VERSION:

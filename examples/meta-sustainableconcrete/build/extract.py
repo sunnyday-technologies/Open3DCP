@@ -4,11 +4,11 @@
 The source is a single flat kg/m3 table released by Meta (Meta Platforms / FAIR) with the
 University of Illinois Urbana-Champaign and Amrize, under the MIT license:
 
-    https://github.com/facebookresearch/SustainableConcrete  ->  data/boxcrete_data.csv
+    https://github.com/facebookresearch/SustainableConcrete/blob/197add7b61d7dfd97a05e6d4a243f014de7ab226/data/boxcrete_data.csv
 
-That file is NOT re-hosted here. Download it from the repo, then run:
+That file is NOT re-hosted here. Download the raw file from the pinned revision (not main), then run:
 
-    python build/extract.py /path/to/boxcrete_data.csv
+    python build/extract.py /path/to/boxcrete_data.csv --out-dir /path/to/replay
 
 This selects a representative six-mix excerpt (plain / fly-ash / slag / ternary, mortar and
 concrete, spanning the carbon and strength range) and writes the canonical flat CSV that the
@@ -16,16 +16,22 @@ concrete, spanning the carbon and strength range) and writes the canonical flat 
 documented: compressive strength psi -> MPa (x 0.00689476), slump in -> mm (x 25.4). Constituent
 masses (kg/m3) and the GWP figure are copied unchanged. Each (mix x curing age) becomes one row.
 """
+import argparse
 import csv
+import hashlib
+import io
 import os
-import sys
+from collections import Counter
+from pathlib import Path
+from tempfile import NamedTemporaryFile
 
 PSI_TO_MPA = 0.00689476
 IN_TO_MM = 25.4
 
 # Fixed, diverse selection (reproducible). Plain OPC vs fly-ash vs slag vs ternary; mortar + concrete;
 # GWP 204-521 kg CO2/m3; 28-day strength 26-110 MPa. Each mix carries its full 1-28 d age series.
-MIXES = ["Mix_84", "Mix_103", "Mix_121", "Mix_88", "Mix_14", "Mix_1"]
+SOURCE_SHA256 = "bfe7319f2ec3a0abdf63f8da467ae6e8a24c2470560078a725e181f522637699"
+EXPECTED_MIX_ROWS = {"Mix_84": 5, "Mix_103": 5, "Mix_121": 5, "Mix_88": 5, "Mix_14": 4, "Mix_1": 4}
 
 # canonical output columns the `flat` reader understands
 COLS = ["mix_id", "material_class", "cement_kg_m3", "fly_ash_kg_m3", "slag_kg_m3",
@@ -42,9 +48,19 @@ def num(v):
         return None
 
 
-def main(src):
-    with open(src, newline="", encoding="utf-8-sig") as fh:
-        rows = [r for r in csv.DictReader(fh) if r.get("Mix Name") in MIXES]
+def extract(src, out_dir):
+    raw = Path(src).read_bytes()
+    digest = hashlib.sha256(raw).hexdigest()
+    if digest != SOURCE_SHA256:
+        raise ValueError(
+            f"source SHA-256 mismatch ({digest}); download the pinned raw BOxCrete CSV "
+            f"(expected {SOURCE_SHA256})"
+        )
+    rows = [r for r in csv.DictReader(io.StringIO(raw.decode("utf-8-sig"), newline=""))
+            if r.get("Mix Name") in EXPECTED_MIX_ROWS]
+    mix_counts = Counter(r["Mix Name"] for r in rows)
+    if mix_counts != EXPECTED_MIX_ROWS:
+        raise ValueError(f"expected selected mix counts {EXPECTED_MIX_ROWS}, found {dict(mix_counts)}")
     out = []
     for r in rows:
         cem = num(r["Cement (kg/m3)"]) or 0.0
@@ -79,16 +95,30 @@ def main(src):
             "slump_mm": round(slump_in * IN_TO_MM, 1) if slump_in is not None else None,
         })
     out.sort(key=lambda d: (d["mix_id"], d["age_days"] or 0))
-    dest = os.path.join(os.path.dirname(os.path.abspath(__file__)), "meta-sustainableconcrete.csv")
-    with open(dest, "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=COLS)
-        w.writeheader()
-        for d in out:
-            w.writerow({k: ("" if d.get(k) is None else d.get(k)) for k in COLS})
-    print(f"wrote {len(out)} rows ({len(MIXES)} mixes) -> {dest}")
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    dest = out_dir / "meta-sustainableconcrete.csv"
+    tmp = None
+    try:
+        with NamedTemporaryFile(mode="w", newline="", encoding="utf-8", dir=out_dir,
+                                prefix=".meta-sustainableconcrete-", delete=False) as fh:
+            tmp = Path(fh.name)
+            w = csv.DictWriter(fh, fieldnames=COLS, lineterminator="\n")
+            w.writeheader()
+            w.writerows(out)
+        os.replace(tmp, dest)
+    finally:
+        if tmp is not None:
+            tmp.unlink(missing_ok=True)
+    print(f"wrote {len(out)} rows ({len(mix_counts)} mixes) -> {dest}")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        sys.exit("usage: python build/extract.py /path/to/boxcrete_data.csv")
-    main(sys.argv[1])
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("source")
+    parser.add_argument("--out-dir", type=Path, default=Path(__file__).resolve().parent)
+    args = parser.parse_args()
+    try:
+        extract(args.source, args.out_dir)
+    except (OSError, ValueError, KeyError, csv.Error) as exc:
+        parser.exit(2, f"error: {exc}\n")

@@ -141,7 +141,7 @@ In addition to mass-%, three characterization columns capture how fiber is actua
 
 Admixtures are chemicals added in small quantities (typically 0.1-2% by mass) to modify fresh-state behavior. In 3DCP, they control the narrow window between pumpability and shape retention.
 
-**Important:** Preserve the source-stated admixture basis. Store as-delivered mass when that is what the source reports and no solids fraction is supplied; retain `admixture_basis` and the original quantities. Convert to solids only with an evidenced solids fraction and account explicitly for carrier water. Never assume a typical solids fraction or silently change the wet-batch denominator. See [import/export guidance](tools/ingest/README.md).
+**Important:** Preserve the source-stated admixture basis. Store as-delivered mass when that is what the source reports and no solids fraction is supplied; retain `admixture_basis` and the original quantities. Convert to solids only with an evidenced solids fraction and account explicitly for carrier water. Never assume a typical solids fraction or silently change the wet-batch denominator. See [import/export guidance](https://github.com/sunnyday-technologies/Open3DCP/blob/c02af1669830aa19b0f5740fd2c5c7a09f9668d3/tools/ingest/README.md).
 
 | Column | Function | Why It Matters |
 |--------|----------|----------------|

@@ -28,5 +28,17 @@ jobs:
         run: python -m pytest tools/ingest/tests -q
       - name: Validate examples
         run: python scripts/check_examples.py
+      - name: Replay the BOxCrete example from pinned raw data
+        shell: bash
+        run: |
+          example=examples/meta-sustainableconcrete
+          replay=$(mktemp -d)
+          trap 'rm -rf "$replay"' EXIT
+          revision=$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["source_revision"])' "$example/record.json")
+          curl --fail --silent --show-error --location --retry 2 --max-time 45 \
+            "https://raw.githubusercontent.com/facebookresearch/SustainableConcrete/$revision/data/boxcrete_data.csv" \
+            --output "$replay/boxcrete_data.csv"
+          python "$example/build/extract.py" "$replay/boxcrete_data.csv" --out-dir "$replay"
+          cmp "$example/build/meta-sustainableconcrete.csv" "$replay/meta-sustainableconcrete.csv"
       - name: Verify source-context and missingness regressions
         run: python scripts/test_example_corrections.py
