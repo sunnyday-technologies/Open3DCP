@@ -72,3 +72,19 @@ def test_flat_drops_nothing_silently(tmp_path):
     # metadata fields like the wet-mass denominator inputs); none vanish silently.
     accounted = result.n_mapped_fields + len(result.unmapped) + result.n_consumed_fields
     assert accounted >= result.n_source_fields, result
+
+
+
+def test_cli_rejects_empty_flat_csv_before_writing(tmp_path, capsys):
+    from open3dcp_ingest.cli import main
+
+    source = tmp_path / "empty.csv"
+    source.write_text("age_days,cement_kg_m3,water_kg_m3\n", encoding="utf-8")
+    protected = tmp_path / "empty.open3dcp.csv"
+    protected.write_bytes(b"previous output")
+    assert main(["convert", str(source), "--kind", "flat", "--out", str(tmp_path)]) == 2
+    output = capsys.readouterr()
+    assert not output.out
+    assert "no rows; no outputs written" in output.err
+    assert protected.read_bytes() == b"previous output"
+    assert set(tmp_path.iterdir()) == {source, protected}

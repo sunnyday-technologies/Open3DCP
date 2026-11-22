@@ -1,10 +1,12 @@
 """Regression tests for source meaning, missingness and corrected export integrity."""
 import csv
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
 import unittest
 import tempfile
+from unittest.mock import patch
 from check_examples import equivalent_csv
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,6 +21,7 @@ def module(name):
 
 RILEM = module('rilem-tc304-ils-mech')
 UF = module('uf-3dcp-mix')
+BOXCRETE = module('meta-sustainableconcrete')
 
 
 def specimen(sid=1, **changes):
@@ -184,6 +187,33 @@ class SourceMeaningTests(unittest.TestCase):
             else:
                 self.assertEqual(len(rows), sum(int(p['age_rows']) for p in provenance))
                 self.assertTrue(all(not r['material_class'] and not r['is_3d_printed'] for r in rows))
+
+
+    def test_boxcrete_rejects_wrong_source_and_count_without_writing(self):
+        wrong = b"Mix Name,Time\nM001,28\n"
+        partial = b"Mix Name,Time\nMix_84,28\n"
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            source = folder / "boxcrete_data.csv"
+            dest = folder / "meta-sustainableconcrete.csv"
+            dest.write_bytes(b"keep the existing fixture")
+            source.write_bytes(wrong)
+            with self.assertRaisesRegex(ValueError, "source SHA-256 mismatch"):
+                BOXCRETE.extract(source, folder)
+            with self.assertRaisesRegex(ValueError, "source SHA-256 mismatch"):
+                BOXCRETE.extract(source, folder / "new-output")
+            self.assertFalse((folder / "new-output").exists())
+            source.write_bytes(partial)
+            with patch.object(BOXCRETE, "SOURCE_SHA256", hashlib.sha256(partial).hexdigest()):
+                with self.assertRaisesRegex(ValueError, "expected selected mix counts"):
+                    BOXCRETE.extract(source, folder)
+            self.assertEqual(dest.read_bytes(), b"keep the existing fixture")
+
+    def test_boxcrete_pin_metadata_agrees_with_extractor(self):
+        rec = json.loads((ROOT / "examples/meta-sustainableconcrete/record.json").read_text(encoding="utf-8"))
+        self.assertEqual(rec["source_sha256"], BOXCRETE.SOURCE_SHA256)
+        self.assertIn(f'/blob/{rec["source_revision"]}/', rec["source_url"])
+        self.assertEqual(sum(BOXCRETE.EXPECTED_MIX_ROWS.values()), rec["rows_committed"])
 
 
 if __name__ == '__main__':

@@ -43,6 +43,12 @@ def _write_outputs(result, report, source_path, out_dir):
         for u in result.unmapped:
             fh.write(json.dumps(asdict(u), default=str) + "\n")
 
+    # Persist the conversion trail, including repeated source-row identities.
+    trace_path = os.path.join(out_dir, f"{base}.trace.jsonl")
+    with open(trace_path, "w", encoding="utf-8") as fh:
+        for item in result.trace:
+            fh.write(json.dumps(asdict(item), default=str) + "\n")
+
     # fidelity
     fj = os.path.join(out_dir, f"{base}.fidelity.json")
     with open(fj, "w", encoding="utf-8") as fh:
@@ -61,7 +67,7 @@ def main(argv=None) -> int:
     sub = p.add_subparsers(dest="cmd", required=True)
     c = sub.add_parser("convert", help="convert a dataset and score fidelity")
     c.add_argument("source")
-    c.add_argument("--kind", choices=["relational", "uci", "flat"], default=None)
+    c.add_argument("--kind", choices=["relational", "uci", "flat", "canonical"], default=None)
     c.add_argument("--out", default=None, help="output directory (default: alongside source)")
     c.add_argument("--crosswalk", default=None, help="path to crosswalk YAML")
     args = p.parse_args(argv)
@@ -71,6 +77,9 @@ def main(argv=None) -> int:
             print(f"error: source not found: {args.source}", file=sys.stderr)
             return 2
         result, report = convert(args.source, kind=args.kind, crosswalk_path=args.crosswalk)
+        if not result.rows:
+            print("error: conversion produced no rows; no outputs written", file=sys.stderr)
+            return 2
         out_dir = args.out or os.path.dirname(os.path.abspath(args.source))
         csv_path, side_path, fj, fm = _write_outputs(result, report, args.source, out_dir)
         if result.crosswalk_schema_version and result.crosswalk_schema_version != TARGET_SCHEMA_VERSION:

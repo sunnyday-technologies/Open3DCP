@@ -1,20 +1,31 @@
 {
-  "overall_score": 100.0,
-  "grade": "A (high fidelity)",
-  "weakest_applicable_dimension": "field_coverage (100)",
+  "overall_score": 79.0,
+  "grade": "C (partial; triage recommended) \u2014 capped by the weakest dimension",
+  "weakest_applicable_dimension": "field_coverage (51)",
   "rows": 28,
-  "source_fields": 516,
-  "unmapped_fields": 0,
+  "source_fields": 1020,
+  "unmapped_fields": 476,
   "scored_over": "applicable dimensions only (weights renormalized)",
   "dimensions": [
     {
       "name": "field_coverage",
-      "score": 100.0,
+      "score": 51.0,
       "weight": 0.429,
       "nominal_weight": 0.3,
       "applicable": true,
-      "detail": "468 of 468 mappable source fields mapped to Open3DCP columns (0 routed to triage sidecar). Excluded from coverage (a flat row carries none as its own column): 48 consumed selector/metadata fields. Raw coverage over all 516 populated fields (no exclusions): 91%.",
-      "not_preserved_examples": [],
+      "detail": "496 of 972 mappable source fields mapped to Open3DCP columns (476 routed to triage sidecar). Excluded from coverage (a flat row carries none as its own column): 48 consumed selector/metadata fields. Raw coverage over all 1020 populated fields (no exclusions): 49%.",
+      "not_preserved_examples": [
+        "source.age_days",
+        "source.cement_kg_m3",
+        "source.coarse_agg_kg_m3",
+        "source.compressive_strength_mpa",
+        "source.compressive_strength_std_mpa",
+        "source.curing_temp_c",
+        "source.embodied_carbon_kg_co2_m3",
+        "source.fine_agg_kg_m3",
+        "source.fly_ash_kg_m3",
+        "source.material_class"
+      ],
       "triage": "Sidecar fields are preserved in <dataset>.unmapped.jsonl; review for schema extension."
     },
     {
@@ -23,7 +34,7 @@
       "weight": 0.429,
       "nominal_weight": 0.3,
       "applicable": true,
-      "detail": "459 substantive value cells: 459 stored without an assumption, 0 rest on one (a guessed conversion input such as a solids fraction or product density, or an incomplete-batch projection). 103 of these are recorded generically (classification or solids basis not stated by the source; the value is exact and the classification stays NULL).",
+      "detail": "487 substantive value cells: 487 stored without an assumption, 0 rest on one (a guessed conversion input such as a solids fraction or product density, or an incomplete-batch projection). 103 of these are recorded generically (classification or solids basis not stated by the source; the value is exact and the classification stays NULL).",
       "not_preserved_examples": [],
       "triage": "Assumed cells need the missing source detail (solids fraction, fineness modulus, aggregate size, cement type) to become exact; the value is recorded, the attribute is inferred."
     },

@@ -1,0 +1,496 @@
+{"row": 0, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 0, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 0, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 0, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 0, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 0, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 0, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 0, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 0, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 0, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 0, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 0, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 0, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 0, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 0, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 0, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 0, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 1, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 1, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 1, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 1, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 1, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 1, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 1, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 1, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 1, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 1, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 1, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 1, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 1, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 1, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 1, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 1, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 1, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 2, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 2, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 2, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 2, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 2, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 2, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 2, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 2, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 2, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 2, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 2, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 2, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 2, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 2, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 2, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 2, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 2, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 3, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 3, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 3, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 3, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 3, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 3, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 3, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 3, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 3, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 3, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 3, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 3, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 3, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 3, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 3, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 3, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 3, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 4, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 4, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 4, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 4, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 4, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 4, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 4, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 4, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "zero dose; admixture absent"}
+{"row": 4, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 4, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 4, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 4, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 4, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 4, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 4, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 4, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 4, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 4, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 5, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 5, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 5, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 5, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 5, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 5, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 5, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 5, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "zero dose; admixture absent"}
+{"row": 5, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 5, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 5, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 5, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 5, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 5, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 5, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 5, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 5, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 5, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 6, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 6, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 6, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 6, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 6, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 6, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 6, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 6, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "zero dose; admixture absent"}
+{"row": 6, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 6, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 6, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 6, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 6, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 6, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 6, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 6, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 6, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 6, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 7, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 7, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 7, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 7, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 7, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 7, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 7, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 7, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "zero dose; admixture absent"}
+{"row": 7, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 7, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 7, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 7, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 7, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 7, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 7, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 7, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 7, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 7, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 8, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 8, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 8, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 8, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 8, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 8, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 8, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 8, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "zero dose; admixture absent"}
+{"row": 8, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 8, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 8, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 8, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 8, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 8, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 8, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 8, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 8, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 8, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 9, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 9, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 9, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 9, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 9, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 9, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 9, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 9, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 9, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 9, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 9, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 9, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 9, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 9, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 9, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 9, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 9, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 9, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 10, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 10, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 10, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 10, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 10, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 10, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 10, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 10, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 10, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 10, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 10, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 10, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 10, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 10, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 10, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 10, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 10, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 10, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 11, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 11, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 11, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 11, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 11, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 11, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 11, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 11, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 11, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 11, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 11, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 11, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 11, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 11, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 11, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 11, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 11, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 11, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 12, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 12, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 12, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 12, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 12, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 12, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 12, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 12, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 12, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 12, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 12, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 12, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 12, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 12, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 12, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 12, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 12, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 12, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 13, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 13, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 13, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 13, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 13, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 13, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 13, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 13, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 13, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 13, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 13, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 13, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 13, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 13, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 13, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 13, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 13, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 13, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 14, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 14, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 14, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 14, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 14, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 14, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 14, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 14, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "zero dose; admixture absent"}
+{"row": 14, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 14, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 14, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 14, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 14, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 14, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 14, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 14, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 14, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 15, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 15, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 15, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 15, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 15, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 15, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 15, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 15, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "zero dose; admixture absent"}
+{"row": 15, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 15, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 15, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 15, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 15, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 15, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 15, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 15, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 15, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 16, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 16, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 16, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 16, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 16, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 16, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 16, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 16, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "zero dose; admixture absent"}
+{"row": 16, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 16, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 16, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 16, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 16, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 16, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 16, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 16, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 16, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 17, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 17, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 17, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 17, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 17, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 17, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 17, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 17, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "zero dose; admixture absent"}
+{"row": 17, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 17, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 17, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 17, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 17, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 17, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 17, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 17, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 17, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 18, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 18, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 18, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 18, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 18, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 18, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 18, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 18, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 18, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "OPC->OPC"}
+{"row": 18, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 18, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 18, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 18, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 18, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 18, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 18, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 18, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 18, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 19, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 19, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 19, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 19, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 19, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 19, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 19, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 19, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 19, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "OPC->OPC"}
+{"row": 19, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 19, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 19, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 19, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 19, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 19, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 19, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 19, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 19, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 20, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 20, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 20, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 20, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 20, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 20, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 20, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 20, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 20, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "OPC->OPC"}
+{"row": 20, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 20, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 20, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 20, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 20, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 20, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 20, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 20, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 20, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 21, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 21, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 21, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 21, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 21, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 21, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 21, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 21, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 21, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "OPC->OPC"}
+{"row": 21, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 21, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 21, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 21, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 21, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 21, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 21, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 21, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 21, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 22, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 22, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 22, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 22, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 22, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 22, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 22, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 22, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 22, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "OPC->OPC"}
+{"row": 22, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 22, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 22, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 22, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 22, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 22, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 22, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 22, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 22, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 23, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 23, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 23, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 23, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 23, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 23, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 23, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 23, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 23, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 23, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 23, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 23, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 23, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 23, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 23, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 23, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 23, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 23, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 24, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 24, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 24, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 24, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 24, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 24, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 24, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 24, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 24, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 24, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 24, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 24, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 24, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 24, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 24, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 24, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 24, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 24, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 25, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 25, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 25, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 25, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 25, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 25, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 25, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 25, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 25, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 25, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 25, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 25, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 25, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 25, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 25, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 25, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 25, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 25, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 26, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 26, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 26, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 26, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 26, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 26, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 26, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 26, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 26, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 26, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 26, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 26, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 26, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 26, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 26, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 26, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 26, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 26, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}
+{"row": 27, "target": "cement_unspecified", "source": "material_batches.cement_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known; classification not stated by source -> stored generic (exact, NULL class)"}
+{"row": 27, "target": "w_b_ratio", "source": "material_batches.water_binder_ratio", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 27, "target": "fly_ash", "source": "material_batches.fly_ash_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 27, "target": "slag", "source": "material_batches.slag_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 27, "target": "water", "source": "material_batches.water_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 27, "target": "fine_agg_unspecified", "source": "material_batches.fine_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 27, "target": "coarse_agg_unspecified", "source": "material_batches.coarse_aggregate_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "full batch known"}
+{"row": 27, "target": "superplasticizer", "source": "material_batches.superplasticizer_content_kg_m3", "fidelity": "exact", "assumed": false, "note": "as-delivered mass-% (no solids fraction stated; basis recorded in admixture_basis)"}
+{"row": 27, "target": "material_class", "source": "material_batches.material_class", "fidelity": "categorical", "assumed": false, "note": "blended_OPC->blended_OPC"}
+{"row": 27, "target": "embodied_carbon_kg_co2_m3", "source": "material_batches.embodied_carbon_kg_co2_m3", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 27, "target": "test_age_days", "source": "tests.age_days", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 27, "target": "curing_temperature_c", "source": "tests.initial_env_temperature_C", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 27, "target": "n_specimens", "source": "data.number_of_specimens", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 27, "target": "measurement_confidence", "source": "data.extraction_methods", "fidelity": "categorical", "assumed": false, "note": "direct->measured"}
+{"row": 27, "target": "mix_id", "source": "source.mix_id", "fidelity": "exact", "assumed": false, "note": ""}
+{"row": 27, "target": "compressive_strength_mpa", "source": "data.compressive_strength.mean", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 27, "target": "compressive_strength_stddev_mpa", "source": "data.compressive_strength.std", "fidelity": "exact", "assumed": false, "note": "MPa->MPa"}
+{"row": 27, "target": "slump_mm", "source": "data.slump.mean", "fidelity": "exact", "assumed": false, "note": "mm->mm"}

@@ -118,10 +118,10 @@
   <!-- 3. RESULT -->
   <h2>3 · Result in Open3DCP</h2>
   <div class="note ok" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-    <span class="gauge">100<span class="g"> / 100 · A</span></span>
+    <span class="gauge">79<span class="g"> / 100 · C</span></span>
     <span class="small">Fidelity computed by <code>open3dcp-ingest</code> — every constituent reported in kg/m³, so the
     kg/m³→mass-% projection is arithmetic; specimen geometry and test method are not reported by the source and stay NULL.
-    Full report: <a href="meta-sustainableconcrete.fidelity.md">fidelity.md</a>.</span>
+    Converter 1.8.1 retains raw-source evidence in the sidecar; the coverage score reflects that evidence accounting, not changed projected values. Full report: <a href="meta-sustainableconcrete.fidelity.md">fidelity.md</a>.</span>
   </div>
 
   <h3>Digital-twin coverage</h3>
@@ -156,12 +156,14 @@
 
   <!-- 4. BUILD -->
   <h2>4 · How this was built</h2>
-  <pre><code>python build/extract.py /path/to/boxcrete_data.csv   # selects 6 mixes; psi→MPa, in→mm
-open3dcp-ingest convert build/meta-sustainableconcrete.csv --kind flat --out .
+  <p>From this example directory, use the pinned raw CSV linked below and write to a separate replay directory.</p>
+  <pre><code>python build/extract.py /path/to/boxcrete_data.csv --out-dir replay
+open3dcp-ingest convert replay/meta-sustainableconcrete.csv --kind flat --out replay
 # → meta-sustainableconcrete.open3dcp.csv  .unmapped.jsonl  .fidelity.md  .fidelity.json</code></pre>
   <p class="small">A sample, not a re-host. Source © Meta Platforms, Inc. and affiliates, UIUC, and Amrize,
   MIT License — see <a href="NOTICE">NOTICE</a>. Get the full 727-row table from the
-  <a href="https://github.com/facebookresearch/SustainableConcrete">repository</a>.</p>
+  <a href="https://github.com/facebookresearch/SustainableConcrete/blob/197add7b61d7dfd97a05e6d4a243f014de7ab226/data/boxcrete_data.csv">pinned upstream revision</a>, not the default branch.
+  The extractor verifies the raw checksum and 28 rows across the six expected mixes before writing.</p>
 </main>
 
 <footer class="pb-footer">
