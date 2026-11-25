@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="styles.css"/>
 <link rel="stylesheet" href="/assets/sdt/sdt-dark.css">
 <script src="/assets/sdt/sdt-bg.js" defer></script>
+<style>main p a,main .note a{text-decoration:underline}.coverage-scroll{overflow-x:auto}.coverage-scroll:focus-visible{outline:2px solid currentColor}.coverage-scroll td,.coverage-scroll th{min-width:4em}</style>
 </head>
 <body>
 <header class="pb-header"><div class="in">
@@ -16,70 +17,56 @@
 </div></header>
 
 <main class="sheet">
-  <div class="kicker">The open concrete-data landscape</div>
-  <h1>Example entries</h1>
-  <p class="lede">Worked Open3DCP records converted from <strong>public, openly-licensed</strong> academic and
-  national datasets — each shows the source's data classes and storage medium, and how it re-formats into the
-  Open3DCP flat schema.</p>
+  <h1>Concrete data examples</h1>
+  <p class="lede">Follow a source record into Open3DCP. Each example includes the original units,
+  the converted fields and the source license.</p>
 
-  <div class="note"><strong>Why one shape matters.</strong> Concrete data is scattered across benchmarks, national
-  repositories, and standards bodies in incompatible shapes (flat vs relational vs file-based) and bases (kg/m³ vs
-  mass-%). Open3DCP is the connective layer across the experiment record: <em>mix → 3DCP process → fresh
-  rheology → hardened mechanical → durability → interlayer bond → embodied carbon → multi-age strength.</em>
-  Put in one shape, openly licensed, each contributed record becomes usable alongside every other.</p>
-
-  <h2>Examples</h2>
+  <h2>Choose a dataset</h2>
   <div class="cols">
     <div class="panel">
       <h3><a href="uci-yeh-1998/">UCI Concrete Compressive Strength →</a></h3>
       <p class="small"><span class="badge b-store">CC BY 4.0</span> <span class="badge b-cast">cast concrete</span></p>
-      <p class="small">A flat kg/m³ benchmark (Yeh 1998). Fidelity <strong>100/A — zero assumptions</strong> (v1.7.5): every mass exact;
-      what the source never states (cement type, gradations, SP solids) is recorded <em>generically</em>, NULL, never
-      guessed. Fills mix-design + hardened + multi-age; 3DCP/process/durability stay null.</p>
+      <p class="small">14 cast mix-and-age records. Cement and aggregate masses are retained in kg/m&sup3;. The source leaves cement type and aggregate grading unspecified. Conversion score 100/A.</p>
     </div>
     <div class="panel">
       <h3><a href="meta-sustainableconcrete/">Meta SustainableConcrete →</a></h3>
       <p class="small"><span class="badge b-store">MIT</span> <span class="badge b-cast">cast · corporate</span></p>
-      <p class="small">A carbon-aware kg/m³ table from Meta + UIUC + Amrize. Fidelity <strong>79/C — triage recommended</strong>; adds
-      <strong>per-mix CO₂</strong> + measurement uncertainty — the environment slice UCI leaves empty.</p>
+      <p class="small">28 cast mix-and-age records with reported strength, uncertainty and embodied carbon. <a href="meta-sustainableconcrete/meta-sustainableconcrete.fidelity.md">Conversion score 79/C</a>. Review the source fields retained outside the flat table.</p>
     </div>
     <div class="panel">
       <h3><a href="rilem-tc304-ils-mech/">RILEM TC 304-ADC ILS-mech →</a></h3>
       <p class="small"><span class="badge b-store">CC BY 4.0</span> <span class="badge b-3dcp">cast and printed</span></p>
-      <p class="small">Individual flexural specimens with source-linked test context and full compound orientation.
-      The former mixed-context averages are superseded; no anisotropy effect is inferred.</p>
+      <p class="small">200 individual flexural tests. Each result retains its specimen ID, test conditions and full source orientation. Compare like test conditions before drawing conclusions about orientation.</p>
     </div>
     <div class="panel">
       <h3><a href="uf-3dcp-mix/">UF 3DCP Mix-Design →</a></h3>
       <p class="small"><span class="badge b-store">CC BY 4.0</span> <span class="badge b-3dcp">specimen status unresolved</span></p>
-      <p class="small">Source-linked <strong>yield stress</strong>, viscosity and strength by age. Raw binder labels, ratios
-      and blanks are retained; incomplete composition and specimen printing status remain explicit.</p>
+      <p class="small">Compare yield stress, viscosity and strength by age. Binder ratios and blank entries are preserved. Composition is incomplete and specimen printing status is unresolved.</p>
     </div>
     <div class="panel">
       <h3><a href="tu-braunschweig-buildings/">TU-Braunschweig 3DCP Buildings →</a></h3>
       <p class="small"><span class="badge b-store">CC BY 4.0</span> <span class="badge b-3dcp">project layer</span></p>
-      <p class="small">As-built printed buildings (WinSun, COBOD, ICON, Apis Cor…). The <strong>project/process
-      layer</strong> — no mix or strength data, by design: the frontier the connective schema reaches next.</p>
+      <p class="small">Ten printed-building records identify the project and process. The excerpt contains no mix proportions or strength measurements.</p>
     </div>
   </div>
 
-  <h2>Coverage — each source lights up a slice; Open3DCP spans the whole</h2>
-  <table>
-    <thead><tr><th>Source</th><th>Prov.</th><th>Mix</th><th>Rheo.</th><th>3DCP</th><th>Mech.</th><th>Age</th><th>Env.</th></tr></thead>
+  <h2 id="coverage">Fields in each excerpt</h2>
+  <p class="small" id="key">Yes = populated. Partial = limited context. A dash marks an empty group.</p>
+  <div class="coverage-scroll" tabindex="0" role="region" aria-labelledby="coverage">
+  <table aria-describedby="key">
+    <thead><tr><th scope="col">Source</th><th scope="col">Provenance</th><th scope="col">Mix</th><th scope="col">Rheology</th><th scope="col">Print process</th><th scope="col">Mechanical tests</th><th scope="col">Age</th><th scope="col">Environment</th></tr></thead>
     <tbody>
-      <tr><td><a href="uci-yeh-1998/">UCI (Yeh) — cast · 100/A</a></td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>✓</td><td>▢</td></tr>
-      <tr><td><a href="meta-sustainableconcrete/">Meta SustainableConcrete — cast · 100/A</a></td><td>▢</td><td>✓</td><td>▢</td><td>▢</td><td>✓</td><td>✓</td><td>✓</td></tr>
-      <tr><td><a href="rilem-tc304-ils-mech/">RILEM ILS-mech — specimens</a></td><td>✓</td><td>▢</td><td>▢</td><td>◐</td><td>✓</td><td>✓</td><td>▢</td></tr>
-      <tr><td><a href="uf-3dcp-mix/">UF source mixtures</a></td><td>✓</td><td>◐</td><td>✓</td><td>▢</td><td>✓</td><td>✓</td><td>▢</td></tr>
-      <tr><td><a href="tu-braunschweig-buildings/">TU-Braunschweig — project layer</a></td><td>✓</td><td>▢</td><td>▢</td><td>◐</td><td>▢</td><td>▢</td><td>▢</td></tr>
+      <tr><td><a href="uci-yeh-1998/">UCI (Yeh)</a></td><td>—</td><td>Yes</td><td>—</td><td>—</td><td>Yes</td><td>Yes</td><td>—</td></tr>
+      <tr><td><a href="meta-sustainableconcrete/">Meta SustainableConcrete</a></td><td>—</td><td>Yes</td><td>—</td><td>—</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td><a href="rilem-tc304-ils-mech/">RILEM ILS-mech — specimens</a></td><td>Yes</td><td>—</td><td>—</td><td>Partial</td><td>Yes</td><td>Yes</td><td>—</td></tr>
+      <tr><td><a href="uf-3dcp-mix/">UF source mixtures</a></td><td>Yes</td><td>Partial</td><td>Yes</td><td>—</td><td>Yes</td><td>Yes</td><td>—</td></tr>
+      <tr><td><a href="tu-braunschweig-buildings/">TU-Braunschweig — project layer</a></td><td>Yes</td><td>—</td><td>—</td><td>Partial</td><td>—</td><td>—</td><td>—</td></tr>
     </tbody>
   </table>
-  <p class="small">The corrected RILEM excerpt omits unverified material/print joins. UF composition cells are preserved without guessing classifications or missing quantities. The gaps
-  between slices are the connective-layer argument: no single source spans the whole record; the union does. Two
-  kg/m3 sources carry a real <code>open3dcp-ingest</code> score (UCI 100/A; Meta 79/C, with retained raw-source evidence
-  counted separately; limitations are disclosed in each fidelity report); the 3DCP-mix
-  (ratio-to-binder) and project-layer sources are hand-curated. A surveyed UHPC source, <strong>Stevens UHPC</strong>
-  (US, CC BY 4.0), was excluded as reference-only — its mix variables ship as a coded matrix with a paywalled legend.</p>
+  </div>
+  <p class="small">RILEM material and print records require further work to link to specimens.
+  The UF and building excerpts were mapped by hand. Stevens UHPC remains reference-only because
+  its coded mix variables require a paywalled legend.</p>
 
   <h2>Storable vs reference-only</h2>
   <p><strong>The rule:</strong> store only when the license clearly permits redistribution — <strong>CC BY 4.0</strong>,

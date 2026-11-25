@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="../styles.css"/>
 <link rel="stylesheet" href="/assets/sdt/sdt-dark.css">
 <script src="/assets/sdt/sdt-bg.js" defer></script>
+<style>.data-table{overflow-x:auto}.data-table:focus-visible{outline:2px solid currentColor}.sheet :is(p,.small) a{text-decoration:underline}</style>
 </head>
 <body>
 <header class="pb-header"><div class="in">
@@ -18,9 +19,7 @@
 <main class="sheet">
   <div class="kicker">Example entry · corporate-sponsored · cast concrete &amp; mortar</div>
   <h1>Meta SustainableConcrete → Open3DCP</h1>
-  <p class="lede">How an openly-licensed, carbon-aware kg/m³ table — released by Meta with UIUC and
-  Amrize — re-formats into Open3DCP, lighting up the <strong>embodied-carbon</strong> and
-  <strong>measurement-uncertainty</strong> groups that the UCI benchmark leaves empty.</p>
+  <p class="lede">Twenty-eight records from six mixes in the Meta, UIUC and Amrize dataset. Compare reported strength and embodied carbon at the same age. The source reports strength in psi and carbon in kg CO₂/m³.</p>
   <p class="meta">
     <span class="badge b-store">storable · MIT</span> <span class="badge b-cast">cast concrete + mortar</span>
     · Source: <a href="https://github.com/facebookresearch/SustainableConcrete">facebookresearch/SustainableConcrete</a>
@@ -32,7 +31,7 @@
   <p><strong>Storage medium:</strong> a single flat table (<code>.csv</code>), one row per
   <strong>mix · curing age</strong>, every constituent in <strong>kg/m³ of a 1 m³ batch</strong>. 149 mixes
   / 727 rows in the source; a 28-row, six-mix excerpt is committed here.</p>
-  <table>
+  <table class="data-table" tabindex="0" aria-label="Source fields">
     <thead><tr><th>Source field (data class)</th><th>Unit</th><th>Role</th></tr></thead>
     <tbody>
       <tr><td>Cement</td><td>kg/m³</td><td>binder</td></tr>
@@ -60,21 +59,21 @@
     <text class="svg-sub" x="20" y="123">Water · HRWR (kg/m³)</text>
     <text class="svg-sub" x="20" y="139">Fine · Coarse Aggregate</text>
     <text class="svg-sub" x="20" y="155">Time (day) · Temp (°C)</text>
-    <text class="svg-sub" x="20" y="171">Strength mean · std · n (psi)</text>
+    <text class="svg-sub" x="20" y="171">Strength (psi) · SD (psi) · count</text>
     <text class="svg-sub" x="20" y="187">GWP (kg CO₂/m³)</text>
     <rect class="svg-node-2" x="276" y="58" width="208" height="172" rx="7"/>
     <text class="svg-head" x="288" y="78">open3dcp-ingest</text>
     <text class="svg-sub" x="288" y="98">kg/m³ → mass-%</text>
-    <text class="svg-sub" x="288" y="113">  exact (water closes total)</text>
+    <text class="svg-sub" x="288" y="113">  use the reported batch total</text>
     <text class="svg-sub" x="288" y="133">psi → MPa · w/b derived</text>
-    <text class="svg-sub" x="288" y="153">mean/std/n → uncertainty cols</text>
+    <text class="svg-sub" x="288" y="153">mean, SD and sample count</text>
     <text class="svg-sub" x="288" y="173">GWP → embodied_carbon</text>
     <text class="svg-sub" x="288" y="193">preserve kg/m³ basis</text>
     <rect class="svg-node-accent" x="540" y="20" width="212" height="256" rx="7"/>
     <text class="svg-head" x="552" y="40">Open3DCP flat row</text>
-    <text class="svg-sub" x="552" y="60">cement_type_1 · fly_ash · slag</text>
+    <text class="svg-sub" x="552" y="60">Unspecified cement · fly ash · slag</text>
     <text class="svg-sub" x="552" y="76">water · superplasticizer</text>
-    <text class="svg-sub" x="552" y="92">concrete_sand · agg_size_57</text>
+    <text class="svg-sub" x="552" y="92">Unspecified fine/coarse aggregate</text>
     <text class="svg-sub" x="552" y="108">w_b_ratio · test_age_days</text>
     <text class="svg-sub" x="552" y="124">compressive_strength_mpa</text>
     <text class="svg-sub" x="552" y="140">compressive_strength_stddev_mpa</text>
@@ -89,27 +88,25 @@
     <path class="svg-edge" d="M222,150 L274,150"/>
     <path class="svg-edge" d="M486,150 L538,150"/>
     <rect class="svg-node-null" x="8" y="292" width="744" height="130" rx="7"/>
-    <text class="svg-head" x="20" y="312">NULL — digital-twin groups not present in this source</text>
+    <text class="svg-head" x="20" y="312">Unreported field groups</text>
     <text class="svg-sub" x="20" y="334">▢ Raw-material provenance · ▢ Fresh-state rheology · ▢ 3DCP process</text>
     <text class="svg-sub" x="20" y="352">▢ Interlayer bond · ▢ Durability (chloride, carbonation, freeze-thaw)</text>
-    <text class="svg-sub" x="20" y="376" font-style="italic">These stay NULL (never 0). Meta fills the environment + uncertainty slices UCI leaves empty</text>
-    <text class="svg-sub" x="20" y="392" font-style="italic">— the union is the connective span.</text>
+    <text class="svg-sub" x="20" y="376" font-style="italic">Missing measurements stay null.</text>
+    <text class="svg-sub" x="20" y="392" font-style="italic"></text>
   </svg>
-  <figcaption>Every constituent is reported in kg/m³ including water, so the wet-mix total closes and the
-  kg/m³ → mass-% projection is <strong>exact</strong>; the per-mix GWP populates
-  <code>embodied_carbon_kg_co2_m3</code> and the reported mean/std/n populate the measurement-uncertainty columns.</figcaption>
+  <figcaption>Constituent mass fractions use the sum of the listed batch masses. The source quantities in kg/m³ and batch totals remain available for reconstruction.</figcaption>
   </figure>
 
   <h3>Field map (crosswalk)</h3>
-  <table>
+  <table class="data-table" tabindex="0" aria-label="Field map">
     <thead><tr><th>Source field</th><th>Transform</th><th>Open3DCP column</th><th>Fidelity</th></tr></thead>
     <tbody>
-      <tr><td>Cement</td><td>kg/m³ → mass-%</td><td><code>cement_type_1</code></td><td>type assumed (Type I)</td></tr>
+      <tr><td>Cement</td><td>kg/m³ → mass-%</td><td><code>cement_unspecified</code></td><td>type unspecified</td></tr>
       <tr><td>Fly Ash · Slag</td><td>kg/m³ → mass-%</td><td><code>fly_ash</code> · <code>slag</code></td><td>exact</td></tr>
       <tr><td>Water</td><td>kg/m³ → mass-% (+ w/b derived)</td><td><code>water</code> · <code>w_b_ratio</code></td><td>exact (closes wet mass)</td></tr>
-      <tr><td>HRWR</td><td>as-delivered → solids mass-%</td><td><code>superplasticizer</code></td><td>solids fraction assumed</td></tr>
-      <tr><td>Fine · Coarse Aggregate</td><td>kg/m³ → mass-%</td><td><code>concrete_sand</code> · <code>agg_size_57</code></td><td>fineness/size assumed</td></tr>
-      <tr><td>Strength (Mean / Std / n)</td><td>psi → MPa</td><td><code>compressive_strength_mpa</code> (+ <code>_stddev_mpa</code>, <code>n_specimens</code>)</td><td>exact</td></tr>
+      <tr><td>HRWR</td><td>as-delivered mass to wet-mix mass-%</td><td><code>superplasticizer</code></td><td>as-delivered basis retained</td></tr>
+      <tr><td>Fine · Coarse Aggregate</td><td>kg/m³ → mass-%</td><td><code>fine_agg_unspecified</code> · <code>coarse_agg_unspecified</code></td><td>both gradings unspecified</td></tr>
+      <tr><td>Strength (mean / SD), count</td><td>psi → MPa for strength; count unchanged</td><td><code>compressive_strength_mpa</code> (+ <code>compressive_strength_stddev_mpa</code>, <code>n_specimens</code>)</td><td>exact</td></tr>
       <tr><td>GWP</td><td>identity</td><td><code>embodied_carbon_kg_co2_m3</code></td><td>exact</td></tr>
       <tr><td>Time · Temp</td><td>identity</td><td><code>test_age_days</code> · <code>curing_temperature_c</code></td><td>exact</td></tr>
     </tbody>
@@ -124,7 +121,7 @@
     Converter 1.8.1 retains raw-source evidence in the sidecar; the coverage score reflects that evidence accounting, not changed projected values. Full report: <a href="meta-sustainableconcrete.fidelity.md">fidelity.md</a>.</span>
   </div>
 
-  <h3>Digital-twin coverage</h3>
+  <h3>Fields in this excerpt</h3>
   <div class="cov">
     <div class="cell off"><span class="lab">Provenance</span><span class="mk">▢</span></div>
     <div class="cell on"><span class="lab">Mix design</span><span class="mk">✓</span></div>
@@ -136,28 +133,24 @@
     <div class="cell on"><span class="lab">Environment</span><span class="mk">✓</span></div>
   </div>
 
-  <h3>The carbon trade-off this makes legible (28-day rows)</h3>
-  <p class="small">Constituents as mass-% of total wet mix. The same schema row carries strength
-  <em>and</em> embodied carbon, so a low-clinker ternary beats plain OPC on <strong>both</strong>. Full file:
-  <a href="meta-sustainableconcrete.open3dcp.csv">meta-sustainableconcrete.open3dcp.csv</a>.</p>
-  <table>
-    <thead><tr><th>mix</th><th>cement_type_1</th><th>fly_ash</th><th>slag</th><th>w_b_ratio</th><th>strength_mpa</th><th>embodied_carbon (kg CO₂/m³)</th></tr></thead>
+  <h3>Four mixes at 28 days</h3>
+  <p class="small">Constituents are mass-% of total wet mix. Strength is the reported mean ± standard deviation,
+  converted to MPa. The source gives cradle-to-gate carbon per cubic metre. <a href="meta-sustainableconcrete.open3dcp.csv">Full CSV</a></p>
+  <table class="data-table" tabindex="0" aria-label="Converted rows">
+    <thead><tr><th>mix</th><th>cement_unspecified</th><th>fly_ash</th><th>slag</th><th>w_b_ratio</th><th>Compressive strength (MPa)</th><th>embodied_carbon (kg CO₂/m³)</th></tr></thead>
     <tbody>
-      <tr><td>plain OPC (Mix_84)</td><td class="num">24.5</td><td class="num">0</td><td class="num">0</td><td class="num">0.40</td><td class="num">65.4 ±1.9</td><td class="num">521</td></tr>
-      <tr><td>OPC + fly ash (Mix_103)</td><td class="num">14.4</td><td class="num">9.6</td><td class="num">0</td><td class="num">0.50</td><td class="num">46.1 ±1.7</td><td class="num">319</td></tr>
-      <tr><td>OPC + slag (Mix_121)</td><td class="num">9.0</td><td class="num">0</td><td class="num">8.9</td><td class="num">0.35</td><td class="num">61.1 ±3.3</td><td class="num">204</td></tr>
-      <tr><td>ternary (Mix_88)</td><td class="num">7.7</td><td class="num">6.6</td><td class="num">11.2</td><td class="num">0.25</td><td class="num">110.5 ±4.3</td><td class="num">204</td></tr>
+      <tr><td>Mix_84</td><td class="num">24.5</td><td class="num">0</td><td class="num">0</td><td class="num">0.40</td><td class="num">65.4 ±1.9</td><td class="num">521</td></tr>
+      <tr><td>Mix_103</td><td class="num">14.4</td><td class="num">9.6</td><td class="num">0</td><td class="num">0.50</td><td class="num">46.1 ±1.7</td><td class="num">319</td></tr>
+      <tr><td>Mix_121</td><td class="num">9.0</td><td class="num">0</td><td class="num">8.9</td><td class="num">0.35</td><td class="num">61.1 ±3.3</td><td class="num">204</td></tr>
+      <tr><td>Mix_88</td><td class="num">7.7</td><td class="num">6.6</td><td class="num">11.2</td><td class="num">0.25</td><td class="num">110.5 ±4.3</td><td class="num">204</td></tr>
     </tbody>
   </table>
-  <p class="small">Plain OPC: <strong>521 kg CO₂/m³</strong> for ~65 MPa. The ternary: <strong>204 kg CO₂/m³</strong>
-  for <strong>~110 MPa</strong> — higher strength, ~60 % less embodied carbon. (One illustrative pair, not a
-  carbon-drives-strength trend: the ternary also runs a lower w/b — 0.25 vs 0.40 — and a second mix in this
-  same excerpt at the same ~204 kg CO₂/m³ reaches ~61 MPa.)</p>
+  <p class="small">Mix_84 and Mix_88 differ in binder composition and water-to-binder ratio. Their calculated batch yields are 1.147 and 1.078 m³, respectively, on a nominal 1 m³ basis. Retain these yield notes when interpreting the per-volume figures. These rows cannot isolate the effect of carbon or binder choice on strength.</p>
 
   <!-- 4. BUILD -->
   <h2>4 · How this was built</h2>
   <p>From this example directory, use the pinned raw CSV linked below and write to a separate replay directory.</p>
-  <pre><code>python build/extract.py /path/to/boxcrete_data.csv --out-dir replay
+  <pre tabindex="0"><code>python build/extract.py /path/to/boxcrete_data.csv --out-dir replay
 open3dcp-ingest convert replay/meta-sustainableconcrete.csv --kind flat --out replay
 # → meta-sustainableconcrete.open3dcp.csv  .unmapped.jsonl  .fidelity.md  .fidelity.json</code></pre>
   <p class="small">A sample, not a re-host. Source © Meta Platforms, Inc. and affiliates, UIUC, and Amrize,

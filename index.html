@@ -622,6 +622,12 @@
       background: #97d700;
       color: #071421;
     }
+    .record-credit a, .content-block a, .hero-desc a { text-decoration:underline; }
+    @media(prefers-reduced-motion:reduce){.hero-label,h1,.hero-desc,.spec-strip,.content,.standards-strip,.cta-section{animation:none}}
+    .example-values { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.45rem 1rem; margin:1rem 0; }
+    .example-values dd { margin:0; font-variant-numeric:tabular-nums; }
+    .record-credit { grid-column:1/-1; padding:1rem 2rem; line-height:1.6; }
+    @media(max-width:480px){ .example-values { grid-template-columns:1fr; } .example-values dd { margin-bottom:.6rem; } }
   </style>
 
   <!-- Structured data: Dataset + Organization (schema.org JSON-LD) -->
@@ -847,21 +853,18 @@
       <a href="/examples/" aria-label="Open3DCP worked example entries">Examples</a> &nbsp;&nbsp;
       <a href="/intake/" aria-label="Submit a dataset to the Open3DCP catalog">Submit Data</a> &nbsp;&nbsp;
       <a href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener" aria-label="Open3DCP schema repository on GitHub (opens in new tab)">GitHub</a> &nbsp;&nbsp;
-      <a href="https://cemforge.ai" target="_blank" rel="noopener" aria-label="CEMFORGE AI mix-formulation platform (opens in new tab)">CEMFORGE</a> &nbsp;&nbsp;
+      <a href="https://cemforge.ai" target="_blank" rel="noopener" aria-label="CEMFORGE Platform (opens in new tab)">CEMFORGE</a> &nbsp;&nbsp;
       <a href="https://sunn3d.com" target="_blank" rel="noopener" aria-label="Sunnyday Technologies parent site (opens in new tab)">sunn3d.com</a>
     </nav>
   </header>
 
+  <main>
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-label">Open Schema // 3D Concrete Printing // v1.8 · Draft</div>
-    <h1>Data.<br/><span>Standard.</span><br/>Open.</h1>
-    <p class="hero-desc">
-      Open3DCP is an open schema for 3D-printable concrete mix design and test
-      data. Flat, analysis-oriented, and aligned with ASTM, RILEM, and NIST conventions.
-      A core flat schema plus companion tables, designed so labs can publish data in a common shape.
-      Covers alkali-activated materials, architectural pigments, and standards-aligned material taxonomy.
-    </p>
+    <div class="hero-label">Open3DCP // v1.8 draft</div>
+    <h1>Concrete<br/><span>test data</span></h1>
+    <p class="hero-desc">Record the mix, print conditions and test result in a common set of columns.
+      <a href="/examples/">Browse five worked examples</a>.</p>
     <p class="hero-desc" style="margin-top:1rem;">
       <a href="https://doi.org/10.5281/zenodo.19647470" target="_blank" rel="noopener" style="color: var(--accent-dim); text-decoration:none; font-family:'IBM Plex Mono', monospace; font-size:0.8rem; letter-spacing:0.1em;">
         <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.19647470.svg" alt="DOI" style="vertical-align:middle; height:20px;"/>
@@ -894,49 +897,26 @@
     </div>
   </div>
 
-  <!-- CONTENT BLOCKS -->
-  <div class="content">
+  <section class="content" aria-labelledby="cast-test">
     <div class="content-block">
-      <div class="block-num">// 01</div>
-      <div class="block-title">The Problem</div>
-      <p class="block-body">
-        There is not yet a broadly adopted public schema for 3D-printable concrete data. Research
-        papers use inconsistent naming, units, and formats. Combining datasets
-        from different labs often requires painful manual reformatting. Machine learning
-        and meta-analysis on concrete data usually start with substantial data cleaning.
-      </p>
+      <h2 id="cast-test" class="block-title">One cast test</h2>
+      <p class="block-body">Yeh's first row in the UCI excerpt reports 500 kg/m&sup3; of cement
+        and 12.64 MPa compressive strength at one day. The source gives no cement type.</p>
+      <a href="/examples/uci-yeh-1998/build/uci-yeh-1998.csv">Source CSV</a>
     </div>
     <div class="content-block">
-      <div class="block-num">// 02</div>
-      <div class="block-title">The Solution</div>
-      <p class="block-body">
-        Open3DCP defines a canonical flat schema where every material, process
-        parameter, and test result has exactly one column name, one unit, and
-        one meaning. kg/m³-primary basis (mass-% derivable). Standards-aligned naming. A dataset
-        in this format is easier to inspect, merge, and prepare for analysis.
-      </p>
+      <h2 class="block-title">The same row in Open3DCP</h2>
+      <dl class="example-values">
+        <dt>Cement, type unspecified</dt><dd>20.51% of wet mass</dd>
+        <dt>Total batched mass</dt><dd>2,438 kg/m&sup3;</dd>
+        <dt>Compressive strength</dt><dd>12.64 MPa at 1 day</dd>
+      </dl>
+      <a href="/examples/uci-yeh-1998/uci-yeh-1998.open3dcp.csv">Converted CSV</a>
     </div>
-    <div class="content-block">
-      <div class="block-num">// 03</div>
-      <div class="block-title">3DCP-Native</div>
-      <p class="block-body">
-        Unlike conventional concrete databases, Open3DCP has first-class columns
-        for print process parameters (nozzle geometry, layer timing, print speed),
-        fresh-state rheology (yield stress, thixotropy, open time), and interlayer
-        bond properties. Designed around additive-construction reporting needs.
-      </p>
-    </div>
-    <div class="content-block">
-      <div class="block-num">// 04</div>
-      <div class="block-title">Schema Only</div>
-      <p class="block-body">
-        Open3DCP defines the format, not the data. We publish column names, types,
-        units, and engineering context so that datasets from any lab or research
-        group can be structured in a common format. Adopt the columns relevant to
-        your work and leave the rest null.
-      </p>
-    </div>
-  </div>
+    <p class="record-credit">I-Cheng Yeh, 1998. <a href="/examples/uci-yeh-1998/">Conversion notes</a> &middot;
+      <a href="https://doi.org/10.24432/C5PK67">UCI dataset</a> &middot;
+      <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Displayed mass percentage rounded.</p>
+  </section>
 
   <!-- STANDARDS REFERENCED -->
   <div class="standards-strip">
@@ -967,16 +947,14 @@
   <div class="cta-section">
     <div class="cta-columns">
       <div class="cta-col">
-        <a href="https://sunn3d.com" class="cta-col-word-sub" target="_blank" rel="noopener" aria-label="Visit Sunnyday Technologies (opens in new tab)">Concrete.</a>
+        <a href="https://sunn3d.com" class="btn btn-secondary" target="_blank" rel="noopener" aria-label="Sunnyday Technologies (opens in new tab)">Sunnyday Technologies</a>
       </div>
       <div class="cta-col">
-        <div class="cta-col-word">Data.</div>
-        <a class="btn btn-secondary" href="https://cemforge.ai" target="_blank" rel="noopener" aria-label="CEMFORGE AI mix-formulation platform (opens in new tab)">
+        <a class="btn btn-secondary" href="https://cemforge.ai" target="_blank" rel="noopener" aria-label="CEMFORGE Platform (opens in new tab)">
           CEMFORGE Platform &rarr;
         </a>
       </div>
       <div class="cta-col">
-        <div class="cta-col-word">Schema.</div>
         <a class="btn btn-primary" href="https://github.com/sunnyday-technologies/Open3DCP" target="_blank" rel="noopener" aria-label="Open3DCP GitHub repository (opens in new tab)">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
@@ -985,8 +963,7 @@
         </a>
       </div>
       <div class="cta-col">
-        <div class="cta-col-word">Printed.</div>
-        <a class="btn btn-secondary" href="https://m3-crete.com" target="_blank" rel="noopener" aria-label="M3-CRETE concrete 3D printer (opens in new tab)">
+        <a class="btn btn-secondary" href="https://m3-crete.com" target="_blank" rel="noopener" aria-label="M3-CRETE Printer (opens in new tab)">
           M3-CRETE Printer &rarr;
         </a>
       </div>
@@ -1008,6 +985,8 @@
       <p class="sdt-portfolio-loop__note">The Sunnyday portfolio links material records, mix intelligence, printable hardware, logistics, and validation planning so project decisions remain traceable from candidate mix through measured result.</p>
     </div>
   </section>
+
+  </main>
 
   <!-- FOOTER -->
   <footer>
