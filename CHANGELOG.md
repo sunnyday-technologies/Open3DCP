@@ -13,11 +13,8 @@ Schema versioning follows these rules:
 
 ## [1.8.0] - 2026-08-23 — improved lot tracking
 
-Additive, backward-compatible. Proposed and reviewed by David Scheidt
-([ORCID 0009-0003-1996-4918](https://orcid.org/0009-0003-1996-4918)), who mapped a European lab's
-printing records onto v1.7.5 and found three places where the schema assumed US practice; the
-reproducibility fields originate in an earlier report from Daniel Auer
-([#1](https://github.com/sunnyday-technologies/Open3DCP/issues/1)). All three gaps cut against
+Additive, backward-compatible. [David Scheidt](https://orcid.org/0009-0003-1996-4918) reviewed the v1.8 changes for commercial premixes, EN cement designations and aggregate grading.
+Mapping a European lab's printing records onto v1.7.5 identified three places where the schema assumed US practice. All three gaps cut against
 v1.7.5's own principle: the schema offered no way to record what the user actually knows.
 Column count: 248 → **279**. Tracking: #12, #13, #14.
 
