@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 160" role="img" aria-labelledby="title desc">
+  <title id="title">LOGiMIX</title>
+  <desc id="desc">LOGiMIX wordmark using Nulshock-style caps and one italic i</desc>
+  <text x="360" y="108" text-anchor="middle" font-size="86" font-weight="900" letter-spacing="2">
+    <tspan fill="#ffffff" font-family="Nulshock, Orbitron, Raleway, Arial, sans-serif">LOG</tspan><tspan fill="#97d700" font-family="Georgia, 'Times New Roman', serif" font-size="98" font-style="italic" font-weight="700">i</tspan><tspan fill="#ffffff" font-family="Nulshock, Orbitron, Raleway, Arial, sans-serif">MIX</tspan>
+  </text>
+</svg>

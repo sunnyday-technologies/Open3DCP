@@ -1,0 +1,37 @@
+.sd-full-loop {display:block; padding:clamp(1rem,4vw,3.5rem); background:#061321; color:#fff; clear:both}
+.sd-loop-card,.sd-loop-card * {box-sizing:border-box}
+.sd-loop-card {position:relative; isolation:isolate; display:grid; grid-template:72px 1fr 1fr / repeat(3,minmax(0,1fr)); align-items:center; justify-items:center; max-width:1120px; min-height:500px; padding:26px clamp(12px,4vw,58px) 32px; margin:auto; border:1px solid #233c51; border-radius:8px; overflow:hidden; background:radial-gradient(ellipse at center,#18303e 0%,#0a1923 50%,#060d14 84%); color:#fff; font-family:Arial,sans-serif}
+.sd-full-loop .sd-loop-card > h2:first-of-type {grid-area:1/1/2/4; margin:0; color:#fff; font:900 clamp(30px,4vw,48px)/1.08 Arial,sans-serif; letter-spacing:.04em; text-transform:uppercase}
+.sd-loop-card .sd-loop-plan {position:absolute; inset:18% 0 auto auto; width:60%; height:70%; max-width:none; z-index:-1; opacity:.38; fill:#a9cbef0a; stroke:#a9cbef; stroke-opacity:.42; stroke-width:3; pointer-events:none}
+.sd-loop-card .sd-loop-trace {fill:none;stroke-width:4;stroke-dasharray:1;stroke-dashoffset:1}
+.sd-loop-card .sd-loop-beam {animation-name:sd-gantry-beam}
+.sd-loop-card .sd-loop-head {animation-name:sd-gantry-head}
+.sd-loop-card :is(.sd-loop-trace,.sd-loop-beam,.sd-loop-head) {animation-duration:267s; animation-timing-function:linear; animation-iteration-count:infinite; animation-delay:-14s}
+.sd-loop-card:has(.sd-loop-control input:not(:checked)) :is(.sd-loop-trace,.sd-loop-beam,.sd-loop-head) {animation-play-state:paused}
+.sd-loop-card::before,.sd-loop-card::after {content:""; position:absolute; z-index:-1; pointer-events:none}
+.sd-loop-card::before {left:16%; right:16%; top:55%; height:4px; background:linear-gradient(90deg,transparent,#97d700 45%,#39c7e8 55%,transparent); box-shadow:0 0 16px #96d70024}
+.sd-loop-card::after {left:50%; width:4px; top:32%; bottom:22%; background:linear-gradient(transparent,#39c7e8,#97d700,transparent)}
+.sd-loop-card a {display:flex; flex-flow:column; align-items:center; justify-content:center; gap:12px; background:transparent; box-shadow:none; border:0; color:#a5de00; text-decoration:none; transition:transform .18s ease}
+.sd-loop-card a:is(:hover,:focus-visible) {transform:translateY(-3px)}
+.sd-loop-card :is(a,button):focus-visible {outline:3px solid #c7ef61; outline-offset:5px}
+.sd-loop-card a span {font:700 clamp(.68rem,1.15vw,.94rem)/1.2 Consolas,monospace; letter-spacing:.13em; text-align:center; text-transform:uppercase; color:#a5de00}
+.sd-loop-card a img {display:block; width:70px; height:70px; max-width:100%; object-fit:contain; margin:0; border:0}
+.sd-loop-card .sd-loop-cem {grid-area:2/2/4/3}
+.sd-loop-card .sd-loop-cem img {width:122px; height:122px; border-radius:14px}
+.sd-loop-m3 {grid-area:2/1}.sd-loop-acme {grid-area:2/3}.sd-loop-schema {grid-area:3/1}.sd-loop-logistics {grid-area:3/3}
+.sd-full-loop .sd-loop-card a.sd-loop-logistics img {width:144px}
+.sd-loop-card .sd-loop-control {position:absolute; display:flex; align-items:center; gap:5px; bottom:8px; right:10px; margin:0; padding:5px 8px; border-radius:4px; color:#b7cad9; background:#091722; font:normal 12px/1.2 Arial,sans-serif; cursor:pointer}
+.sd-loop-control input {width:14px; height:14px; margin:0; accent-color:#97d700}
+.sd-loop-card [hidden] {display:none}
+@media(max-width:640px) {
+ .sd-loop-card {min-height:330px; padding:18px 8px 26px; grid-template-rows:52px 1fr 1fr}
+ .sd-loop-card a {gap:7px}
+ .sd-loop-card a img {height:45px; width:45px}
+ .sd-loop-card .sd-loop-logistics img {width:84px}
+ .sd-loop-card .sd-loop-cem img {width:clamp(56px,16vw,90px); height:auto}
+}
+@media(prefers-reduced-motion:reduce) {
+ .sd-loop-card a,.sd-loop-card a:is(:hover,:focus-visible) {transition:none; transform:none}
+ .sd-loop-card :is(.sd-loop-trace,.sd-loop-beam,.sd-loop-head) {animation-play-state:paused}
+ .sd-loop-card .sd-loop-control {display:none}
+}
